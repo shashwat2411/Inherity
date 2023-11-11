@@ -23,7 +23,6 @@ mono_crash.*
 [Rr]eleases/
 x64/
 x86/
-imGUI/
 backup/
 assimp/
 [Ww][Ii][Nn]32/
