@@ -41,11 +41,6 @@ void DebugManager::Draw()
 	ImGui::End();
 
 
-	ImGui::SetNextWindowSize(ImVec2(320, 100), ImGuiCond_Once);
-	ImGui::Begin("hoge", ((bool*)0), ImGuiWindowFlags_HorizontalScrollbar);
-	ImGui::Text("fugafuga");
-	ImGui::End();
-
 	// ImGuiコード
 	//フレームの描画
 	ImGui::Render();
