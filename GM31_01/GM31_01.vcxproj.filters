@@ -24,24 +24,12 @@
       <UniqueIdentifier>{5692e602-8d99-47e3-9f22-65821480ce64}</UniqueIdentifier>
     </Filter>
     <Filter Include="🖥️SOURCE FILES">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="💻HEADER FILES">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="💻HEADER FILES\♟️PRIVATE PATTERN">
-      <UniqueIdentifier>{2ef13258-0c00-4bac-90a8-bd7d615d0c0e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="💻HEADER FILES\🍏OBJECT STORE">
-      <UniqueIdentifier>{6bb0cf5f-ad7f-4990-b405-1e5f7e491965}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="💻HEADER FILES\🎓MANAGEMENT FUNCTIONS">
-      <UniqueIdentifier>{41e0d3b0-738b-41ba-bed1-6f56bd6d8bb2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="💻HEADER FILES\📚LOAD FUNCTIONS">
-      <UniqueIdentifier>{2fde4796-1a62-4342-857a-a0ef8829d494}</UniqueIdentifier>
+    <Filter Include="💻HEADER FILES">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
     <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE">
       <UniqueIdentifier>{34b6a829-e7d2-4be9-91d2-441b49191c32}</UniqueIdentifier>
@@ -85,6 +73,18 @@
     <Filter Include="🖥️SOURCE FILES\📚LOAD FUNCTIONS">
       <UniqueIdentifier>{2c769bd6-9694-4127-bb31-fc3d66ea7b04}</UniqueIdentifier>
     </Filter>
+    <Filter Include="💻HEADER FILES\🎓MANAGEMENT FUNCTIONS">
+      <UniqueIdentifier>{41e0d3b0-738b-41ba-bed1-6f56bd6d8bb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="💻HEADER FILES\📚LOAD FUNCTIONS">
+      <UniqueIdentifier>{2fde4796-1a62-4342-857a-a0ef8829d494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="💻HEADER FILES\🍏OBJECT STORE">
+      <UniqueIdentifier>{2ef13258-0c00-4bac-90a8-bd7d615d0c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="💻HEADER FILES\♟️PRIVATE PATTERN">
+      <UniqueIdentifier>{6bb0cf5f-ad7f-4990-b405-1e5f7e491965}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="imGUI\imconfig.h">
@@ -110,39 +110,6 @@
     </ClInclude>
     <ClInclude Include="imGUI\imstb_truetype.h">
       <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\OBJECT STORE\animations.h">
-      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\OBJECT STORE\baseobjects.h">
-      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\OBJECT STORE\component.h">
-      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\OBJECT STORE\customScenes.h">
-      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\OBJECT STORE\material.h">
-      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\OBJECT STORE\prefab.h">
-      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\OBJECT STORE\script.h">
-      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\functions.h">
-      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h">
-      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\soundReader.h">
-      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
-    </ClInclude>
-    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\textureReader.h">
-      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
     </ClInclude>
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h">
       <Filter>💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
@@ -170,6 +137,39 @@
     </ClInclude>
     <ClInclude Include="HEADER FILES\renderer.h">
       <Filter>💻HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\functions.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\soundReader.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\textureReader.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\animations.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\baseobjects.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\component.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\customScenes.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\material.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\prefab.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\script.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
