@@ -1,0 +1,153 @@
+#include "../OBJECT STORE/customScenes.h"
+
+NUMBER* Score;
+GAMEOBJECT* empty2;
+GAMEOBJECT* empty1;
+GAMEOBJECT* PlayerModel;
+PLANE* Field;
+IMAGE* Buffer;
+CUBE* cube;
+
+void GAME_SCENE::Init()
+{
+	//変数
+	GAMEOBJECT* Cylinder;
+	ENEMY* enemy;
+	GAMEOBJECT* rock[20];
+	BILLBOARD* tree[300];
+
+	//GAMEOBJECT
+	//skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
+	player = AddGameObject<PLAYER>();
+	PlayerModel = AddGameObject<PLAYERMODEL>();
+	enemy = AddGameObject<ENEMY>();
+	Field = AddGameObject<PLANE>();
+	cube = AddGameObject<CUBE>();
+
+	srand(0);	//Seed Value for the random numbers
+	//Field Objects
+	/*
+	for (int i = 0; i < 20; i++)
+	{
+		D3DXVECTOR3 position;
+
+		position.x = (float)(rand() % 100 - 50);
+		position.y = 1.0f;
+		position.z = (float)(rand() % 100 - 50);
+
+		position.y = Field->GetComponent<MeshField>()->GetHeight(position);
+
+		rock[i] = AddGameObject<ROCK>();
+		rock[i]->transform->Position = position;
+	}
+
+	for (int i = 0; i < 300; i++)
+	{
+		D3DXVECTOR3 position;
+
+		position.x = (float)(rand() % 100 - 50);
+		position.y = 1.0f;
+		position.z = (float)(rand() % 100 - 50) + (float)(rand() % 3 - 1) / 100.0f;
+
+		position.y = Field->GetComponent<MeshField>()->GetHeight(position);
+
+		tree[i] = AddGameObject<TREE>();
+		tree[i]->transform->Position = position;
+
+		float offset;
+		offset = (float)(rand() % 30 + 10);
+
+		tree[i]->billboard->SetSize(D3DXVECTOR2(offset, offset));
+		tree[i]->billboard->SetOffset(Billboard::Y);
+	}
+	*/
+
+	//UI
+	Buffer = AddGameObject<IMAGE>(SPRITE_LAYER);
+	Score = AddGameObject<NUMBER>(SPRITE_LAYER);
+
+
+	//接続処理
+	{
+		PlayerModel->SetParent(player);
+		MainCamera->GetComponent<Camera>()->Target = player;
+	}
+
+	//設定
+	{
+		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
+		Field->meshField->TexCoord = D3DXVECTOR2(1.0f, 1.0f);;
+		Field->meshField->Size = D3DXVECTOR2(1000.0f, 1000.0f);
+		Field->transform->Position = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
+		Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
+
+		cube->transform->Position.y = 2.0f;
+		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
+		cube->AddMaterial<LitTexture>();
+		//cube->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::RING_T));
+
+		Buffer->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2 - 150.0f, 0.0f);
+		Buffer->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
+
+		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
+		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+		Score->SetDigits(3);
+	}
+
+	//音
+	{
+		//SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
+	}
+}
+
+float r = 0.0f;
+float g = 0.0f;
+float b = 0.0f;
+float speed1 = 0.01f;
+float speed2 = 0.02f;
+float speed3 = 0.03f;
+
+void GAME_SCENE::Update()
+{
+	if (r > 1.0f || r < 0.0f) { speed1 *= -1.0f; }
+	r += speed1;
+
+	if (g > 1.0f || g < 0.0f) { speed2 *= -1.0f; }
+	g += speed2;
+
+	if (b > 1.0f || b < 0.0f) { speed3 *= -1.0f; }
+	b += speed3;
+
+	//r = sinf(r);
+	//g = sinf(g);
+	//b = sinf(b);
+
+	if (Input::GetKeyTrigger('Z')) { GetCamera()->camera->CameraShake(1.0f); }
+	if (Input::GetKeyTrigger('Z')) { Score->Increment(10); }
+
+	if (Input::GetKeyTrigger(VK_RETURN)) { end = true; }
+
+	if (Input::GetKeyPress('Q')) {Field->transform->Position.y += 0.01f; }
+	if (Input::GetKeyPress('E')) {Field->transform->Position.y -= 0.01f; }
+
+	if (Input::GetKeyPress('R')) { Field->transform->Rotation.x += 0.01f; }
+	if (Input::GetKeyPress('T')) { Field->transform->Rotation.x -= 0.01f; }
+
+	cube->SetColor(D3DXCOLOR(r, g, b, 1.0f));
+
+
+	ID3D11ShaderResourceView* depthShadowTexture;
+	depthShadowTexture = Renderer::GetDepthShadowTexture();
+	Buffer->GetMaterial()->SetTexture("_Texture", depthShadowTexture);
+
+	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
+
+#ifdef DEBUG	// デバッグ情報を表示する
+	char* str = GetDebugStr();
+	//sprintf(&str[strlen(str)], " |||  Number : %d, Player_L_Joint1 x : %.2f, y : %.2f, z : %.2f", GameObjects[SHADOW_LAYER].Size(), PlayerModel->L_joint1->transform->Position.x, PlayerModel->L_joint1->transform->Position.y, PlayerModel->L_joint1->transform->Position.z);
+	//sprintf(&str[strlen(str)], " | Player_L_arm1  x : %.2f, y : %.2f, z : %.2f", PlayerModel->L_arm1->transform->Position.x, PlayerModel->L_arm1->transform->Position.y, PlayerModel->L_arm1->transform->Position.z);
+	sprintf(&str[strlen(str)], " | Field Y : %.2f", Field->transform->Position.y);
+	sprintf(&str[strlen(str)], " | Field Rot X : %.2f", Field->transform->Rotation.x);
+	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
+#endif
+}

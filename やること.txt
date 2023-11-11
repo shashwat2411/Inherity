@@ -1,0 +1,42 @@
+●当たり判定の標準化 ❌
+●サウンド生成 ❌
+●ボリューム設定 ❌
+●シェーダー対応 ❌
+●Partcile System ❌
+●光オブジェクト ❌
+●アニメーターの追加 ❌
+●GetAnimationOver() を作成 ❌
+●animationModelのコンポーネント化 ❌
+●alpha to coverage を応用する ❌
+●テクスチャを事前に読み込んで、後でそれをLoadする ❌
+●カメラからの距離によって　Zソートを行う ❌
+
+●立体音響
+●セーブ機能
+●ImGUI 適応
+
+
+●頂点シェーダーかコンピュータシェーダーに変更する大幅に処理が軽くなる (AnimationModel.cpp 334)
+
+●Unity のようなAnimationBrainを作成すること
+●Unity のように、2つのアニメーションの中間区間を再生する BlendState のような機能を追加
+●Unity のように、アニメーションのStateMachine機能を追加
+
+●Inverse Kinematics
+		https://docs.unity3d.com/ja/2019.4/Manual/InverseKinematics.html
+		https://docs.unrealengine.com/4.27/ja/AnimatingObjects/SkeletalMeshAnimation/NodeReference/SkeletalControls/TwoBoneIK/
+		https://docs.unrealengine.com/4.27/ja/AnimatingObjects/SkeletalMeshAnimation/NodeReference/SkeletalControls/CCDIK/
+		https://docs.unrealengine.com/4.27/ja/AnimatingObjects/SkeletalMeshAnimation/NodeReference/SkeletalControls/HandIKRetargeting/
+		https://docs.unrealengine.com/4.27/ja/AnimatingObjects/SkeletalMeshAnimation/NodeReference/Fabrik/
+		https://mukai-lab.org/content/CcdParticleInverseKinematics.pdf
+		https://zenn.dev/fukazaemon/articles/1eef820cfebad6
+		https://techblog.sega.jp/entry/sega_inverse_kinematics202210#f-b5d23c8f
+
+●CULLING
+	・ Backface Culling ❌
+	・ View Frustum Culling
+		https://learnopengl.com/Guest-Articles/2021/Scene/Frustum-Culling
+	・ Occlusion Culling
+		https://docs.unity3d.com/ja/2019.3/Manual/OcclusionCulling.html
+		https://docs.unrealengine.com/5.3/ja/visibility-and-occlusion-culling-in-unreal-engine/
+	・ GPU Driven Rendering

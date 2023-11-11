@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\animationModel.h" />
+    <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\model.h" />
+    <ClInclude Include="HEADER FILES\main.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\debugManager.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\input.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\scene.h" />
+    <ClInclude Include="HEADER FILES\manager.h" />
+    <ClInclude Include="HEADER FILES\OBJECT STORE\animations.h" />
+    <ClInclude Include="HEADER FILES\OBJECT STORE\baseobjects.h" />
+    <ClInclude Include="HEADER FILES\OBJECT STORE\component.h" />
+    <ClInclude Include="HEADER FILES\OBJECT STORE\customScenes.h" />
+    <ClInclude Include="HEADER FILES\OBJECT STORE\material.h" />
+    <ClInclude Include="HEADER FILES\OBJECT STORE\prefab.h" />
+    <ClInclude Include="HEADER FILES\OBJECT STORE\script.h" />
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\functions.h" />
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h" />
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\soundReader.h" />
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\textureReader.h" />
+    <ClInclude Include="HEADER FILES\renderer.h" />
+    <ClInclude Include="imGUI\imconfig.h" />
+    <ClInclude Include="imGUI\imgui.h" />
+    <ClInclude Include="imGUI\imgui_impl_dx11.h" />
+    <ClInclude Include="imGUI\imgui_impl_win32.h" />
+    <ClInclude Include="imGUI\imgui_internal.h" />
+    <ClInclude Include="imGUI\imstb_rectpack.h" />
+    <ClInclude Include="imGUI\imstb_textedit.h" />
+    <ClInclude Include="imGUI\imstb_truetype.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="imGUI\imgui.cpp" />
+    <ClCompile Include="imGUI\imgui_demo.cpp" />
+    <ClCompile Include="imGUI\imgui_draw.cpp" />
+    <ClCompile Include="imGUI\imgui_impl_dx11.cpp" />
+    <ClCompile Include="imGUI\imgui_impl_win32.cpp" />
+    <ClCompile Include="imGUI\imgui_tables.cpp" />
+    <ClCompile Include="imGUI\imgui_widgets.cpp" />
+    <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\animationModel.cpp" />
+    <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\model.cpp" />
+    <ClCompile Include="SOURCE FILES\main.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\collision.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\debugManager.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\gameobject.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\input.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp" />
+    <ClCompile Include="SOURCE FILES\manager.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Fade.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Skydome.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\afterimage.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\animator.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audio.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\billboard.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\camera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\firstPersonCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\meshField.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\meshFilter.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\number.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\openWorldCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\particleSystem.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\plane.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\rigidbody.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\shadow.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\sphereCollider.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\spriteRenderer.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\thirdPersonCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\topDownCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\transform.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Bullet.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Enemy.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Player.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\PlayerModel.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Rock.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Explosion.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Tree.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Game.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Result.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Title.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\bulletScript.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyScript.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\ground.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\hitpoints.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerMovement.cpp" />
+    <ClCompile Include="SOURCE FILES\renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\common.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowMappingPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowMappingVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\DissolveDepthShadowPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\litTextureColoringPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\normalMappingPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\normalMappingVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\unlitDefaultPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\unlitDefaultVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\unlitWaterPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\vertexLightingPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\vertexLightingVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+    <FxCompile Include="shader\wipePS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+    </FxCompile>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{534FFDA5-8E14-49B9-A20D-01C0072A7AB3}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>GM3101</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Program Files %28x86%29\Microsoft DirectX SDK %28June 2010%29\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

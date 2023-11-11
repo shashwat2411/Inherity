@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ImGUI">
+      <UniqueIdentifier>{94b9bce0-d425-4984-aca9-2b8eefc53eb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGUI\SOURCE FILES">
+      <UniqueIdentifier>{0f10a8ad-06e9-4ff2-9734-60d4b1b7b675}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ImGUI\HEADER FILES">
+      <UniqueIdentifier>{be842794-6182-46f8-ae88-f7cd9d96fd86}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="RESOURCE FILES">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="💻HEADER FILES">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="☯️SHADER">
+      <UniqueIdentifier>{a186efb4-e3ef-4172-9da0-d7ce84969bf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="☯️SHADER\🎡VERTEX SHADER">
+      <UniqueIdentifier>{e695746c-de3b-45d2-aaae-a32f1ba55739}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="☯️SHADER\🎨PIXEL SHADER">
+      <UniqueIdentifier>{5692e602-8d99-47e3-9f22-65821480ce64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE">
+      <UniqueIdentifier>{34b6a829-e7d2-4be9-91d2-441b49191c32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS">
+      <UniqueIdentifier>{b87f5497-d2cd-49da-9665-6cfb8739a380}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\📚LOAD FUNCTIONS">
+      <UniqueIdentifier>{2c769bd6-9694-4127-bb31-fc3d66ea7b04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS">
+      <UniqueIdentifier>{760768ea-37fd-4791-bab6-40340aec5c03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS">
+      <UniqueIdentifier>{00ef9431-0dc3-474a-aad7-4846f43e0a28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS\Character">
+      <UniqueIdentifier>{561f4ad7-1711-408f-9ff1-6209942e10f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS">
+      <UniqueIdentifier>{110fb0b8-8427-4454-a60c-cb4cfce0f02e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS">
+      <UniqueIdentifier>{e6b80301-8998-4059-a981-d15df79d6a03}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\UI">
+      <UniqueIdentifier>{b4ee7c28-30ea-494f-bd83-e82a436b2d11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT">
+      <UniqueIdentifier>{c28eaf85-ec17-4eb5-ab51-5de3cb069e01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\SCENES">
+      <UniqueIdentifier>{5860568e-1cbe-47b1-a425-c77fc9c67483}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS">
+      <UniqueIdentifier>{d58f4c39-a77f-4c96-9313-8d1b208e6f44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="💻HEADER FILES\♟️PRIVATE PATTERN">
+      <UniqueIdentifier>{2ef13258-0c00-4bac-90a8-bd7d615d0c0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="💻HEADER FILES\🎓MANAGEMENT FUNCTIONS">
+      <UniqueIdentifier>{41e0d3b0-738b-41ba-bed1-6f56bd6d8bb2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="💻HEADER FILES\📚LOAD FUNCTIONS">
+      <UniqueIdentifier>{2fde4796-1a62-4342-857a-a0ef8829d494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="💻HEADER FILES\🍏OBJECT STORE">
+      <UniqueIdentifier>{6bb0cf5f-ad7f-4990-b405-1e5f7e491965}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\MATERIAL">
+      <UniqueIdentifier>{a54f350e-5ca4-4532-8b80-ee0cb8a04adb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS\CAMERA TYPES">
+      <UniqueIdentifier>{869c9ff4-1e4b-4cc1-8989-cb002478c58f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="imGUI\imconfig.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui_impl_dx11.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui_impl_win32.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui_internal.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imstb_rectpack.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imstb_textedit.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imstb_truetype.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\animations.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\baseobjects.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\component.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\customScenes.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\material.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\prefab.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\OBJECT STORE\script.h">
+      <Filter>💻HEADER FILES\🍏OBJECT STORE</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\functions.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\soundReader.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\textureReader.h">
+      <Filter>💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h">
+      <Filter>💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\input.h">
+      <Filter>💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\scene.h">
+      <Filter>💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\animationModel.h">
+      <Filter>💻HEADER FILES\📚LOAD FUNCTIONS</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\model.h">
+      <Filter>💻HEADER FILES\📚LOAD FUNCTIONS</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\main.h">
+      <Filter>💻HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\manager.h">
+      <Filter>💻HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\renderer.h">
+      <Filter>💻HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\debugManager.h">
+      <Filter>💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="imGUI\imgui.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_demo.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_draw.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_impl_dx11.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_impl_win32.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_tables.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_widgets.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS\Character</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\animator.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audio.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\billboard.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\camera.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\meshField.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\meshFilter.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\number.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\particleSystem.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\plane.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\rigidbody.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\shadow.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\sphereCollider.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\spriteRenderer.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\transform.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Bullet.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Enemy.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Player.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\PlayerModel.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Rock.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Explosion.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Tree.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Game.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCENES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Result.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCENES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Title.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCENES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\bulletScript.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyScript.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\ground.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\hitpoints.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerMovement.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\collision.cpp">
+      <Filter>🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\debugManager.cpp">
+      <Filter>🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\gameobject.cpp">
+      <Filter>🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\input.cpp">
+      <Filter>🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp">
+      <Filter>🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\animationModel.cpp">
+      <Filter>🖥️SOURCE FILES\📚LOAD FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\model.cpp">
+      <Filter>🖥️SOURCE FILES\📚LOAD FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\main.cpp">
+      <Filter>🖥️SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\manager.cpp">
+      <Filter>🖥️SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\renderer.cpp">
+      <Filter>🖥️SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Fade.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Skydome.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\afterimage.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\topDownCamera.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS\CAMERA TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\thirdPersonCamera.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS\CAMERA TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\firstPersonCamera.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS\CAMERA TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\openWorldCamera.cpp">
+      <Filter>🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS\CAMERA TYPES</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="shader\common.hlsl">
+      <Filter>☯️SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowMappingPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DissolveDepthShadowPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\litTextureColoringPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\normalMappingPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\normalMappingVS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitDefaultPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTexturePS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitWaterPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\vertexLightingPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\wipePS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\DepthShadowMappingVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitDefaultVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\unlitTextureVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\vertexLightingVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

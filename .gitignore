@@ -23,6 +23,9 @@ mono_crash.*
 [Rr]eleases/
 x64/
 x86/
+imGUI/
+backup/
+assimp/
 [Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
@@ -74,7 +77,6 @@ StyleCopReport.xml
 *_h.h
 *.ilk
 *.meta
-*.obj
 *.iobj
 *.pch
 *.pdb
@@ -97,6 +99,10 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.dll
+*.ini
+*.lib
+
 
 # Chutzpah Test files
 _Chutzpah*
