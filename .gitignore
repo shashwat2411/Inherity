@@ -101,7 +101,7 @@ StyleCopReport.xml
 *.dll
 *.ini
 *.lib
-*.cso
+
 
 
 # Chutzpah Test files
