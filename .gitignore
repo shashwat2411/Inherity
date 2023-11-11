@@ -98,9 +98,6 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
-*.dll
-*.ini
-*.lib
 
 
 
