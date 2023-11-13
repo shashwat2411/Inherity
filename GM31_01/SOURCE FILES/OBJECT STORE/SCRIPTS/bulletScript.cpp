@@ -4,21 +4,24 @@
 
 void BulletScript::Start()
 {
+	maxCounter = 3.0f;
 	velocity = 0.4f;
+	timerVector["_Counter"] = 0.0f;
 
 	shooter = nullptr;
 
 	gameObject->AddComponent<Rigidbody>();
 	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::ENEMY_M));
+
 }
 
 
 void BulletScript::Update()
 {
-	if (counter < maxCounter) { counter += Time::deltaTime; }
+	if (timerVector["_Counter"] < maxCounter) { timerVector["_Counter"] += Time::deltaTime; }
 	else
 	{
-		counter = 0.0f;
+		timerVector["_Counter"] = 0.0f;
 		gameObject->Destroy(true);
 		return;
 	}
@@ -46,6 +49,7 @@ void BulletScript::Shoot(GAMEOBJECT* st, float life, float speed, D3DXVECTOR3 of
 {
 	if (st == nullptr) { return; }
 
+	timerVector["_Counter"] = 0.0f;
 	maxCounter = life;
 
 	velocity = speed;

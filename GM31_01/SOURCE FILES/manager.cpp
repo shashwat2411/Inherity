@@ -16,7 +16,7 @@ SCENE* Manager::DontDestroyOnLoad{};	//staticƒƒ“ƒo•Ï”‚ÍÄéŒ¾‚ª•K—v
 
 Model ModelReader::ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX]{};
 AnimationModel ModelReader::ModelsFBX[ModelReader::READ_MODEL_FBX_MAX]{};
-std::unordered_map<std::string, const aiScene*> ModelReader::m_Animation{};
+std::unordered_map<std::string, const aiScene*> ModelReader::Animations{};
 
 Audio SoundReader::Audios[SoundReader::READ_SOUND_MAX]{};
 
