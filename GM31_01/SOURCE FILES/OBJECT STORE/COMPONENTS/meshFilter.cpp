@@ -41,7 +41,7 @@ void MeshFilter::Update()
 			if (blendRate > 1.0f) { blendRate = 1.0f; }
 			m_Model->Update(animationName.c_str(), time, animationBlendName.c_str(), time, blendRate);
 
-			time += 1.0f;
+			time += Time::fixedTimeScale;
 		}
 	}
 }
