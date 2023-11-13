@@ -1,4 +1,6 @@
 #pragma once
+#include <unordered_map>
+
 #include "../MANAGEMENT FUNCTIONS/gameobject.h"
 #include "../MANAGEMENT FUNCTIONS/input.h"
 #include "../LOAD FUNCTIONS/animationModel.h"
@@ -9,7 +11,6 @@
 
 #include <xaudio2.h>
 #include <string>
-#include <unordered_map>
 
 //ëOï˚êÈåæ
 class PARTICLE;
@@ -421,17 +422,9 @@ public:
 class Script :public Component
 {
 protected:
-	std::unordered_map<const std::string, float>timerVector;
+	std::unordered_map<std::string, float>timerVector;
 
 public:
-
-	~Script()
-	{
-		for (std::pair<const std::string, float> pair : timerVector)
-		{
-			delete &pair.second;
-		}
-	}
 
 	void Start() override {}
 	void End() override {}
