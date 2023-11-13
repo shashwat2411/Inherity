@@ -7,7 +7,7 @@ void ENEMY::Start()
 	AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::ENEMY_M));
 	AddComponent<EnemyScript>();
 
-	AddMaterial<Unlit>();
+	AddMaterial<UnlitMaterial>();
 
 	freezeY = true;
 

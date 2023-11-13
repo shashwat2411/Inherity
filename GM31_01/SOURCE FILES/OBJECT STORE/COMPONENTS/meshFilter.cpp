@@ -9,11 +9,11 @@ void MeshFilter::Start()
 	multiple = true;
 	loop = true;
 
-	time = 0;
 	blendRate = 0.0f;
 	blendSpeed = 0.05f;
+	time = 0.0f;
 
-	gameObject->AddMaterial<Default>();
+	gameObject->AddMaterial<DefaultMaterial>();
 }
 
 void MeshFilter::End()
@@ -37,11 +37,11 @@ void MeshFilter::Update()
 	{
 		if (m_Model != nullptr)
 		{
-			blendRate += blendSpeed;
+			blendRate += blendSpeed * Time::fixedTimeScale;
 			if (blendRate > 1.0f) { blendRate = 1.0f; }
 			m_Model->Update(animationName.c_str(), time, animationBlendName.c_str(), time, blendRate);
 
-			time++;
+			time += Time::fixedTimeScale;
 		}
 	}
 }

@@ -13,12 +13,14 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	if (Material.TextureEnable)
 	{
 		outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-		outDiffuse *= In.Diffuse;
+		//outDiffuse.rgb *= In.Diffuse.rgb;
+		outDiffuse.a *= In.Diffuse.a;
 
 	}
 	else
 	{
-		outDiffuse = In.Diffuse;
+		outDiffuse.rgb = In.Diffuse.rgb;
+		outDiffuse.a = In.Diffuse.a;
 	}
 
 	if (outDiffuse.a > 0.01f)

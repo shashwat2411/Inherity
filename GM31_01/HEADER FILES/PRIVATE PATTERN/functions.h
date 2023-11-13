@@ -64,10 +64,12 @@ class Time
 {
 public:
 	static float timeScale;
+	static float deltaTime;
+	static float fixedTimeScale;
 
 	static bool WaitForSeconds(float time, float* var)
 	{
-		*var += 1.0f / FRAME_RATE;
+		*var += deltaTime;
 
 		//char* str = GetDebugStr();
 		//sprintf(&str[strlen(str)], " | Time : %.2f", *var);

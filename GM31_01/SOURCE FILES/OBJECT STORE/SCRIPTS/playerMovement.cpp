@@ -115,11 +115,11 @@ void PlayerMovement::Update()
 		break;
 	}
 
-	gameObject->transform->Position += gameObject->rigidbody->Speed;
+	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 
 
-	gameObject->rigidbody->Speed.x *= 0.9f;
-	gameObject->rigidbody->Speed.z *= 0.9f;
+	gameObject->rigidbody->Speed.x *= 0.9f * Time::fixedTimeScale;
+	gameObject->rigidbody->Speed.z *= 0.9f * Time::fixedTimeScale;
 
 }
 
@@ -150,7 +150,12 @@ void PlayerMovement::UpdateGround()
 	D3DXVECTOR3 direction = directionX + directionZ;
 	D3DXVec3Normalize(&direction, &direction);
 
-	gameObject->rigidbody->Speed += D3DXVECTOR3(direction.x * SPEED_VALUE * gameObject->rigidbody->Acceleration, 0.0f, direction.z * SPEED_VALUE * gameObject->rigidbody->Acceleration);
+	D3DXVECTOR3 finalSpeed;
+	finalSpeed.x = direction.x * SPEED_VALUE * gameObject->rigidbody->Acceleration;
+	finalSpeed.y = 0.0f;
+	finalSpeed.z = direction.z * SPEED_VALUE * gameObject->rigidbody->Acceleration;
+
+	gameObject->rigidbody->Speed += finalSpeed * Time::fixedTimeScale;
 
 	//Rotation
 	{
@@ -159,7 +164,7 @@ void PlayerMovement::UpdateGround()
 		if (rot < -90) { rot = rot + 360; }
 
 		if (fabs(rot) < D3DXToRadian(2)) { model->gameObject->transform->Rotation.y = rotationDirection.y; }
-		else { model->gameObject->transform->Rotation.y += rot * 0.3f; }
+		else { model->gameObject->transform->Rotation.y += rot * 0.3f * Time::fixedTimeScale; }
 	}
 
 	if (move == true) { model->SetAnimationBlend("Run", true); }

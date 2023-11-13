@@ -12,7 +12,7 @@ void Plane::Start()
 
 
 	//----------------------------------------------------------------
-	gameObject->AddMaterial<FieldDefault>();
+	gameObject->AddMaterial<FieldDefaultMaterial>();
 
 }
 

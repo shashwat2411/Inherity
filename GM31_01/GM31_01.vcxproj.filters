@@ -60,9 +60,6 @@
     <Filter Include="1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS">
       <UniqueIdentifier>{d58f4c39-a77f-4c96-9313-8d1b208e6f44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIAL">
-      <UniqueIdentifier>{a54f350e-5ca4-4532-8b80-ee0cb8a04adb}</UniqueIdentifier>
-    </Filter>
     <Filter Include="1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS">
       <UniqueIdentifier>{b87f5497-d2cd-49da-9665-6cfb8739a380}</UniqueIdentifier>
     </Filter>
@@ -84,6 +81,9 @@
     </Filter>
     <Filter Include="2💻HEADER FILES\📚LOAD FUNCTIONS">
       <UniqueIdentifier>{2fde4796-1a62-4342-857a-a0ef8829d494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS">
+      <UniqueIdentifier>{a54f350e-5ca4-4532-8b80-ee0cb8a04adb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +337,33 @@
     </ClCompile>
     <ClCompile Include="SOURCE FILES\renderer.cpp">
       <Filter>1🖥️SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\SpriteMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\DefaultMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\DissolveMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\FieldDefaultMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\LitTextureMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\UnlitMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WaterMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WipeMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gameManager.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

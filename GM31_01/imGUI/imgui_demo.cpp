@@ -4798,9 +4798,9 @@ static void ShowDemoWindowTables()
         if (ImGui::BeginTable("table1", 3, flags1))
         {
             // We could also set ImGuiTableFlags_SizingFixedFit on the table and all columns will default to ImGuiTableColumnFlags_WidthFixed.
-            ImGui::TableSetupColumn("one", ImGuiTableColumnFlags_WidthFixed, 100.0f); // Default to 100.0f
-            ImGui::TableSetupColumn("two", ImGuiTableColumnFlags_WidthFixed, 200.0f); // Default to 200.0f
-            ImGui::TableSetupColumn("three", ImGuiTableColumnFlags_WidthFixed);       // Default to auto
+            ImGui::TableSetupColumn("one", ImGuiTableColumnFlags_WidthFixed, 100.0f); // DefaultMaterial to 100.0f
+            ImGui::TableSetupColumn("two", ImGuiTableColumnFlags_WidthFixed, 200.0f); // DefaultMaterial to 200.0f
+            ImGui::TableSetupColumn("three", ImGuiTableColumnFlags_WidthFixed);       // DefaultMaterial to auto
             ImGui::TableHeadersRow();
             for (int row = 0; row < 4; row++)
             {
@@ -6481,7 +6481,7 @@ void ImGui::ShowStyleEditor(ImGuiStyle* ref)
     ImGuiStyle& style = ImGui::GetStyle();
     static ImGuiStyle ref_saved_style;
 
-    // Default to using internal storage as reference
+    // DefaultMaterial to using internal storage as reference
     static bool init = true;
     if (init && ref == NULL)
         ref_saved_style = style;

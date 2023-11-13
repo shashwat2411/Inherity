@@ -5,7 +5,7 @@ void ROCK::Start()
 	Init();
 
 	AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::ROCK_M));
-	AddMaterial<Dissolve>();
+	AddMaterial<DissolveMaterial>();
 
 	dissolveSpeed = 0.0075f;
 	dissolveThreshold = 0.0f;
@@ -17,7 +17,7 @@ void ROCK::Start()
 void ROCK::Update()
 {
 	if (dissolveThreshold > 1.1f || dissolveThreshold < 0.0f) { dissolveSpeed *= -1.0f; }
-	dissolveThreshold += dissolveSpeed;
+	dissolveThreshold += dissolveSpeed * Time::fixedTimeScale;
 
 	GetMaterial()->SetFloat("_Threshold", dissolveThreshold);
 }

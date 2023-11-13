@@ -7,9 +7,9 @@ SamplerState	g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-	const int pcfCount = 2;
+	const int pcfCount = 1;
 	const float totalTexels = (pcfCount * 2.0f + 1.0f) * (pcfCount * 2.0f + 1.0f);
-	const float mapSize = 4096.0f;
+	const float mapSize = 4096;
 	float texelSize = 1.0f / mapSize;
 	float total = 0.0f;
 	//日向での色　＝　普通のテクスチャ　＊　頂点色を作成しておく

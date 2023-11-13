@@ -22,6 +22,10 @@ Audio SoundReader::Audios[SoundReader::READ_SOUND_MAX]{};
 
 ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXUTRE_MAX]{};
 
+float Time::timeScale = 1.0f;
+float Time::fixedTimeScale = 1.0f;
+float Time::deltaTime = 1.0f / FRAME_RATE;
+
 void LightInitialize(LIGHT* light, D3DXVECTOR3 position);
 
 void Manager::Init()
@@ -41,6 +45,9 @@ void Manager::Init()
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
 
+	Time::timeScale = 1.0f;
+	Time::fixedTimeScale = 1.0f;
+	Time::deltaTime = 1.0f / FRAME_RATE;
 }
 
 void Manager::Uninit()
@@ -87,7 +94,7 @@ void Manager::Draw()
 		Renderer::BeginDepth();
 		Renderer::SetDepthViewPort();
 
-		LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
+		LightInitialize(&light, /*GetScene()->GetPlayer()->transform->Position*/D3DXVECTOR3(-10.0f, 0.0, 0.0f));
 		//LightInitialize(&light, GetScene()->FindGameObject<PLAYERMODEL>()->transform->Position);
 
 		//ライトカメラの行列をセット
@@ -116,6 +123,9 @@ void Manager::Draw()
 void Manager::Update()
 {
 	//Input::Update();
+
+	//if (Input::GetKeyTrigger('V')) { Time::timeScale -= 0.1f; }
+	//if (Input::GetKeyTrigger('B')) { Time::timeScale += 0.1f; }
 }
 
 void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
@@ -132,6 +142,6 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
 	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 500.0f);
+	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 50.0f);
 
 }

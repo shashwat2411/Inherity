@@ -25,7 +25,7 @@ void Rigidbody::Update()
 	{
 		D3DXVECTOR3 diff = FollowTarget->transform->Position - gameObject->transform->Position;
 
-		gameObject->transform->Position = FollowTarget->transform->Position - (*D3DXVec3Normalize(&diff, &diff) * distance);
+		gameObject->transform->Position = (FollowTarget->transform->Position - (*D3DXVec3Normalize(&diff, &diff) * distance)) * Time::fixedTimeScale;
 
 		gameObject->transform->FaceTowardsXYZ(FollowTarget);
 	}
@@ -35,7 +35,7 @@ void Rigidbody::Update()
 
 	if (useGravity == true)
 	{
-		gameObject->rigidbody->Speed.y -= GRAVITY_CONSTANT / 60.0f * GRAVITY_ACCELERATION * mass;
+		gameObject->rigidbody->Speed.y -= (GRAVITY_CONSTANT * Time::deltaTime) * GRAVITY_ACCELERATION * mass;
 
 		if (gameObject->transform->Position.y <= groundLevel)
 		{

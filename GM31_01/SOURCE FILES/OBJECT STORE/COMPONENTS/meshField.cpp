@@ -29,7 +29,7 @@ float g_FieldHeight[21][21] =
 
 void MeshField::RecreateField()
 {
-	//gameObject->GetMaterial<Default>()->SetTexture(TextureReader::GetReadTexture(TextureReader::FIELD_NM_T), 1);
+	//gameObject->GetMaterial<DefaultMaterial>()->SetTexture(TextureReader::GetReadTexture(TextureReader::FIELD_NM_T), 1);
 
 	{
 		// 頂点バッファ生成
@@ -126,7 +126,7 @@ void MeshField::Start()
 	TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 	Size = D3DXVECTOR2(5.0f, 5.0f);
 
-	gameObject->AddMaterial<FieldDefault>();
+	gameObject->AddMaterial<FieldDefaultMaterial>();
 
 	gameObject->SetDepthShadow(true);
 	gameObject->SetDepth(false);

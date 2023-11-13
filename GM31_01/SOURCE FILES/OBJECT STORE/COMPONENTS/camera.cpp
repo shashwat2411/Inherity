@@ -6,12 +6,16 @@ void Camera::Start()
 {
 	shake = false;
 
-	shakeCounter = 0;
 
 	fov = 60.0f;
 	len = 0.0f;
 	rad = 0.0f;
+	
+	limit = 15.0f / FRAME_RATE;
+	shakeCounter = 0.0f;
 	shakeValue = 0.0f;
+	time = 0.0f;
+
 
 	Up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 
@@ -41,11 +45,12 @@ void Camera::Draw()
 {
 	if (shake == true)
 	{
-		shakeCounter++;
-		if (shakeCounter % 3 == 0) { shakeValue *= -1; }
-		at.x += shakeValue;
+		shakeCounter += Time::deltaTime;
+		time += Time::deltaTime;
+		if (shakeCounter >= 3.0f / FRAME_RATE) { shakeValue *= -1; shakeCounter = 0.0f; }
+		at.x += shakeValue * Time::fixedTimeScale;
 
-		if (shakeCounter % 15 == 0) { shake = false; }
+		if (time >= 15.0f / FRAME_RATE) { shake = false; }
 	}
 
 
@@ -62,13 +67,15 @@ void Camera::Draw()
 	}
 }
 
-void Camera::CameraShake(float value)
+void Camera::CameraShake(float value, float t)
 {
 	if (shake == false)
 	{
 		shake = true;
-		shakeCounter = 0;
+		limit = t;
+		shakeCounter = 0.0f;
 		shakeValue = value * 2;
+		time = 0.0f;
 	}
 }
 
