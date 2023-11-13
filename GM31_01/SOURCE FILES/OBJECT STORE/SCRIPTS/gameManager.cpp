@@ -14,7 +14,7 @@ void GameManager::End()
 
 void GameManager::Update()
 {
-	if (Input::GetKeyPress(VK_SPACE))
+	if (Input::GetKeyPress(VK_LSHIFT))
 	{
 		Time::deltaTime = (1.0f / FRAME_RATE) * 0.1f;
 		Time::fixedTimeScale = 0.1f;

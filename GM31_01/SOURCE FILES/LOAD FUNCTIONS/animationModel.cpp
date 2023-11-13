@@ -1,6 +1,7 @@
 #include "../main.h"
 #include "../renderer.h"
 #include "../LOAD FUNCTIONS/animationModel.h"
+#include "functions.h"
 
 
 
@@ -274,7 +275,8 @@ void AnimationModel::Unload()
 
 	for (std::pair<const std::string, const aiScene*> pair : m_Animation)
 	{
-		aiReleaseImport(pair.second);
+		pair.second = nullptr;
+		delete pair.second;
 	}
 
 }
@@ -351,7 +353,7 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 		}
 
 		//ê¸å`ï€ä«
-		aiVector3D pos = pos1 * (1.0f - BlendRate) + pos2 * BlendRate;
+		aiVector3D pos = (pos1 * (1.0f - BlendRate) + pos2 * BlendRate);
 		aiQuaternion rot;
 		aiQuaternion::Interpolate(rot, rot1, rot2, BlendRate);
 		

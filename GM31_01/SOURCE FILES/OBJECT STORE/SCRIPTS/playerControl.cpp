@@ -4,7 +4,7 @@
 
 void PlayerControl::Start()
 {
-	timerVector.push_back(new float(0.0f));
+	timerVector["_Counter"] = 0.0f;
 }
 
 void PlayerControl::End()
@@ -28,8 +28,8 @@ void PlayerControl::Draw()
 
 void PlayerControl::Spawn()
 {
-	if (Time::WaitForSeconds(2.0f, timerVector[0]) == false) { return; }
+	if (Time::WaitForSeconds(2.0f, &timerVector["_Counter"]) == false) { return; }
 
-	*timerVector[0] = 0.0f;
+	timerVector[0] = 0.0f;
 	Manager::GetScene()->AddGameObject<ROCK>()->transform->Position = gameObject->transform->Position;
 }

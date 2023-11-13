@@ -56,8 +56,7 @@ public:
 class BulletScript : public Script
 {
 public:
-	float counter = 0.0f;
-	float maxCounter = 3.0f;
+	float maxCounter;
 
 	float velocity;
 
@@ -81,7 +80,6 @@ private:
 	bool invincible;
 	bool noDamage;
 
-	float invincibilityCounter;
 	float hp;
 	float* barController;
 

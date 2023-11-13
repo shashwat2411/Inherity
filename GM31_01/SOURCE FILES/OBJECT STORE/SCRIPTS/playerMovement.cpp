@@ -118,8 +118,8 @@ void PlayerMovement::Update()
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 
 
-	gameObject->rigidbody->Speed.x *= 0.9f * Time::fixedTimeScale;
-	gameObject->rigidbody->Speed.z *= 0.9f * Time::fixedTimeScale;
+	gameObject->rigidbody->Speed.x *= 0.9f;
+	gameObject->rigidbody->Speed.z *= 0.9f;
 
 }
 
@@ -155,7 +155,7 @@ void PlayerMovement::UpdateGround()
 	finalSpeed.y = 0.0f;
 	finalSpeed.z = direction.z * SPEED_VALUE * gameObject->rigidbody->Acceleration;
 
-	gameObject->rigidbody->Speed += finalSpeed * Time::fixedTimeScale;
+	gameObject->rigidbody->Speed += finalSpeed;
 
 	//Rotation
 	{

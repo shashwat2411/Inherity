@@ -9,6 +9,7 @@
 
 #include <xaudio2.h>
 #include <string>
+#include <unordered_map>
 
 //‘O•ûéŒ¾
 class PARTICLE;
@@ -420,12 +421,17 @@ public:
 class Script :public Component
 {
 protected:
-	std::vector<float*>timerVector;
+	std::unordered_map<const std::string, float>timerVector;
 
 public:
 
-	Script() { timerVector.push_back(new float(0.0f)); }
-	~Script() { for (float* n : timerVector) { delete n; } }
+	~Script()
+	{
+		for (std::pair<const std::string, float> pair : timerVector)
+		{
+			delete &pair.second;
+		}
+	}
 
 	void Start() override {}
 	void End() override {}

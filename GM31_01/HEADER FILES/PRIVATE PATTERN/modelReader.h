@@ -33,7 +33,7 @@ public:
 private:
 	static Model ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX];
 	static AnimationModel ModelsFBX[ModelReader::READ_MODEL_FBX_MAX];
-	static std::unordered_map<std::string, const aiScene*> m_Animation;
+	static std::unordered_map<std::string, const aiScene*> Animations;
 
 public:
 	static void ReadModel()
@@ -53,15 +53,15 @@ public:
 
 
 		//ANIMATION
-		m_Animation["Run"] = aiImportFile("asset\\model\\Bot_Run.fbx", aiProcess_ConvertToLeftHanded);
-		m_Animation["Idle"] = aiImportFile("asset\\model\\Bot_Idle.fbx", aiProcess_ConvertToLeftHanded);
-		m_Animation["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
-		m_Animation["Jump"] = aiImportFile("asset\\model\\Standing Jump.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Run"] = aiImportFile("asset\\model\\Bot_Run.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Idle"] = aiImportFile("asset\\model\\Bot_Idle.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Jump"] = aiImportFile("asset\\model\\Standing Jump.fbx", aiProcess_ConvertToLeftHanded);
 
-		assert(m_Animation["Run"]);
-		assert(m_Animation["Idle"]);
-		assert(m_Animation["Dance"]);
-		assert(m_Animation["Jump"]);
+		assert(Animations["Run"]);
+		assert(Animations["Idle"]);
+		assert(Animations["Dance"]);
+		assert(Animations["Jump"]);
 	}
 
 	static void UnReadModel()
@@ -75,7 +75,13 @@ public:
 		{
 			ModelsFBX[i].Unload();
 		}
+
+		for (std::pair<const std::string, const aiScene*> pair : Animations)
+		{
+			aiReleaseImport(pair.second);
+		}
 	}
+
 	static Model* GetReadModel(READ_MODEL_OBJ value)
 	{
 		return &ModelsOBJ[value];
@@ -86,7 +92,7 @@ public:
 	}
 	static std::unordered_map<std::string, const aiScene*> GetAnimation()
 	{
-		return m_Animation;
+		return Animations;
 	}
 
 };

@@ -6,12 +6,13 @@ void HitPoints::Start()
 	invincible = false;
 	noDamage = false;
 
-	invincibilityCounter = 0.0f;
 	hp = 5.0f;
+	timerVector["_Invincibility_Counter"] = 0.0f;
 
 	barController = nullptr;
 
 	object = nullptr;
+
 }
 
 void HitPoints::End()
@@ -38,8 +39,8 @@ void HitPoints::Update()
 
 	if (invincible == true)
 	{
-		if (invincibilityCounter < COLLIDE_COUNTDOWN) { invincibilityCounter += Time::deltaTime; }
-		else { invincibilityCounter = 0.0f; invincible = false; }
+		if (timerVector["_Invincibility_Counter"] < COLLIDE_COUNTDOWN) { timerVector["_Invincibility_Counter"] += Time::deltaTime; }
+		else { timerVector["_Invincibility_Counter"] = 0.0f; invincible = false; }
 	}
 
 	if (noDamage == true) { Heal(2.0f); }
