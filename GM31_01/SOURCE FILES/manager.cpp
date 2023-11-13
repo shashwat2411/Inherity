@@ -87,7 +87,7 @@ void Manager::Draw()
 		Renderer::BeginDepth();
 		Renderer::SetDepthViewPort();
 
-		LightInitialize(&light, /*GetScene()->GetPlayer()->transform->Position*/D3DXVECTOR3(-10.0f, 0.0, 0.0f));
+		LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
 		//LightInitialize(&light, GetScene()->FindGameObject<PLAYERMODEL>()->transform->Position);
 
 		//ライトカメラの行列をセット
@@ -96,7 +96,7 @@ void Manager::Draw()
 		Renderer::SetProjectionMatrix(&light.projectionMatrix);
 
 		//影を落としたいオブジェクトを描画（一応地面も）
-		//Scene->DepthPath();
+		Scene->DepthPath();
 	}
 
 	//3パス目　通常の描画

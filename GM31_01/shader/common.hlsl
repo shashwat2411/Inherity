@@ -53,8 +53,6 @@ cbuffer MaterialBuffer : register(b3)
 }
 
 
-
-
 struct LIGHT
 {
 	bool Enable;
