@@ -3,6 +3,7 @@
 
 #include "../MANAGEMENT FUNCTIONS/gameobject.h"
 #include "../PRIVATE PATTERN/textureReader.h"
+#include "functions.h"
 
 class Material
 {
@@ -30,258 +31,71 @@ class SpriteMaterial : public Material
 {
 public:
 
-	void Start() override
-	{
-		gameObject->SetDepthShadow(false);
-
-		SetTexture("_Texture", nullptr);
-		SetTexture("_Normal_Map", nullptr);
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitTextureVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\unlitTexturePS.cso");
-	}
+	void Start() override;
 	
 	void Update() override {}
-	void Draw() override
-	{
-		if (textures["_Texture"] != nullptr)	{ Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-		if (textures["_Normal_Map"] != nullptr)	{ Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Normal_Map"]); }
-
-	}
+	void Draw() override;
 };
-class Default : public Material
+class DefaultMaterial : public Material
 {
 public:
 
-	void Start() override 
-	{
-		gameObject->SetDepthShadow(true);
-
-		SetTexture("_Texture", /*TextureReader::GetReadTexture(TextureReader::BOX_T)*/nullptr);
-		SetTexture("_Normal_Map", nullptr);
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\vertexLightingVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\vertexLightingPS.cso");
-	}
+	void Start() override;
 	
 	void Update() override {}
-	void Draw() override
-	{
-		if (textures["_Texture"] != nullptr)	{ Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-		if (textures["_Normal_Map"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Normal_Map"]); }
-
-	}
+	void Draw() override;
 };
-class Unlit : public Material
+class UnlitMaterial : public Material
 {
 public:
 
-	void Start() override
-	{
-		gameObject->SetDepthShadow(false);
-
-		SetTexture("_Texture", nullptr);
-		SetTexture("_Normal_Map", nullptr);
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitDefaultVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\unlitDefaultPS.cso");
-	}
+	void Start() override;
 	
 	void Update() override {}
-	void Draw() override
-	{
-		if (textures["_Texture"] != nullptr)	{ Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-		if (textures["_Normal_Map"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Normal_Map"]); }
-
-		PARAMETER param;
-		ZeroMemory(&param, sizeof(param));
-		param.dissolveThreshold = 0.0f;
-		param.dissolveRange = 0.0f;
-		param.color = gameObject->GetColor();
-
-		Renderer::SetParameter(param);
-	}
+	void Draw() override;
 };
-class Dissolve : public Material
+class DissolveMaterial : public Material
 {
 public:
 
-	void Start() override
-	{
-		gameObject->SetDepthShadow(true);
+	void Start() override;
 
-		SetFloat("_Threshold", 1.0f);
-		SetFloat("_Delta", 0.0075f);
-		SetFloat("_Dissolve_Range", 0.3f);
-
-		SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::BOX_T));
-		SetTexture("_Dissolve_Texture", TextureReader::GetReadTexture(TextureReader::DISSOLVE_T));
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\DepthShadowMappingVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\DissolveDepthShadowPS.cso");
-
-	}
-
-	void Update() override
-	{
-		if (floats["_Threshold"] > 1.1f || floats["_Threshold"] < 0.0f) { floats["_Delta"] *= -1.0f; }
-		floats["_Threshold"] += floats["_Delta"];
-	}
-
-	void Draw() override
-	{
-		ID3D11ShaderResourceView* depthShadowTexture;
-		depthShadowTexture = Renderer::GetDepthShadowTexture();
-
-		if (textures["_Texture"] != nullptr)			{ Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-		if (textures["_Dissolve_Texture"] != nullptr)	{ Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Dissolve_Texture"]); }
-		if (depthShadowTexture != nullptr)				{ Renderer::GetDeviceContext()->PSSetShaderResources(2, 1, &depthShadowTexture); }
-
-		PARAMETER param;
-		ZeroMemory(&param, sizeof(param));
-		param.dissolveThreshold = (1.0f - floats["_Threshold"]);
-		param.dissolveRange = floats["_Dissolve_Range"];
-		param.color = gameObject->GetColor();
-
-		Renderer::SetParameter(param);
-	}
+	void Update() override;
+	void Draw() override;
 };
-class FieldDefault : public Material
+class FieldDefaultMaterial : public Material
 {
 public:
 
-	void Start() override
-	{
-		gameObject->SetDepthShadow(true);
-		
-		SetFloat("_Time", 0.0f);
-		SetFloat("_Frequency", 10.0f);
-
-		SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::BOX_T));
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\DepthShadowMappingVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\DepthShadowMappingPS.cso");
-	}
+	void Start() override;
 	
-	void Update() override 
-	{
-		floats["_Time"] += 1.0f / FRAME_RATE;
-
-		//floats["_Frequency"] = sinf(floats["_Time"]);
-
-	}
-	void Draw() override
-	{
-		ID3D11ShaderResourceView* depthShadowTexture;
-		depthShadowTexture = Renderer::GetDepthShadowTexture();
-
-		if (textures["_Texture"] != nullptr)	{ Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-		//if (depthShadowTexture != nullptr)		{ Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture); }
-
-		PARAMETER param;
-		ZeroMemory(&param, sizeof(param));
-		param.dissolveThreshold = floats["_Frequency"];
-		param.dissolveRange = floats["_Time"];
-		param.color = gameObject->GetColor();
-
-		Renderer::SetParameter(param);
-	}
+	void Update() override;
+	void Draw() override;
 };
-class WaterDefault : public Material
+class WaterMaterial : public Material
 {
 public:
 
-	void Start() override
-	{
-		SetFloat("_Time", 0.0f);
-		SetFloat("_Frequency", 10.0f);
+	void Start() override;
 
-		SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitWaterVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\unlitWaterPS.cso");
-	}
-
-	void Update() override
-	{
-		floats["_Time"] += 1.0f / FRAME_RATE;
-
-		//floats["_Frequency"] = sinf(floats["_Time"]);
-
-	}
-	void Draw() override
-	{
-		if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-
-		PARAMETER param;
-		ZeroMemory(&param, sizeof(param));
-		param.dissolveThreshold = floats["_Frequency"];
-		param.dissolveRange = floats["_Time"];
-		param.color = gameObject->GetColor();
-
-		Renderer::SetParameter(param);
-	}
+	void Update() override;
+	void Draw() override;
 };
-class Wipe : public Material
+class WipeMaterial : public Material
 {
 public:
 
-	void Start() override
-	{
-		gameObject->SetDepthShadow(false);
-
-		SetFloat("_Threshold", 1.0f);
-		SetFloat("_Delta", 0.03f);
-
-		SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::BOX_T));
-		SetTexture("_Wipe_Texture", TextureReader::GetReadTexture(TextureReader::WIPE_T));
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitTextureVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\wipePS.cso");
-	}
+	void Start() override;
 	
 	void Update() override {}
-	void Draw() override
-	{
-		if (textures["_Texture"] != nullptr)		{ Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-		if (textures["_Wipe_Texture"] != nullptr)	{ Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Wipe_Texture"]); }
-
-		PARAMETER param;
-		ZeroMemory(&param, sizeof(param));
-		param.dissolveThreshold = (1.0f - floats["_Threshold"]);
-		param.dissolveRange = 0.3f;
-		param.color = gameObject->GetColor();
-
-		Renderer::SetParameter(param);
-	}
+	void Draw() override;
 };
-class LitTexture : public Material
+class LitTextureMaterial : public Material
 {
 public:
 
-	void Start() override
-	{
-		gameObject->SetDepthShadow(false);
-
-		SetTexture("_Texture", nullptr);
-		SetTexture("_Normal_Map", nullptr);
-
-		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitDefaultVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\litTextureColoringPS.cso");
-	}
+	void Start() override;
 
 	void Update() override {}
-	void Draw() override
-	{
-		if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-		if (textures["_Normal_Map"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Normal_Map"]); }
-
-		PARAMETER param;
-		ZeroMemory(&param, sizeof(param));
-		param.dissolveThreshold = 0.0f;
-		param.dissolveRange = 0.0f;
-		param.color = gameObject->GetColor();
-
-		Renderer::SetParameter(param);
-	}
+	void Draw() override;
 };

@@ -2,7 +2,7 @@
 #include "component.h"
 #include "../PRIVATE PATTERN/modelReader.h"
 
-#define COLLIDE_COUNTDOWN 5
+#define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
 
 class PlayerMovement : public Script
 {
@@ -56,8 +56,8 @@ public:
 class BulletScript : public Script
 {
 public:
-	int counter = 0;
-	int maxCounter = 180;
+	float counter = 0.0f;
+	float maxCounter = 3.0f;
 
 	float velocity;
 
@@ -72,7 +72,7 @@ public:
 
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
-	void Shoot(GAMEOBJECT* st, int life, float speed, D3DXVECTOR3 offset = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
+	void Shoot(GAMEOBJECT* st, float life, float speed, D3DXVECTOR3 offset = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 };
 class HitPoints : public Script
 {
@@ -81,8 +81,7 @@ private:
 	bool invincible;
 	bool noDamage;
 
-	int invincibilityCounter;
-
+	float invincibilityCounter;
 	float hp;
 	float* barController;
 
@@ -123,4 +122,17 @@ public:
 
 private:
 	void Spawn();
+};
+class GameManager : public Script
+{
+private:
+	GAMEOBJECT* Player;
+
+public:
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
 };

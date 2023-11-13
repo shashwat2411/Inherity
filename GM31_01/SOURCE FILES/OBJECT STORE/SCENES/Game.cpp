@@ -8,6 +8,7 @@ PLANE* Field;
 PLANE* Water;
 IMAGE* Buffer;
 CUBE* cube;
+GAMEOBJECT* gameManager;
 
 void GAME_SCENE::Init()
 {
@@ -18,7 +19,8 @@ void GAME_SCENE::Init()
 	BILLBOARD* tree[300];
 
 	//GAMEOBJECT
-	//skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
+	skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
+	gameManager = AddGameObject<EMPTYOBJECT>();
 	player = AddGameObject<PLAYER>();
 	PlayerModel = AddGameObject<PLAYERMODEL>();
 	enemy = AddGameObject<ENEMY>();
@@ -77,6 +79,8 @@ void GAME_SCENE::Init()
 
 	//Ý’è
 	{
+		gameManager->AddComponent<GameManager>();
+
 		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::GROUND_T));
 		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
 		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
@@ -85,7 +89,7 @@ void GAME_SCENE::Init()
 		//Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
 		Field->meshField->RecreateField();
 
-		Water->AddMaterial<WaterDefault>();
+		Water->AddMaterial<WaterMaterial>();
 		Water->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
 		Water->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
 		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
@@ -97,7 +101,7 @@ void GAME_SCENE::Init()
 
 		cube->transform->Position.y = 2.0f;
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-		cube->AddMaterial<LitTexture>();
+		cube->AddMaterial<LitTextureMaterial>();
 		//cube->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::RING_T));
 
 		Buffer->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2 - 150.0f, 0.0f);
@@ -124,13 +128,13 @@ float speed3 = 0.03f;
 void GAME_SCENE::Update()
 {
 	if (r > 1.0f || r < 0.0f) { speed1 *= -1.0f; }
-	r += speed1;
+	r += speed1 * Time::fixedTimeScale;
 
 	if (g > 1.0f || g < 0.0f) { speed2 *= -1.0f; }
-	g += speed2;
+	g += speed2 * Time::fixedTimeScale;
 
 	if (b > 1.0f || b < 0.0f) { speed3 *= -1.0f; }
-	b += speed3;
+	b += speed3 * Time::fixedTimeScale;
 
 	//r = sinf(r);
 	//g = sinf(g);

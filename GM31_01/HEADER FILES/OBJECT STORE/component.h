@@ -195,10 +195,9 @@ class MeshFilter :public Component
 private:
 	bool fbx;
 
-	int time;
-
 	float blendRate;
 	float blendSpeed;
+	float time;
 
 	std::string animationName;
 	std::string animationBlendName;
@@ -312,12 +311,14 @@ class Camera : public Component
 protected:
 	bool shake;
 
-	int shakeCounter;
-
 	float fov;
 	float len;
 	float rad;
+
+	float limit;
+	float shakeCounter;
 	float shakeValue;
+	float time;
 
 	D3DXVECTOR3 Up;
 	D3DXVECTOR3 rot;
@@ -341,7 +342,7 @@ public:
 	void SetViewMatrix(D3DXMATRIX value) { mtxView = value; }
 
 
-	void CameraShake(float value);
+	void CameraShake(float value, float t = 15.0f / FRAME_RATE);
 	bool CheckView(Transform* target);
 };
 class Plane : public Component

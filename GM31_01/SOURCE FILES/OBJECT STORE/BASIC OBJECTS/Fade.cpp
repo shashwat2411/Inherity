@@ -15,7 +15,7 @@ void FADE::Init()
 	Color = D3DXCOLOR(1.0f, 1.0, 1.0f, 1.0f);
 	AddComponent<SpriteRenderer>()->SetSize(D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT));
 
-	AddMaterial<Wipe>();
+	AddMaterial<WipeMaterial>();
 
 }
 

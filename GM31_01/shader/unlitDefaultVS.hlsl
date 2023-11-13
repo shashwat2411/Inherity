@@ -15,9 +15,9 @@ void main(in VS_IN In, out PS_IN Out)
 	worldNormal = normalize(worldNormal);
 	Out.Normal = worldNormal;
 
-	Out.Diffuse = In.Diffuse * Material.Diffuse;
-	Out.Diffuse += In.Diffuse * Material.Ambient;
-	Out.Diffuse += Material.Emission;
+	Out.Diffuse.rgb = In.Diffuse.rgb * Material.Diffuse.rgb;
+	Out.Diffuse.rgb += In.Diffuse.rgb * Material.Ambient.rgb;
+	Out.Diffuse.rgb += Material.Emission.rgb;
 	Out.Diffuse.a = In.Diffuse.a * Material.Diffuse.a;
 
 	Out.Tangent = float4(0.0f, 0.0f, 0.0f, 0.0f);

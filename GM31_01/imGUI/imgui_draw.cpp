@@ -18,7 +18,7 @@ Index of this file:
 // [SECTION] ImFont
 // [SECTION] ImGui Internal Render Helpers
 // [SECTION] Decompression code
-// [SECTION] Default font data (ProggyClean.ttf)
+// [SECTION] DefaultMaterial font data (ProggyClean.ttf)
 
 */
 
@@ -2199,7 +2199,7 @@ ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
     return new_font_cfg.DstFont;
 }
 
-// Default font TTF is compressed with stb_compress then base85 encoded (see misc/fonts/binary_to_compressed_c.cpp for encoder)
+// DefaultMaterial font TTF is compressed with stb_compress then base85 encoded (see misc/fonts/binary_to_compressed_c.cpp for encoder)
 static unsigned int stb_decompress_length(const unsigned char* input);
 static unsigned int stb_decompress(unsigned char* output, const unsigned char* input, unsigned int length);
 static const char*  GetDefaultCompressedFontDataTTFBase85();
@@ -2358,7 +2358,7 @@ bool    ImFontAtlas::Build()
 {
     IM_ASSERT(!Locked && "Cannot modify a locked ImFontAtlas between NewFrame() and EndFrame/Render()!");
 
-    // Default font is none are specified
+    // DefaultMaterial font is none are specified
     if (ConfigData.Size == 0)
         AddFontDefault();
 
@@ -4194,7 +4194,7 @@ static unsigned int stb_decompress(unsigned char *output, const unsigned char *i
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] Default font data (ProggyClean.ttf)
+// [SECTION] DefaultMaterial font data (ProggyClean.ttf)
 //-----------------------------------------------------------------------------
 // ProggyClean.ttf
 // Copyright (c) 2004, 2005 Tristan Grimmer

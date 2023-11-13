@@ -7,12 +7,12 @@ void SKYDOME::Init()
 
 	transform->culling = false;
 
-	transform->Position.y = -3.0f;
+	transform->Position.y = -10.0f;
 	transform->Scale = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
 
 	AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::SKYDOME_M));
 
-	AddMaterial<Unlit>();
+	AddMaterial<UnlitMaterial>();
 	SetDepthShadow(false);
 
 }

@@ -38,7 +38,7 @@ void ParticleSystem::Start()
 		if (burst == true)
 		{
 			object->life = object->setLife;
-			object->counter = 0;
+			object->counter = 0.0f;
 		}
 	}
 }
@@ -58,15 +58,15 @@ void ParticleSystem::Update()
 	{
 		if (gameObject->GetActive() == true)
 		{
-			if (rotateRandom == true) { object->SetBillboard(false); object->transform->Rotation += object->velocity * 50.0f; }
+			if (rotateRandom == true) { object->SetBillboard(false); object->transform->Rotation += object->velocity * 50.0f * Time::fixedTimeScale; }
 			else { object->SetBillboard(true); }
 
 			object->transform->Position += object->velocity;
 
-			if (object->counter < object->life) { object->counter += 1; }
+			if (object->counter < object->life) { object->counter += Time::deltaTime; }
 			else { object->counter = object->life; }
 
-			if (object->counter == object->life)
+			if (object->counter >= object->life)
 			{
 				if (loop == true)
 				{
@@ -74,7 +74,7 @@ void ParticleSystem::Update()
 					if (burst == true)
 					{
 						object->life = object->setLife;
-						object->counter = 0;
+						object->counter = 0.0f;
 					}
 				}
 				else
@@ -164,7 +164,7 @@ void ParticleSystem::Burst()
 			if (burst == true)
 			{
 				object->life = object->setLife;
-				object->counter = 0;
+				object->counter = 0.0f;
 			}
 		}
 	}
@@ -201,7 +201,7 @@ void ParticleSystem::SetParticleCount(int value)
 		if (burst == true)
 		{
 			object->life = object->setLife;
-			object->counter = 0;
+			object->counter = 0.0f;
 		}
 	}
 }

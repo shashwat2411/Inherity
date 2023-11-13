@@ -5,8 +5,8 @@ void PLAYERMODEL::Start()
 	Init();
 
 	model = AddComponent<MeshFilter>();
-	//AddMaterial<Dissolve>();
-	//AddMaterial<Unlit>();
+	//AddMaterial<DissolveMaterial>();
+	//AddMaterial<UnlitMaterial>();
 
 	sprintf(tag, "model");
 

@@ -23,7 +23,7 @@ public:
 
 		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::SPHERE_COLLIDER_M));
 
-		AddMaterial<Unlit>();
+		AddMaterial<UnlitMaterial>();
 
 
 #ifndef DEBUG
@@ -233,10 +233,9 @@ public:
 class PARTICLE : public BILLBOARD
 {
 public:
-	int counter;
-	int life;
-	int setLife;
-
+	float counter;
+	float life;
+	float setLife;
 	float speed;
 
 	D3DXVECTOR3 rotationDirection;
@@ -250,10 +249,9 @@ public:
 
 		depth = true;
 
-		counter = 0;
-		life = 0;
-		setLife = 0;
-
+		counter = 0.0f;
+		life = 0.0f;
+		setLife = 0.0f;
 		speed = 0.1f;
 
 		rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -284,7 +282,7 @@ public:
 		D3DXVec3Normalize(&direction, &direction);
 
 		velocity = direction * speed;
-		life = rand() % 61;
+		life = (float)(rand() % ((int)FRAME_RATE + 1)) / FRAME_RATE;
 	}
 
 };

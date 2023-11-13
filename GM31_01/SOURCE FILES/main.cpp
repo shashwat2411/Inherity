@@ -11,8 +11,6 @@
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "DX11ゲーム";
 
-float Time::timeScale = 1.0f;
-
 #ifdef DEBUG
 int		g_CountFPS;							// FPSカウンタ
 int		g_CountFixedFPS;					// FixedFPSカウンタ
@@ -67,7 +65,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 	Manager::Init();
-	Time::timeScale = 1.0f;
 
 
 	ShowWindow(g_Window, nCmdShow);
@@ -141,7 +138,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			//	dwExecLastTime = dwCurrentTime;
 
 			//	//Manager::Update();
-			//	//dwFrameCount++;
+			//	dwFrameCount++;
 			//}
 
 		}

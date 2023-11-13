@@ -27,7 +27,7 @@ void ThirdPersonCamera::Update()
 		AtVec *= 0.08f;	//ベクトルスケーリング
 
 		// カメラの注視点をプレイヤーの座標にしてみる
-		at += AtVec;
-		gameObject->transform->Position += PosVec;
+		at += AtVec * Time::fixedTimeScale;
+		gameObject->transform->Position += PosVec * Time::fixedTimeScale;
 	}
 }

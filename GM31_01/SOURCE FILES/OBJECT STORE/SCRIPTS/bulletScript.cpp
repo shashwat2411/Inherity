@@ -15,10 +15,10 @@ void BulletScript::Start()
 
 void BulletScript::Update()
 {
-	if (counter < maxCounter) { counter++; }
+	if (counter < maxCounter) { counter += Time::deltaTime; }
 	else
 	{
-		counter = 0;
+		counter = 0.0f;
 		gameObject->Destroy(true);
 		return;
 	}
@@ -38,11 +38,11 @@ void BulletScript::Update()
 	if (shooter != nullptr)
 	{
 		gameObject->rigidbody->Speed = direction * velocity;
-		gameObject->transform->Position += gameObject->rigidbody->Speed;
+		gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 	}
 }
 
-void BulletScript::Shoot(GAMEOBJECT* st, int life, float speed, D3DXVECTOR3 offset)
+void BulletScript::Shoot(GAMEOBJECT* st, float life, float speed, D3DXVECTOR3 offset)
 {
 	if (st == nullptr) { return; }
 

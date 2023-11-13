@@ -482,15 +482,15 @@ bool ImGui::ButtonBehavior(const ImRect& bb, ImGuiID id, bool* out_hovered, bool
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = GetCurrentWindow();
 
-    // Default only reacts to left mouse button
+    // DefaultMaterial only reacts to left mouse button
     if ((flags & ImGuiButtonFlags_MouseButtonMask_) == 0)
         flags |= ImGuiButtonFlags_MouseButtonDefault_;
 
-    // Default behavior requires click + release inside bounding box
+    // DefaultMaterial behavior requires click + release inside bounding box
     if ((flags & ImGuiButtonFlags_PressedOnMask_) == 0)
         flags |= ImGuiButtonFlags_PressedOnDefault_;
 
-    // Default behavior inherited from item flags
+    // DefaultMaterial behavior inherited from item flags
     // Note that _both_ ButtonFlags and ItemFlags are valid sources, so copy one into the item_flags and only check that.
     ImGuiItemFlags item_flags = (g.LastItemData.ID == id ? g.LastItemData.InFlags : g.CurrentItemFlags);
     if (flags & ImGuiButtonFlags_AllowOverlap)
@@ -1083,7 +1083,7 @@ bool ImGui::ImageButton(ImTextureID user_texture_id, const ImVec2& size, const I
     if (window->SkipItems)
         return false;
 
-    // Default to using texture ID as ID. User can still push string/integer prefixes.
+    // DefaultMaterial to using texture ID as ID. User can still push string/integer prefixes.
     PushID((void*)(intptr_t)user_texture_id);
     const ImGuiID id = window->GetID("#image");
     PopID();
@@ -1288,7 +1288,7 @@ void ImGui::ProgressBar(float fraction, const ImVec2& size_arg, const char* over
     const ImVec2 fill_br = ImVec2(ImLerp(bb.Min.x, bb.Max.x, fraction), bb.Max.y);
     RenderRectFilledRangeH(window->DrawList, bb, GetColorU32(ImGuiCol_PlotHistogram), 0.0f, fraction, style.FrameRounding);
 
-    // Default displaying the fraction as percentage string, but user can override it
+    // DefaultMaterial displaying the fraction as percentage string, but user can override it
     char overlay_buf[32];
     if (!overlay)
     {
@@ -2259,7 +2259,7 @@ bool ImGui::DragBehaviorT(ImGuiDataType data_type, TYPE* v, float v_speed, const
     const bool is_logarithmic = (flags & ImGuiSliderFlags_Logarithmic) != 0;
     const bool is_floating_point = (data_type == ImGuiDataType_Float) || (data_type == ImGuiDataType_Double);
 
-    // Default tweak speed
+    // DefaultMaterial tweak speed
     if (v_speed == 0.0f && is_clamped && (v_max - v_min < FLT_MAX))
         v_speed = (float)((v_max - v_min) * g.DragSpeedDefaultRatio);
 
@@ -2428,7 +2428,7 @@ bool ImGui::DragScalar(const char* label, ImGuiDataType data_type, void* p_data,
     if (!ItemAdd(total_bb, id, &frame_bb, temp_input_allowed ? ImGuiItemFlags_Inputable : 0))
         return false;
 
-    // Default format string when passing NULL
+    // DefaultMaterial format string when passing NULL
     if (format == NULL)
         format = DataTypeGetInfo(data_type)->PrintFmt;
 
@@ -3020,7 +3020,7 @@ bool ImGui::SliderScalar(const char* label, ImGuiDataType data_type, void* p_dat
     if (!ItemAdd(total_bb, id, &frame_bb, temp_input_allowed ? ImGuiItemFlags_Inputable : 0))
         return false;
 
-    // Default format string when passing NULL
+    // DefaultMaterial format string when passing NULL
     if (format == NULL)
         format = DataTypeGetInfo(data_type)->PrintFmt;
 
@@ -3187,7 +3187,7 @@ bool ImGui::VSliderScalar(const char* label, const ImVec2& size, ImGuiDataType d
     if (!ItemAdd(frame_bb, id))
         return false;
 
-    // Default format string when passing NULL
+    // DefaultMaterial format string when passing NULL
     if (format == NULL)
         format = DataTypeGetInfo(data_type)->PrintFmt;
 
@@ -6765,7 +6765,7 @@ static int ImStrimatchlen(const char* s1, const char* s1_end, const char* s2)
     return match_len;
 }
 
-// Default handler for finding a result for typing-select. You may implement your own.
+// DefaultMaterial handler for finding a result for typing-select. You may implement your own.
 // You might want to display a tooltip to visualize the current request SearchBuffer
 // When SingleCharMode is set:
 // - it is better to NOT display a tooltip of other on-screen display indicator.

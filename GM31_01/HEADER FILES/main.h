@@ -19,7 +19,7 @@
 #pragma warning(pop)
 
 #define DEBUG
-#define FRAME_RATE 60
+#define FRAME_RATE 60.0f
 
 #pragma comment (lib, "winmm.lib")
 #pragma comment (lib, "d3d11.lib")

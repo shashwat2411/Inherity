@@ -87,6 +87,14 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\thirdPersonCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\topDownCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\transform.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\DefaultMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\DissolveMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\FieldDefaultMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\LitTextureMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\SpriteMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\UnlitMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WaterMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WipeMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Bullet.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Enemy.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Player.cpp" />
@@ -99,6 +107,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Title.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\bulletScript.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyScript.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gameManager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\ground.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\hitpoints.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
