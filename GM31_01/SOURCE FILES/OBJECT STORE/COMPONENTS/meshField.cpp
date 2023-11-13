@@ -30,7 +30,6 @@ float g_FieldHeight[21][21] =
 void MeshField::RecreateField()
 {
 	//gameObject->GetMaterial<DefaultMaterial>()->SetTexture(TextureReader::GetReadTexture(TextureReader::FIELD_NM_T), 1);
-
 	{
 		// 頂点バッファ生成
 		{
