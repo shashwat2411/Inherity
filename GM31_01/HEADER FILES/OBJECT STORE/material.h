@@ -155,19 +155,19 @@ public:
 		gameObject->SetDepthShadow(true);
 		
 		SetFloat("_Time", 0.0f);
-		SetFloat("_Frequency", 0.0f);
+		SetFloat("_Frequency", 10.0f);
 
 		SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::BOX_T));
 
 		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\DepthShadowMappingVS.cso");
-		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\unlitWaterPS.cso");
+		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\DepthShadowMappingPS.cso");
 	}
 	
 	void Update() override 
 	{
 		floats["_Time"] += 1.0f / FRAME_RATE;
 
-		floats["_Frequency"] = sinf(floats["_Time"]);
+		//floats["_Frequency"] = sinf(floats["_Time"]);
 
 	}
 	void Draw() override
@@ -182,7 +182,42 @@ public:
 		ZeroMemory(&param, sizeof(param));
 		param.dissolveThreshold = floats["_Frequency"];
 		param.dissolveRange = floats["_Time"];
-		param.color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		param.color = gameObject->GetColor();
+
+		Renderer::SetParameter(param);
+	}
+};
+class WaterDefault : public Material
+{
+public:
+
+	void Start() override
+	{
+		SetFloat("_Time", 0.0f);
+		SetFloat("_Frequency", 10.0f);
+
+		SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
+
+		Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitWaterVS.cso");
+		Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\unlitWaterPS.cso");
+	}
+
+	void Update() override
+	{
+		floats["_Time"] += 1.0f / FRAME_RATE;
+
+		//floats["_Frequency"] = sinf(floats["_Time"]);
+
+	}
+	void Draw() override
+	{
+		if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
+
+		PARAMETER param;
+		ZeroMemory(&param, sizeof(param));
+		param.dissolveThreshold = floats["_Frequency"];
+		param.dissolveRange = floats["_Time"];
+		param.color = gameObject->GetColor();
 
 		Renderer::SetParameter(param);
 	}

@@ -676,6 +676,8 @@ public:
 	float GetHeight(D3DXVECTOR3 position);
 
 	void SetNormal(D3DXVECTOR3 value) { Normal = value; }
+
+	void RecreateField();
 };
 class FollowObject : public Component
 {

@@ -385,5 +385,8 @@
     <FxCompile Include="shader\vertexLightingVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
     </FxCompile>
+    <FxCompile Include="shader\unlitWaterVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

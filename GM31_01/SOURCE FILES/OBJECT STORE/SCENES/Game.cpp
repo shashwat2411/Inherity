@@ -5,6 +5,7 @@ GAMEOBJECT* empty2;
 GAMEOBJECT* empty1;
 GAMEOBJECT* PlayerModel;
 PLANE* Field;
+PLANE* Water;
 IMAGE* Buffer;
 CUBE* cube;
 
@@ -22,6 +23,7 @@ void GAME_SCENE::Init()
 	PlayerModel = AddGameObject<PLAYERMODEL>();
 	enemy = AddGameObject<ENEMY>();
 	Field = AddGameObject<PLANE>();
+	Water = AddGameObject<PLANE>();
 	cube = AddGameObject<CUBE>();
 
 	srand(0);	//Seed Value for the random numbers
@@ -75,11 +77,23 @@ void GAME_SCENE::Init()
 
 	//Ý’è
 	{
-		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
-		Field->meshField->TexCoord = D3DXVECTOR2(1.0f, 1.0f);;
-		Field->meshField->Size = D3DXVECTOR2(1000.0f, 1000.0f);
-		Field->transform->Position = D3DXVECTOR3(0.0f, -1.0f, 0.0f);
-		Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
+		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::GROUND_T));
+		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
+		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
+		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		//Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
+		Field->meshField->RecreateField();
+
+		Water->AddMaterial<WaterDefault>();
+		Water->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
+		Water->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
+		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
+		Water->transform->Scale = D3DXVECTOR3(1.0f, 1.0f, 0.1f);
+		Water->transform->Position = D3DXVECTOR3(0.0f, 0.29f, 0.0f);
+		Water->transform->Rotation = D3DXVECTOR3(1.44f, 0.0f, 0.0f);
+		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
+		Water->meshField->RecreateField();
 
 		cube->transform->Position.y = 2.0f;
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
@@ -127,11 +141,11 @@ void GAME_SCENE::Update()
 
 	if (Input::GetKeyTrigger(VK_RETURN)) { end = true; }
 
-	if (Input::GetKeyPress('Q')) {Field->transform->Position.y += 0.01f; }
-	if (Input::GetKeyPress('E')) {Field->transform->Position.y -= 0.01f; }
+	if (Input::GetKeyPress('Q')) { Water->transform->Position.y += 0.01f; }
+	if (Input::GetKeyPress('E')) { Water->transform->Position.y -= 0.01f; }
 
-	if (Input::GetKeyPress('R')) { Field->transform->Rotation.x += 0.01f; }
-	if (Input::GetKeyPress('T')) { Field->transform->Rotation.x -= 0.01f; }
+	if (Input::GetKeyPress('R')) { Water->transform->Rotation.x += 0.01f; }
+	if (Input::GetKeyPress('T')) { Water->transform->Rotation.x -= 0.01f; }
 
 	cube->SetColor(D3DXCOLOR(r, g, b, 1.0f));
 
@@ -146,8 +160,8 @@ void GAME_SCENE::Update()
 	char* str = GetDebugStr();
 	//sprintf(&str[strlen(str)], " |||  Number : %d, Player_L_Joint1 x : %.2f, y : %.2f, z : %.2f", GameObjects[SHADOW_LAYER].Size(), PlayerModel->L_joint1->transform->Position.x, PlayerModel->L_joint1->transform->Position.y, PlayerModel->L_joint1->transform->Position.z);
 	//sprintf(&str[strlen(str)], " | Player_L_arm1  x : %.2f, y : %.2f, z : %.2f", PlayerModel->L_arm1->transform->Position.x, PlayerModel->L_arm1->transform->Position.y, PlayerModel->L_arm1->transform->Position.z);
-	sprintf(&str[strlen(str)], " | Field Y : %.2f", Field->transform->Position.y);
-	sprintf(&str[strlen(str)], " | Field Rot X : %.2f", Field->transform->Rotation.x);
+	sprintf(&str[strlen(str)], " | Water Y : %.2f", Water->transform->Position.y);
+	sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
 	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
 #endif
 }

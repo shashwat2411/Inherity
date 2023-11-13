@@ -9,13 +9,18 @@ SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
+	float4 normal = normalize(In.Normal);
+
 	outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
 	outDiffuse *= In.Diffuse;
+	outDiffuse.a *= Material.Diffuse.a;
 
+	float light = -dot(Light.Direction.xyz, normal.xyz);
+	light = saturate(light);
 
 	if (outDiffuse.a > 0.01f)
 	{
-		outDiffuse *= color*2.0f;
+		outDiffuse.rgb *= float3(1.0f,1.0f,1.0f)*1.0f;
 	}
 	else { discard; }
 }

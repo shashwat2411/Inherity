@@ -27,13 +27,9 @@ float g_FieldHeight[21][21] =
 	{ 0.0f, 0.0f, 0.0f, 2.0f, 1.0f, 0.0f, 3.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 3.0f, 5.0f, 1.0f, 0.0f, 1.0f },
 };
 
-void MeshField::Start()
+void MeshField::RecreateField()
 {
 	//gameObject->GetMaterial<Default>()->SetTexture(TextureReader::GetReadTexture(TextureReader::FIELD_NM_T), 1);
-	gameObject->AddMaterial<FieldDefault>();
-
-	gameObject->SetDepthShadow(true);
-	gameObject->SetDepth(false);
 
 	{
 		// 頂点バッファ生成
@@ -42,10 +38,11 @@ void MeshField::Start()
 			{
 				for (int z = 0; z <= TILES; z++)
 				{
-					m_Vertex[x][z].Position = D3DXVECTOR3((x - TILES / 2) * 5.0f, g_FieldHeight[z][x], (z - TILES / 2) * -5.0f);
+					m_Vertex[x][z].Position = D3DXVECTOR3((x - TILES / 2) * Size.x, g_FieldHeight[z][x], (z - TILES / 2) * -Size.y);
 					m_Vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 					m_Vertex[x][z].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
-					m_Vertex[x][z].TexCoord = D3DXVECTOR2(x * 0.5f, z * 0.5f);
+					//m_Vertex[x][z].TexCoord = D3DXVECTOR2(x * 0.5f, z * 0.5f);
+					m_Vertex[x][z].TexCoord = D3DXVECTOR2(x * (TexCoord.x / (float)TILES), z * (TexCoord.y / (float)TILES));
 				}
 			}
 
@@ -124,6 +121,17 @@ void MeshField::Start()
 	}
 }
 
+void MeshField::Start()
+{
+	TexCoord = D3DXVECTOR2(1.0f, 1.0f);
+	Size = D3DXVECTOR2(5.0f, 5.0f);
+
+	gameObject->AddMaterial<FieldDefault>();
+
+	gameObject->SetDepthShadow(true);
+	gameObject->SetDepth(false);
+}
+
 void MeshField::End()
 {
 	if (VertexBuffer != nullptr)
@@ -179,7 +187,7 @@ void MeshField::Draw()
 	// マテリアル設定
 	MATERIAL material;
 	ZeroMemory( &material, sizeof(material) );
-	material.Diffuse = D3DXCOLOR( 1.0f, 1.0f, 1.0f, 1.0f );
+	material.Diffuse = gameObject->GetColor();
 	material.TextureEnable = true;
 	Renderer::SetMaterial( material );
 
