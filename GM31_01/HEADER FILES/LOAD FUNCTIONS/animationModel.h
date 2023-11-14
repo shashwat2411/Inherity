@@ -9,6 +9,7 @@
 #pragma comment (lib, "assimp-vc143-mt.lib")
 
 
+
 //ïœå`å„í∏ì_ç\ë¢ëÃ
 struct DEFORM_VERTEX
 {
@@ -53,7 +54,7 @@ public:
 	void LoadAnimation(std::unordered_map<std::string, const aiScene*> value, const char *Name);
 	void Unload();
 
-	void Update(const char *AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate);
+	void Update(const char *AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate, float time);
 	void Draw();
 
 	std::unordered_map<std::string, BONE> GetBone() { return m_Bone; }

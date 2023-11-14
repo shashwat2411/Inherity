@@ -136,7 +136,7 @@ void ParticleSystem::SetTexture(ID3D11ShaderResourceView* text)
 	}
 }
 
-void ParticleSystem::SetLife(const int value)
+void ParticleSystem::SetLife(const float value)
 {
 	for (PARTICLE* obj : objects)
 	{

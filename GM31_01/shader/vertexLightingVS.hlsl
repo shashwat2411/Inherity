@@ -32,6 +32,7 @@ void main(in VS_IN In, out PS_IN Out)
 	lightwvp = mul(World, Light.View);
 	lightwvp = mul(lightwvp, Light.Projection);
 
+	Out.ShadowPosition = float4(0.0f, 0.0f, 0.0f, 0.0f);
 	Out.WorldPosition = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 }

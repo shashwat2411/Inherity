@@ -135,17 +135,17 @@ void PlayerMovement::UpdateGround()
 	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
 
-	if		(Input::GetButtonPress(Input::QK_FORWARD))	{ directionZ = gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 0.0f;	}
-	else if (Input::GetKeyPress('S'))	{ directionZ = -gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 180.0f;	}
-	if		(Input::GetKeyPress('A'))	{ directionX = -gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 270.0f;	}
-	else if (Input::GetKeyPress('D'))	{ directionX = gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 90.0f;	}
+	if		(Input::GetButtonPress(FORWARD_KEYMAP))	{ directionZ = gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 0.0f;	}
+	else if (Input::GetButtonPress(BACK_KEYMAP))	{ directionZ = -gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 180.0f;	}
+	if		(Input::GetButtonPress(LEFT_KEYMAP))	{ directionX = -gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 270.0f;	}
+	else if (Input::GetButtonPress(RIGHT_KEYMAP))	{ directionX = gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 90.0f;	}
 
-	if		(Input::GetKeyPress('W') && Input::GetKeyPress('A')) { move = true; rotationDirection.y = 315.0f; }
-	else if (Input::GetKeyPress('W') && Input::GetKeyPress('D')) { move = true; rotationDirection.y = 45.0f; }
-	if		(Input::GetKeyPress('S') && Input::GetKeyPress('A')) { move = true; rotationDirection.y = 225.0f; }
-	else if (Input::GetKeyPress('S') && Input::GetKeyPress('D')) { move = true; rotationDirection.y = 135.0f; }
+	if		(Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP)) { move = true; rotationDirection.y = 315.0f; }
+	else if (Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP)) { move = true; rotationDirection.y = 45.0f; }
+	if		(Input::GetButtonPress(BACK_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP)) { move = true; rotationDirection.y = 225.0f; }
+	else if (Input::GetButtonPress(BACK_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP)) { move = true; rotationDirection.y = 135.0f; }
 
-	if (!Input::GetKeyPress('W') && !Input::GetKeyPress('A') && !Input::GetKeyPress('S') && !Input::GetKeyPress('D')) { move = false; }
+	if (!Input::GetButtonPress(FORWARD_KEYMAP) && !Input::GetButtonPress(LEFT_KEYMAP) && !Input::GetButtonPress(BACK_KEYMAP) && !Input::GetButtonPress(RIGHT_KEYMAP)) { move = false; }
 
 
 	D3DXVECTOR3 direction = directionX + directionZ;
@@ -171,8 +171,8 @@ void PlayerMovement::UpdateGround()
 	if (move == true) { model->SetAnimationBlend("Run", true); }
 	else { model->SetAnimationBlend("Idle", true); }
 
-	if (Input::GetKeyTrigger(VK_RETURN)) { Manager::GetScene()->SetEnd(); }
-	if (Input::GetKeyTrigger(VK_SPACE)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
+	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
+	if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
 }
 
 void PlayerMovement::UpdateJump()

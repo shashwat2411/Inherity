@@ -25,6 +25,7 @@ void main(in VS_IN In, out PS_IN Out)
 	Out.TexCoord = In.TexCoord;
 
 
+	Out.ShadowPosition = float4(0.0, 0.0, 0.0, 0.0);
 	Out.WorldPosition = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
 }

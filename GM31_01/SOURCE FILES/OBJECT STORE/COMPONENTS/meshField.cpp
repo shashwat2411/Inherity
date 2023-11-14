@@ -202,8 +202,8 @@ float MeshField::GetHeight(D3DXVECTOR3 position)
 	int x, z;
 
 	//ブロック番号算出
-	x = position.x / 5.0f + 10.0f;
-	z = position.z / -5.0f + 10.0f;
+	x = (int)(position.x / 5.0f + 10.0f);
+	z = (int)(position.z / -5.0f + 10.0f);
 
 	D3DXVECTOR3 pos[4];
 

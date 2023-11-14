@@ -39,7 +39,9 @@ void MeshFilter::Update()
 		{
 			blendRate += blendSpeed * Time::fixedTimeScale;
 			if (blendRate > 1.0f) { blendRate = 1.0f; }
-			m_Model->Update(animationName.c_str(), time, animationBlendName.c_str(), time, blendRate);
+
+			int t = (int)time;
+			m_Model->Update(animationName.c_str(), t, animationBlendName.c_str(), t, blendRate, time);
 
 			time += Time::fixedTimeScale;
 		}
@@ -73,6 +75,8 @@ bool MeshFilter::GetAnimationOver(const char* name)
 	{
 		return m_Model->over;
 	}
+
+	return false;
 }
 
 void MeshFilter::SetAnimationBlend(const char* name, bool lp, float speed)

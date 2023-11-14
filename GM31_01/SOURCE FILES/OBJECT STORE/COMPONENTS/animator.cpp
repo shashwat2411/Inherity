@@ -17,10 +17,10 @@ void Animator::Update()
 		float dt, dangle;
 		float timer = animation[animIndex]->timer;
 
-		float frame1 = animation[animIndex]->data[animation[animIndex]->index].frame;
-		float frame2 = animation[animIndex]->data[animation[animIndex]->index + 1].frame;
+		float frame1 = (float)animation[animIndex]->data[animation[animIndex]->index].frame;
+		float frame2 = (float)animation[animIndex]->data[animation[animIndex]->index + 1].frame;
 
-		dt = (float)(timer - frame1) / (float)(frame2 - frame1);
+		dt = (timer - frame1) / (frame2 - frame1);
 
 		for (int i = 0; i < animation[animIndex]->data[animation[animIndex]->index].angle.size(); i++)
 		{
@@ -32,7 +32,7 @@ void Animator::Update()
 			*animation[animIndex]->data[animation[animIndex]->index].angle[i].pointer = angle1 + (dt * dangle);
 		}
 
-		animation[animIndex]->timer++;
+		animation[animIndex]->timer += Time::fixedTimeScale;
 
 		if (animation[animIndex]->timer > frame2)
 		{

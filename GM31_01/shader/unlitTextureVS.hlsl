@@ -15,6 +15,7 @@ void main(in VS_IN In, out PS_IN Out)
 
 
 	Out.WorldPosition = float4(0.0, 0.0, 0.0, 0.0);
+	Out.ShadowPosition = float4(0.0, 0.0, 0.0, 0.0);
 	Out.Normal = In.Normal;
 	Out.Tangent = float4(0.0, 0.0, 0.0, 0.0);
 	Out.Binormal = float4(0.0, 0.0, 0.0, 0.0);
