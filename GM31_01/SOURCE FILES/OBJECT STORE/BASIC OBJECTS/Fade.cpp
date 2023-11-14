@@ -1,4 +1,4 @@
-#include "../OBJECT STORE/baseobjects.h"
+#include "baseobjects.h"
 
 void FADE::Init()
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../OBJECT STORE/component.h"
+#include "component.h"
 
 class SoundReader
 {

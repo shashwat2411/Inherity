@@ -1,11 +1,10 @@
-
-
-#include "../main.h"
-#include "../manager.h"
-#include <thread>
-#include "../PRIVATE PATTERN/functions.h"
+#include "main.h"
+#include "manager.h"
+#include "functions.h"
 #include "../imGUI/imgui_impl_dx11.h"
 #include "../imGUI/imgui_impl_win32.h"
+
+#include <thread>
 
 
 const char* CLASS_NAME = "AppClass";

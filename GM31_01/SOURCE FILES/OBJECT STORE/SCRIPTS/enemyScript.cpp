@@ -1,4 +1,4 @@
-#include "../OBJECT STORE/script.h"
+#include "script.h"
 
 void EnemyScript::Start()
 {

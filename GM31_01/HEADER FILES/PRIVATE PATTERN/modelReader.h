@@ -1,6 +1,6 @@
 #pragma once
-#include "../LOAD FUNCTIONS/animationModel.h"
-#include "../LOAD FUNCTIONS/model.h"
+#include "animationModel.h"
+#include "model.h"
 
 class ModelReader
 {

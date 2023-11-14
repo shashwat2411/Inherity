@@ -1,6 +1,6 @@
-#include "../MANAGEMENT FUNCTIONS/scene.h"
-#include "../manager.h"
-#include "../PRIVATE PATTERN/soundReader.h"
+#include "scene.h"
+#include "manager.h"
+#include "soundReader.h"
 
 void SCENE::InitBefore()
 {

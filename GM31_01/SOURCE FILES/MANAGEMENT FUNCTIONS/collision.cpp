@@ -1,5 +1,4 @@
-#include "../manager.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
+#include "manager.h"
 
 #define BOUND_CONST 1.01f
 
