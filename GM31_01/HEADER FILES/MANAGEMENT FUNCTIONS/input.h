@@ -2,18 +2,22 @@
 #include "main.h"
 #include <vector>
 
-class vector;
+enum KEYMAPPING
+{
+	FORWARD_KEYMAP,
+	BACK_KEYMAP,
+	LEFT_KEYMAP,
+	RIGHT_KEYMAP,
+
+	JUMP_KEYMAP,
+	CHANGE_KEYMAP,
+
+	KEYMAPPING_MAX
+};
 
 class Input
 {
 public:
-
-	enum KEYMAPPING
-	{
-		QK_FORWARD,
-
-		KEYMAPPING_MAX
-	};
 
 private:
 	static BYTE m_OldKeyState[256];

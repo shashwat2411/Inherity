@@ -39,7 +39,7 @@ void CharacterRetract::Start()
 	//data[2].angle.push_back(Data(29.903f, &character->R_joint3->transform->Rotation.y));
 
 	//index = 0;
-	//timer = 0;
+	//timer = 0.0f;
 	//animationSize = 30;
 	//keyframes = 3;
 	//status = Animation::STANDBY;

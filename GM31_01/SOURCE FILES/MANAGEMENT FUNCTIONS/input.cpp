@@ -7,13 +7,30 @@ std::vector<BYTE> Input::input[KEYMAPPING_MAX];
 
 void Input::Init()
 {
-
 	memset( m_OldKeyState, 0, 256 );
 	memset( m_KeyState, 0, 256 );
 
-	input[QK_FORWARD].push_back('W');
-	input[QK_FORWARD].push_back(VK_UP);
-	input[QK_FORWARD].push_back(VK_GAMEPAD_LEFT_THUMBSTICK_UP);
+	input[FORWARD_KEYMAP].push_back('W');
+	input[FORWARD_KEYMAP].push_back(VK_UP);
+	input[FORWARD_KEYMAP].push_back(VK_GAMEPAD_LEFT_THUMBSTICK_UP);
+
+	input[BACK_KEYMAP].push_back('S');
+	input[BACK_KEYMAP].push_back(VK_DOWN);
+	input[BACK_KEYMAP].push_back(VK_GAMEPAD_LEFT_THUMBSTICK_DOWN);
+
+	input[LEFT_KEYMAP].push_back('A');
+	input[LEFT_KEYMAP].push_back(VK_LEFT);
+	input[LEFT_KEYMAP].push_back(VK_GAMEPAD_LEFT_THUMBSTICK_LEFT);
+
+	input[RIGHT_KEYMAP].push_back('D');
+	input[RIGHT_KEYMAP].push_back(VK_RIGHT);
+	input[RIGHT_KEYMAP].push_back(VK_GAMEPAD_LEFT_THUMBSTICK_RIGHT);
+
+	input[JUMP_KEYMAP].push_back(VK_SPACE);
+	input[JUMP_KEYMAP].push_back(VK_GAMEPAD_A);
+
+	input[CHANGE_KEYMAP].push_back(VK_RETURN);
+	input[CHANGE_KEYMAP].push_back(VK_GAMEPAD_MENU);
 }
 
 void Input::Uninit()

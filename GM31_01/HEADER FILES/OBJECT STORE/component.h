@@ -291,8 +291,10 @@ public:
 	void Draw() override;
 
 	D3DXMATRIX GetViewMatrix() { return mtxView; }
+	D3DXMATRIX GetProjectionMatrix() { return mtxProjection; }
 
 	void SetViewMatrix(D3DXMATRIX value) { mtxView = value; }
+	void SetProjectionMatrix(D3DXMATRIX value) { mtxProjection = value; }
 
 
 	void CameraShake(float value, float t = 15.0f / FRAME_RATE);
@@ -415,7 +417,7 @@ public:
 	int GetNumberOfObjects() { return numberOfObjects; }
 
 	void SetTexture(ID3D11ShaderResourceView* text);
-	void SetLife(const int value);
+	void SetLife(const float value);
 	void SetSpeed(const float value);
 	void SetParticleCount(int value);
 
@@ -487,9 +489,10 @@ public:
 
 public:
 	int index;
-	int timer;
 	int animationSize;
 	int keyframes;
+
+	float timer;
 
 	ANIMATION_STATUS status;
 
@@ -510,7 +513,7 @@ public:
 		data[4].angle.push_back(Data(-20.0f, &gameObject->transform->Rotation.y));
 
 		index = 0;
-		timer = 0;
+		timer = 0.0f;
 		status = Animation::STANDBY;
 	}
 

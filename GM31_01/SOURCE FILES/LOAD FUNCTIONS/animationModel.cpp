@@ -4,6 +4,7 @@
 #include "functions.h"
 
 
+//#define INTERPOLATE
 
 
 void AnimationModel::Draw()
@@ -285,7 +286,7 @@ void AnimationModel::Unload()
 
 
 
-void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate)
+void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate, float time)
 {
 	if (m_Animation.count(AnimationName1) == 0) { return; }
 	if (!m_Animation[AnimationName1]->HasAnimations()) { return; }
@@ -323,41 +324,108 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 
 		int f;
 
-		aiQuaternion rot1;
-		aiVector3D pos1;
+		float frame1 = (float)Frame1;
+		float frame2 = (float)Frame2;
+		float dt = (time - frame1) / (frame2 - frame1);
+
+		aiQuaternion rot_a;
+		aiVector3D pos_a;
 		if (nodeAnim1)
 		{
-			//üŒ`•ÛŠÇ‚Ì‘½ŽY‚ðŽ©•ª‚Å‚â‚é
+#ifndef INTERPOLATE
+			{
+				f = Frame2 % nodeAnim1->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
+				rot_a = nodeAnim1->mRotationKeys[f].mValue;
 
+				f = Frame2 % nodeAnim1->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
+				pos_a = nodeAnim1->mPositionKeys[f].mValue;
+			}
+#else
+
+			aiQuaternion rot_a1;
+			aiQuaternion rot_a2;
+
+			aiVector3D pos_a1;
+			aiVector3D pos_a2;
+			//üŒ`•ÛŠÇ‚Ì‘½ŽY‚ðŽ©•ª‚Å‚â‚é
+			//1
 			f = Frame1 % nodeAnim1->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
-			rot1 = nodeAnim1->mRotationKeys[f].mValue;
+			rot_a1 = nodeAnim1->mRotationKeys[f].mValue;
 
 			f = Frame1 % nodeAnim1->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
-			pos1 = nodeAnim1->mPositionKeys[f].mValue;
+			pos_a1 = nodeAnim1->mPositionKeys[f].mValue;
+
+			//2
+			f = Frame1 % nodeAnim1->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
+			rot_a2 = nodeAnim1->mRotationKeys[f + 1].mValue;
+
+			f = Frame1 % nodeAnim1->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
+			pos_a2 = nodeAnim1->mPositionKeys[f + 1].mValue;
+
+
+			rot_a.x = rot_a1.x + (dt * (rot_a2.x - rot_a1.x));
+			rot_a.y = rot_a1.y + (dt * (rot_a2.y - rot_a1.y));
+			rot_a.z = rot_a1.z + (dt * (rot_a2.z - rot_a1.z));
+			rot_a.w = rot_a1.w + (dt * (rot_a2.w - rot_a1.w));
+
+			pos_a.x = pos_a1.x + (dt * (pos_a2.x - pos_a1.x));
+			pos_a.y = pos_a1.y + (dt * (pos_a2.y - pos_a1.y));
+			pos_a.z = pos_a1.z + (dt * (pos_a2.z - pos_a1.z));
+#endif
 		}
 
-		aiQuaternion rot2;
-		aiVector3D pos2;
+		aiQuaternion rot_b;
+		aiVector3D pos_b;
 		if (nodeAnim2)
 		{
+#ifndef INTERPOLATE
+			{
+				f = Frame2 % nodeAnim2->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
+				rot_b = nodeAnim2->mRotationKeys[f].mValue;
+
+				f = Frame2 % nodeAnim2->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
+				pos_b = nodeAnim2->mPositionKeys[f].mValue;
+			}
+
+#else
+			aiQuaternion rot_b1;
+			aiQuaternion rot_b2;
+
+			aiVector3D pos_b1;
+			aiVector3D pos_b2;
+			//1
 			f = Frame2 % nodeAnim2->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
-			rot2 = nodeAnim2->mRotationKeys[f].mValue;
+			rot_b1 = nodeAnim2->mRotationKeys[f].mValue;
 
 			f = Frame2 % nodeAnim2->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
-			pos2 = nodeAnim2->mPositionKeys[f].mValue;
+			pos_b1 = nodeAnim2->mPositionKeys[f].mValue;
+
+			//2
+			f = Frame1 % nodeAnim2->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
+			rot_b2 = nodeAnim2->mRotationKeys[f + 1].mValue;
+
+			f = Frame1 % nodeAnim2->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
+			pos_b2 = nodeAnim2->mPositionKeys[f + 1].mValue;
+
+			rot_b.x = rot_b1.x + (dt * (rot_b2.x - rot_b1.x));
+			rot_b.y = rot_b1.y + (dt * (rot_b2.y - rot_b1.y));
+			rot_b.z = rot_b1.z + (dt * (rot_b2.z - rot_b1.z));
+			rot_b.w = rot_b1.w + (dt * (rot_b2.w - rot_b1.w));
+
+			pos_b.x = pos_b1.x + (dt * (pos_b2.x - pos_b1.x));
+			pos_b.y = pos_b1.y + (dt * (pos_b2.y - pos_b1.y));
+			pos_b.z = pos_b1.z + (dt * (pos_b2.z - pos_b1.z));
+#endif
 
 			//mNumRotationKeys is the maximum number of keys in the animation;
-			if (Frame2 % nodeAnim2->mNumRotationKeys == 0 && BlendRate >= 1.0f) 
-			{ 
-				over = true; 
-			}
+			if (Frame2 % nodeAnim2->mNumRotationKeys == 0 && BlendRate >= 1.0f) { over = true; }
 			else { over = false; }
 		}
 
 		//üŒ`•ÛŠÇ
-		aiVector3D pos = (pos1 * (1.0f - BlendRate) + pos2 * BlendRate);
+		aiVector3D pos = (pos_a * (1.0f - BlendRate) + pos_b * BlendRate);
 		aiQuaternion rot;
-		aiQuaternion::Interpolate(rot, rot1, rot2, BlendRate);
+		aiQuaternion::Interpolate(rot, rot_a, rot_b, BlendRate);
 		
 		bone->AnimationMatrix = aiMatrix4x4(aiVector3D(1.0f, 1.0f, 1.0f), rot, pos);
 	}

@@ -85,18 +85,16 @@ void Manager::Draw()
 	light.Enable = true;
 
 	{
-		//LightInitialize(&light, D3DXVECTOR3(-10.0f, 20.0f, -10.0f));
 		//1パス目	シャドーバッファの作成
 		Renderer::BeginDepth();
 		Renderer::SetDepthViewPort();
 
-		LightInitialize(&light, /*GetScene()->GetPlayer()->transform->Position*/D3DXVECTOR3(-10.0f, 0.0, 0.0f));
-		//LightInitialize(&light, GetScene()->FindGameObject<PLAYERMODEL>()->transform->Position);
+		LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
 
 		//ライトカメラの行列をセット
 		Renderer::SetLight(light);
-		Renderer::SetViewMatrix(&light.viewMatrix);
 		Renderer::SetProjectionMatrix(&light.projectionMatrix);
+		Renderer::SetViewMatrix(&light.viewMatrix);
 
 		//影を落としたいオブジェクトを描画（一応地面も）
 		Scene->DepthPath();
@@ -126,18 +124,19 @@ void Manager::Update()
 
 void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 {
+	//Spot Light
 	light->Direction = D3DXVECTOR4(1.0f, -1.0f, 0.0f, 0.0f);
 	D3DXVec4Normalize(&light->Direction, &light->Direction);
 	light->Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	light->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//ライトカメラのビュー行列を作成
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(0.0f, 10.0f, -10.0f) + position;
+	D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 10.0f, 0.0f) + position;
 	D3DXVECTOR3 lightTarget = position;
 	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
 	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 10.0, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 50.0f);
+	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 20.0f);
 
 }

@@ -92,12 +92,12 @@ public:
 	void Update() override;
 	void Draw() override;
 
-	int GetHP() { return hp; }
+	float GetHP() { return hp; }
 	bool GetNoDamage() { return noDamage; }
 	bool GetInvincible() { return invincible; }
 
 	void SetDisable(bool value) { disable = value; }
-	void SetHP(int value) { hp = value; }
+	void SetHP(float value) { hp = value; }
 	void SetBarController(float* value) { barController = value; }
 	void SetObject(GAMEOBJECT* value) { object = value; }
 
