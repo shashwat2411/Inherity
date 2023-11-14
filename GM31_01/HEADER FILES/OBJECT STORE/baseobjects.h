@@ -1,6 +1,7 @@
 #pragma once
 #include "component.h"
-#include "../PRIVATE PATTERN/modelReader.h"
+#include "modelReader.h"
+#include "material.h"
 
 
 class EMPTYOBJECT : public GAMEOBJECT
@@ -359,77 +360,10 @@ public:
 
 public:
 
-	void Init() override
-	{
-		Initialize();
+	void Init() override;
+	void Update() override;
 
-		amount = 0.0f;
-		maxAmount = 100.0f;
-
-		transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT - 50.0f, 0.0f);
-		transform->Scale = D3DXVECTOR3(1.5f, 0.15f, 0.5f);
-
-		sprite = AddComponent<SpriteRenderer>();
-
-		SetBarType();
-	}
-	void Update() override
-	{
-		if (Input::GetKeyPress('Q')) { Amount(0.5f); }
-		if (Input::GetKeyPress('E')) { Amount(-0.5f); }
-
-		if (type == RIGHT)
-		{
-			sprite->barOffsetRight = ((maxAmount - amount) / maxAmount) * -(sprite->GetSize().x * transform->Scale.x * 2.0f);
-		}
-		else if (type == LEFT)
-		{
-			sprite->barOffsetLeft = ((maxAmount - amount) / maxAmount) * (sprite->GetSize().x * transform->Scale.x * 2.0f);
-		}
-		else if (type == MIDDLE)
-		{
-			sprite->barOffsetRight = ((maxAmount - amount) / maxAmount) * -(sprite->GetSize().x * transform->Scale.x);
-			sprite->barOffsetLeft = ((maxAmount - amount) / maxAmount) * (sprite->GetSize().x * transform->Scale.x);
-		}
-
-#ifdef DEBUG	// デバッグ情報を表示する
-		char* str = GetDebugStr();
-		//sprintf(&str[strlen(str)], " | Amount : %.2f", amount);
-		//sprintf(&str[strlen(str)], " | barOffsetRight : %.2f", sprite->barOffsetRight);
-		//sprintf(&str[strlen(str)], " | barOffsetLeft : %.2f", sprite->barOffsetLeft);
-#endif
-	}
-
-	void SetBarType(BAR_TYPE value = RIGHT)
-	{
-		type = value;
-
-		if (type == RIGHT)
-		{
-			sprite->barOffsetRight = -(sprite->GetSize().x * transform->Scale.x) * 2.0f;
-		}
-		else if (type == LEFT)
-		{
-			sprite->barOffsetLeft = (sprite->GetSize().x * transform->Scale.x) * 2.0f;
-		}
-		else if (type == MIDDLE)
-		{
-			sprite->barOffsetRight = -(sprite->GetSize().x * transform->Scale.x);
-			sprite->barOffsetLeft = (sprite->GetSize().x * transform->Scale.x);
-		}
-	}
-	void Amount(float value)
-	{
-		if (value >= 0.0f)
-		{
-			if ((amount + value) <= maxAmount) { amount += value; }
-			else { amount = maxAmount; }
-		}
-		else if (value < 0.0f)
-		{
-			if ((amount + value) >= 0.0f) { amount += value; }
-			else { amount = 0.0f; }
-		}
-	}
+	void SetBarType(BAR_TYPE value = RIGHT);
+	void Amount(float value);
 
 };

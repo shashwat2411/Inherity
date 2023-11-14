@@ -1,13 +1,7 @@
 #pragma once
 #include <unordered_map>
 
-#include "../MANAGEMENT FUNCTIONS/gameobject.h"
-#include "../MANAGEMENT FUNCTIONS/input.h"
-#include "../LOAD FUNCTIONS/animationModel.h"
-#include "../LOAD FUNCTIONS/model.h"
-#include "../PRIVATE PATTERN/textureReader.h"
-#include "../PRIVATE PATTERN/functions.h"
-#include "material.h"
+#include "gameobject.h"
 
 #include <xaudio2.h>
 #include <string>
@@ -18,6 +12,8 @@ class DIGIT;
 class SHADOW;
 class SCENE;
 class Material;
+class AnimationModel;
+class Model;
 
 #define COLLIDERS
 
@@ -218,58 +214,11 @@ public:
 	void Draw() override;
 
 	const char* GetCurrentAnimation() { return animationBlendName.c_str(); }
-	bool GetAnimationOver(const char* name)
-	{
-		if (animationBlendName == name)
-		{
-			return m_Model->over;
-		}
-	}
+	bool GetAnimationOver(const char* name);
 
-	void SetAnimationBlend(const char* name, bool lp = false, float speed = 0.05f)
-	{
-		if (animationBlendName != name)
-		{
-			loop = lp;
+	void SetAnimationBlend(const char* name, bool lp = false, float speed = 0.05f);
 
-			time = 0;
-			blendRate = 0.0f;
-
-			animationName = animationBlendName;
-			animationBlendName = name;
-
-			m_Model->over = false;
-		}
-	}
-
-	void SetFBX(bool value)
-	{
-		fbx = value;
-		if (fbx == true)
-		{
-			if (m_Model_obj != nullptr)
-			{
-				m_Model_obj = nullptr;
-				delete m_Model_obj;
-			}
-
-			m_Model = nullptr;
-			m_Model = new AnimationModel();
-			m_Model->over = false;
-
-		}
-		else
-		{
-			if (m_Model != nullptr)
-			{
-				m_Model = nullptr;
-				delete m_Model;
-			}
-
-			m_Model_obj = nullptr;
-			m_Model_obj = new Model();
-		}
-	}
+	void SetFBX(bool value);
 	bool GetFBX() { return fbx; }
 
 	void SetModel(AnimationModel* value) { SetFBX(true); m_Model = value; }

@@ -1,5 +1,6 @@
-#include "../OBJECT STORE/script.h"
-#include "../manager.h"
+#include "script.h"
+#include "manager.h"
+#include "input.h"
 
 MeshFilter* model;
 

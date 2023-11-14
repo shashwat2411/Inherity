@@ -1,6 +1,5 @@
-#include "../OBJECT STORE/component.h"
-#include "../manager.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
+#include "component.h"
+#include "manager.h"
 
 void Camera::Start()
 {

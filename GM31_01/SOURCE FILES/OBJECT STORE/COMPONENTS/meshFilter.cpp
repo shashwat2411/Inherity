@@ -1,6 +1,6 @@
-#include "../OBJECT STORE/component.h"
-#include "../manager.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
+#include "component.h"
+#include "manager.h"
+#include "material.h"
 
 void MeshFilter::Start()
 {
@@ -64,5 +64,58 @@ void MeshFilter::Draw()
 				m_Model_obj->Draw();
 			}
 		}
+	}
+}
+
+bool MeshFilter::GetAnimationOver(const char* name)
+{
+	if (animationBlendName == name)
+	{
+		return m_Model->over;
+	}
+}
+
+void MeshFilter::SetAnimationBlend(const char* name, bool lp, float speed)
+{
+	if (animationBlendName != name)
+	{
+		loop = lp;
+
+		time = 0;
+		blendRate = 0.0f;
+
+		animationName = animationBlendName;
+		animationBlendName = name;
+
+		m_Model->over = false;
+	}
+}
+
+void MeshFilter::SetFBX(bool value)
+{
+	fbx = value;
+	if (fbx == true)
+	{
+		if (m_Model_obj != nullptr)
+		{
+			m_Model_obj = nullptr;
+			delete m_Model_obj;
+		}
+
+		m_Model = nullptr;
+		m_Model = new AnimationModel();
+		m_Model->over = false;
+
+	}
+	else
+	{
+		if (m_Model != nullptr)
+		{
+			m_Model = nullptr;
+			delete m_Model;
+		}
+
+		m_Model_obj = nullptr;
+		m_Model_obj = new Model();
 	}
 }

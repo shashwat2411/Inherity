@@ -1,7 +1,7 @@
-#include "../OBJECT STORE/component.h"
-#include "../manager.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
-#include "../PRIVATE PATTERN/textureReader.h"
+#include "component.h"
+#include "manager.h"
+#include "material.h"
+
 
 void Billboard::Start()
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../renderer.h"
+#include "renderer.h"
 
 
 // マテリアル構造体

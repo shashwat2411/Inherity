@@ -1,4 +1,4 @@
-#include "../OBJECT STORE/component.h"
+#include "component.h"
 
 void Transform::Start()
 {

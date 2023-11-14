@@ -1,7 +1,5 @@
-
-#include "../main.h"
-#include "../renderer.h"
-#include "../OBJECT STORE/component.h"
+#include "component.h"
+#include "material.h"
 
 float g_FieldHeight[21][21] = 
 {

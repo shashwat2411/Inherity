@@ -1,7 +1,4 @@
-
-#include "../main.h"
-#include "../MANAGEMENT FUNCTIONS/input.h"
-
+#include "input.h"
 
 BYTE Input::m_OldKeyState[256];
 BYTE Input::m_KeyState[256];

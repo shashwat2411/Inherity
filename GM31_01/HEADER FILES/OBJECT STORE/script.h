@@ -1,6 +1,6 @@
 #pragma once
 #include "component.h"
-#include "../PRIVATE PATTERN/modelReader.h"
+#include "modelReader.h"
 
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
 

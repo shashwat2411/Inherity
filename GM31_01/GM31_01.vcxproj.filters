@@ -365,6 +365,9 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gameManager.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Bar.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
