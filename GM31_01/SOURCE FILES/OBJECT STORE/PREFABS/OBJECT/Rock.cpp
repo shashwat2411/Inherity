@@ -9,6 +9,7 @@ void ROCK::Start()
 
 	dissolveSpeed = 0.0075f;
 	dissolveThreshold = 0.0f;
+	GetMaterial()->SetFloat("_Threshold", dissolveThreshold);
 
 	transform->Position = D3DXVECTOR3(-4.0f, 1.0f, 0.0f);
 	transform->Scale = D3DXVECTOR3(5.0f, 5.0f, 5.0f);

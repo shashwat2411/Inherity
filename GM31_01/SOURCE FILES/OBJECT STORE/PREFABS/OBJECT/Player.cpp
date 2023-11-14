@@ -1,4 +1,4 @@
-#include "../OBJECT STORE/prefab.h"
+#include "prefab.h"
 
 void PLAYER::Start()
 {
@@ -6,7 +6,7 @@ void PLAYER::Start()
 
 	//AddComponent<SphereCollider>();
 	AddComponent<PlayerMovement>();
-	//AddComponent<PlayerControl>();
+	AddComponent<PlayerControl>();
 	//AddComponent<Ground>();
 
 	freezeY = true;

@@ -71,8 +71,8 @@ public:
 	{
 		*var += deltaTime;
 
-		//char* str = GetDebugStr();
-		//sprintf(&str[strlen(str)], " | Time : %.2f", *var);
+		char* str = GetDebugStr();
+		sprintf(&str[strlen(str)], " | Time : %.2f", *var);
 
 		if (*var > time) { return true; }
 		else { return false; }

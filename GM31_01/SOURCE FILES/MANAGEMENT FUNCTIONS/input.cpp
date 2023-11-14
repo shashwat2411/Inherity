@@ -77,6 +77,7 @@ bool Input::GetButtonTrigger(KEYMAPPING value)
 	for (int i = 0; i < input[value].size(); i++)
 	{
 		v = GetKeyTrigger(input[value][i]);
+		if (v == true) { return v; }
 	}
 	return v;
 }
