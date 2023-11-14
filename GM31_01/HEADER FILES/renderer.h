@@ -82,6 +82,15 @@ enum CULL_MODE
 	CULL_MODE_NUM
 };
 
+enum SAMPLER_STATE
+{
+	SAMPLER_STATE_WRAP,
+	SAMPLER_STATE_CLAMP,
+	SAMPLER_STATE_MIRROR,
+
+	SAMPLER_STATE_MAX
+};
+
 class Renderer
 {
 private:
@@ -102,6 +111,10 @@ private:
 	static ID3D11Buffer*			m_LightBuffer;
 	static ID3D11Buffer*			m_CameraBuffer;
 	static ID3D11Buffer*			m_ParameterBuffer;
+
+	static ID3D11SamplerState*		m_samplerState_W;
+	static ID3D11SamplerState*		m_samplerState_C;
+	static ID3D11SamplerState*		m_samplerState_M;
 
 
 	static ID3D11DepthStencilState* m_DepthStateEnable;
@@ -133,12 +146,12 @@ public:
 
 	static void SetCameraPosition(D3DXVECTOR3 CameraPosition);
 	static void SetParameter(PARAMETER param);
+	static void SetSamplerState(SAMPLER_STATE sampler);
 
 	static ID3D11Device* GetDevice(void) { return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext(void) { return m_DeviceContext; }
 	static ID3D11RenderTargetView** GetRendererTargetView(void) { return &m_RenderTargetView; }
 	static ID3D11ShaderResourceView* GetDepthShadowTexture() { return m_DepthShadowShaderResourceView; }
-
 
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);

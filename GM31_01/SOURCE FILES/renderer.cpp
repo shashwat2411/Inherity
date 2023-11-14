@@ -20,6 +20,10 @@ ID3D11Buffer*			Renderer::m_LightBuffer{};
 ID3D11Buffer*			Renderer::m_CameraBuffer = NULL;
 ID3D11Buffer*			Renderer::m_ParameterBuffer = NULL;
 
+ID3D11SamplerState*		Renderer::m_samplerState_W{};
+ID3D11SamplerState*		Renderer::m_samplerState_C{};
+ID3D11SamplerState*		Renderer::m_samplerState_M{};
+
 
 ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
 ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
@@ -193,22 +197,52 @@ void Renderer::Init()
 
 
 	// サンプラーステート設定
-	D3D11_SAMPLER_DESC samplerDesc{};
-	ZeroMemory(&samplerDesc, sizeof(samplerDesc));
-	samplerDesc.Filter = D3D11_FILTER_ANISOTROPIC;
-	samplerDesc.AddressU = D3D11_TEXTURE_ADDRESS_WRAP; // CLAMP , MIRROR
-	samplerDesc.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
-	samplerDesc.MipLODBias = 0;
-	samplerDesc.MaxAnisotropy = 16;
-	samplerDesc.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
-	samplerDesc.MinLOD = 0;
-	samplerDesc.MaxLOD = D3D11_FLOAT32_MAX;
+	D3D11_SAMPLER_DESC samplerDesc_W{};
+	ZeroMemory(&samplerDesc_W, sizeof(samplerDesc_W));
+	samplerDesc_W.Filter = D3D11_FILTER_ANISOTROPIC;
+	samplerDesc_W.AddressU = D3D11_TEXTURE_ADDRESS_WRAP; // CLAMP , MIRROR
+	samplerDesc_W.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc_W.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+	samplerDesc_W.MipLODBias = 0;
+	samplerDesc_W.MaxAnisotropy = 16;
+	samplerDesc_W.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc_W.MinLOD = 0;
+	samplerDesc_W.MaxLOD = D3D11_FLOAT32_MAX;
 
-	ID3D11SamplerState* samplerState{};
-	m_Device->CreateSamplerState(&samplerDesc, &samplerState);
+	m_Device->CreateSamplerState(&samplerDesc_W, &m_samplerState_W);
 
-	m_DeviceContext->PSSetSamplers(0, 1, &samplerState);
+	// サンプラーステート設定
+	D3D11_SAMPLER_DESC samplerDesc_C{};
+	ZeroMemory(&samplerDesc_C, sizeof(samplerDesc_C));
+	samplerDesc_C.Filter = D3D11_FILTER_ANISOTROPIC;
+	samplerDesc_C.AddressU = D3D11_TEXTURE_ADDRESS_CLAMP; // CLAMP , MIRROR
+	samplerDesc_C.AddressV = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc_C.AddressW = D3D11_TEXTURE_ADDRESS_CLAMP;
+	samplerDesc_C.MipLODBias = 0;
+	samplerDesc_C.MaxAnisotropy = 16;
+	samplerDesc_C.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc_C.MinLOD = 0;
+	samplerDesc_C.MaxLOD = D3D11_FLOAT32_MAX;
+
+	m_Device->CreateSamplerState(&samplerDesc_C, &m_samplerState_C);
+
+	// サンプラーステート設定
+	D3D11_SAMPLER_DESC samplerDesc_M{};
+	ZeroMemory(&samplerDesc_M, sizeof(samplerDesc_M));
+	samplerDesc_M.Filter = D3D11_FILTER_ANISOTROPIC;
+	samplerDesc_M.AddressU = D3D11_TEXTURE_ADDRESS_MIRROR; // CLAMP , MIRROR
+	samplerDesc_M.AddressV = D3D11_TEXTURE_ADDRESS_MIRROR;
+	samplerDesc_M.AddressW = D3D11_TEXTURE_ADDRESS_MIRROR;
+	samplerDesc_M.MipLODBias = 0;
+	samplerDesc_M.MaxAnisotropy = 16;
+	samplerDesc_M.ComparisonFunc = D3D11_COMPARISON_ALWAYS;
+	samplerDesc_M.MinLOD = 0;
+	samplerDesc_M.MaxLOD = D3D11_FLOAT32_MAX;
+
+	m_Device->CreateSamplerState(&samplerDesc_M, &m_samplerState_M);
+
+	m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_W);
+	//こいつを3つ分用意して、描画のところに切り替えてる
 
 
 	{
@@ -468,7 +502,21 @@ void Renderer::SetParameter(PARAMETER param)
 	m_DeviceContext->UpdateSubresource(m_ParameterBuffer, 0, NULL, &param, 0, 0);
 }
 
-
+void Renderer::SetSamplerState(SAMPLER_STATE sampler)
+{
+	switch (sampler)
+	{
+	case SAMPLER_STATE_WRAP:
+		m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_W);
+		break;
+	case SAMPLER_STATE_CLAMP:
+		m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_C);
+		break;
+	case SAMPLER_STATE_MIRROR:
+		m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_M);
+		break;
+	}
+}
 
 
 void Renderer::CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName)

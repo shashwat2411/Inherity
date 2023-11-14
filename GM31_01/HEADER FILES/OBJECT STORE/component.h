@@ -289,6 +289,8 @@ private:
 	float CollisionSize;
 
 public:
+	float scaleOffset;
+
 	GAMEOBJECT* collider = nullptr;
 
 public:

@@ -134,7 +134,7 @@ void PlayerMovement::UpdateGround()
 	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
 
-	if		(Input::GetKeyPress('W'))	{ directionZ = gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 0.0f;	}
+	if		(Input::GetButtonPress(Input::QK_FORWARD))	{ directionZ = gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 0.0f;	}
 	else if (Input::GetKeyPress('S'))	{ directionZ = -gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 180.0f;	}
 	if		(Input::GetKeyPress('A'))	{ directionX = -gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 270.0f;	}
 	else if (Input::GetKeyPress('D'))	{ directionX = gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 90.0f;	}
