@@ -1,4 +1,5 @@
-#include "../OBJECT STORE/component.h"
+#include "component.h"
+#include "input.h"
 
 void OpenWorldCamera::Update()
 {

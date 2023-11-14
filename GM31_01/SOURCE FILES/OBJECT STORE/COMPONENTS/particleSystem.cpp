@@ -1,7 +1,6 @@
-#include "../OBJECT STORE/component.h"
-#include "../OBJECT STORE/baseobjects.h"
-#include "../manager.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
+#include "baseobjects.h"
+#include "manager.h"
+#include "textureReader.h"
 
 void ParticleSystem::Start()
 {

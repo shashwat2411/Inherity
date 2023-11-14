@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm>
 
-#include "../OBJECT STORE/prefab.h"
+#include "prefab.h"
 
 #define GAME_OBJECT_MAX 64 
 

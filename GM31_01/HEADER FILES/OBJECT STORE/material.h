@@ -1,8 +1,8 @@
 #pragma once
 #include <unordered_map>
 
-#include "../MANAGEMENT FUNCTIONS/gameobject.h"
-#include "../PRIVATE PATTERN/textureReader.h"
+#include "gameobject.h"
+#include "textureReader.h"
 #include "functions.h"
 
 class Material

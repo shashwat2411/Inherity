@@ -1,5 +1,5 @@
 #pragma once
-#include "../MANAGEMENT FUNCTIONS/scene.h"
+#include "scene.h"
 
 class Manager
 {

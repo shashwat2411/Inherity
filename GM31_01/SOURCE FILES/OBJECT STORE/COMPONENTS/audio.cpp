@@ -1,6 +1,5 @@
-#include "../OBJECT STORE/component.h"
-#include "../manager.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
+#include "component.h"
+#include "manager.h"
 
 IXAudio2*				Audio::m_Xaudio = NULL;
 IXAudio2MasteringVoice*	Audio::m_MasteringVoice = NULL;

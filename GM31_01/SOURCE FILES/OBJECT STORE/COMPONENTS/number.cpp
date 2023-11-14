@@ -1,5 +1,5 @@
-#include "../OBJECT STORE/component.h"
-#include "../OBJECT STORE/baseobjects.h"
+#include "component.h"
+#include "baseobjects.h"
 
 void Number::Start()
 {

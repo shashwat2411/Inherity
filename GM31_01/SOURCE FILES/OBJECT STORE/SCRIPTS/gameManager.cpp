@@ -1,6 +1,7 @@
 #include "script.h"
 #include "manager.h"
 #include "prefab.h"
+#include "input.h"
 
 void GameManager::Start()	
 {

@@ -1,4 +1,5 @@
-#include "../OBJECT STORE/component.h"
+#include "component.h"
+#include "material.h"
 
 void Plane::Start()
 {

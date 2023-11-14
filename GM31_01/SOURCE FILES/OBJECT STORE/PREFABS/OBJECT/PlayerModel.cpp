@@ -1,4 +1,5 @@
-#include "../OBJECT STORE/prefab.h"
+#include "prefab.h"
+#include "input.h"
 
 void PLAYERMODEL::Start()
 {

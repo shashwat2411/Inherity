@@ -3,8 +3,9 @@
 #include <vector>
 #include <array>
 
-#include "../main.h"
-#include "../renderer.h"
+#include "main.h"
+#include "renderer.h"
+#include "functions.h"
 
 #define MAX_AFTERIMAGES 1
 
