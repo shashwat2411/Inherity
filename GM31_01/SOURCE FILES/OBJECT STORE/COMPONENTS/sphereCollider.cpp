@@ -11,13 +11,14 @@ void SphereCollider::Start()
 	isKinematic = false;
 
 	CollisionSize = 1.0f;
+	scaleOffset = 1.0f;
 
 	//----------------------------------------------------------------
 	collider = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>(COLLIDER_LAYER);
 	collider->Parent = gameObject;
 
 	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
-	collider->transform->Scale = D3DXVECTOR3(size, size, size);
+	collider->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
 
 #ifdef DEBUG
 	collider->GetComponent<MeshFilter>()->SetEnabled(true);
@@ -33,7 +34,7 @@ void SphereCollider::End()
 void SphereCollider::Update()
 {
 	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
-	collider->transform->Scale = D3DXVECTOR3(size, size, size);
+	collider->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
 
 #ifdef DEBUG
 	//char* str = GetDebugStr();

@@ -327,6 +327,8 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 		aiVector3D pos1;
 		if (nodeAnim1)
 		{
+			//üŒ`•ÛŠÇ‚Ì‘½ŽY‚ðŽ©•ª‚Å‚â‚é
+
 			f = Frame1 % nodeAnim1->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
 			rot1 = nodeAnim1->mRotationKeys[f].mValue;
 
@@ -525,7 +527,9 @@ void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	worldMatrix *= matrix;
 	worldMatrix *= bone->AnimationMatrix;
 
-	bone->Matrix = worldMatrix;
+	bone->Matrix = worldMatrix;//©‚±‚¢‚Â‚ª•K—v
+	bone->worldMatrix = worldMatrix;
+
 	bone->Matrix *= bone->OffsetMatrix;
 
 	for (unsigned int n = 0; n < node->mNumChildren; n++)

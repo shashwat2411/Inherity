@@ -128,7 +128,7 @@ void GAMEOBJECT::Draw()
 				if (parentMatrixEnable == true)
 				{
 					D3DXMATRIX temp;
-					D3DXMatrixMultiply(&temp, &Parent->GetWorldMatrix(), &parentMatrix);
+					D3DXMatrixMultiply(&temp, &parentMatrix, &Parent->GetWorldMatrix());
 
 					D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->Position, &temp); //Global Position
 					D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &temp); //World = World * Parent->World
@@ -139,7 +139,7 @@ void GAMEOBJECT::Draw()
 					D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &Parent->GetWorldMatrix()); //World = World * Parent->World
 				}
 			}
-			else /*if(parentMatrixEnable == false)*/ { transform->GlobalPosition = transform->Position; }
+			else { transform->GlobalPosition = transform->Position; }
 
 			//if (parentMatrixEnable == true)
 			//{

@@ -142,6 +142,6 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
 	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 50.0f);
+	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 10.0, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 50.0f);
 
 }

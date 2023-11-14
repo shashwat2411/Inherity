@@ -28,7 +28,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		{
 			float depth2 = g_TextureDepthShadow1.Sample(g_SamplerState, In.ShadowPosition.xy + float2(x, y) * texelSize);
 
-			if (depth2 < In.ShadowPosition.z - 0.01f)
+			if (depth2 < In.ShadowPosition.z - 0.001f)
 			{
 				total += 1.0f;
 			}

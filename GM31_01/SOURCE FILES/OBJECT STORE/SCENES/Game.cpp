@@ -145,11 +145,11 @@ void GAME_SCENE::Update()
 
 	if (Input::GetKeyTrigger(VK_RETURN)) { end = true; }
 
-	if (Input::GetKeyPress('Q')) { Water->transform->Position.y += 0.01f; }
-	if (Input::GetKeyPress('E')) { Water->transform->Position.y -= 0.01f; }
-
-	if (Input::GetKeyPress('R')) { Water->transform->Rotation.x += 0.01f; }
-	if (Input::GetKeyPress('T')) { Water->transform->Rotation.x -= 0.01f; }
+	//if (Input::GetKeyPress('Q')) { Water->transform->Position.y += 0.01f; }
+	//if (Input::GetKeyPress('E')) { Water->transform->Position.y -= 0.01f; }
+	//
+	//if (Input::GetKeyPress('R')) { Water->transform->Rotation.x += 0.01f; }
+	//if (Input::GetKeyPress('T')) { Water->transform->Rotation.x -= 0.01f; }
 
 	cube->SetColor(D3DXCOLOR(r, g, b, 1.0f));
 
@@ -164,8 +164,8 @@ void GAME_SCENE::Update()
 	char* str = GetDebugStr();
 	//sprintf(&str[strlen(str)], " |||  Number : %d, Player_L_Joint1 x : %.2f, y : %.2f, z : %.2f", GameObjects[SHADOW_LAYER].Size(), PlayerModel->L_joint1->transform->Position.x, PlayerModel->L_joint1->transform->Position.y, PlayerModel->L_joint1->transform->Position.z);
 	//sprintf(&str[strlen(str)], " | Player_L_arm1  x : %.2f, y : %.2f, z : %.2f", PlayerModel->L_arm1->transform->Position.x, PlayerModel->L_arm1->transform->Position.y, PlayerModel->L_arm1->transform->Position.z);
-	sprintf(&str[strlen(str)], " | Water Y : %.2f", Water->transform->Position.y);
-	sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
+	//sprintf(&str[strlen(str)], " | Water Y : %.2f", Water->transform->Position.y);
+	//sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
 	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
 #endif
 }
