@@ -1,6 +1,5 @@
-#include "../OBJECT STORE/script.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
-#include "../manager.h"
+#include "script.h"
+#include "manager.h"
 
 void BulletScript::Start()
 {

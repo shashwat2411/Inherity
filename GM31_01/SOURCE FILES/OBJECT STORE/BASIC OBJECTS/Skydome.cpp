@@ -1,5 +1,5 @@
-#include "../OBJECT STORE/baseobjects.h"
-#include "../manager.h"
+#include "baseobjects.h"
+#include "manager.h"
 
 void SKYDOME::Init()
 {

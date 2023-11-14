@@ -1,5 +1,5 @@
 #pragma once
-#include "../main.h"
+#include "main.h"
 #include "../assimp/matrix4x4.h"
 
 class Mathf

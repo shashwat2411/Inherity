@@ -1,14 +1,10 @@
-#include "../main.h"
-#include "../manager.h"
-#include "../renderer.h"
-#include "../MANAGEMENT FUNCTIONS/input.h"
-#include "../OBJECT STORE/customScenes.h"
-#include "../OBJECT STORE/component.h"
-#include "../PRIVATE PATTERN/textureReader.h"
-#include "../PRIVATE PATTERN/soundReader.h"
-#include "../PRIVATE PATTERN/modelReader.h"
-#include "../PRIVATE PATTERN/functions.h"
-#include "../MANAGEMENT FUNCTIONS/debugManager.h"
+#include "main.h"
+#include "renderer.h"
+#include "customScenes.h"
+#include "textureReader.h"
+#include "soundReader.h"
+#include "modelReader.h"
+#include "debugManager.h"
 
 
 SCENE* Manager::Scene{};	//staticƒƒ“ƒo•Ï”‚ÍÄéŒ¾‚ª•K—v

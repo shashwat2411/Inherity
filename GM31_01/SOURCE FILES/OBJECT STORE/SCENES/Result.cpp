@@ -1,4 +1,4 @@
-#include "../OBJECT STORE/customScenes.h"
+#include "customScenes.h"
 
 void RESULT_SCENE::Init()
 {

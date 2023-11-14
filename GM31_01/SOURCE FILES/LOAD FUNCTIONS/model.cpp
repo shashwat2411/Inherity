@@ -3,9 +3,9 @@
 #include <shlwapi.h>
 #pragma comment(lib, "shlwapi.lib")
 
-#include "../main.h"
-#include "../renderer.h"
-#include "../LOAD FUNCTIONS/model.h"
+#include "main.h"
+#include "renderer.h"
+#include "model.h"
 
 
 

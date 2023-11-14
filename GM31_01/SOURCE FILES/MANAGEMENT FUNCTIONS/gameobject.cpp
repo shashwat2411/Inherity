@@ -1,10 +1,8 @@
-#include "../MANAGEMENT FUNCTIONS/gameobject.h"
-#include "../OBJECT STORE/component.h"
-#include "../OBJECT STORE/material.h"
-#include "../manager.h"
-#include "../MANAGEMENT FUNCTIONS/scene.h"
-#include "../OBJECT STORE/prefab.h"
-#include "../OBJECT STORE/material.h"
+#include "gameobject.h"
+#include "component.h"
+#include "material.h"
+#include "manager.h"
+#include "material.h"
 
 void GAMEOBJECT::Initialize()
 {

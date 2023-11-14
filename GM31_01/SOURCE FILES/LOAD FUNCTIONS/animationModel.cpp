@@ -1,6 +1,6 @@
-#include "../main.h"
-#include "../renderer.h"
-#include "../LOAD FUNCTIONS/animationModel.h"
+#include "main.h"
+#include "renderer.h"
+#include "animationModel.h"
 #include "functions.h"
 
 

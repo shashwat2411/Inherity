@@ -1,4 +1,4 @@
-#include "../OBJECT STORE/prefab.h"
+#include "prefab.h"
 
 void TREE::Start()
 {
