@@ -23,7 +23,6 @@ void PLAYERMODEL::Start()
 	transform->Scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
 
 	collider = AddComponent<SphereCollider>();
-	collider->collider->SetDepthShadow(true);
 
 	//collider->collider->Parent = nullptr;
 	collider->collider->parentMatrixEnable = true;
@@ -41,17 +40,10 @@ void PLAYERMODEL::Update()
 {
 	collider->collider->parentMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone()["mixamorig:LeftHand"].worldMatrix);
 
-	if (Input::GetKeyPress('1')) { collider->collider->transform->Position.x += 3.0f; }
-	if (Input::GetKeyPress('2')) { collider->collider->transform->Position.x -= 3.0f; }
-	if (Input::GetKeyPress('3')) { collider->collider->transform->Position.y += 3.0f; }
-	if (Input::GetKeyPress('4')) { collider->collider->transform->Position.y -= 3.0f; }
-	if (Input::GetKeyPress('5')) { collider->collider->transform->Position.z += 3.0f; }
-	if (Input::GetKeyPress('6')) { collider->collider->transform->Position.z -= 3.0f; }
-
 #ifdef DEBUG
-	D3DXVECTOR3 pos = collider->collider->transform->Position;
-
-	char* str = GetDebugStr();
-	sprintf(&str[strlen(str)], " | COLLIDER | Position [ X : %.2f, Y : %0.2f, Z : %0.2f ]", pos.x, pos.y, pos.z);
+	//D3DXVECTOR3 pos = collider->collider->transform->Position;
+	//
+	//char* str = GetDebugStr();
+	//sprintf(&str[strlen(str)], " | COLLIDER | Position [ X : %.2f, Y : %0.2f, Z : %0.2f ]", pos.x, pos.y, pos.z);
 #endif
 }
