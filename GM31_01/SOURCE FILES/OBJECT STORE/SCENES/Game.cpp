@@ -97,6 +97,7 @@ void GAME_SCENE::Init()
 		Water->transform->Position = D3DXVECTOR3(0.0f, 0.29f, 0.0f);
 		Water->transform->Rotation = D3DXVECTOR3(1.44f, 0.0f, 0.0f);
 		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
+		Water->SetDepthShadow(false);
 		Water->meshField->RecreateField();
 
 		cube->transform->Position.y = 2.0f;

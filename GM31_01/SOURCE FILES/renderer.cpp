@@ -3,6 +3,7 @@
 #include "renderer.h"
 #include <io.h>
 
+#define MULTI_SAMPLE_ANTI_ALIASING 8
 
 D3D_FEATURE_LEVEL       Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
@@ -58,7 +59,13 @@ void Renderer::Init()
 	swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
 	swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	swapChainDesc.OutputWindow = GetWindow();
-	swapChainDesc.SampleDesc.Count = 1;
+
+#ifdef MULTI_SAMPLE_ANTI_ALIASING
+	swapChainDesc.SampleDesc.Count = MULTI_SAMPLE_ANTI_ALIASING;	//Multiple Anti Aliasing ( 8 ) // Default ( 1 )
+#else
+	swapChainDesc.SampleDesc.Count = 1;	//Multiple Anti Aliasing ( 8 ) // Default ( 1 )
+#endif
+
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.Windowed = TRUE;
 
@@ -107,13 +114,20 @@ void Renderer::Init()
 	D3D11_DEPTH_STENCIL_VIEW_DESC depthStencilViewDesc{};
 	ZeroMemory(&depthStencilViewDesc, sizeof(depthStencilViewDesc));
 	depthStencilViewDesc.Format = textureDesc.Format;
-	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+#ifdef MULTI_SAMPLE_ANTI_ALIASING
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2DMS; //MAA ( D3D11_DSV_DIMENSION_TEXTURE2DMS ) //Default ( D3D11_DSV_DIMENSION_TEXTURE2D )
+#else
+	depthStencilViewDesc.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D; //MAA ( D3D11_DSV_DIMENSION_TEXTURE2DMS ) //Default ( D3D11_DSV_DIMENSION_TEXTURE2D )
+#endif
+
 	depthStencilViewDesc.Flags = 0;
 	m_Device->CreateDepthStencilView(depthStencile, &depthStencilViewDesc, &m_DepthStencilView);
 	depthStencile->Release();
 
 
 	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
+
 
 	// ビューポート設定
 	D3D11_VIEWPORT viewport;
@@ -242,10 +256,13 @@ void Renderer::Init()
 	m_Device->CreateSamplerState(&samplerDesc_M, &m_samplerState_M);
 
 	m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_W);
+	m_DeviceContext->PSSetSamplers(1, 1, &m_samplerState_C);
 	//こいつを3つ分用意して、描画のところに切り替えてる
 
 
 	{
+		swapChainDesc.SampleDesc.Count = 1;
+
 		//シャドーバッファー作成
 		ID3D11Texture2D* depthTexture = NULL;
 		D3D11_TEXTURE2D_DESC td;
@@ -255,7 +272,7 @@ void Renderer::Init()
 		td.MipLevels = 1;
 		td.ArraySize = 1;
 		td.Format = DXGI_FORMAT_R32_TYPELESS;	//32bit の自由な形式のデータとする
-		td.SampleDesc = swapChainDesc.SampleDesc;
+		td.SampleDesc = swapChainDesc.SampleDesc;//
 		td.Usage = D3D11_USAGE_DEFAULT;	//	↓デプス＆ステンシルバッファとして作成
 		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
 		td.CPUAccessFlags = 0;
@@ -278,6 +295,8 @@ void Renderer::Init()
 		m_Device->CreateShaderResourceView(depthTexture, &srvd, &m_DepthShadowShaderResourceView);
 
 		depthTexture->Release();
+
+		swapChainDesc.SampleDesc.Count = MULTI_SAMPLE_ANTI_ALIASING;
 	}
 
 	// 定数バッファ生成
@@ -502,18 +521,18 @@ void Renderer::SetParameter(PARAMETER param)
 	m_DeviceContext->UpdateSubresource(m_ParameterBuffer, 0, NULL, &param, 0, 0);
 }
 
-void Renderer::SetSamplerState(SAMPLER_STATE sampler)
+void Renderer::SetSamplerState(SAMPLER_STATE sampler, int i)
 {
 	switch (sampler)
 	{
 	case SAMPLER_STATE_WRAP:
-		m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_W);
+		m_DeviceContext->PSSetSamplers(i, 1, &m_samplerState_W);
 		break;
 	case SAMPLER_STATE_CLAMP:
-		m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_C);
+		m_DeviceContext->PSSetSamplers(i, 1, &m_samplerState_C);
 		break;
 	case SAMPLER_STATE_MIRROR:
-		m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_M);
+		m_DeviceContext->PSSetSamplers(i, 1, &m_samplerState_M);
 		break;
 	}
 }

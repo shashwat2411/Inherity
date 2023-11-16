@@ -67,7 +67,7 @@ bool Input::GetButtonPress(KEYMAPPING value)
 		v = GetKeyPress(input[value][i]);
 		if (v == true) { return v; }
 	}
-	return v;
+	return false;
 }
 
 bool Input::GetButtonTrigger(KEYMAPPING value)
@@ -79,5 +79,5 @@ bool Input::GetButtonTrigger(KEYMAPPING value)
 		v = GetKeyTrigger(input[value][i]);
 		if (v == true) { return v; }
 	}
-	return v;
+	return false;
 }

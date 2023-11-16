@@ -25,6 +25,7 @@ public:
 		//PREFAB MODELS
 		THE_BOSS_M,
 		ROCK_M,
+		//ENEM_M,
 
 		READ_MODEL_FBX_MAX
 	};
@@ -44,12 +45,13 @@ public:
 		ModelsOBJ[CUBE_M].Load("asset\\model\\Cube1.obj");
 
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
-		ModelsOBJ[ENEMY_M].Load("asset\\model\\Explode.obj");
+		ModelsOBJ[ENEMY_M].Load("asset\\model\\Explode2.obj");
 
 
 		//FBX
 		ModelsFBX[THE_BOSS_M].Load("asset\\model\\The Boss.fbx");
 		ModelsFBX[ROCK_M].Load("asset\\model\\rock.fbx");
+		//ModelsFBX[ENEM_M].Load("asset\\model\\Explode.fbx");
 
 
 		//ANIMATION

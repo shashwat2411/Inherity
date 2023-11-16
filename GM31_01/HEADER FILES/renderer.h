@@ -146,7 +146,7 @@ public:
 
 	static void SetCameraPosition(D3DXVECTOR3 CameraPosition);
 	static void SetParameter(PARAMETER param);
-	static void SetSamplerState(SAMPLER_STATE sampler);
+	static void SetSamplerState(SAMPLER_STATE sampler, int i = 0);
 
 	static ID3D11Device* GetDevice(void) { return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext(void) { return m_DeviceContext; }
