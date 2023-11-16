@@ -40,3 +40,9 @@
 		https://docs.unity3d.com/ja/2019.3/Manual/OcclusionCulling.html
 		https://docs.unrealengine.com/5.3/ja/visibility-and-occlusion-culling-in-unreal-engine/
 	・ GPU Driven Rendering
+
+●Anti Aliasing
+	・ Super Sampling Anti Aliasing (4 x rendering)
+	・ Multi Sample Anti Aliasing
+	・ Fast Approximate Anti Aliasing
+	・ Temporal Anti Aliasing

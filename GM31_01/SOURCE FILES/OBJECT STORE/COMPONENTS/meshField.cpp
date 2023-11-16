@@ -194,7 +194,6 @@ void MeshField::Draw()
 
 	// ƒ|ƒŠƒSƒ“•`‰æ
 	Renderer::GetDeviceContext()->DrawIndexed(((TILES + 2) * 2) * TILES - 2, 0, 0);
-
 }
 
 float MeshField::GetHeight(D3DXVECTOR3 position)

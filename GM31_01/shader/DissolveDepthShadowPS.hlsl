@@ -5,6 +5,7 @@ Texture2D g_Texture : register(t0);
 Texture2D g_DissolveTexture : register(t1);
 Texture2D g_TextureDepthShadow1 : register(t2);
 SamplerState g_SamplerState : register(s0);
+SamplerState g_SamplerState1 : register(s1);
 
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
@@ -49,7 +50,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		{
 			for (int y = -pcfCount; y <= pcfCount; y++)
 			{
-				float depth2 = g_TextureDepthShadow1.Sample(g_SamplerState, In.ShadowPosition.xy + float2(x, y) * texelSize);
+				float depth2 = g_TextureDepthShadow1.Sample(g_SamplerState1, In.ShadowPosition.xy + float2(x, y) * texelSize);
 
 				if (depth2 < In.ShadowPosition.z - 0.001f)
 				{

@@ -4,7 +4,7 @@
 #include "functions.h"
 
 
-//#define INTERPOLATE
+#define INTERPOLATE
 
 
 void AnimationModel::Draw()
@@ -323,6 +323,7 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 		}
 
 		int f;
+		int f1;
 
 		float frame1 = (float)Frame1;
 		float frame2 = (float)Frame2;
@@ -356,17 +357,22 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 			pos_a1 = nodeAnim1->mPositionKeys[f].mValue;
 
 			//2
+			int f_max = ((f + 1) >= (nodeAnim2->mNumRotationKeys) ? 0 : (f + 1));
+
 			f = Frame1 % nodeAnim1->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
-			rot_a2 = nodeAnim1->mRotationKeys[f + 1].mValue;
+			f1 = (f + 1) % nodeAnim1->mNumRotationKeys;
+			rot_a2 = nodeAnim1->mRotationKeys[f1].mValue;
 
 			f = Frame1 % nodeAnim1->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
-			pos_a2 = nodeAnim1->mPositionKeys[f + 1].mValue;
+			f1 = (f + 1) % nodeAnim1->mNumRotationKeys;
+			pos_a2 = nodeAnim1->mPositionKeys[f1].mValue;
 
 
-			rot_a.x = rot_a1.x + (dt * (rot_a2.x - rot_a1.x));
-			rot_a.y = rot_a1.y + (dt * (rot_a2.y - rot_a1.y));
-			rot_a.z = rot_a1.z + (dt * (rot_a2.z - rot_a1.z));
-			rot_a.w = rot_a1.w + (dt * (rot_a2.w - rot_a1.w));
+			//rot_a.x = rot_a1.x + (dt * (rot_a2.x - rot_a1.x));
+			//rot_a.y = rot_a1.y + (dt * (rot_a2.y - rot_a1.y));
+			//rot_a.z = rot_a1.z + (dt * (rot_a2.z - rot_a1.z));
+			//rot_a.w = rot_a1.w + (dt * (rot_a2.w - rot_a1.w));
+			aiQuaternion::Interpolate(rot_a, rot_a1, rot_a2, dt);
 
 			pos_a.x = pos_a1.x + (dt * (pos_a2.x - pos_a1.x));
 			pos_a.y = pos_a1.y + (dt * (pos_a2.y - pos_a1.y));
@@ -401,16 +407,19 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 			pos_b1 = nodeAnim2->mPositionKeys[f].mValue;
 
 			//2
-			f = Frame1 % nodeAnim2->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
-			rot_b2 = nodeAnim2->mRotationKeys[f + 1].mValue;
+			f = Frame2 % nodeAnim2->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
+			f1 = (f + 1) % nodeAnim2->mNumRotationKeys;
+			rot_b2 = nodeAnim2->mRotationKeys[f1].mValue;
 
-			f = Frame1 % nodeAnim2->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
-			pos_b2 = nodeAnim2->mPositionKeys[f + 1].mValue;
+			f = Frame2 % nodeAnim2->mNumPositionKeys;//ŠÈˆÕŽÀ‘•
+			f1 = (f + 1) % nodeAnim2->mNumRotationKeys;
+			pos_b2 = nodeAnim2->mPositionKeys[f1].mValue;
 
-			rot_b.x = rot_b1.x + (dt * (rot_b2.x - rot_b1.x));
-			rot_b.y = rot_b1.y + (dt * (rot_b2.y - rot_b1.y));
-			rot_b.z = rot_b1.z + (dt * (rot_b2.z - rot_b1.z));
-			rot_b.w = rot_b1.w + (dt * (rot_b2.w - rot_b1.w));
+			//rot_b.x = rot_b1.x + (dt * (rot_b2.x - rot_b1.x));
+			//rot_b.y = rot_b1.y + (dt * (rot_b2.y - rot_b1.y));
+			//rot_b.z = rot_b1.z + (dt * (rot_b2.z - rot_b1.z));
+			//rot_b.w = rot_b1.w + (dt * (rot_b2.w - rot_b1.w));
+			aiQuaternion::Interpolate(rot_b, rot_b1, rot_b2, dt);
 
 			pos_b.x = pos_b1.x + (dt * (pos_b2.x - pos_b1.x));
 			pos_b.y = pos_b1.y + (dt * (pos_b2.y - pos_b1.y));
