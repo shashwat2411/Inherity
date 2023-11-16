@@ -33,11 +33,11 @@ public:
 		TITLE_BG_T,
 		RESULT_BG_T,
 
-		READ_TEXUTRE_MAX
+		READ_TEXTURE_MAX
 	};
 
 private:
-	static ID3D11ShaderResourceView* Textures[READ_TEXUTRE_MAX];
+	static ID3D11ShaderResourceView* Textures[READ_TEXTURE_MAX];
 
 public:
 	static void ReadTexture()
@@ -66,7 +66,7 @@ public:
 
 	static void UnReadTexture()
 	{
-		for (int i = 0; i < READ_TEXTURE::READ_TEXUTRE_MAX; i++)
+		for (int i = 0; i < READ_TEXTURE::READ_TEXTURE_MAX; i++)
 		{
 			Textures[i]->Release();
 		}

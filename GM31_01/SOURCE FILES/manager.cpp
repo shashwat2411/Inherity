@@ -16,7 +16,7 @@ std::unordered_map<std::string, const aiScene*> ModelReader::Animations{};
 
 Audio SoundReader::Audios[SoundReader::READ_SOUND_MAX]{};
 
-ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXUTRE_MAX]{};
+ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXTURE_MAX]{};
 
 float Time::timeScale = 1.0f;
 float Time::fixedTimeScale = 1.0f;

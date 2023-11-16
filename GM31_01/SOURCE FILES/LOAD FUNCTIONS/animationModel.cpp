@@ -357,7 +357,7 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 			pos_a1 = nodeAnim1->mPositionKeys[f].mValue;
 
 			//2
-			int f_max = ((f + 1) >= (nodeAnim2->mNumRotationKeys) ? 0 : (f + 1));
+			int f_max = ((f + 1) >= (nodeAnim1->mNumRotationKeys) ? 0 : (f + 1));
 
 			f = Frame1 % nodeAnim1->mNumRotationKeys;//ŠÈˆÕŽÀ‘•
 			f1 = (f + 1) % nodeAnim1->mNumRotationKeys;
