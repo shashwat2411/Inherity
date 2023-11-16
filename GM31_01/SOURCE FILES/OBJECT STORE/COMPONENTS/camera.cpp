@@ -5,7 +5,6 @@ void Camera::Start()
 {
 	shake = false;
 
-
 	fov = 60.0f;
 	len = 0.0f;
 	rad = 0.0f;
@@ -14,7 +13,6 @@ void Camera::Start()
 	shakeCounter = 0.0f;
 	shakeValue = 0.0f;
 	time = 0.0f;
-
 
 	Up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 

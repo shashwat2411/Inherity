@@ -45,7 +45,7 @@ public:
 		ModelsOBJ[CUBE_M].Load("asset\\model\\Cube1.obj");
 
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
-		ModelsOBJ[ENEMY_M].Load("asset\\model\\Explode2.obj");
+		ModelsOBJ[ENEMY_M].Load("asset\\model\\Explode.obj");
 
 
 		//FBX
