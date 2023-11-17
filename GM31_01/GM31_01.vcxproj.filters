@@ -368,6 +368,9 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Bar.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\revolutionCamera.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS\CAMERA TYPES</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

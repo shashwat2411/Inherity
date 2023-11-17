@@ -3,6 +3,8 @@
 #include "input.h"
 
 MeshFilter* model;
+float angle = 0.0f;
+float dangle = 0.0f;
 
 void PlayerMovement::Start()
 {
@@ -135,10 +137,17 @@ void PlayerMovement::UpdateGround()
 	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
 
-	if		(Input::GetButtonPress(FORWARD_KEYMAP))	{ directionZ = gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 0.0f;	}
-	else if (Input::GetButtonPress(BACK_KEYMAP))	{ directionZ = -gameObject->transform->GetForwardDirection();		move = true; rotationDirection.y = 180.0f;	}
-	if		(Input::GetButtonPress(LEFT_KEYMAP))	{ directionX = -gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 270.0f;	}
-	else if (Input::GetButtonPress(RIGHT_KEYMAP))	{ directionX = gameObject->transform->GetRightDirection();			move = true; rotationDirection.y = 90.0f;	}
+	D3DXVECTOR3 cameraF = Manager::GetScene()->GetCamera()->camera->GetForward();
+	D3DXVECTOR3 cameraR = Manager::GetScene()->GetCamera()->camera->GetRight();
+	cameraF.y = 0.0f;
+	cameraR.y = 0.0f;
+	D3DXVec3Normalize(&cameraF, &cameraF);
+	D3DXVec3Normalize(&cameraR, &cameraR);
+
+	if		(Input::GetButtonPress(FORWARD_KEYMAP))	{ directionZ = gameObject->transform->GetForwardDirection();	/*directionZ =  cameraF;*/	move = true; rotationDirection.y = 0.0f;	}
+	else if (Input::GetButtonPress(BACK_KEYMAP))	{ directionZ = -gameObject->transform->GetForwardDirection();	/*directionZ = -cameraF;*/	move = true; rotationDirection.y = 180.0f;	}
+	if		(Input::GetButtonPress(LEFT_KEYMAP))	{ directionX = -gameObject->transform->GetRightDirection();		/*directionX = -cameraR;*/	move = true; rotationDirection.y = 270.0f;	}
+	else if (Input::GetButtonPress(RIGHT_KEYMAP))	{ directionX = gameObject->transform->GetRightDirection();		/*directionX = -cameraR;*/	move = true; rotationDirection.y = 90.0f;	}
 
 	if		(Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP)) { move = true; rotationDirection.y = 315.0f; }
 	else if (Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP)) { move = true; rotationDirection.y = 45.0f; }
@@ -160,12 +169,31 @@ void PlayerMovement::UpdateGround()
 
 	//Rotation
 	{
-		float rot = (rotationDirection.y - model->gameObject->transform->Rotation.y);	//‰ñ“]Šp“x‚Ì·•ª
-		if (rot > 90) { rot = rot - 360; }
-		if (rot < -90) { rot = rot + 360; }
+		//float rot = (rotationDirection.y - model->gameObject->transform->Rotation.y);	//‰ñ“]Šp“x‚Ì·•ª
+		//if (rot > 90) { rot = rot - 360; }
+		//if (rot < -90) { rot = rot + 360; }
 
-		if (fabs(rot) < D3DXToRadian(2)) { model->gameObject->transform->Rotation.y = rotationDirection.y; }
-		else { model->gameObject->transform->Rotation.y += rot * 0.3f * Time::fixedTimeScale; }
+		//if (fabs(rot) < D3DXToRadian(2)) { model->gameObject->transform->Rotation.y = rotationDirection.y; }
+		//else { model->gameObject->transform->Rotation.y += rot * 0.3f * Time::fixedTimeScale; }
+
+		D3DXQUATERNION quat;
+
+
+		if (Input::GetButtonPress(FORWARD_KEYMAP)) { angle = 0.0f;			cameraF.x *= 1.0f; cameraF.z *= 1.0f;	}
+		if (Input::GetButtonPress(BACK_KEYMAP)) { angle = D3DX_PI;			cameraF.x *= -1.0f; cameraF.z *= -1.0f;	}
+		if (Input::GetButtonPress(LEFT_KEYMAP)) { angle = -D3DX_PI / 2.0f;	cameraR.x *= -1.0f; cameraR.z *= -1.0f;	}
+		if (Input::GetButtonPress(RIGHT_KEYMAP)) { angle = D3DX_PI / 2.0f;	cameraR.x *= 1.0f; cameraR.z *= 1.0f;	}
+
+		if		(Input::GetButtonPress(FORWARD_KEYMAP)	&& Input::GetButtonPress(LEFT_KEYMAP))	{ angle = -D3DX_PI / 4.0f; }
+		else if (Input::GetButtonPress(FORWARD_KEYMAP)	&& Input::GetButtonPress(RIGHT_KEYMAP)) { angle = D3DX_PI / 4.0f; }
+		if		(Input::GetButtonPress(BACK_KEYMAP)		&& Input::GetButtonPress(LEFT_KEYMAP))	{ angle = -3.0f * D3DX_PI / 4.0f; }
+		else if (Input::GetButtonPress(BACK_KEYMAP)		&& Input::GetButtonPress(RIGHT_KEYMAP)) { angle = 3.0f * D3DX_PI / 4.0f; }
+
+
+		//angle = atan2f(cameraF.x, cameraF.z);
+
+		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
+		D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
 	}
 
 	if (move == true) { model->SetAnimationBlend("Run", true); }

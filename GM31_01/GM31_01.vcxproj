@@ -68,6 +68,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Bar.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Fade.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\revolutionCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Skydome.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\afterimage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\animator.cpp" />
