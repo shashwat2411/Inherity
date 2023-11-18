@@ -115,7 +115,12 @@ void GAME_SCENE::Init()
 
 	//‰¹
 	{
-		//SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
+		AudioSource* audio;
+		audio = MainCamera->AddComponent<AudioSource>();
+		audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
+		audio->Play(true, 0.2f);
+
+		//5SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
 	}
 }
 
@@ -149,8 +154,8 @@ void GAME_SCENE::Update()
 	//if (Input::GetKeyPress('Q')) { Water->transform->Position.y += 0.01f; }
 	//if (Input::GetKeyPress('E')) { Water->transform->Position.y -= 0.01f; }
 	//
-	//if (Input::GetKeyPress('R')) { Water->transform->Rotation.x += 0.01f; }
-	//if (Input::GetKeyPress('T')) { Water->transform->Rotation.x -= 0.01f; }
+	//if (Input::GetKeyPress('R')) { audio->volume += 0.01f; }
+	//if (Input::GetKeyPress('T')) { audio->volume -= 0.01f; }
 
 	cube->SetColor(D3DXCOLOR(r, g, b, 1.0f));
 
@@ -168,5 +173,6 @@ void GAME_SCENE::Update()
 	//sprintf(&str[strlen(str)], " | Water Y : %.2f", Water->transform->Position.y);
 	//sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
 	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
+	//sprintf(&str[strlen(str)], " | Volume : %.2f", audio->volume);
 #endif
 }

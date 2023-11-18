@@ -37,26 +37,12 @@ public:
 class SOUND : public GAMEOBJECT
 {
 public:
-	Audio* audio;
+	AudioSource* source;
 
 public:
 
-	void Init() override
-	{
-		Initialize();
-
-		ignorePause = true;
-	}
-	void Update() override
-	{
-		if (audio != nullptr)
-		{
-			if (audio->IsPlaying() == false)
-			{
-				Destroy(true);
-			}
-		}
-	}
+	void Init() override;
+	void Update() override;
 
 };
 class CYLINDER : public GAMEOBJECT
