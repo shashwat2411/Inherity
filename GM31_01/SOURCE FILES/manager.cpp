@@ -28,7 +28,6 @@ void Manager::Init()
 {
 	Renderer::Init();
 	Input::Init();
-	Audio::InitMaster();
 	DebugManager::Init();
 
 	SoundReader::ReadSound();
@@ -48,17 +47,14 @@ void Manager::Init()
 
 void Manager::Uninit()
 {
-
 	Scene->Uninit();
 	DontDestroyOnLoad->Uninit();
 
-	//delete Scene;
-	//delete DontDestroyOnLoad;
-
+	delete Scene;
+	delete DontDestroyOnLoad;
 
 	ModelReader::UnReadModel();
 	SoundReader::UnloadAudio();
-	Audio::UninitMaster();
 	TextureReader::UnReadTexture();
 
 	Input::Uninit();

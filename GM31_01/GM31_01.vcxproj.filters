@@ -171,6 +171,9 @@
     <ClInclude Include="HEADER FILES\renderer.h">
       <Filter>2💻HEADER FILES</Filter>
     </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\audio.h">
+      <Filter>2💻HEADER FILES\📚LOAD FUNCTIONS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imGUI\imgui.cpp">
@@ -198,9 +201,6 @@
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS\Character</Filter>
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\animator.cpp">
-      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
-    </ClCompile>
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audio.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\billboard.cpp">
@@ -370,6 +370,15 @@
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\revolutionCamera.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS\CAMERA TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audioSource.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audio.cpp">
+      <Filter>1🖥️SOURCE FILES\📚LOAD FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Sound.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,7 @@
 #pragma once
-#include "component.h"
+#include "audio.h"
+
+#define DEFAULT_VOLUME 1.0f
 
 class SoundReader
 {
@@ -23,6 +25,8 @@ public:
 
 	static void ReadSound()
 	{
+		Audio::InitMaster();
+
 		//SE
 		Audios[GUARD].Load					("asset\\sound\\wan.wav");
 
@@ -30,9 +34,14 @@ public:
 		Audios[GAME].Load					("asset\\sound\\bgm.wav");
 	}
 
-	static Audio* GetReadSound(READ_SOUND value)
+	static void UnloadAudio()
 	{
-		return &Audios[value];
+		for (int i = 0; i < READ_SOUND_MAX; i++)
+		{
+			Audios[i].Unload();
+		}
+
+		Audio::UninitMaster();
 	}
 
 	static void StopAllSound()
@@ -43,18 +52,9 @@ public:
 		}
 	}
 
-	static void UnloadAudio()
+	static Audio* GetReadSound(READ_SOUND value)
 	{
-		for (int i = 0; i < READ_SOUND_MAX; i++)
-		{
-			Audios[i].Unload();
-		}
+		return &Audios[value];
 	}
 
-	static void PlayMaster(const char* value, float volume, float loop = false)
-	{
-		Audio* audio = Manager::GetScene()->AddGameObject<SOUND>(GAMEOBJECT_LAYER)->audio;
-		audio->Load(value);
-		audio->Play(loop, volume);
-	}
 };

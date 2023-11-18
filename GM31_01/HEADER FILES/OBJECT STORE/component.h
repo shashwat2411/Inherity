@@ -3,7 +3,6 @@
 
 #include "gameobject.h"
 
-#include <xaudio2.h>
 #include <string>
 
 //ëOï˚êÈåæ
@@ -14,6 +13,8 @@ class SCENE;
 class Material;
 class AnimationModel;
 class Model;
+class Audio;
+class SOUND;
 
 #define COLLIDERS
 
@@ -25,8 +26,6 @@ class Model;
 
 #define GRAVITY_CONSTANT 1.0f
 #define GRAVITY_ACCELERATION 1.1f
-
-#define DEFAULT_VOLUME 1.0f
 
 #define TILES 20
 
@@ -446,39 +445,38 @@ public:
 	void SetNumber(int num) { number = num; }
 	void SetNumberColor(D3DXCOLOR value);
 };
-class Audio : public Component
+class AudioSource : public Component
 {
 private:
-	BYTE* m_SoundData{};
+	bool loop;
+	bool parentActive;
+	bool playOnAwake;
 
-	IXAudio2SourceVoice* m_SourceVoice{};
-
-	static IXAudio2* m_Xaudio;
-	static IXAudio2MasteringVoice* m_MasteringVoice;
+	float volume;
 
 public:
-	int m_Length;
-	int m_PlayLength;
+	Audio* clip;
 
 public:
 
-	void Start() override {}
-	void End() override {}
-	void Update() override {}
-	void Draw() override {}
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
 
-	static void InitMaster();
-	static void UninitMaster();
-	static void PlayMaster(const char *FileName, float volume = DEFAULT_VOLUME);
+	bool GetLoop() { return loop; }
+	bool GetPlayOnAwake() { return playOnAwake; }
+	float GetVolume() { return volume; }
 
-	using Component::Component;
+	void SetLoop(bool value) { loop = value; }
+	void SetPlayOnAwake(bool value) { playOnAwake = value; }
+	void SetVolume(float value) { volume = value; }
 
-	bool IsPlaying();
-	void Load(const char *FileName);
-	void Play(bool Loop = false, float volume = DEFAULT_VOLUME);
-	void Unload();
-	void SetVolume(float volume);
-	void Stop();
+	void Play(bool l = false, float v = 1.0f);
+	void PlayOneShot(Audio* audio, float v = 1.0f);
+
+	static SOUND* PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float volume);
+
 };
 class Animation : public Component
 {

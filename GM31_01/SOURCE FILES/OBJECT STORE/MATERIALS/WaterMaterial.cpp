@@ -3,6 +3,7 @@
 void WaterMaterial::Start()
 {
 	SetFloat("_Time", 0.0f);
+	SetFloat("_Speed", 10.0f);
 	SetFloat("_Frequency", 10.0f);
 
 	SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
@@ -27,6 +28,7 @@ void WaterMaterial::Draw()
 	ZeroMemory(&param, sizeof(param));
 	param.dissolveThreshold = floats["_Frequency"];
 	param.dissolveRange = floats["_Time"];
+	param.color.r = floats["_Speed"];
 	param.color = gameObject->GetColor();
 
 	Renderer::SetParameter(param);

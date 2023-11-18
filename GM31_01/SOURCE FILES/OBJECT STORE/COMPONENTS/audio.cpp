@@ -1,5 +1,4 @@
-#include "component.h"
-#include "manager.h"
+#include "audio.h"
 
 IXAudio2*				Audio::m_Xaudio = NULL;
 IXAudio2MasteringVoice*	Audio::m_MasteringVoice = NULL;
@@ -22,13 +21,6 @@ void Audio::UninitMaster()
 	if (m_MasteringVoice != nullptr) { m_MasteringVoice->DestroyVoice(); }
 	if (m_Xaudio != nullptr) { m_Xaudio->Release(); }
 	CoUninitialize();
-}
-
-void Audio::PlayMaster(const char *FileName, float volume)
-{
-	Audio* audio = Manager::GetScene()->AddGameObject<SOUND>(GAMEOBJECT_LAYER)->audio;
-	audio->Load(FileName);
-	audio->Play(false, volume);
 }
 
 void Audio::SetVolume(float volume)

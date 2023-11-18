@@ -34,6 +34,7 @@
     <ClInclude Include="HEADER FILES\OBJECT STORE\material.h" />
     <ClInclude Include="HEADER FILES\OBJECT STORE\prefab.h" />
     <ClInclude Include="HEADER FILES\OBJECT STORE\script.h" />
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\audio.h" />
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\functions.h" />
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h" />
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\soundReader.h" />
@@ -70,6 +71,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Fade.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\revolutionCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Skydome.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Sound.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\afterimage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\animator.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audio.cpp" />
@@ -84,6 +86,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\plane.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\rigidbody.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\shadow.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audioSource.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\sphereCollider.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\spriteRenderer.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\thirdPersonCamera.cpp" />
