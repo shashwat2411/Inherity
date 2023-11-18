@@ -27,7 +27,7 @@ void SKYDOME::Update()
 		transform->Position.z = pos.z;
 
 		D3DXQUATERNION quat;
-		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), 0.04);
+		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), 0.001);
 		transform->Quaternion *= quat;
 	}
 }
