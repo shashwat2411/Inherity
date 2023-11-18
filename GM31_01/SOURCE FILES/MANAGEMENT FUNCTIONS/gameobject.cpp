@@ -105,7 +105,11 @@ void GAMEOBJECT::Draw()
 				else { D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
 			}
 			else if (faceInDirection == true) {}
-			else { D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+			else 
+			{
+				//D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); 
+				D3DXMatrixRotationQuaternion(&RotationMatrix, &transform->Quaternion);
+			}
 
 			D3DXMATRIX view = Manager::GetScene()->GetCamera()->GetComponent<Camera>()->GetViewMatrix();
 			D3DXMATRIX invView;

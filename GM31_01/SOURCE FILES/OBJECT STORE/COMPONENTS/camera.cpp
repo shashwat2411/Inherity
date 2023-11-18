@@ -64,6 +64,32 @@ void Camera::Draw()
 	}
 }
 
+D3DXVECTOR3 Camera::GetForward()
+{
+	D3DXMATRIX rot;
+	D3DXMatrixInverse(&rot, nullptr, &mtxView);
+
+	D3DXVECTOR3 forward;
+	forward.x = rot._31;
+	forward.y = rot._32;
+	forward.z = rot._33;
+
+	return forward;
+}
+
+D3DXVECTOR3 Camera::GetRight()
+{
+	D3DXMATRIX rot;
+	D3DXMatrixInverse(&rot, nullptr, &mtxView);
+
+	D3DXVECTOR3 right;
+	right.x = rot._11;
+	right.y = rot._12;
+	right.z = rot._13;
+
+	return right;
+}
+
 void Camera::CameraShake(float value, float t)
 {
 	if (shake == false)

@@ -10,6 +10,8 @@ void Transform::Start()
 	Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
+	Quaternion = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
+
 	GlobalPosition = Position;
 }
 
@@ -20,7 +22,12 @@ void Transform::End()
 
 void Transform::Update()
 {
+	//D3DXQUATERNION quat;
+	//D3DXQUATERNION result = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
+	//D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(1.0f, 0.0f, 0.0f), Rotation.x);
+	//result *= quat;
 
+	//D3DXQuaternionRotationYawPitchRoll(&Quaternion, Rotation.y, Rotation.x, Rotation.z);
 }
 
 void Transform::Draw()
@@ -178,10 +185,23 @@ D3DXMATRIX Transform::FaceInDirectionXYZ()
 	return rot;
 }
 
+//D3DXVECTOR3 Transform::GetForwardDirection()
+//{
+//	D3DXMATRIX rot;
+//	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
+//
+//	D3DXVECTOR3 returner;
+//	returner.x = rot._31;
+//	returner.y = rot._32;
+//	returner.z = rot._33;
+//
+//	return returner;
+//}
+
 D3DXVECTOR3 Transform::GetForwardDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
+	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
 
 	D3DXVECTOR3 returner;
 	returner.x = rot._31;
@@ -194,7 +214,7 @@ D3DXVECTOR3 Transform::GetForwardDirection()
 D3DXVECTOR3 Transform::GetRightDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
+	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
 
 	D3DXVECTOR3 returner;
 	returner.x = rot._11;
@@ -203,6 +223,19 @@ D3DXVECTOR3 Transform::GetRightDirection()
 
 	return returner;
 }
+
+//D3DXVECTOR3 Transform::GetRightDirection()
+//{
+//	D3DXMATRIX rot;
+//	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
+//
+//	D3DXVECTOR3 returner;
+//	returner.x = rot._11;
+//	returner.y = rot._12;
+//	returner.z = rot._13;
+//
+//	return returner;
+//}
 
 float Transform::DistanceFrom(GAMEOBJECT* from)
 {

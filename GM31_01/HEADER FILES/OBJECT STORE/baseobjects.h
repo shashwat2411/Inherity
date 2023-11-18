@@ -100,7 +100,7 @@ public:
 	{
 		Initialize();
 
-		camera = AddComponent<ThirdPersonCamera>();
+		camera = AddComponent<RevolutionCamera>();
 	}
 	void Update() override {}
 

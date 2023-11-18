@@ -96,6 +96,8 @@ public:
 	D3DXVECTOR3 Rotation;
 	D3DXVECTOR3 Scale;
 
+	D3DXQUATERNION Quaternion;
+
 	D3DXVECTOR3 GlobalPosition;
 
 	float drawRadius;
@@ -297,6 +299,8 @@ public:
 	void SetProjectionMatrix(D3DXMATRIX value) { mtxProjection = value; }
 
 
+	D3DXVECTOR3 GetForward();
+	D3DXVECTOR3 GetRight();
 	void CameraShake(float value, float t = 15.0f / FRAME_RATE);
 	bool CheckView(Transform* target);
 };
@@ -715,6 +719,15 @@ public:
 
 };
 class OpenWorldCamera : public Camera
+{
+private:
+
+public:
+
+	void Update() override;
+
+};
+class RevolutionCamera : public Camera
 {
 private:
 
