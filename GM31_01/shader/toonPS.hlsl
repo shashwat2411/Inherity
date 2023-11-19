@@ -34,7 +34,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	float2 uv = light;
 	float3 col;
 
-	uv.x += Parameter.x;
+	uv.x += dissolveRange;
 	uv.y = pattern;
 
 	col = g_TextureToon.Sample(g_SamplerState, uv);

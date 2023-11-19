@@ -386,6 +386,12 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\boxCollider.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MetallicMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -435,6 +441,18 @@
     </FxCompile>
     <FxCompile Include="shader\unlitWaterVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\envMappingVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\toonVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\envMappingPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\toonPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
