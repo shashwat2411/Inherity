@@ -8,11 +8,15 @@ void AudioSource::Start()
 	loop = false;
 	parentActive = true;
 	playOnAwake = true;
+	threeDimension = false;
 
 	volume = DEFAULT_VOLUME;
+	volumePercentage = 100.0f;
 
 	parentActive = gameObject->GetActive();
 	clip = SoundReader::GetReadSound(SoundReader::GUARD);
+
+	listeners = Manager::GetScene()->FindGameObjectsOfType<AudioListener>();
 }
 
 void AudioSource::End()
@@ -28,7 +32,45 @@ void AudioSource::Update()
 		clip->Play(loop, volume);
 	}
 
-	clip->GetSourceVoice()->SetVolume(volume);
+
+	if (threeDimension == true)
+	{
+		std::vector<float> dist;
+		AudioListener* object = nullptr;
+		GAMEOBJECT* obj = gameObject;
+
+		for (auto obj : listeners)
+		{
+			if (obj != nullptr)
+			{
+				dist.push_back(gameObject->transform->DistanceFrom(obj->gameObject));
+			}
+		}
+
+		if (listeners.size() > 1)
+		{
+			std::sort(listeners.begin(), listeners.end(), [obj](AudioListener* a, AudioListener* b) {
+				return obj->transform->DistanceFrom(a->gameObject) < obj->transform->DistanceFrom(b->gameObject);
+			});
+		}
+
+		object = listeners[0];
+
+		float start = object->GetStartArea();
+		float end = object->GetEndArea();
+
+		float distance = gameObject->transform->DistanceFrom(object->gameObject);
+
+		volumePercentage = (((end - distance) / (end - start)));
+		if (distance <= start) { volumePercentage = 1.0f; }
+		else if (distance > end) { volumePercentage = 0.0f; }
+
+		clip->GetSourceVoice()->SetVolume(volumePercentage * volume);
+	}
+	else
+	{
+		clip->GetSourceVoice()->SetVolume(volume);
+	}
 }
 
 void AudioSource::Draw()

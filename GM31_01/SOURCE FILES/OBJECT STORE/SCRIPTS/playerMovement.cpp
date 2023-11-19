@@ -139,17 +139,12 @@ void PlayerMovement::UpdateGround()
 	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
 
-	D3DXVECTOR3 cameraF = Manager::GetScene()->GetCamera()->camera->GetForward();
-	D3DXVECTOR3 cameraR = Manager::GetScene()->GetCamera()->camera->GetRight();
-	cameraF.y = 0.0f;
-	cameraR.y = 0.0f;
-	D3DXVec3Normalize(&cameraF, &cameraF);
-	D3DXVec3Normalize(&cameraR, &cameraR);
+	Camera* camera = Manager::GetScene()->GetCamera()->camera;
 
-	if		(Input::GetButtonPress(FORWARD_KEYMAP))	{ /*directionZ = gameObject->transform->GetForwardDirection();	*/	directionZ =  cameraF;	move = true; /*rotationDirection.y = 0.0f;	*/	}
-	else if (Input::GetButtonPress(BACK_KEYMAP))	{ /*directionZ = -gameObject->transform->GetForwardDirection();	*/	directionZ = -cameraF;	move = true; /*rotationDirection.y = 180.0f;*/	}
-	if		(Input::GetButtonPress(LEFT_KEYMAP))	{ /*directionX = -gameObject->transform->GetRightDirection();	*/	directionX = -cameraR;	move = true; /*rotationDirection.y = 270.0f;*/	}
-	else if (Input::GetButtonPress(RIGHT_KEYMAP))	{ /*directionX = gameObject->transform->GetRightDirection();	*/	directionX =  cameraR;	move = true; /*rotationDirection.y = 90.0f;	*/	}
+	if		(Input::GetButtonPress(FORWARD_KEYMAP))	{ /*directionZ = gameObject->transform->GetForwardDirection();	*/	directionZ =  camera->GetForward();	move = true; /*rotationDirection.y = 0.0f;	*/	}
+	else if (Input::GetButtonPress(BACK_KEYMAP))	{ /*directionZ = -gameObject->transform->GetForwardDirection();	*/	directionZ = -camera->GetForward();	move = true; /*rotationDirection.y = 180.0f;*/	}
+	if		(Input::GetButtonPress(LEFT_KEYMAP))	{ /*directionX = -gameObject->transform->GetRightDirection();	*/	directionX = -camera->GetRight();	move = true; /*rotationDirection.y = 270.0f;*/	}
+	else if (Input::GetButtonPress(RIGHT_KEYMAP))	{ /*directionX = gameObject->transform->GetRightDirection();	*/	directionX =  camera->GetRight();	move = true; /*rotationDirection.y = 90.0f;	*/	}
 
 	//if		(Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP))	{ move = true; /*rotationDirection.y = 315.0f;*/	}
 	//else if (Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP))	{ move = true; /*rotationDirection.y = 45.0f; */	}
@@ -158,6 +153,10 @@ void PlayerMovement::UpdateGround()
 
 	if (!Input::GetButtonPress(FORWARD_KEYMAP) && !Input::GetButtonPress(LEFT_KEYMAP) && !Input::GetButtonPress(BACK_KEYMAP) && !Input::GetButtonPress(RIGHT_KEYMAP)) { move = false; }
 
+	directionZ.y = 0.0f;
+	directionX.y = 0.0f;
+	D3DXVec3Normalize(&directionZ, &directionZ);
+	D3DXVec3Normalize(&directionX, &directionX);
 
 	D3DXVECTOR3 direction = directionX + directionZ;
 	D3DXVec3Normalize(&direction, &direction);

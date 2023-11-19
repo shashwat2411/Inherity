@@ -1,6 +1,8 @@
 #include "prefab.h"
 #include "input.h"
 
+//BoxCollider* bcollider;
+
 void PLAYERMODEL::Start()
 {
 	Init();
@@ -33,12 +35,23 @@ void PLAYERMODEL::Start()
 	collider->scaleOffset = 100.0f;
 	//collider->collider->transform->Position = D3DXVECTOR3(-89.0f, 144.0f, 6.0f);
 
+	//bcollider = AddComponent<BoxCollider>();
+	//bcollider->collider->parentMatrixEnable = true;
+	//bcollider->collider->parentMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone()["mixamorig:LeftHand"].worldMatrix);
+	//bcollider->SetIsTrigger(true);
+	//bcollider->SetIsKinematic(true);
+	//bcollider->SetCollisionSize(D3DXVECTOR3(1.3f, 0.3f, 0.3f));
+	//bcollider->scaleOffset = 100.0f;
+
 	Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 }
 
 void PLAYERMODEL::Update()
 {
 	collider->collider->parentMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone()["mixamorig:LeftHand"].worldMatrix);
+
+
+	//bcollider->collider->parentMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone()["mixamorig:LeftHand"].worldMatrix);
 
 #ifdef DEBUG
 	//D3DXVECTOR3 pos = collider->collider->transform->Position;

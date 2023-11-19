@@ -75,7 +75,9 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\afterimage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\animator.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audio.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audioListener.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\billboard.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\boxCollider.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\camera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\firstPersonCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\meshField.cpp" />

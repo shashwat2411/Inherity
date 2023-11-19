@@ -148,17 +148,6 @@ public:
 		if (material == nullptr)
 		{
 			material = buff;
-			//if (index == -1) { material.push_back(buff); }
-			//else if(index >= 0 && index < material.size())
-			//{ 
-			//	if (material[index] != nullptr)
-			//	{
-			//		auto r = material[index];
-			//		r->end();
-			//		material[index] = buff;
-			//	}
-			//	else { material.push_back(buff); }
-			//}
 		}
 		else
 		{

@@ -10,8 +10,10 @@ public:
 	{
 		//BASE MODELS
 		SPHERE_COLLIDER_M,
+		BOX_COLLIDER_M,
 		CYLINDER_M,
 		CUBE_M,
+		TORUS_M,
 
 		//PREFAB MODELS
 		SKYDOME_M,
@@ -41,8 +43,10 @@ public:
 	{
 		//OBJ
 		ModelsOBJ[SPHERE_COLLIDER_M].Load("asset\\model\\SphereCollider.obj");
+		ModelsOBJ[BOX_COLLIDER_M].Load("asset\\model\\BoxCollider.obj");
 		ModelsOBJ[CYLINDER_M].Load("asset\\model\\cylinder.obj");
 		ModelsOBJ[CUBE_M].Load("asset\\model\\Cube1.obj");
+		ModelsOBJ[TORUS_M].Load("asset\\model\\torus.obj");
 
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
 		ModelsOBJ[ENEMY_M].Load("asset\\model\\Explode.obj");

@@ -127,4 +127,23 @@ public:
 		}
 		return objects;
 	}
+
+	//FIND MULTIPLE
+	template<typename T>
+	std::vector<T*> FindGameObjectsOfType()
+	{
+		std::vector<T*> objects;
+		for (int i = 0; i < MAX_LAYER; i++)
+		{
+			for (auto obj : GameObjects[i])
+			{
+				T* buff = obj->GetComponent<T>();
+				if(buff != nullptr)
+				{
+					objects.push_back(buff);
+				}
+			}
+		}
+		return objects;
+	}
 };
