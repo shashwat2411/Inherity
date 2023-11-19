@@ -118,6 +118,7 @@ void GAME_SCENE::Init()
 
 		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
 		torus->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		torus->AddMaterial<MetallicMaterial>();
 	}
 
 	//‰¹
