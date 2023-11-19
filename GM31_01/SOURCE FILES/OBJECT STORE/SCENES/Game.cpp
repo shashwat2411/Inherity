@@ -9,6 +9,7 @@ PLANE* Water;
 IMAGE* Buffer;
 CUBE* cube;
 GAMEOBJECT* gameManager;
+AudioSource* audio;
 
 void GAME_SCENE::Init()
 {
@@ -17,6 +18,7 @@ void GAME_SCENE::Init()
 	ENEMY* enemy;
 	GAMEOBJECT* rock[20];
 	BILLBOARD* tree[300];
+	GAMEOBJECT* torus;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
@@ -27,6 +29,7 @@ void GAME_SCENE::Init()
 	Field = AddGameObject<PLANE>();
 	Water = AddGameObject<PLANE>();
 	cube = AddGameObject<CUBE>();
+	torus = AddGameObject<EMPTYOBJECT>();
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -104,6 +107,7 @@ void GAME_SCENE::Init()
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 		cube->AddMaterial<LitTextureMaterial>();
 		//cube->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::RING_T));
+		cube->SetActive(false);
 
 		Buffer->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2 - 150.0f, 0.0f);
 		Buffer->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
@@ -111,16 +115,23 @@ void GAME_SCENE::Init()
 		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
 		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 		Score->SetDigits(3);
+
+		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
+		torus->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	}
 
 	//‰¹
 	{
-		AudioSource* audio;
-		audio = MainCamera->AddComponent<AudioSource>();
-		audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
-		audio->Play(true, 0.2f);
+		player->AddComponent<AudioListener>();
 
-		//5SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
+		//audio = MainCamera->AddComponent<AudioSource>();
+		//audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
+		//audio->Play(true, 0.2f);
+
+		audio = enemy->AddComponent<AudioSource>();
+		audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
+		audio->SetThreeDimension(true);
+		audio->Play(true, 0.2f);
 	}
 }
 
@@ -174,5 +185,6 @@ void GAME_SCENE::Update()
 	//sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
 	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
 	//sprintf(&str[strlen(str)], " | Volume : %.2f", audio->volume);
+	sprintf(&str[strlen(str)], " | Volume Percentage : %.2f", audio->volumePercentage);
 #endif
 }

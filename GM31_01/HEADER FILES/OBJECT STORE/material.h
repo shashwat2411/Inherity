@@ -99,3 +99,21 @@ public:
 	void Update() override {}
 	void Draw() override;
 };
+class ToonMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override;
+	void Draw() override;
+};
+class MetallicMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override;
+	void Draw() override;
+};

@@ -380,6 +380,12 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Sound.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audioListener.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\boxCollider.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

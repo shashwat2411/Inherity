@@ -445,16 +445,42 @@ public:
 	void SetNumber(int num) { number = num; }
 	void SetNumberColor(D3DXCOLOR value);
 };
+class AudioListener : public Component
+{
+private:
+	float startArea;
+	float endArea;
+
+public:
+
+	void Start();
+	void End();
+	void Update();
+	void Draw();
+
+	float GetStartArea() { return startArea; }
+	float GetEndArea() { return endArea; }
+
+	void SetArea(float start = -1.0f, float end = -1.0f) 
+	{
+		if (start >= 0.0f) { startArea = start; }
+		if (end >= 0.0f) { endArea = end; }
+	}
+};
 class AudioSource : public Component
 {
 private:
 	bool loop;
 	bool parentActive;
 	bool playOnAwake;
+	bool threeDimension;
 
 	float volume;
 
+	std::vector<AudioListener*> listeners;
+
 public:
+	float volumePercentage;
 	Audio* clip;
 
 public:
@@ -466,10 +492,12 @@ public:
 
 	bool GetLoop() { return loop; }
 	bool GetPlayOnAwake() { return playOnAwake; }
+	bool GetThreeDimension() { return threeDimension; }
 	float GetVolume() { return volume; }
 
 	void SetLoop(bool value) { loop = value; }
 	void SetPlayOnAwake(bool value) { playOnAwake = value; }
+	void SetThreeDimension(bool value) { threeDimension = value; }
 	void SetVolume(float value) { volume = value; }
 
 	void Play(bool l = false, float v = 1.0f);
@@ -686,6 +714,39 @@ public:
 
 	void SetFollowBool(bool value) { follow = value; }
 	void SetTarget(GAMEOBJECT* value) { target = value; }
+};
+class BoxCollider : public Component
+{
+private:
+	bool isTrigger;
+	bool isKinematic;
+
+	D3DXVECTOR3 CollisionSize;
+
+	D3DXVECTOR3 vertex[8];
+
+public:
+	float scaleOffset;
+
+	GAMEOBJECT* collider = nullptr;
+
+public:
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	bool GetIsTrigger() { return isTrigger; }
+	bool GetIsKinematic() { return isKinematic; }
+	D3DXVECTOR3 GetCollisionSize() { return CollisionSize; }
+	D3DXVECTOR3* GetVertex() { return &vertex[0]; }
+	GAMEOBJECT* GetColliderObject() { return collider; }
+
+	void SetIsTrigger(bool value) { isTrigger = value; }
+	void SetIsKinematic(bool value) { isKinematic = value; }
+	void SetCollisionSize(D3DXVECTOR3 s) { CollisionSize = s; }
+
 };
 
 //Camera Types
