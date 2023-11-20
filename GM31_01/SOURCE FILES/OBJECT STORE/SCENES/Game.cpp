@@ -98,10 +98,11 @@ void GAME_SCENE::Init()
 		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		//Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
 		Field->meshField->RecreateField();
-		Field->SetReflection(true);
 
 		PlayerModel->SetReflection(true);
 		enemy->SetReflection(true);
+		Field->SetReflection(true);
+		Water->SetReflection(true);
 
 		Water->AddMaterial<WaterMaterial>();
 		Water->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
@@ -113,7 +114,6 @@ void GAME_SCENE::Init()
 		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
 		Water->SetDepthShadow(false);
 		Water->meshField->RecreateField();
-		Water->SetReflection(true);
 
 		cube->transform->Position.y = 2.0f;
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
