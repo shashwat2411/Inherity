@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\animationModel.h" />
+    <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\audio.h" />
     <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\model.h" />
     <ClInclude Include="HEADER FILES\main.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\debugManager.h" />
@@ -34,7 +35,6 @@
     <ClInclude Include="HEADER FILES\OBJECT STORE\material.h" />
     <ClInclude Include="HEADER FILES\OBJECT STORE\prefab.h" />
     <ClInclude Include="HEADER FILES\OBJECT STORE\script.h" />
-    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\audio.h" />
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\functions.h" />
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h" />
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\soundReader.h" />
@@ -58,6 +58,7 @@
     <ClCompile Include="imGUI\imgui_tables.cpp" />
     <ClCompile Include="imGUI\imgui_widgets.cpp" />
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\animationModel.cpp" />
+    <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\audio.cpp" />
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\model.cpp" />
     <ClCompile Include="SOURCE FILES\main.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\collision.cpp" />
@@ -69,21 +70,17 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Bar.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Fade.cpp" />
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\revolutionCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Skydome.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Sound.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\afterimage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\animator.cpp" />
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audio.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audioListener.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\billboard.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\boxCollider.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\camera.cpp" />
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\firstPersonCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\meshField.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\meshFilter.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\number.cpp" />
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\openWorldCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\particleSystem.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\plane.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\rigidbody.cpp" />
@@ -91,8 +88,6 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audioSource.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\sphereCollider.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\spriteRenderer.cpp" />
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\thirdPersonCamera.cpp" />
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\topDownCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\transform.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\DefaultMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\DissolveMaterial.cpp" />
@@ -116,11 +111,16 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Title.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\bulletScript.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyScript.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\firstPersonCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gameManager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\ground.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\hitpoints.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\openWorldCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerMovement.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\revolutionCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\thirdPersonCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\topDownCamera.cpp" />
     <ClCompile Include="SOURCE FILES\renderer.cpp" />
   </ItemGroup>
   <ItemGroup>

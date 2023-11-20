@@ -14,7 +14,7 @@ void SKYDOME::Init()
 
 	AddMaterial<UnlitMaterial>();
 	SetDepthShadow(false);
-
+	SetReflection(true);
 }
 
 void SKYDOME::Update()
@@ -27,7 +27,7 @@ void SKYDOME::Update()
 		transform->Position.z = pos.z;
 
 		D3DXQUATERNION quat;
-		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), 0.001);
+		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), 0.001f);
 		transform->Quaternion *= quat;
 	}
 }

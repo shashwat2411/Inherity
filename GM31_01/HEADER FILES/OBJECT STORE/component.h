@@ -291,9 +291,13 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	float GetLen() { return len; }
+	D3DXVECTOR3 GetAt() { return at; }
+	D3DXVECTOR3 GetRot() { return rot; }
 	D3DXMATRIX GetViewMatrix() { return mtxView; }
 	D3DXMATRIX GetProjectionMatrix() { return mtxProjection; }
 
+	void SetAt(D3DXVECTOR3 value) { at = value; }
 	void SetViewMatrix(D3DXMATRIX value) { mtxView = value; }
 	void SetProjectionMatrix(D3DXMATRIX value) { mtxProjection = value; }
 
@@ -746,52 +750,5 @@ public:
 	void SetIsTrigger(bool value) { isTrigger = value; }
 	void SetIsKinematic(bool value) { isKinematic = value; }
 	void SetCollisionSize(D3DXVECTOR3 s) { CollisionSize = s; }
-
-};
-
-//Camera Types
-class TopDownCamera : public Camera
-{
-private:
-
-public:
-
-	void Update() override;
-
-};
-class ThirdPersonCamera : public Camera
-{
-private:
-
-public:
-	
-	void Update() override;
-
-};
-class FirstPersonCamera : public Camera
-{
-private:
-
-public:
-
-	void Update() override;
-
-};
-class OpenWorldCamera : public Camera
-{
-private:
-
-public:
-
-	void Update() override;
-
-};
-class RevolutionCamera : public Camera
-{
-private:
-
-public:
-
-	void Update() override;
 
 };

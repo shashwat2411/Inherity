@@ -95,38 +95,45 @@ class Renderer
 {
 private:
 
-	static D3D_FEATURE_LEVEL       m_FeatureLevel;
+	static D3D_FEATURE_LEVEL	m_FeatureLevel;
 
-	static ID3D11Device*           m_Device;
-	static ID3D11DeviceContext*    m_DeviceContext;
-	static IDXGISwapChain*         m_SwapChain;
-	static ID3D11RenderTargetView* m_RenderTargetView;
-	static ID3D11DepthStencilView* m_DepthStencilView;
+	static ID3D11Device*		m_Device;
+	static ID3D11DeviceContext*	m_DeviceContext;
 
+	static IDXGISwapChain*	m_SwapChain;
 
-	static ID3D11Buffer*			m_WorldBuffer;
-	static ID3D11Buffer*			m_ViewBuffer;
-	static ID3D11Buffer*			m_ProjectionBuffer;
-	static ID3D11Buffer*			m_MaterialBuffer;
-	static ID3D11Buffer*			m_LightBuffer;
-	static ID3D11Buffer*			m_CameraBuffer;
-	static ID3D11Buffer*			m_ParameterBuffer;
+	static ID3D11RenderTargetView*	m_RenderTargetView;
+	static ID3D11RenderTargetView*	m_ReflectRenderTargetView;
 
-	static ID3D11SamplerState*		m_samplerState_W;
-	static ID3D11SamplerState*		m_samplerState_C;
-	static ID3D11SamplerState*		m_samplerState_M;
+	static ID3D11DepthStencilView*	m_DepthStencilView;
+	static ID3D11DepthStencilView*	m_DepthShadowDepthStencilView;
+	static ID3D11DepthStencilView*	m_ReflectDepthStencilView;
 
+	static ID3D11ShaderResourceView*	m_DepthShadowShaderResourceView;
+	static ID3D11ShaderResourceView*	m_CubeReflectShaderResourceView;
 
-	static ID3D11DepthStencilState* m_DepthStateEnable;
-	static ID3D11DepthStencilState* m_DepthStateDisable;
+	static ID3D11Buffer*	m_WorldBuffer;
+	static ID3D11Buffer*	m_ViewBuffer;
+	static ID3D11Buffer*	m_ProjectionBuffer;
+	static ID3D11Buffer*	m_MaterialBuffer;
+	static ID3D11Buffer*	m_LightBuffer;
+	static ID3D11Buffer*	m_CameraBuffer;
+	static ID3D11Buffer*	m_ParameterBuffer;
 
-	static ID3D11BlendState*		m_BlendState;
-	static ID3D11BlendState*		m_BlendStateATC;
-
-	static ID3D11DepthStencilView* m_DepthShadowDepthStencilView;
-	static ID3D11ShaderResourceView* m_DepthShadowShaderResourceView;
+	static ID3D11SamplerState*	m_samplerState_W;
+	static ID3D11SamplerState*	m_samplerState_C;
+	static ID3D11SamplerState*	m_samplerState_M;
 
 
+	static ID3D11DepthStencilState*	m_DepthStateEnable;
+	static ID3D11DepthStencilState*	m_DepthStateDisable;
+
+	static ID3D11BlendState*	m_BlendState;
+	static ID3D11BlendState*	m_BlendStateATC;
+
+
+	static ID3D11Texture2D*	m_ReflectTexture;
+	static ID3D11Texture2D*	m_CubeReflectTexture;
 
 public:
 	static void Init();
@@ -150,13 +157,20 @@ public:
 
 	static ID3D11Device* GetDevice(void) { return m_Device; }
 	static ID3D11DeviceContext* GetDeviceContext(void) { return m_DeviceContext; }
+
 	static ID3D11RenderTargetView** GetRendererTargetView(void) { return &m_RenderTargetView; }
-	static ID3D11ShaderResourceView* GetDepthShadowTexture() { return m_DepthShadowShaderResourceView; }
+
+	static ID3D11ShaderResourceView*	GetDepthShadowTexture() { return m_DepthShadowShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetCubeReflectShaderResourceView() { return &m_CubeReflectShaderResourceView; }
+
+	static ID3D11Texture2D*	GetReflectTexture() { return m_ReflectTexture; }
+	static ID3D11Texture2D*	GetCubeReflectTexture() { return m_CubeReflectTexture; }
 
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
 
+	static void BeginCube();
 	static void BeginDepth()
 	{
 		m_DeviceContext->OMSetRenderTargets(0, NULL, m_DepthShadowDepthStencilView);
@@ -164,6 +178,8 @@ public:
 	}
 
 	static void SetDefaultViewPort();
-	static void SetDepthViewPort(float multiplier);
 	static void SetDepthViewPort();
+	static void SetDepthViewPort(float multiplier);
+	static void SetReflectViewPort();
+
 };

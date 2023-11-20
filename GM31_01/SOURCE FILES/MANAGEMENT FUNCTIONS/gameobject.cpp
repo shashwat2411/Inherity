@@ -12,6 +12,7 @@ void GAMEOBJECT::Initialize()
 
 	depth = true;
 	depthShadow = false;
+	reflection = false;
 
 	destroy = false;
 	ignorePause = false;
@@ -221,4 +222,11 @@ bool GAMEOBJECT::Remove()
 	{
 		return false;
 	}
+}
+
+void GAMEOBJECT::RemoveComponent(Component* com)
+{
+	com->End();
+	components.remove(com);
+	delete com;
 }
