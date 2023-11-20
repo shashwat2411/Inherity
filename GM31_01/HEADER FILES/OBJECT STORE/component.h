@@ -455,6 +455,11 @@ private:
 	float startArea;
 	float endArea;
 
+	float scaleOffset;
+
+	GAMEOBJECT* area1;
+	GAMEOBJECT* area2;
+
 public:
 
 	void Start();

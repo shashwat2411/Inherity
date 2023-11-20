@@ -34,6 +34,26 @@ public:
 	void Update() override {}
 
 };
+class SOUNDAREA : public GAMEOBJECT
+{
+public:
+
+	void Init() override
+	{
+		Initialize();
+
+		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::SOUND_GIZMO_M));
+
+		AddMaterial<UnlitMaterial>();
+
+
+#ifndef DEBUG
+		GetComponent<MeshFilter>()->SetEnabled(false);
+#endif
+	}
+	void Update() override {}
+
+};
 class BOXCOLLIDER : public GAMEOBJECT
 {
 public:

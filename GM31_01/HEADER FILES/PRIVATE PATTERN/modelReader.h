@@ -14,6 +14,7 @@ public:
 		CYLINDER_M,
 		CUBE_M,
 		TORUS_M,
+		SOUND_GIZMO_M,
 
 		//PREFAB MODELS
 		SKYDOME_M,
@@ -47,6 +48,7 @@ public:
 		ModelsOBJ[CYLINDER_M].Load("asset\\model\\cylinder.obj");
 		ModelsOBJ[CUBE_M].Load("asset\\model\\Cube1.obj");
 		ModelsOBJ[TORUS_M].Load("asset\\model\\torus.obj");
+		ModelsOBJ[SOUND_GIZMO_M].Load("asset\\model\\soundAreaGizmo.obj");
 
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
 		ModelsOBJ[ENEMY_M].Load("asset\\model\\Explode.obj");

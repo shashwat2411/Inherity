@@ -22,6 +22,7 @@ enum LAYER
 	CAMERA_LAYER = 0,
 	GAMEOBJECT_LAYER,
 	COLLIDER_LAYER,
+	GIZMO_LAYER,
 	BILLBOARD_LAYER,
 	SHADOW_LAYER,
 	SPRITE_LAYER,
@@ -38,6 +39,7 @@ protected:
 	CAMERA* MainCamera;
 	FADE* Fade;
 	SKYDOME* skyDome;
+	EMPTYOBJECT* reflectionProjector;
 
 	COLLISION Collision;
 

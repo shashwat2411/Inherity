@@ -18,7 +18,7 @@ void GAME_SCENE::Init()
 	ENEMY* enemy;
 	GAMEOBJECT* rock[20];
 	BILLBOARD* tree[300];
-	//GAMEOBJECT* torus;
+	GAMEOBJECT* torus1;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
@@ -30,6 +30,7 @@ void GAME_SCENE::Init()
 	Water = AddGameObject<PLANE>();
 	cube = AddGameObject<CUBE>();
 	torus = AddGameObject<EMPTYOBJECT>();
+	torus1 = AddGameObject<EMPTYOBJECT>();
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -77,6 +78,9 @@ void GAME_SCENE::Init()
 	//Ú‘±ˆ—
 	{
 		PlayerModel->SetParent(player);
+		//reflectionProjector->SetParent(player);
+
+		reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 
 		//MainCamera->SetType(CAMERA::REVOLUTION);
 		MainCamera->AddComponent<RevolutionCamera>();
@@ -127,6 +131,10 @@ void GAME_SCENE::Init()
 		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
 		torus->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		torus->AddMaterial<MetallicMaterial>();
+
+		torus1->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
+		torus1->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 6.0f);
+		torus1->AddMaterial<MetallicMaterial>();
 	}
 
 	//‰¹
