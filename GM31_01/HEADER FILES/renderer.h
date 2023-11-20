@@ -161,7 +161,7 @@ public:
 	static ID3D11RenderTargetView** GetRendererTargetView(void) { return &m_RenderTargetView; }
 
 	static ID3D11ShaderResourceView*	GetDepthShadowTexture() { return m_DepthShadowShaderResourceView; }
-	static ID3D11ShaderResourceView**	GetCubeReflectShaderResourceView() { return &m_CubeReflectShaderResourceView; }
+	static ID3D11ShaderResourceView*	GetCubeReflectShaderResourceView() { return m_CubeReflectShaderResourceView; }
 
 	static ID3D11Texture2D*	GetReflectTexture() { return m_ReflectTexture; }
 	static ID3D11Texture2D*	GetCubeReflectTexture() { return m_CubeReflectTexture; }

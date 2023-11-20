@@ -12,10 +12,13 @@ void SCENE::InitBefore()
 
 	//GAMEOBJECT
 	MainCamera = AddGameObject<CAMERA>(CAMERA_LAYER);
+	reflectionProjector = AddGameObject<EMPTYOBJECT>();
 
 	//UI
 	Fade = Manager::GetDontDestroyOnLoadScene()->FindGameObject<FADE>();
 	if (Fade == nullptr) { Fade = Manager::GetDontDestroyOnLoadScene()->AddGameObject<FADE>(FADE_LAYER); }
+
+	reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 
 	Fade->SetFadeIn();
 
@@ -187,13 +190,13 @@ void SCENE::ReflectionMap(D3DXMATRIX* view)
 	D3DXVECTOR3 up;
 
 
-	for (auto var : GameObjects[GAMEOBJECT_LAYER])
-	{
-		if (var->GetMaterial() != nullptr)
-		{
-			if (var->GetMaterial()->GetReflection() == true)
-			{
-				D3DXVECTOR3 vPlayerPos = var->transform->GlobalPosition;
+	//for (auto var : GameObjects[GAMEOBJECT_LAYER])
+	//{
+	//	if (var->GetMaterial() != nullptr)
+	//	{
+	//		if (var->GetMaterial()->GetReflection() == true)
+	//		{
+				D3DXVECTOR3 vPlayerPos = reflectionProjector->transform->GlobalPosition;
 				for (int j = 0; j < 6; j++)
 				{
 					eye = vPlayerPos;
@@ -201,7 +204,7 @@ void SCENE::ReflectionMap(D3DXMATRIX* view)
 					up = upOffset[j];
 					D3DXMatrixLookAtLH(&view[j], &eye, &lookAt, &up);
 				}
-			}
-		}
-	}
+	//		}
+	//	}
+	//}
 }

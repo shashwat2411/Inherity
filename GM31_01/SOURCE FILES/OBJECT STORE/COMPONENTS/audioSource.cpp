@@ -57,7 +57,7 @@ void AudioSource::Update()
 		object = listeners[0];
 
 		float start = object->GetStartArea();
-		float end = object->GetEndArea();
+		float end = object->GetEndArea() + start;
 
 		float distance = gameObject->transform->DistanceFrom(object->gameObject);
 
