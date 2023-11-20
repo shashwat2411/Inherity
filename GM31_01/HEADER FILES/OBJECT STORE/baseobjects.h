@@ -106,7 +106,7 @@ public:
 	{
 		Initialize();
 
-		camera = AddComponent<RevolutionCamera>();
+		camera = AddComponent<Camera>();
 	}
 	void Update() override {}
 

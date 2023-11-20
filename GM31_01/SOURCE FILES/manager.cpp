@@ -80,12 +80,15 @@ void Manager::Draw()
 	LIGHT light;
 	light.Enable = true;
 
+	//1パス目	シャドーバッファの作成
 	{
-		//1パス目	シャドーバッファの作成
 		Renderer::BeginDepth();
 		Renderer::SetDepthViewPort();
 
-		LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
+		if (GetScene()->GetPlayer() != nullptr)
+		{
+			LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
+		}
 
 		//ライトカメラの行列をセット
 		Renderer::SetLight(light);
@@ -94,6 +97,91 @@ void Manager::Draw()
 
 		//影を落としたいオブジェクトを描画（一応地面も）
 		Scene->DepthPath();
+	}
+
+	//2パス目　環境マップイング
+	{
+		/*
+		D3DXMATRIX viewMatrixArray[6];
+		D3DXMATRIX projectionMatrix;
+
+		Scene->ReflectionMap(&viewMatrixArray[0]);
+
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 2, 1.0f, 0.01f, 100.0f);
+		Renderer::SetProjectionMatrix(&projectionMatrix);
+
+		//ビューポート変更
+		Renderer::SetReflectViewPort();
+
+		//6面分描画する
+		for (int i = 0; i < 6; i++)
+		{
+			Renderer::BeginCube();
+
+			//ビュー変換 Matrix 設定 
+			Renderer::SetViewMatrix(&viewMatrixArray[i]);
+
+			Scene->EnvironmentMap();
+
+			Renderer::GetDeviceContext()->CopySubresourceRegion(Renderer::GetCubeReflectTexture(), D3D11CalcSubresource(0, i, 1), 0, 0, 0, Renderer::GetReflectTexture(), 0, nullptr);
+		}
+		*/
+
+		
+		//ビュー変換行列を作成
+		//注視点オフセットテーブル
+		D3DXVECTOR3 lookatOffset[6] = {
+			{  1.0f,  0.0f,  0.0f },	//+X D3D11_TEXTURECUBE_FACE_POSITIVE_X
+			{ -1.0f,  0.0f,  0.0f },	//-X D3D11_TEXTURECUBE_FACE_NEGATIVE_X
+			{  0.0f,  1.0f,  0.0f },	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
+			{  0.0f, -1.0f,  0.0f },	//-Y D3D11_TEXTURECUBE_FACE_NEGATIVE_Y
+			{  0.0f,  0.0f,  1.0f },	//+Z D3D11_TEXTURECUBE_FACE_POSITIVE_Z
+			{  0.0f,  0.0f, -1.0f },	//-Z D3D11_TEXTURECUBE_FACE_NEGATIVE_Z
+		};
+
+		//注視点オフセットテーブル
+		D3DXVECTOR3 upOffset[6] = {
+			{  0.0f,  1.0f,  0.0f },	//+X D3D11_TEXTURECUBE_FACE_POSITIVE_X
+			{  0.0f,  1.0f,  0.0f },	//-X D3D11_TEXTURECUBE_FACE_NEGATIVE_X
+			{  0.0f,  0.0f, -1.0f },	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
+			{  0.0f,  0.0f,  1.0f },	//-Y D3D11_TEXTURECUBE_FACE_NEGATIVE_Y
+			{  0.0f,  1.0f,  0.0f },	//+Z D3D11_TEXTURECUBE_FACE_POSITIVE_Z
+			{  0.0f,  1.0f,  0.0f },	//-Z D3D11_TEXTURECUBE_FACE_NEGATIVE_Z
+		};
+
+		D3DXVECTOR3 eye;
+		D3DXVECTOR3 lookAt;
+		D3DXVECTOR3 up;
+		D3DXMATRIX viewMatrixArray[6];
+		D3DXVECTOR3 vPlayerPos = Scene->torus->transform->Position;
+		for (int i = 0; i < 6; i++)
+		{
+			eye = vPlayerPos;
+			lookAt = vPlayerPos + lookatOffset[i];
+			up = upOffset[i];
+			D3DXMatrixLookAtLH(&viewMatrixArray[i], &eye, &lookAt, &up);
+		}
+
+		D3DXMATRIX projectionMatrix;
+		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 2, 1.0f, 0.01f, 100.0f);
+		Renderer::SetProjectionMatrix(&projectionMatrix);
+
+		//ビューポート変更
+		Renderer::SetReflectViewPort();
+
+		//6面分描画する
+		for (int i = 0; i < 6; i++)
+		{
+			Renderer::BeginCube();
+
+			//ビュー変換 Matrix 設定 
+			Renderer::SetViewMatrix(&viewMatrixArray[i]);
+
+			Scene->EnvironmentMap();
+
+			Renderer::GetDeviceContext()->CopySubresourceRegion(Renderer::GetCubeReflectTexture(), D3D11CalcSubresource(0, i, 1), 0, 0, 0, Renderer::GetReflectTexture(), 0, nullptr);
+		}
+		
 	}
 
 	//3パス目　通常の描画

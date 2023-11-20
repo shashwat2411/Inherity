@@ -27,10 +27,7 @@ void FieldDefaultMaterial::Draw()
 	depthShadowTexture = Renderer::GetDepthShadowTexture();
 
 	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-
-	Renderer::SetSamplerState(SAMPLER_STATE_CLAMP);
 	if (depthShadowTexture != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture); }
-	Renderer::SetSamplerState(SAMPLER_STATE_WRAP);
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));

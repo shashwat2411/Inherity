@@ -45,6 +45,7 @@ protected:
 
 public:
 	PLAYER* player;
+	GAMEOBJECT* torus;
 
 public:
 
@@ -53,7 +54,10 @@ public:
 	void Uninit();
 	void UpdateBefore();
 	void Draw();
+	void FakeDraw(GAMEOBJECT* var);
 	void DepthPath();
+	void EnvironmentMap();
+	void ReflectionMap(D3DXMATRIX* view);
 
 	//Virtual Functions
 	virtual void Init() {}

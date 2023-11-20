@@ -1,4 +1,4 @@
-#include "component.h"
+#include "script.h"
 
 void FirstPersonCamera::Update()
 {

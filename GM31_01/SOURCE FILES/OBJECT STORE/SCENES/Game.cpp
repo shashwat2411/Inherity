@@ -18,7 +18,7 @@ void GAME_SCENE::Init()
 	ENEMY* enemy;
 	GAMEOBJECT* rock[20];
 	BILLBOARD* tree[300];
-	GAMEOBJECT* torus;
+	//GAMEOBJECT* torus;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
@@ -77,7 +77,10 @@ void GAME_SCENE::Init()
 	//Ú‘±ˆ—
 	{
 		PlayerModel->SetParent(player);
-		MainCamera->GetComponent<Camera>()->Target = player;
+
+		//MainCamera->SetType(CAMERA::REVOLUTION);
+		MainCamera->AddComponent<RevolutionCamera>();
+		MainCamera->camera->Target = player;
 	}
 
 	//Ý’è
@@ -91,6 +94,10 @@ void GAME_SCENE::Init()
 		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		//Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
 		Field->meshField->RecreateField();
+		Field->SetReflection(true);
+
+		PlayerModel->SetReflection(true);
+		enemy->SetReflection(true);
 
 		Water->AddMaterial<WaterMaterial>();
 		Water->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
@@ -102,6 +109,7 @@ void GAME_SCENE::Init()
 		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
 		Water->SetDepthShadow(false);
 		Water->meshField->RecreateField();
+		Water->SetReflection(true);
 
 		cube->transform->Position.y = 2.0f;
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
