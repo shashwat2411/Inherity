@@ -18,7 +18,7 @@ Index of this file:
 // [SECTION] ImFont
 // [SECTION] ImGui Internal Render Helpers
 // [SECTION] Decompression code
-// [SECTION] DefaultMaterial font data (ProggyClean.ttf)
+// [SECTION] Default font data (ProggyClean.ttf)
 
 */
 
@@ -386,9 +386,9 @@ void ImDrawListSharedData::SetCircleTessellationMaxError(float max_error)
 void ImDrawList::_ResetForNewFrame()
 {
     // Verify that the ImDrawCmd fields we want to memcmp() are contiguous in memory.
-    IM_STATIC_ASSERT(offsetof(ImDrawCmd, ClipRect) == 0);
-    IM_STATIC_ASSERT(offsetof(ImDrawCmd, TextureId) == sizeof(ImVec4));
-    IM_STATIC_ASSERT(offsetof(ImDrawCmd, VtxOffset) == sizeof(ImVec4) + sizeof(ImTextureID));
+    IM_STATIC_ASSERT(IM_OFFSETOF(ImDrawCmd, ClipRect) == 0);
+    IM_STATIC_ASSERT(IM_OFFSETOF(ImDrawCmd, TextureId) == sizeof(ImVec4));
+    IM_STATIC_ASSERT(IM_OFFSETOF(ImDrawCmd, VtxOffset) == sizeof(ImVec4) + sizeof(ImTextureID));
     if (_Splitter._Count > 1)
         _Splitter.Merge(this);
 
@@ -475,7 +475,7 @@ void ImDrawList::AddCallback(ImDrawCallback callback, void* callback_data)
 }
 
 // Compare ClipRect, TextureId and VtxOffset with a single memcmp()
-#define ImDrawCmd_HeaderSize                            (offsetof(ImDrawCmd, VtxOffset) + sizeof(unsigned int))
+#define ImDrawCmd_HeaderSize                            (IM_OFFSETOF(ImDrawCmd, VtxOffset) + sizeof(unsigned int))
 #define ImDrawCmd_HeaderCompare(CMD_LHS, CMD_RHS)       (memcmp(CMD_LHS, CMD_RHS, ImDrawCmd_HeaderSize))    // Compare ClipRect, TextureId, VtxOffset
 #define ImDrawCmd_HeaderCopy(CMD_DST, CMD_SRC)          (memcpy(CMD_DST, CMD_SRC, ImDrawCmd_HeaderSize))    // Copy ClipRect, TextureId, VtxOffset
 #define ImDrawCmd_AreSequentialIdxOffset(CMD_0, CMD_1)  (CMD_0->IdxOffset + CMD_0->ElemCount == CMD_1->IdxOffset)
@@ -2199,7 +2199,7 @@ ImFont* ImFontAtlas::AddFont(const ImFontConfig* font_cfg)
     return new_font_cfg.DstFont;
 }
 
-// DefaultMaterial font TTF is compressed with stb_compress then base85 encoded (see misc/fonts/binary_to_compressed_c.cpp for encoder)
+// Default font TTF is compressed with stb_compress then base85 encoded (see misc/fonts/binary_to_compressed_c.cpp for encoder)
 static unsigned int stb_decompress_length(const unsigned char* input);
 static unsigned int stb_decompress(unsigned char* output, const unsigned char* input, unsigned int length);
 static const char*  GetDefaultCompressedFontDataTTFBase85();
@@ -2358,7 +2358,7 @@ bool    ImFontAtlas::Build()
 {
     IM_ASSERT(!Locked && "Cannot modify a locked ImFontAtlas between NewFrame() and EndFrame/Render()!");
 
-    // DefaultMaterial font is none are specified
+    // Default font is none are specified
     if (ConfigData.Size == 0)
         AddFontDefault();
 
@@ -4194,7 +4194,7 @@ static unsigned int stb_decompress(unsigned char *output, const unsigned char *i
 }
 
 //-----------------------------------------------------------------------------
-// [SECTION] DefaultMaterial font data (ProggyClean.ttf)
+// [SECTION] Default font data (ProggyClean.ttf)
 //-----------------------------------------------------------------------------
 // ProggyClean.ttf
 // Copyright (c) 2004, 2005 Tristan Grimmer

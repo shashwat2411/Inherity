@@ -48,8 +48,7 @@ Index of this file:
 // - TableUpdateLayout() [Internal]             followup to BeginTable(): setup everything: widths, columns positions, clipping rectangles. Automatically called by the FIRST call to TableNextRow() or TableHeadersRow().
 //    | TableSetupDrawChannels()                - setup ImDrawList channels
 //    | TableUpdateBorders()                    - detect hovering columns for resize, ahead of contents submission
-//    | TableBeginContextMenuPopup()
-//    | - TableDrawDefaultContextMenu()         - draw right-click context menu contents
+//    | TableDrawContextMenu()                  - draw right-click context menu
 //-----------------------------------------------------------------------------
 // - TableHeadersRow() or TableHeader()         user submit a headers row (optional)
 //    | TableSortSpecsClickColumn()             - when left-clicked: alter sort order and sort direction
@@ -76,7 +75,7 @@ Index of this file:
 //-----------------------------------------------------------------------------
 // About 'outer_size':
 // Its meaning needs to differ slightly depending on if we are using ScrollX/ScrollY flags.
-// DefaultMaterial value is ImVec2(0.0f, 0.0f).
+// Default value is ImVec2(0.0f, 0.0f).
 //   X
 //   - outer_size.x <= 0.0f  ->  Right-align from window/work-rect right-most edge. With -FLT_MIN or 0.0f will align exactly on right-most edge.
 //   - outer_size.x  > 0.0f  ->  Set Fixed width.
@@ -129,7 +128,7 @@ Index of this file:
 //   - with Table policy ImGuiTableFlags_SizingFixedSame     --> default Column policy is ImGuiTableColumnFlags_WidthFixed, default Width is max of all contents width
 //   - with Table policy ImGuiTableFlags_SizingStretchSame   --> default Column policy is ImGuiTableColumnFlags_WidthStretch, default Weight is 1.0f
 //   - with Table policy ImGuiTableFlags_SizingStretchWeight --> default Column policy is ImGuiTableColumnFlags_WidthStretch, default Weight is proportional to contents
-// DefaultMaterial Width and default Weight can be overridden when calling TableSetupColumn().
+// Default Width and default Weight can be overridden when calling TableSetupColumn().
 //-----------------------------------------------------------------------------
 // About mixing Fixed/Auto and Stretch columns together:
 //   - the typical use of mixing sizing policies is: any number of LEADING Fixed columns, followed by one or two TRAILING Stretch columns.
@@ -1191,14 +1190,10 @@ void ImGui::TableUpdateLayout(ImGuiTable* table)
         if (g.ActiveId == 0 || (table->IsActiveIdInTable || g.DragDropActive))
             table->HighlightColumnHeader = table->HoveredColumnBody;
 
-    // [Part 11] DefaultMaterial context menu
-    // - To append to this menu: you can call TableBeginContextMenuPopup()/.../EndPopup().
-    // - To modify or replace this: set table->IsContextPopupNoDefaultContents = true, then call TableBeginContextMenuPopup()/.../EndPopup().
-    // - You may call TableDrawDefaultContextMenu() with selected flags to display specific sections of the default menu,
-    //   e.g. TableDrawDefaultContextMenu(table, table->Flags & ~ImGuiTableFlags_Hideable) will display everything EXCEPT columns visibility options.
-    if (table->DisableDefaultContextMenu == false && TableBeginContextMenuPopup(table))
+    // [Part 11] Context menu
+    if (TableBeginContextMenuPopup(table))
     {
-        TableDrawDefaultContextMenu(table, table->Flags);
+        TableDrawContextMenu(table);
         EndPopup();
     }
 
@@ -3262,8 +3257,7 @@ void ImGui::TableAngledHeadersRowEx(float angle, float max_label_width)
 // [SECTION] Tables: Context Menu
 //-------------------------------------------------------------------------
 // - TableOpenContextMenu() [Internal]
-// - TableBeginContextMenuPopup() [Internal]
-// - TableDrawDefaultContextMenu() [Internal]
+// - TableDrawContextMenu() [Internal]
 //-------------------------------------------------------------------------
 
 // Use -1 to open menu not specific to a given column.
@@ -3299,13 +3293,7 @@ bool ImGui::TableBeginContextMenuPopup(ImGuiTable* table)
 
 // Output context menu into current window (generally a popup)
 // FIXME-TABLE: Ideally this should be writable by the user. Full programmatic access to that data?
-// Sections to display are pulled from 'flags_for_section_to_display', which is typically == table->Flags.
-// - ImGuiTableFlags_Resizable   -> display Sizing menu items
-// - ImGuiTableFlags_Reorderable -> display "Reset Order"
-////- ImGuiTableFlags_Sortable   -> display sorting options (disabled)
-// - ImGuiTableFlags_Hideable    -> display columns visibility menu items
-// It means if you have a custom context menus you can call this section and omit some sections, and add your own.
-void ImGui::TableDrawDefaultContextMenu(ImGuiTable* table, ImGuiTableFlags flags_for_section_to_display)
+void ImGui::TableDrawContextMenu(ImGuiTable* table)
 {
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = g.CurrentWindow;
@@ -3317,7 +3305,7 @@ void ImGui::TableDrawDefaultContextMenu(ImGuiTable* table, ImGuiTableFlags flags
     ImGuiTableColumn* column = (column_n != -1) ? &table->Columns[column_n] : NULL;
 
     // Sizing
-    if (flags_for_section_to_display & ImGuiTableFlags_Resizable)
+    if (table->Flags & ImGuiTableFlags_Resizable)
     {
         if (column != NULL)
         {
@@ -3337,7 +3325,7 @@ void ImGui::TableDrawDefaultContextMenu(ImGuiTable* table, ImGuiTableFlags flags
     }
 
     // Ordering
-    if (flags_for_section_to_display & ImGuiTableFlags_Reorderable)
+    if (table->Flags & ImGuiTableFlags_Reorderable)
     {
         if (MenuItem(LocalizeGetMsg(ImGuiLocKey_TableResetOrder), NULL, false, !table->IsDefaultDisplayOrder))
             table->IsResetDisplayOrderRequest = true;
@@ -3351,7 +3339,7 @@ void ImGui::TableDrawDefaultContextMenu(ImGuiTable* table, ImGuiTableFlags flags
     // Sorting
     // (modify TableOpenContextMenu() to add _Sortable flag if enabling this)
 #if 0
-    if ((flags_for_section_to_display & ImGuiTableFlags_Sortable) && column != NULL && (column->Flags & ImGuiTableColumnFlags_NoSort) == 0)
+    if ((table->Flags & ImGuiTableFlags_Sortable) && column != NULL && (column->Flags & ImGuiTableColumnFlags_NoSort) == 0)
     {
         if (want_separator)
             Separator();
@@ -3366,7 +3354,7 @@ void ImGui::TableDrawDefaultContextMenu(ImGuiTable* table, ImGuiTableFlags flags
 #endif
 
     // Hiding / Visibility
-    if (flags_for_section_to_display & ImGuiTableFlags_Hideable)
+    if (table->Flags & ImGuiTableFlags_Hideable)
     {
         if (want_separator)
             Separator();

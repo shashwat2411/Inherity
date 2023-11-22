@@ -869,7 +869,7 @@ enum ImGuiInputTextFlagsPrivate_
 enum ImGuiButtonFlagsPrivate_
 {
     ImGuiButtonFlags_PressedOnClick         = 1 << 4,   // return true on click (mouse down event)
-    ImGuiButtonFlags_PressedOnClickRelease  = 1 << 5,   // [DefaultMaterial] return true on click + release on same item <-- this is what the majority of Button are using
+    ImGuiButtonFlags_PressedOnClickRelease  = 1 << 5,   // [Default] return true on click + release on same item <-- this is what the majority of Button are using
     ImGuiButtonFlags_PressedOnClickReleaseAnywhere = 1 << 6, // return true on click + release even if the release event is not done while hovering the item
     ImGuiButtonFlags_PressedOnRelease       = 1 << 7,   // return true on release (default requires click+release)
     ImGuiButtonFlags_PressedOnDoubleClick   = 1 << 8,   // return true on double-click (default requires click+release)
@@ -1010,8 +1010,8 @@ struct ImGuiDataTypeInfo
 {
     size_t      Size;           // Size in bytes
     const char* Name;           // Short descriptive name for the type, for debugging
-    const char* PrintFmt;       // DefaultMaterial printf format for the type
-    const char* ScanFmt;        // DefaultMaterial scanf format for the type
+    const char* PrintFmt;       // Default printf format for the type
+    const char* ScanFmt;        // Default scanf format for the type
 };
 
 // Extend ImGuiDataType_
@@ -1404,7 +1404,7 @@ enum ImGuiInputFlags_
 {
     // Flags for IsKeyPressed(), IsMouseClicked(), Shortcut()
     ImGuiInputFlags_None                = 0,
-    ImGuiInputFlags_Repeat              = 1 << 0,   // Return true on successive repeats. DefaultMaterial for legacy IsKeyPressed(). NOT DefaultMaterial for legacy IsMouseClicked(). MUST BE == 1.
+    ImGuiInputFlags_Repeat              = 1 << 0,   // Return true on successive repeats. Default for legacy IsKeyPressed(). NOT Default for legacy IsMouseClicked(). MUST BE == 1.
     ImGuiInputFlags_RepeatRateDefault   = 1 << 1,   // Repeat rate: Regular (default)
     ImGuiInputFlags_RepeatRateNavMove   = 1 << 2,   // Repeat rate: Fast
     ImGuiInputFlags_RepeatRateNavTweak  = 1 << 3,   // Repeat rate: Faster
@@ -1430,7 +1430,7 @@ enum ImGuiInputFlags_
     // - Using ImGuiInputFlags_RouteAlways is roughly equivalent to doing e.g. IsKeyPressed(key) + testing mods.
     // - Priorities: GlobalHigh > Focused (when owner is active item) > Global > Focused (when focused window) > GlobalLow.
     // - Can select only 1 policy among all available.
-    ImGuiInputFlags_RouteFocused        = 1 << 8,   // (DefaultMaterial) Register focused route: Accept inputs if window is in focus stack. Deep-most focused window takes inputs. ActiveId takes inputs over deep-most focused window.
+    ImGuiInputFlags_RouteFocused        = 1 << 8,   // (Default) Register focused route: Accept inputs if window is in focus stack. Deep-most focused window takes inputs. ActiveId takes inputs over deep-most focused window.
     ImGuiInputFlags_RouteGlobalLow      = 1 << 9,   // Register route globally (lowest priority: unless a focused window or active item registered the route) -> recommended Global priority.
     ImGuiInputFlags_RouteGlobal         = 1 << 10,  // Register route globally (medium priority: unless an active item registered the route, e.g. CTRL+A registered by InputText).
     ImGuiInputFlags_RouteGlobalHigh     = 1 << 11,  // Register route globally (highest priority: unlikely you need to use that: will interfere with every active items)
@@ -1483,8 +1483,8 @@ struct ImGuiListClipperData
 enum ImGuiActivateFlags_
 {
     ImGuiActivateFlags_None                 = 0,
-    ImGuiActivateFlags_PreferInput          = 1 << 0,       // Favor activation that requires keyboard text input (e.g. for Slider/Drag). DefaultMaterial for Enter key.
-    ImGuiActivateFlags_PreferTweak          = 1 << 1,       // Favor activation for tweaking with arrows or gamepad (e.g. for Slider/Drag). DefaultMaterial for Space key and if keyboard is not used.
+    ImGuiActivateFlags_PreferInput          = 1 << 0,       // Favor activation that requires keyboard text input (e.g. for Slider/Drag). Default for Enter key.
+    ImGuiActivateFlags_PreferTweak          = 1 << 1,       // Favor activation for tweaking with arrows or gamepad (e.g. for Slider/Drag). Default for Space key and if keyboard is not used.
     ImGuiActivateFlags_TryToPreserveState   = 1 << 2,       // Request widget to preserve state if it can (e.g. InputText will try to preserve cursor/selection)
 };
 
@@ -2137,7 +2137,7 @@ struct ImGuiContext
     bool                    LogLineFirstItem;
     int                     LogDepthRef;
     int                     LogDepthToExpand;
-    int                     LogDepthToExpandDefault;            // DefaultMaterial/stored value for LogDepthMaxExpand if not specified in the LogXXX function call.
+    int                     LogDepthToExpandDefault;            // Default/stored value for LogDepthMaxExpand if not specified in the LogXXX function call.
 
     // Debug Tools
     ImGuiDebugLogFlags      DebugLogFlags;
@@ -2158,7 +2158,7 @@ struct ImGuiContext
     int                     FramerateSecPerFrameIdx;
     int                     FramerateSecPerFrameCount;
     float                   FramerateSecPerFrameAccum;
-    int                     WantCaptureMouseNextFrame;          // Explicit capture override via SetNextFrameWantCaptureMouse()/SetNextFrameWantCaptureKeyboard(). DefaultMaterial to -1.
+    int                     WantCaptureMouseNextFrame;          // Explicit capture override via SetNextFrameWantCaptureMouse()/SetNextFrameWantCaptureKeyboard(). Default to -1.
     int                     WantCaptureKeyboardNextFrame;       // "
     int                     WantTextInputNextFrame;
     ImVector<char>          TempBuffer;                         // Temporary text buffer
@@ -2433,7 +2433,7 @@ struct IMGUI_API ImGuiWindow
     bool                    SkipItems;                          // Set when items can safely be all clipped (e.g. window not visible or collapsed)
     bool                    Appearing;                          // Set during the frame where the window is appearing (or re-appearing)
     bool                    Hidden;                             // Do not display (== HiddenFrames*** > 0)
-    bool                    IsFallbackWindow;                   // Set on the "Debug##DefaultMaterial" window.
+    bool                    IsFallbackWindow;                   // Set on the "Debug##Default" window.
     bool                    IsExplicitChild;                    // Set when passed _ChildWindow, left to false by BeginDocked()
     bool                    HasCloseButton;                     // Set when the window has a close button (p_open != NULL)
     signed char             ResizeBorderHovered;                // Current border being hovered for resize (-1: none, otherwise 0-3)
@@ -2792,7 +2792,6 @@ struct IMGUI_API ImGuiTable
     bool                        IsSortSpecsDirty;
     bool                        IsUsingHeaders;             // Set when the first row had the ImGuiTableRowFlags_Headers flag.
     bool                        IsContextPopupOpen;         // Set when default context menu is open (also see: ContextPopupColumn, InstanceInteracted).
-    bool                        DisableDefaultContextMenu;  // Disable default context menu contents. You may submit your own using TableBeginContextMenuPopup()/EndPopup()
     bool                        IsSettingsRequestLoad;
     bool                        IsSettingsDirty;            // Set when table settings have changed and needs to be reported into ImGuiTableSetttings data.
     bool                        IsDefaultDisplayOrder;      // Set when display order is unchanged from default (DisplayOrder contains 0...Count-1)
@@ -3211,7 +3210,7 @@ namespace ImGui
     IMGUI_API void          TableUpdateBorders(ImGuiTable* table);
     IMGUI_API void          TableUpdateColumnsWeightFromWidth(ImGuiTable* table);
     IMGUI_API void          TableDrawBorders(ImGuiTable* table);
-    IMGUI_API void          TableDrawDefaultContextMenu(ImGuiTable* table, ImGuiTableFlags flags_for_section_to_display);
+    IMGUI_API void          TableDrawContextMenu(ImGuiTable* table);
     IMGUI_API bool          TableBeginContextMenuPopup(ImGuiTable* table);
     IMGUI_API void          TableMergeDrawChannels(ImGuiTable* table);
     inline ImGuiTableInstanceData*  TableGetInstanceData(ImGuiTable* table, int instance_no) { if (instance_no == 0) return &table->InstanceDataFirst; return &table->InstanceDataExtra[instance_no - 1]; }

@@ -126,6 +126,11 @@ void PlayerMovement::Update()
 	gameObject->rigidbody->Speed.x *= 0.9f;
 	gameObject->rigidbody->Speed.z *= 0.9f;
 
+	ImGui::SetNextWindowSize(ImVec2(300, 100));
+	ImGui::Begin("Player");
+	ImGui::InputFloat3("Position", gameObject->transform->Position);
+
+	ImGui::End();
 }
 
 void PlayerMovement::Draw()

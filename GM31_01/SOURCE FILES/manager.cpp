@@ -53,19 +53,22 @@ void Manager::Uninit()
 	delete Scene;
 	delete DontDestroyOnLoad;
 
+	DebugManager::Uninit();
+
 	ModelReader::UnReadModel();
 	SoundReader::UnloadAudio();
 	TextureReader::UnReadTexture();
 
 	Input::Uninit();
 
-	DebugManager::Uninit();
 	Renderer::Uninit();
 }
 
 void Manager::FixedUpdate()
 {
 	Input::Update();
+
+	DebugManager::Update();
 
 	Scene->UpdateBefore();
 	Scene->Update();

@@ -103,19 +103,7 @@ void SpriteRenderer::Draw()
 		vertex[i].Position.z = 0.0f;
 	}
 
-	//頂点バッファー生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = vertex;
-
-	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &VertexBuffer);
+	
 	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());
 
 	//シェーダー設定

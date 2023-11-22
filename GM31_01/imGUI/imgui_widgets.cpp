@@ -482,15 +482,15 @@ bool ImGui::ButtonBehavior(const ImRect& bb, ImGuiID id, bool* out_hovered, bool
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = GetCurrentWindow();
 
-    // DefaultMaterial only reacts to left mouse button
+    // Default only reacts to left mouse button
     if ((flags & ImGuiButtonFlags_MouseButtonMask_) == 0)
         flags |= ImGuiButtonFlags_MouseButtonDefault_;
 
-    // DefaultMaterial behavior requires click + release inside bounding box
+    // Default behavior requires click + release inside bounding box
     if ((flags & ImGuiButtonFlags_PressedOnMask_) == 0)
         flags |= ImGuiButtonFlags_PressedOnDefault_;
 
-    // DefaultMaterial behavior inherited from item flags
+    // Default behavior inherited from item flags
     // Note that _both_ ButtonFlags and ItemFlags are valid sources, so copy one into the item_flags and only check that.
     ImGuiItemFlags item_flags = (g.LastItemData.ID == id ? g.LastItemData.InFlags : g.CurrentItemFlags);
     if (flags & ImGuiButtonFlags_AllowOverlap)
@@ -1083,7 +1083,7 @@ bool ImGui::ImageButton(ImTextureID user_texture_id, const ImVec2& size, const I
     if (window->SkipItems)
         return false;
 
-    // DefaultMaterial to using texture ID as ID. User can still push string/integer prefixes.
+    // Default to using texture ID as ID. User can still push string/integer prefixes.
     PushID((void*)(intptr_t)user_texture_id);
     const ImGuiID id = window->GetID("#image");
     PopID();
@@ -1288,7 +1288,7 @@ void ImGui::ProgressBar(float fraction, const ImVec2& size_arg, const char* over
     const ImVec2 fill_br = ImVec2(ImLerp(bb.Min.x, bb.Max.x, fraction), bb.Max.y);
     RenderRectFilledRangeH(window->DrawList, bb, GetColorU32(ImGuiCol_PlotHistogram), 0.0f, fraction, style.FrameRounding);
 
-    // DefaultMaterial displaying the fraction as percentage string, but user can override it
+    // Default displaying the fraction as percentage string, but user can override it
     char overlay_buf[32];
     if (!overlay)
     {
@@ -2259,7 +2259,7 @@ bool ImGui::DragBehaviorT(ImGuiDataType data_type, TYPE* v, float v_speed, const
     const bool is_logarithmic = (flags & ImGuiSliderFlags_Logarithmic) != 0;
     const bool is_floating_point = (data_type == ImGuiDataType_Float) || (data_type == ImGuiDataType_Double);
 
-    // DefaultMaterial tweak speed
+    // Default tweak speed
     if (v_speed == 0.0f && is_clamped && (v_max - v_min < FLT_MAX))
         v_speed = (float)((v_max - v_min) * g.DragSpeedDefaultRatio);
 
@@ -2428,7 +2428,7 @@ bool ImGui::DragScalar(const char* label, ImGuiDataType data_type, void* p_data,
     if (!ItemAdd(total_bb, id, &frame_bb, temp_input_allowed ? ImGuiItemFlags_Inputable : 0))
         return false;
 
-    // DefaultMaterial format string when passing NULL
+    // Default format string when passing NULL
     if (format == NULL)
         format = DataTypeGetInfo(data_type)->PrintFmt;
 
@@ -3020,7 +3020,7 @@ bool ImGui::SliderScalar(const char* label, ImGuiDataType data_type, void* p_dat
     if (!ItemAdd(total_bb, id, &frame_bb, temp_input_allowed ? ImGuiItemFlags_Inputable : 0))
         return false;
 
-    // DefaultMaterial format string when passing NULL
+    // Default format string when passing NULL
     if (format == NULL)
         format = DataTypeGetInfo(data_type)->PrintFmt;
 
@@ -3187,7 +3187,7 @@ bool ImGui::VSliderScalar(const char* label, const ImVec2& size, ImGuiDataType d
     if (!ItemAdd(frame_bb, id))
         return false;
 
-    // DefaultMaterial format string when passing NULL
+    // Default format string when passing NULL
     if (format == NULL)
         format = DataTypeGetInfo(data_type)->PrintFmt;
 
@@ -6765,7 +6765,7 @@ static int ImStrimatchlen(const char* s1, const char* s1_end, const char* s2)
     return match_len;
 }
 
-// DefaultMaterial handler for finding a result for typing-select. You may implement your own.
+// Default handler for finding a result for typing-select. You may implement your own.
 // You might want to display a tooltip to visualize the current request SearchBuffer
 // When SingleCharMode is set:
 // - it is better to NOT display a tooltip of other on-screen display indicator.
@@ -6863,7 +6863,6 @@ void ImGui::SetNextItemSelectionUserData(ImGuiSelectionUserData selection_user_d
 // - ListBox()
 //-------------------------------------------------------------------------
 
-// This is essentially a thin wrapper to using BeginChild/EndChild with the ImGuiChildFlags_FrameStyle flag for stylistic changes + displaying a label.
 // Tip: To have a list filling the entire window width, use size.x = -FLT_MIN and pass an non-visible label e.g. "##empty"
 // Tip: If your vertical size is calculated from an item count (e.g. 10 * item_height) consider adding a fractional part to facilitate seeing scrolling boundaries (e.g. 10.25 * item_height).
 bool ImGui::BeginListBox(const char* label, const ImVec2& size_arg)
@@ -6893,7 +6892,7 @@ bool ImGui::BeginListBox(const char* label, const ImVec2& size_arg)
         return false;
     }
 
-    // FIXME-OPT: We could omit the BeginGroup() if label_size.x == 0.0f but would need to omit the EndGroup() as well.
+    // FIXME-OPT: We could omit the BeginGroup() if label_size.x but would need to omit the EndGroup() as well.
     BeginGroup();
     if (label_size.x > 0.0f)
     {
@@ -6902,7 +6901,7 @@ bool ImGui::BeginListBox(const char* label, const ImVec2& size_arg)
         window->DC.CursorMaxPos = ImMax(window->DC.CursorMaxPos, label_pos + label_size);
     }
 
-    BeginChild(id, frame_bb.GetSize(), ImGuiChildFlags_FrameStyle);
+    BeginChildFrame(id, frame_bb.GetSize());
     return true;
 }
 
@@ -6913,7 +6912,7 @@ void ImGui::EndListBox()
     IM_ASSERT((window->Flags & ImGuiWindowFlags_ChildWindow) && "Mismatched BeginListBox/EndListBox calls. Did you test the return value of BeginListBox?");
     IM_UNUSED(window);
 
-    EndChild();
+    EndChildFrame();
     EndGroup(); // This is only required to be able to do IsItemXXX query on the whole ListBox including label
 }
 

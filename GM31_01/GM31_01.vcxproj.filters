@@ -87,30 +87,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="imGUI\imconfig.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="imGUI\imgui.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="imGUI\imgui_impl_dx11.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="imGUI\imgui_impl_win32.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="imGUI\imgui_internal.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="imGUI\imstb_rectpack.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="imGUI\imstb_textedit.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
-    <ClInclude Include="imGUI\imstb_truetype.h">
-      <Filter>ImGUI\HEADER FILES</Filter>
-    </ClInclude>
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClInclude>
@@ -174,29 +150,32 @@
     <ClInclude Include="HEADER FILES\LOAD FUNCTIONS\audio.h">
       <Filter>2💻HEADER FILES\📚LOAD FUNCTIONS</Filter>
     </ClInclude>
+    <ClInclude Include="imGUI\imconfig.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui_impl_dx11.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui_impl_win32.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imgui_internal.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imstb_rectpack.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imstb_textedit.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
+    <ClInclude Include="imGUI\imstb_truetype.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="imGUI\imgui.cpp">
-      <Filter>ImGUI\SOURCE FILES</Filter>
-    </ClCompile>
-    <ClCompile Include="imGUI\imgui_demo.cpp">
-      <Filter>ImGUI\SOURCE FILES</Filter>
-    </ClCompile>
-    <ClCompile Include="imGUI\imgui_draw.cpp">
-      <Filter>ImGUI\SOURCE FILES</Filter>
-    </ClCompile>
-    <ClCompile Include="imGUI\imgui_impl_dx11.cpp">
-      <Filter>ImGUI\SOURCE FILES</Filter>
-    </ClCompile>
-    <ClCompile Include="imGUI\imgui_impl_win32.cpp">
-      <Filter>ImGUI\SOURCE FILES</Filter>
-    </ClCompile>
-    <ClCompile Include="imGUI\imgui_tables.cpp">
-      <Filter>ImGUI\SOURCE FILES</Filter>
-    </ClCompile>
-    <ClCompile Include="imGUI\imgui_widgets.cpp">
-      <Filter>ImGUI\SOURCE FILES</Filter>
-    </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS\Character</Filter>
     </ClCompile>
@@ -391,6 +370,27 @@
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\topDownCamera.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS\CAMERA TYPES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_demo.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_draw.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_impl_dx11.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_impl_win32.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_tables.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\imgui_widgets.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

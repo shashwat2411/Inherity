@@ -21,13 +21,11 @@ void MeshFilter::End()
 	if (m_Model != nullptr)
 	{
 		m_Model = nullptr;
-		delete m_Model;
 	}
 
 	if (m_Model_obj != nullptr)
 	{
 		m_Model_obj = nullptr;
-		delete m_Model_obj;
 	}
 }
 
@@ -85,7 +83,7 @@ void MeshFilter::SetAnimationBlend(const char* name, bool lp, float speed)
 	{
 		loop = lp;
 
-		time = 0;
+		//time = 0;
 		blendRate = 0.0f;
 
 		animationName = animationBlendName;

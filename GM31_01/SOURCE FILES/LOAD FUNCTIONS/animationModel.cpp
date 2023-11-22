@@ -277,7 +277,6 @@ void AnimationModel::Unload()
 	for (std::pair<const std::string, const aiScene*> pair : m_Animation)
 	{
 		pair.second = nullptr;
-		delete pair.second;
 	}
 
 }

@@ -1,8 +1,6 @@
 #include "main.h"
 #include "manager.h"
 #include "functions.h"
-#include "../imGUI/imgui_impl_dx11.h"
-#include "../imGUI/imgui_impl_win32.h"
 
 #include <thread>
 
@@ -26,10 +24,6 @@ HWND GetWindow()
 {
 	return g_Window;
 }
-
-#ifdef DEBUG
-extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-#endif
 
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
@@ -152,8 +146,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	return (int)msg.wParam;
 }
 
-
-
+#ifdef DEBUG
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+#endif
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
