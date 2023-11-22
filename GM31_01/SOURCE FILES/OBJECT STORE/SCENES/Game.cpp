@@ -9,6 +9,7 @@ PLANE* Water;
 IMAGE* Buffer;
 CUBE* cube;
 GAMEOBJECT* gameManager;
+AudioSource* audio;
 
 void GAME_SCENE::Init()
 {
@@ -17,6 +18,7 @@ void GAME_SCENE::Init()
 	ENEMY* enemy;
 	GAMEOBJECT* rock[20];
 	BILLBOARD* tree[300];
+	GAMEOBJECT* torus1;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
@@ -27,6 +29,8 @@ void GAME_SCENE::Init()
 	Field = AddGameObject<PLANE>();
 	Water = AddGameObject<PLANE>();
 	cube = AddGameObject<CUBE>();
+	torus = AddGameObject<EMPTYOBJECT>();
+	torus1 = AddGameObject<EMPTYOBJECT>();
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -74,7 +78,13 @@ void GAME_SCENE::Init()
 	//Ú‘±ˆ—
 	{
 		PlayerModel->SetParent(player);
-		MainCamera->GetComponent<Camera>()->Target = player;
+		//reflectionProjector->SetParent(player);
+
+		reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
+
+		//MainCamera->SetType(CAMERA::REVOLUTION);
+		MainCamera->AddComponent<RevolutionCamera>();
+		MainCamera->camera->Target = player;
 	}
 
 	//Ý’è
@@ -88,6 +98,11 @@ void GAME_SCENE::Init()
 		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		//Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
 		Field->meshField->RecreateField();
+
+		PlayerModel->SetReflection(true);
+		enemy->SetReflection(true);
+		Field->SetReflection(true);
+		Water->SetReflection(true);
 
 		Water->AddMaterial<WaterMaterial>();
 		Water->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
@@ -104,6 +119,7 @@ void GAME_SCENE::Init()
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 		cube->AddMaterial<LitTextureMaterial>();
 		//cube->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::RING_T));
+		cube->SetActive(false);
 
 		Buffer->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2 - 150.0f, 0.0f);
 		Buffer->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
@@ -111,11 +127,28 @@ void GAME_SCENE::Init()
 		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
 		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 		Score->SetDigits(3);
+
+		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
+		torus->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		torus->AddMaterial<MetallicMaterial>();
+
+		torus1->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
+		torus1->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 6.0f);
+		torus1->AddMaterial<MetallicMaterial>();
 	}
 
 	//‰¹
 	{
-		//SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
+		player->AddComponent<AudioListener>();
+
+		//audio = MainCamera->AddComponent<AudioSource>();
+		//audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
+		//audio->Play(true, 0.2f);
+
+		audio = enemy->AddComponent<AudioSource>();
+		audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
+		audio->SetThreeDimension(true);
+		audio->Play(true, 0.2f);
 	}
 }
 
@@ -149,8 +182,8 @@ void GAME_SCENE::Update()
 	//if (Input::GetKeyPress('Q')) { Water->transform->Position.y += 0.01f; }
 	//if (Input::GetKeyPress('E')) { Water->transform->Position.y -= 0.01f; }
 	//
-	//if (Input::GetKeyPress('R')) { Water->transform->Rotation.x += 0.01f; }
-	//if (Input::GetKeyPress('T')) { Water->transform->Rotation.x -= 0.01f; }
+	//if (Input::GetKeyPress('R')) { audio->volume += 0.01f; }
+	//if (Input::GetKeyPress('T')) { audio->volume -= 0.01f; }
 
 	cube->SetColor(D3DXCOLOR(r, g, b, 1.0f));
 
@@ -168,5 +201,7 @@ void GAME_SCENE::Update()
 	//sprintf(&str[strlen(str)], " | Water Y : %.2f", Water->transform->Position.y);
 	//sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
 	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
+	//sprintf(&str[strlen(str)], " | Volume : %.2f", audio->volume);
+	sprintf(&str[strlen(str)], " | Volume Percentage : %.2f", audio->volumePercentage);
 #endif
 }

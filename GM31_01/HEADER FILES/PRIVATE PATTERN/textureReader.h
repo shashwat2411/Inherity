@@ -19,6 +19,9 @@ public:
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
 		WIPE_T,
+		TOON_T,
+		ENVMAP_T,
+		ENVCUBEMAP_T,
 
 		//NORMAL MAP TEXTURES
 		FIELD_NM_T,
@@ -51,6 +54,9 @@ public:
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");
+		LoadTexture(&Textures[TOON_T], "asset\\texture\\Material_Textures\\toon.png");
+		LoadTexture(&Textures[ENVMAP_T], "asset\\texture\\Material_Textures\\EnvironmentalMapping\\envmap.png");
+		LoadTexture(&Textures[ENVCUBEMAP_T], "asset\\texture\\Material_Textures\\EnvironmentalMapping\\envmap4.dds");
 
 		LoadTexture(&Textures[FIELD_NM_T], "asset\\texture\\field004Normal.png");
 

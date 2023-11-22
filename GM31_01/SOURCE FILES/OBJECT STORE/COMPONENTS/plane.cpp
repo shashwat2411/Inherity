@@ -11,7 +11,39 @@ void Plane::Start()
 
 	collisionObject = nullptr;
 
+	VERTEX_3D vertex[4];
+	vertex[0].Position = D3DXVECTOR3(-Size.x, 0.0f, Size.y);
+	vertex[0].Normal = Normal;
+	vertex[0].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+	vertex[0].TexCoord = D3DXVECTOR2(0.0f, 0.0f);
 
+	vertex[1].Position = D3DXVECTOR3(Size.x, 0.0f, Size.y);
+	vertex[1].Normal = Normal;
+	vertex[1].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+	vertex[1].TexCoord = D3DXVECTOR2(TexCoord.x, 0.0f);
+
+	vertex[2].Position = D3DXVECTOR3(-Size.x, 0.0f, -Size.y);
+	vertex[2].Normal = Normal;
+	vertex[2].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+	vertex[2].TexCoord = D3DXVECTOR2(0.0f, TexCoord.y);
+
+	vertex[3].Position = D3DXVECTOR3(Size.x, 0.0f, -Size.y);
+	vertex[3].Normal = Normal;
+	vertex[3].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+	vertex[3].TexCoord = D3DXVECTOR2(TexCoord.x, TexCoord.y);
+
+	//頂点バッファー生成
+	D3D11_BUFFER_DESC bd;
+	ZeroMemory(&bd, sizeof(bd));
+	bd.Usage = D3D11_USAGE_DEFAULT;
+	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	bd.CPUAccessFlags = 0;
+
+	D3D11_SUBRESOURCE_DATA sd;
+	ZeroMemory(&sd, sizeof(sd));
+	sd.pSysMem = vertex;
+	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &VertexBuffer);
 	//----------------------------------------------------------------
 	gameObject->AddMaterial<FieldDefaultMaterial>();
 
@@ -79,19 +111,7 @@ void Plane::Draw()
 	vertex[3].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
 	vertex[3].TexCoord = D3DXVECTOR2(TexCoord.x, TexCoord.y);
 
-	//頂点バッファー生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-	bd.CPUAccessFlags = 0;
 
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = vertex;
-
-	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &VertexBuffer);
 
 	//入力レイアウト設定
 	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());

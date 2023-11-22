@@ -34,29 +34,55 @@ public:
 	void Update() override {}
 
 };
-class SOUND : public GAMEOBJECT
+class SOUNDAREA : public GAMEOBJECT
 {
-public:
-	Audio* audio;
-
 public:
 
 	void Init() override
 	{
 		Initialize();
 
-		ignorePause = true;
+		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::SOUND_GIZMO_M));
+
+		AddMaterial<UnlitMaterial>();
+
+
+#ifndef DEBUG
+		GetComponent<MeshFilter>()->SetEnabled(false);
+#endif
 	}
-	void Update() override
+	void Update() override {}
+
+};
+class BOXCOLLIDER : public GAMEOBJECT
+{
+public:
+
+	void Init() override
 	{
-		if (audio != nullptr)
-		{
-			if (audio->IsPlaying() == false)
-			{
-				Destroy(true);
-			}
-		}
+		Initialize();
+
+		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::BOX_COLLIDER_M));
+
+		AddMaterial<UnlitMaterial>();
+
+
+#ifndef DEBUG
+		GetComponent<MeshFilter>()->SetEnabled(false);
+#endif
 	}
+	void Update() override {}
+
+};
+class SOUND : public GAMEOBJECT
+{
+public:
+	AudioSource* source;
+
+public:
+
+	void Init() override;
+	void Update() override;
 
 };
 class CYLINDER : public GAMEOBJECT
@@ -100,7 +126,7 @@ public:
 	{
 		Initialize();
 
-		camera = AddComponent<ThirdPersonCamera>();
+		camera = AddComponent<Camera>();
 	}
 	void Update() override {}
 

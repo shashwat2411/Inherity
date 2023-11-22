@@ -8,18 +8,22 @@
 class Material
 {
 protected:
+	bool reflection;
+
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> textures;
 	std::unordered_map<std::string, float> floats;
 
 public:
 	GAMEOBJECT* gameObject;
 
+	Material() { reflection = false; }
 	virtual ~Material() {}
 
 	virtual void Start() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
+	bool GetReflection() { return reflection; }
 	float GetFloat(std::string Name) { return floats[Name]; }
 	ID3D11ShaderResourceView* GetTexture(std::string Name) { return textures[Name]; }
 
@@ -97,5 +101,23 @@ public:
 	void Start() override;
 
 	void Update() override {}
+	void Draw() override;
+};
+class ToonMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override;
+	void Draw() override;
+};
+class MetallicMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override;
 	void Draw() override;
 };

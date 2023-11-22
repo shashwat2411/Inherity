@@ -5,36 +5,47 @@
 
 #define MULTI_SAMPLE_ANTI_ALIASING 8
 
-D3D_FEATURE_LEVEL       Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
+D3D_FEATURE_LEVEL	Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
-ID3D11Device*           Renderer::m_Device{};
-ID3D11DeviceContext*    Renderer::m_DeviceContext{};
-IDXGISwapChain*         Renderer::m_SwapChain{};
-ID3D11RenderTargetView* Renderer::m_RenderTargetView{};
-ID3D11DepthStencilView* Renderer::m_DepthStencilView{};
+ID3D11Device*			Renderer::m_Device{};
+ID3D11DeviceContext*	Renderer::m_DeviceContext{};
 
-ID3D11Buffer*			Renderer::m_WorldBuffer{};
-ID3D11Buffer*			Renderer::m_ViewBuffer{};
-ID3D11Buffer*			Renderer::m_ProjectionBuffer{};
-ID3D11Buffer*			Renderer::m_MaterialBuffer{};
-ID3D11Buffer*			Renderer::m_LightBuffer{};
-ID3D11Buffer*			Renderer::m_CameraBuffer = NULL;
-ID3D11Buffer*			Renderer::m_ParameterBuffer = NULL;
+IDXGISwapChain*	Renderer::m_SwapChain{};
 
-ID3D11SamplerState*		Renderer::m_samplerState_W{};
-ID3D11SamplerState*		Renderer::m_samplerState_C{};
-ID3D11SamplerState*		Renderer::m_samplerState_M{};
+ID3D11RenderTargetView*	Renderer::m_RenderTargetView{};
+ID3D11RenderTargetView*	Renderer::m_ReflectRenderTargetView{};
+
+ID3D11DepthStencilView*	Renderer::m_DepthStencilView{};
+ID3D11DepthStencilView*	Renderer::m_DepthShadowDepthStencilView{};
+ID3D11DepthStencilView*	Renderer::m_ReflectDepthStencilView{};
+
+ID3D11ShaderResourceView*	Renderer::m_DepthShadowShaderResourceView{};
+ID3D11ShaderResourceView*	Renderer::m_CubeReflectShaderResourceView{};
+
+ID3D11Buffer*	Renderer::m_WorldBuffer{};
+ID3D11Buffer*	Renderer::m_ViewBuffer{};
+ID3D11Buffer*	Renderer::m_ProjectionBuffer{};
+ID3D11Buffer*	Renderer::m_MaterialBuffer{};
+ID3D11Buffer*	Renderer::m_LightBuffer{};
+ID3D11Buffer*	Renderer::m_CameraBuffer = NULL;
+ID3D11Buffer*	Renderer::m_ParameterBuffer = NULL;
+
+ID3D11SamplerState*	Renderer::m_samplerState_W{};
+ID3D11SamplerState*	Renderer::m_samplerState_C{};
+ID3D11SamplerState*	Renderer::m_samplerState_M{};
 
 
 ID3D11DepthStencilState* Renderer::m_DepthStateEnable{};
 ID3D11DepthStencilState* Renderer::m_DepthStateDisable{};
 
 
-ID3D11BlendState*		Renderer::m_BlendState{};
-ID3D11BlendState*		Renderer::m_BlendStateATC{};
+ID3D11BlendState*	Renderer::m_BlendState{};
+ID3D11BlendState*	Renderer::m_BlendStateATC{};
 
-ID3D11DepthStencilView*		Renderer::m_DepthShadowDepthStencilView{};
-ID3D11ShaderResourceView*	Renderer::m_DepthShadowShaderResourceView{};
+
+ID3D11Texture2D*	Renderer::m_ReflectTexture{};
+ID3D11Texture2D*	Renderer::m_CubeReflectTexture{};
+
 
 ID3D11RasterizerState*	g_RasterStateCullOff;
 ID3D11RasterizerState*	g_RasterStateCullCW;
@@ -362,8 +373,114 @@ void Renderer::Init()
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
+	
+	//Reflect Rendering
+	{
+		{
+			swapChainDesc.BufferCount = 1;
+			swapChainDesc.BufferDesc.Width = SCREEN_WIDTH;
+			swapChainDesc.BufferDesc.Height = SCREEN_HEIGHT;
+			swapChainDesc.BufferDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			swapChainDesc.BufferDesc.RefreshRate.Numerator = 60;
+			swapChainDesc.BufferDesc.RefreshRate.Denominator = 1;
+			swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
+			swapChainDesc.OutputWindow = GetWindow();
+			swapChainDesc.SampleDesc.Count = 1;
+			swapChainDesc.SampleDesc.Quality = 0;
+			swapChainDesc.Windowed = TRUE;
+
+			D3D11_TEXTURE2D_DESC td;
+			ZeroMemory(&td, sizeof(td));
+			td.ArraySize = 1;
+			td.Width = 512;
+			td.Height = 512;
+			td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			td.Usage = D3D11_USAGE_DEFAULT;
+			td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+			td.SampleDesc = swapChainDesc.SampleDesc;
+			td.MiscFlags = 0;
+			td.MipLevels = 1;
+			m_Device->CreateTexture2D(&td, NULL, &m_ReflectTexture);
 
 
+			D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+			ZeroMemory(&rtvd, sizeof(rtvd));
+			rtvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+			m_Device->CreateRenderTargetView(m_ReflectTexture, &rtvd, &m_ReflectRenderTargetView);
+
+			ID3D11Texture2D* depthTexture = NULL;
+			ZeroMemory(&td, sizeof(td));
+			td.Width = 512;
+			td.Height = 512;
+			td.MipLevels = 1;
+			td.ArraySize = 1;
+			td.Format = DXGI_FORMAT_D32_FLOAT;
+			td.SampleDesc.Count = 1;
+			td.SampleDesc.Quality = 0;
+			td.Usage = D3D11_USAGE_DEFAULT;
+			td.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+			td.CPUAccessFlags = 0;
+			td.MiscFlags = 0;
+			m_Device->CreateTexture2D(&td, NULL, &depthTexture);
+
+
+			D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+			ZeroMemory(&dsvd, sizeof(dsvd));
+			dsvd.Format = DXGI_FORMAT_D32_FLOAT;
+			dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+
+			m_Device->CreateDepthStencilView(depthTexture, &dsvd, &m_ReflectDepthStencilView);//深度有効ステート
+			depthTexture->Release();
+		}
+
+		{
+			D3D11_TEXTURE2D_DESC td;
+			ZeroMemory(&td, sizeof(td));
+			td.ArraySize = 6;
+			td.Width = 512;
+			td.Height = 512;
+			td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+			td.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS | D3D11_RESOURCE_MISC_TEXTURECUBE;
+			td.MipLevels = 1;
+			td.Usage = D3D11_USAGE_DEFAULT;
+			td.SampleDesc = swapChainDesc.SampleDesc;
+			m_Device->CreateTexture2D(&td, NULL, &m_CubeReflectTexture);
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+			ZeroMemory(&srvd, sizeof(srvd));
+			srvd.Format = td.Format;
+			srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+			srvd.TextureCube.MipLevels = td.MipLevels;
+			srvd.TextureCube.MostDetailedMip = 0;
+			m_Device->CreateShaderResourceView(m_CubeReflectTexture, &srvd, &m_CubeReflectShaderResourceView);
+		}
+
+		{
+			D3D11_TEXTURE2D_DESC td;
+			ZeroMemory(&td, sizeof(td));
+			td.ArraySize = 6;
+			td.Width = 512;
+			td.Height = 512;
+			td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+			td.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS | D3D11_RESOURCE_MISC_TEXTURECUBE;
+			td.MipLevels = 1;
+			td.Usage = D3D11_USAGE_DEFAULT;
+			td.SampleDesc = swapChainDesc.SampleDesc;
+			m_Device->CreateTexture2D(&td, NULL, &m_CubeReflectTexture);
+
+			D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+			ZeroMemory(&srvd, sizeof(srvd));
+			srvd.Format = td.Format;
+			srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURECUBE;
+			srvd.TextureCube.MipLevels = td.MipLevels;
+			srvd.TextureCube.MostDetailedMip = 0;
+			m_Device->CreateShaderResourceView(m_CubeReflectTexture, &srvd, &m_CubeReflectShaderResourceView);
+		}
+	}
+	
 
 }
 
@@ -402,6 +519,16 @@ void Renderer::Begin()
 	m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, clearColor);
 	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+}
+
+void Renderer::BeginCube()
+{
+	m_DeviceContext->OMSetRenderTargets(1, &m_ReflectRenderTargetView, m_ReflectDepthStencilView);
+
+	// バックバッファクリア
+	float clearColor[4] = { 1.0f, 0.0f, 0.5f, 1.0f };
+	m_DeviceContext->ClearRenderTargetView(m_ReflectRenderTargetView, clearColor);
+	m_DeviceContext->ClearDepthStencilView(m_ReflectDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 
@@ -603,21 +730,8 @@ void Renderer::SetDefaultViewPort()
 	vp.Height = (FLOAT)SCREEN_HEIGHT;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
-	m_DeviceContext->RSSetViewports(1, &vp);
-}
-
-void Renderer::SetDepthViewPort(float multiplier)
-{
-	// ビューポート設定
-	D3D11_VIEWPORT vp;
-	vp.Width = (FLOAT)SCREEN_WIDTH * multiplier;
-	vp.Height = (FLOAT)SCREEN_HEIGHT * multiplier;
-	vp.MinDepth = 0.0f;
-	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
+	vp.TopLeftX = 0.0f;
+	vp.TopLeftY = 0.0f;
 	m_DeviceContext->RSSetViewports(1, &vp);
 }
 
@@ -629,7 +743,33 @@ void Renderer::SetDepthViewPort()
 	vp.Height = 4096;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
-	vp.TopLeftX = 0;
-	vp.TopLeftY = 0;
+	vp.TopLeftX = 0.0f;
+	vp.TopLeftY = 0.0f;
+	m_DeviceContext->RSSetViewports(1, &vp);
+}
+
+void Renderer::SetDepthViewPort(float multiplier)
+{
+	// ビューポート設定
+	D3D11_VIEWPORT vp;
+	vp.Width = (FLOAT)SCREEN_WIDTH * multiplier;
+	vp.Height = (FLOAT)SCREEN_HEIGHT * multiplier;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0.0f;
+	vp.TopLeftY = 0.0f;
+	m_DeviceContext->RSSetViewports(1, &vp);
+}
+
+void Renderer::SetReflectViewPort()
+{
+	// ビューポート設定
+	D3D11_VIEWPORT vp;
+	vp.Width = 512;
+	vp.Height = 512;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0.0f;
+	vp.TopLeftY = 0.0f;
 	m_DeviceContext->RSSetViewports(1, &vp);
 }

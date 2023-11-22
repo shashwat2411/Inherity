@@ -3,7 +3,6 @@
 
 #include "gameobject.h"
 
-#include <xaudio2.h>
 #include <string>
 
 //‘O•ûéŒ¾
@@ -14,6 +13,8 @@ class SCENE;
 class Material;
 class AnimationModel;
 class Model;
+class Audio;
+class SOUND;
 
 #define COLLIDERS
 
@@ -25,8 +26,6 @@ class Model;
 
 #define GRAVITY_CONSTANT 1.0f
 #define GRAVITY_ACCELERATION 1.1f
-
-#define DEFAULT_VOLUME 1.0f
 
 #define TILES 20
 
@@ -95,6 +94,8 @@ public:
 	D3DXVECTOR3 Position;
 	D3DXVECTOR3 Rotation;
 	D3DXVECTOR3 Scale;
+
+	D3DXQUATERNION Quaternion;
 
 	D3DXVECTOR3 GlobalPosition;
 
@@ -290,13 +291,19 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	float GetLen() { return len; }
+	D3DXVECTOR3 GetAt() { return at; }
+	D3DXVECTOR3 GetRot() { return rot; }
 	D3DXMATRIX GetViewMatrix() { return mtxView; }
 	D3DXMATRIX GetProjectionMatrix() { return mtxProjection; }
 
+	void SetAt(D3DXVECTOR3 value) { at = value; }
 	void SetViewMatrix(D3DXMATRIX value) { mtxView = value; }
 	void SetProjectionMatrix(D3DXMATRIX value) { mtxProjection = value; }
 
 
+	D3DXVECTOR3 GetForward();
+	D3DXVECTOR3 GetRight();
 	void CameraShake(float value, float t = 15.0f / FRAME_RATE);
 	bool CheckView(Transform* target);
 };
@@ -442,39 +449,71 @@ public:
 	void SetNumber(int num) { number = num; }
 	void SetNumberColor(D3DXCOLOR value);
 };
-class Audio : public Component
+class AudioListener : public Component
 {
 private:
-	BYTE* m_SoundData{};
+	float startArea;
+	float endArea;
 
-	IXAudio2SourceVoice* m_SourceVoice{};
+	float scaleOffset;
 
-	static IXAudio2* m_Xaudio;
-	static IXAudio2MasteringVoice* m_MasteringVoice;
-
-public:
-	int m_Length;
-	int m_PlayLength;
+	GAMEOBJECT* area1;
+	GAMEOBJECT* area2;
 
 public:
 
-	void Start() override {}
-	void End() override {}
-	void Update() override {}
-	void Draw() override {}
+	void Start();
+	void End();
+	void Update();
+	void Draw();
 
-	static void InitMaster();
-	static void UninitMaster();
-	static void PlayMaster(const char *FileName, float volume = DEFAULT_VOLUME);
+	float GetStartArea() { return startArea; }
+	float GetEndArea() { return endArea; }
 
-	using Component::Component;
+	void SetArea(float start = -1.0f, float end = -1.0f) 
+	{
+		if (start >= 0.0f) { startArea = start; }
+		if (end >= 0.0f) { endArea = end; }
+	}
+};
+class AudioSource : public Component
+{
+private:
+	bool loop;
+	bool parentActive;
+	bool playOnAwake;
+	bool threeDimension;
 
-	bool IsPlaying();
-	void Load(const char *FileName);
-	void Play(bool Loop = false, float volume = DEFAULT_VOLUME);
-	void Unload();
-	void SetVolume(float volume);
-	void Stop();
+	float volume;
+
+	std::vector<AudioListener*> listeners;
+
+public:
+	float volumePercentage;
+	Audio* clip;
+
+public:
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	bool GetLoop() { return loop; }
+	bool GetPlayOnAwake() { return playOnAwake; }
+	bool GetThreeDimension() { return threeDimension; }
+	float GetVolume() { return volume; }
+
+	void SetLoop(bool value) { loop = value; }
+	void SetPlayOnAwake(bool value) { playOnAwake = value; }
+	void SetThreeDimension(bool value) { threeDimension = value; }
+	void SetVolume(float value) { volume = value; }
+
+	void Play(bool l = false, float v = 1.0f);
+	void PlayOneShot(Audio* audio, float v = 1.0f);
+
+	static SOUND* PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float volume);
+
 };
 class Animation : public Component
 {
@@ -685,41 +724,36 @@ public:
 	void SetFollowBool(bool value) { follow = value; }
 	void SetTarget(GAMEOBJECT* value) { target = value; }
 };
-
-//Camera Types
-class TopDownCamera : public Camera
+class BoxCollider : public Component
 {
 private:
+	bool isTrigger;
+	bool isKinematic;
+
+	D3DXVECTOR3 CollisionSize;
+
+	D3DXVECTOR3 vertex[8];
+
+public:
+	float scaleOffset;
+
+	GAMEOBJECT* collider = nullptr;
 
 public:
 
+	void Start() override;
+	void End() override;
 	void Update() override;
+	void Draw() override;
 
-};
-class ThirdPersonCamera : public Camera
-{
-private:
+	bool GetIsTrigger() { return isTrigger; }
+	bool GetIsKinematic() { return isKinematic; }
+	D3DXVECTOR3 GetCollisionSize() { return CollisionSize; }
+	D3DXVECTOR3* GetVertex() { return &vertex[0]; }
+	GAMEOBJECT* GetColliderObject() { return collider; }
 
-public:
-	
-	void Update() override;
-
-};
-class FirstPersonCamera : public Camera
-{
-private:
-
-public:
-
-	void Update() override;
-
-};
-class OpenWorldCamera : public Camera
-{
-private:
-
-public:
-
-	void Update() override;
+	void SetIsTrigger(bool value) { isTrigger = value; }
+	void SetIsKinematic(bool value) { isKinematic = value; }
+	void SetCollisionSize(D3DXVECTOR3 s) { CollisionSize = s; }
 
 };

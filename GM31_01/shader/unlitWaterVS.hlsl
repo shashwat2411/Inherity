@@ -9,7 +9,7 @@ void main(in VS_IN In, out PS_IN Out)
 		float4 pos = In.Position;
 
 		float frequency = dissolveThreshold;
-		float speed = 1.0f * dissolveRange;
+		float speed = -color.r * dissolveRange;
 		float value = sqrt(pos.x*pos.x + pos.z*pos.z);
 
 		float final_y = frequency * value + speed;

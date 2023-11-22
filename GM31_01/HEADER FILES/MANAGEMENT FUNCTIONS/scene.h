@@ -22,6 +22,7 @@ enum LAYER
 	CAMERA_LAYER = 0,
 	GAMEOBJECT_LAYER,
 	COLLIDER_LAYER,
+	GIZMO_LAYER,
 	BILLBOARD_LAYER,
 	SHADOW_LAYER,
 	SPRITE_LAYER,
@@ -38,6 +39,7 @@ protected:
 	CAMERA* MainCamera;
 	FADE* Fade;
 	SKYDOME* skyDome;
+	EMPTYOBJECT* reflectionProjector;
 
 	COLLISION Collision;
 
@@ -45,6 +47,7 @@ protected:
 
 public:
 	PLAYER* player;
+	GAMEOBJECT* torus;
 
 public:
 
@@ -53,7 +56,10 @@ public:
 	void Uninit();
 	void UpdateBefore();
 	void Draw();
+	void FakeDraw(GAMEOBJECT* var);
 	void DepthPath();
+	void EnvironmentMap();
+	void ReflectionMap(D3DXMATRIX* view);
 
 	//Virtual Functions
 	virtual void Init() {}
@@ -122,6 +128,25 @@ public:
 				if (buff != nullptr)
 				{
 					objects.push_back((T*)buff);
+				}
+			}
+		}
+		return objects;
+	}
+
+	//FIND MULTIPLE
+	template<typename T>
+	std::vector<T*> FindGameObjectsOfType()
+	{
+		std::vector<T*> objects;
+		for (int i = 0; i < MAX_LAYER; i++)
+		{
+			for (auto obj : GameObjects[i])
+			{
+				T* buff = obj->GetComponent<T>();
+				if(buff != nullptr)
+				{
+					objects.push_back(buff);
 				}
 			}
 		}

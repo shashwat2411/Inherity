@@ -134,3 +134,60 @@ public:
 	void Draw() override;
 
 };
+
+//Camera Scripts
+class CameraScript : public Script
+{
+protected:
+	Camera* camera;
+
+public:
+
+	void Start() { camera = gameObject->GetComponent<Camera>(); }
+
+};
+class TopDownCamera : public CameraScript
+{
+private:
+
+public:
+
+	void Update() override;
+
+};
+class ThirdPersonCamera : public CameraScript
+{
+private:
+
+public:
+
+	void Update() override;
+
+};
+class FirstPersonCamera : public CameraScript
+{
+private:
+
+public:
+
+	void Update() override;
+
+};
+class OpenWorldCamera : public CameraScript
+{
+private:
+
+public:
+
+	void Update() override;
+
+};
+class RevolutionCamera : public CameraScript
+{
+private:
+
+public:
+
+	void Update() override;
+
+};

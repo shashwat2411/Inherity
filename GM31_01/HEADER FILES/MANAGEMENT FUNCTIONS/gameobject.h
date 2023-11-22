@@ -24,6 +24,7 @@ protected:
 
 	bool depth;
 	bool depthShadow;
+	bool reflection;
 
 	bool destroy;
 	bool ignorePause;
@@ -103,6 +104,7 @@ public:
 	bool		GetActive()			{ return active; }
 	bool		GetBillboard()		{ return billboard; }
 	bool		GetDepthShadow()	{ return depthShadow; }
+	bool		GetReflection()		{ return reflection; }
 
 	bool		GetFaceInDirection() { return faceInDirection; }
 	bool		GetIgnorePause()	 { return ignorePause; }
@@ -129,7 +131,8 @@ public:
 	void SetBillboard(bool value)		{ billboard = value; }
 	void SetDepth(bool value)			{ depth = value; }
 	void SetDepthShadow(bool value)		{ depthShadow = value; }
-	void SetFaceInDirection(bool value) { faceInDirection = value; }
+	void SetFaceInDirection(bool value)	{ faceInDirection = value; }
+	void SetReflection(bool value) { reflection = value; }
 
 	void SetRingCounter(int value) { RingCounter = value; }
 	void SetColor(D3DXCOLOR color) { Color = color; }
@@ -148,17 +151,6 @@ public:
 		if (material == nullptr)
 		{
 			material = buff;
-			//if (index == -1) { material.push_back(buff); }
-			//else if(index >= 0 && index < material.size())
-			//{ 
-			//	if (material[index] != nullptr)
-			//	{
-			//		auto r = material[index];
-			//		r->end();
-			//		material[index] = buff;
-			//	}
-			//	else { material.push_back(buff); }
-			//}
 		}
 		else
 		{
@@ -218,6 +210,8 @@ public:
 			delete buff;
 		}
 	}
+
+	void RemoveComponent(Component* com);
 
 	template<class T>
 	T* GetComponentInChildren()

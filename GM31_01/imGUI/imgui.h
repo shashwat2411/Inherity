@@ -24,7 +24,7 @@
 // Library Version
 // (Integer encoded as XYYZZ for use in #if preprocessor conditionals, e.g. '#if IMGUI_VERSION_NUM >= 12345')
 #define IMGUI_VERSION       "1.90 WIP"
-#define IMGUI_VERSION_NUM   18998
+#define IMGUI_VERSION_NUM   18997
 #define IMGUI_HAS_TABLE
 
 /*
@@ -85,6 +85,7 @@ Index of this file:
 #endif
 #define IM_ARRAYSIZE(_ARR)          ((int)(sizeof(_ARR) / sizeof(*(_ARR))))     // Size of a static C-style array. Don't use on pointers!
 #define IM_UNUSED(_VAR)             ((void)(_VAR))                              // Used to silence "unused variable warnings". Often useful as asserts may be stripped out from final builds.
+#define IM_OFFSETOF(_TYPE,_MEMBER)  offsetof(_TYPE, _MEMBER)                    // Offset of _MEMBER within _TYPE. Standardized as offsetof() in C++11
 #define IMGUI_CHECKVERSION()        ImGui::DebugCheckVersionAndDataLayout(IMGUI_VERSION, sizeof(ImGuiIO), sizeof(ImGuiStyle), sizeof(ImVec2), sizeof(ImVec4), sizeof(ImDrawVert), sizeof(ImDrawIdx))
 
 // Helper Macros - IM_FMTARGS, IM_FMTLIST: Apply printf-style warnings to our formatting functions.
@@ -215,14 +216,14 @@ typedef int ImGuiWindowFlags;       // -> enum ImGuiWindowFlags_     // Flags: f
 // - To use something else than an opaque void* pointer: override with e.g. '#define ImTextureID MyTextureType*' in your imconfig.h file.
 // - This can be whatever to you want it to be! read the FAQ about ImTextureID for details.
 #ifndef ImTextureID
-typedef void* ImTextureID;          // DefaultMaterial: store a pointer or an integer fitting in a pointer (most renderer backends are ok with that)
+typedef void* ImTextureID;          // Default: store a pointer or an integer fitting in a pointer (most renderer backends are ok with that)
 #endif
 
 // ImDrawIdx: vertex index. [Compile-time configurable type]
 // - To use 16-bit indices + allow large meshes: backend need to set 'io.BackendFlags |= ImGuiBackendFlags_RendererHasVtxOffset' and handle ImDrawCmd::VtxOffset (recommended).
 // - To use 32-bit indices: override with '#define ImDrawIdx unsigned int' in your imconfig.h file.
 #ifndef ImDrawIdx
-typedef unsigned short ImDrawIdx;   // DefaultMaterial: 16-bit (for maximum compatibility with renderer backends)
+typedef unsigned short ImDrawIdx;   // Default: 16-bit (for maximum compatibility with renderer backends)
 #endif
 
 // Scalar data types
@@ -337,12 +338,7 @@ namespace ImGui
 
     // Child Windows
     // - Use child windows to begin into a self-contained independent scrolling/clipping regions within a host window. Child windows can embed their own child.
-    // - Manual sizing (each axis can use a different setting e.g. ImVec2(0.0f, 400.0f)):
-    //     == 0.0f: use remaining parent window size for this axis.
-    //      > 0.0f: use specified size for this axis.
-    //      < 0.0f: right/bottom-align to specified distance from available content boundaries.
-    // - Specifying ImGuiChildFlags_AutoResizeX or ImGuiChildFlags_AutoResizeY makes the sizing automatic based on child contents.
-    //   Combining both ImGuiChildFlags_AutoResizeX _and_ ImGuiChildFlags_AutoResizeY defeats purpose of a scrolling region and is NOT recommended.
+    // - For each independent axis of 'size': ==0.0f: use remaining host window size / >0.0f: fixed size / <0.0f: use remaining window size minus abs(size) / Each axis can use a different mode, e.g. ImVec2(0,400).
     // - BeginChild() returns false to indicate the window is collapsed or fully clipped, so you may early out and omit submitting
     //   anything to the window. Always call a matching EndChild() for each BeginChild() call, regardless of its return value.
     //   [Important: due to legacy reason, Begin/End and BeginChild/EndChild are inconsistent with all other functions
@@ -639,8 +635,8 @@ namespace ImGui
     IMGUI_API bool          Selectable(const char* label, bool* p_selected, ImGuiSelectableFlags flags = 0, const ImVec2& size = ImVec2(0, 0));      // "bool* p_selected" point to the selection state (read-write), as a convenient helper.
 
     // Widgets: List Boxes
-    // - This is essentially a thin wrapper to using BeginChild/EndChild with the ImGuiChildFlags_FrameStyle flag for stylistic changes + displaying a label.
-    // - You can submit contents and manage your selection state however you want it, by creating e.g. Selectable() or any other items.
+    // - This is essentially a thin wrapper to using BeginChild/EndChild with some stylistic changes.
+    // - The BeginListBox()/EndListBox() api allows you to manage your contents and selection state however you want it, by creating e.g. Selectable() or any items.
     // - The simplified/old ListBox() api are helpers over BeginListBox()/EndListBox() which are kept available for convenience purpose. This is analoguous to how Combos are created.
     // - Choose frame width:   size.x > 0.0f: custom  /  size.x < 0.0f or -FLT_MIN: right-align   /  size.x = 0.0f (default): use current ItemWidth
     // - Choose frame height:  size.y > 0.0f: custom  /  size.y < 0.0f or -FLT_MIN: bottom-align  /  size.y = 0.0f (default): arbitrary default height which can fit ~7 items
@@ -719,7 +715,7 @@ namespace ImGui
     //  - IMPORTANT: Notice that for OpenPopupOnItemClick() we exceptionally default flags to 1 (== ImGuiPopupFlags_MouseButtonRight) for backward compatibility with older API taking 'int mouse_button = 1' parameter
     IMGUI_API void          OpenPopup(const char* str_id, ImGuiPopupFlags popup_flags = 0);                     // call to mark popup as open (don't call every frame!).
     IMGUI_API void          OpenPopup(ImGuiID id, ImGuiPopupFlags popup_flags = 0);                             // id overload to facilitate calling from nested stacks
-    IMGUI_API void          OpenPopupOnItemClick(const char* str_id = NULL, ImGuiPopupFlags popup_flags = 1);   // helper to open popup when clicked on last item. DefaultMaterial to ImGuiPopupFlags_MouseButtonRight == 1. (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors)
+    IMGUI_API void          OpenPopupOnItemClick(const char* str_id = NULL, ImGuiPopupFlags popup_flags = 1);   // helper to open popup when clicked on last item. Default to ImGuiPopupFlags_MouseButtonRight == 1. (note: actually triggers on the mouse _released_ event to be consistent with popup behaviors)
     IMGUI_API void          CloseCurrentPopup();                                                                // manually close the popup we have begin-ed into.
 
     // Popups: open+begin combined functions helpers
@@ -898,6 +894,8 @@ namespace ImGui
     IMGUI_API const char*   GetStyleColorName(ImGuiCol idx);                                    // get a string corresponding to the enum value (for display, saving, etc.).
     IMGUI_API void          SetStateStorage(ImGuiStorage* storage);                             // replace current window storage with our own (if you want to manipulate it yourself, typically clear subsection of it)
     IMGUI_API ImGuiStorage* GetStateStorage();
+    IMGUI_API bool          BeginChildFrame(ImGuiID id, const ImVec2& size, ImGuiWindowFlags flags = 0); // helper to create a child window / scrolling region that looks like a normal widget frame
+    IMGUI_API void          EndChildFrame();                                                    // always call EndChildFrame() regardless of BeginChildFrame() return values (which indicates a collapsed/clipped window)
 
     // Text Utilities
     IMGUI_API ImVec2        CalcTextSize(const char* text, const char* text_end = NULL, bool hide_text_after_double_hash = false, float wrap_width = -1.0f);
@@ -1019,13 +1017,6 @@ enum ImGuiWindowFlags_
 
 // Flags for ImGui::BeginChild()
 // (Legacy: bit 0 must always correspond to ImGuiChildFlags_Border to be backward compatible with old API using 'bool border'.
-// About using AutoResizeX/AutoResizeY flags:
-// - May be combined with SetNextWindowSizeConstraints() to set a min/max size for each axis (see "Demo->Child->Auto-resize with Constraints").
-// - Size measurement for a given axis is only performed when the child window is within visible boundaries, or is just appearing.
-//   - This allows BeginChild() to return false when not within boundaries (e.g. when scrolling), which is more optimal. BUT it won't update its auto-size while clipped.
-//     While not perfect, it is a better default behavior as the always-on performance gain is more valuable than the occasional "resizing after becoming visible again" glitch.
-//   - You may also use ImGuiChildFlags_AlwaysAutoResize to force an update even when child window is not in view.
-//     HOWEVER PLEASE UNDERSTAND THAT DOING SO WILL PREVENT BeginChild() FROM EVER RETURNING FALSE, disabling benefits of coarse clipping.
 enum ImGuiChildFlags_
 {
     ImGuiChildFlags_None                    = 0,
@@ -1033,10 +1024,6 @@ enum ImGuiChildFlags_
     ImGuiChildFlags_AlwaysUseWindowPadding  = 1 << 1,   // Pad with style.WindowPadding even if no border are drawn (no padding by default for non-bordered child windows because it makes more sense)
     ImGuiChildFlags_ResizeX                 = 1 << 2,   // Allow resize from right border (layout direction). Enable .ini saving (unless ImGuiWindowFlags_NoSavedSettings passed to window flags)
     ImGuiChildFlags_ResizeY                 = 1 << 3,   // Allow resize from bottom border (layout direction). "
-    ImGuiChildFlags_AutoResizeX             = 1 << 4,   // Enable auto-resizing width. Read "IMPORTANT: Size measurement" details above.
-    ImGuiChildFlags_AutoResizeY             = 1 << 5,   // Enable auto-resizing height. Read "IMPORTANT: Size measurement" details above.
-    ImGuiChildFlags_AlwaysAutoResize        = 1 << 6,   // Combined with AutoResizeX/AutoResizeY. Always measure size even when child is hidden, always return true, always disable clipping optimization! NOT RECOMMENDED.
-    ImGuiChildFlags_FrameStyle              = 1 << 7,   // Style the child window like a framed item: use FrameBg, FrameRounding, FrameBorderSize, FramePadding instead of ChildBg, ChildRounding, ChildBorderSize, WindowPadding.
 };
 
 // Flags for ImGui::InputText()
@@ -1079,7 +1066,7 @@ enum ImGuiTreeNodeFlags_
     ImGuiTreeNodeFlags_AllowOverlap         = 1 << 2,   // Hit testing to allow subsequent widgets to overlap this one
     ImGuiTreeNodeFlags_NoTreePushOnOpen     = 1 << 3,   // Don't do a TreePush() when open (e.g. for CollapsingHeader) = no extra indent nor pushing on ID stack
     ImGuiTreeNodeFlags_NoAutoOpenOnLog      = 1 << 4,   // Don't automatically and temporarily open node when Logging is active (by default logging will automatically open tree nodes)
-    ImGuiTreeNodeFlags_DefaultOpen          = 1 << 5,   // DefaultMaterial node to be open
+    ImGuiTreeNodeFlags_DefaultOpen          = 1 << 5,   // Default node to be open
     ImGuiTreeNodeFlags_OpenOnDoubleClick    = 1 << 6,   // Need double-click to open node
     ImGuiTreeNodeFlags_OpenOnArrow          = 1 << 7,   // Only open when clicking on the arrow part. If ImGuiTreeNodeFlags_OpenOnDoubleClick is also set, single-click arrow or double-click all box to open.
     ImGuiTreeNodeFlags_Leaf                 = 1 << 8,   // No collapsing, no arrow (use as a convenience for leaf nodes).
@@ -1184,8 +1171,8 @@ enum ImGuiTabItemFlags_
 // - Important! Sizing policies have complex and subtle side effects, much more so than you would expect.
 //   Read comments/demos carefully + experiment with live demos to get acquainted with them.
 // - The DEFAULT sizing policies are:
-//    - DefaultMaterial to ImGuiTableFlags_SizingFixedFit    if ScrollX is on, or if host window has ImGuiWindowFlags_AlwaysAutoResize.
-//    - DefaultMaterial to ImGuiTableFlags_SizingStretchSame if ScrollX is off.
+//    - Default to ImGuiTableFlags_SizingFixedFit    if ScrollX is on, or if host window has ImGuiWindowFlags_AlwaysAutoResize.
+//    - Default to ImGuiTableFlags_SizingStretchSame if ScrollX is off.
 // - When ScrollX is off:
 //    - Table defaults to ImGuiTableFlags_SizingStretchSame -> all Columns defaults to ImGuiTableColumnFlags_WidthStretch with same weight.
 //    - Columns sizing policy allowed: Stretch (default), Fixed/Auto.
@@ -1238,8 +1225,8 @@ enum ImGuiTableFlags_
     // Clipping
     ImGuiTableFlags_NoClip                     = 1 << 20,  // Disable clipping rectangle for every individual columns (reduce draw command count, items will be able to overflow into other columns). Generally incompatible with TableSetupScrollFreeze().
     // Padding
-    ImGuiTableFlags_PadOuterX                  = 1 << 21,  // DefaultMaterial if BordersOuterV is on. Enable outermost padding. Generally desirable if you have headers.
-    ImGuiTableFlags_NoPadOuterX                = 1 << 22,  // DefaultMaterial if BordersOuterV is off. Disable outermost padding.
+    ImGuiTableFlags_PadOuterX                  = 1 << 21,  // Default if BordersOuterV is on. Enable outermost padding. Generally desirable if you have headers.
+    ImGuiTableFlags_NoPadOuterX                = 1 << 22,  // Default if BordersOuterV is off. Disable outermost padding.
     ImGuiTableFlags_NoPadInnerX                = 1 << 23,  // Disable inner padding between columns (double inner padding if BordersOuterV is on, single inner padding if BordersOuterV is off).
     // Scrolling
     ImGuiTableFlags_ScrollX                    = 1 << 24,  // Enable horizontal scrolling. Require 'outer_size' parameter of BeginTable() to specify the container size. Changes default sizing policy. Because this creates a child window, ScrollY is currently generally recommended when using ScrollX.
@@ -1260,8 +1247,8 @@ enum ImGuiTableColumnFlags_
     // Input configuration flags
     ImGuiTableColumnFlags_None                  = 0,
     ImGuiTableColumnFlags_Disabled              = 1 << 0,   // Overriding/master disable flag: hide column, won't show in context menu (unlike calling TableSetColumnEnabled() which manipulates the user accessible state)
-    ImGuiTableColumnFlags_DefaultHide           = 1 << 1,   // DefaultMaterial as a hidden/disabled column.
-    ImGuiTableColumnFlags_DefaultSort           = 1 << 2,   // DefaultMaterial as a sorting column.
+    ImGuiTableColumnFlags_DefaultHide           = 1 << 1,   // Default as a hidden/disabled column.
+    ImGuiTableColumnFlags_DefaultSort           = 1 << 2,   // Default as a sorting column.
     ImGuiTableColumnFlags_WidthStretch          = 1 << 3,   // Column will stretch. Preferable with horizontal scrolling disabled (default if table sizing policy is _SizingStretchSame or _SizingStretchProp).
     ImGuiTableColumnFlags_WidthFixed            = 1 << 4,   // Column will not stretch. Preferable with horizontal scrolling enabled (default if table sizing policy is _SizingFixedFit and table is resizable).
     ImGuiTableColumnFlags_NoResize              = 1 << 5,   // Disable manual resizing.
@@ -1424,11 +1411,6 @@ enum ImGuiSortDirection_
     ImGuiSortDirection_Ascending    = 1,    // Ascending = 0->9, A->Z etc.
     ImGuiSortDirection_Descending   = 2     // Descending = 9->0, Z->A etc.
 };
-
-// Since 1.90, defining IMGUI_DISABLE_OBSOLETE_FUNCTIONS automatically defines IMGUI_DISABLE_OBSOLETE_KEYIO as well.
-#if defined(IMGUI_DISABLE_OBSOLETE_FUNCTIONS) && !defined(IMGUI_DISABLE_OBSOLETE_KEYIO)
-#define IMGUI_DISABLE_OBSOLETE_KEYIO
-#endif
 
 // A key identifier (ImGuiKey_XXX or ImGuiMod_XXX value): can represent Keyboard, Mouse and Gamepad values.
 // All our named keys are >= 512. Keys value 0 to 511 are left unused as legacy native/opaque key values (< 1.87).
@@ -1985,8 +1967,8 @@ struct ImGuiStyle
     float             HoverStationaryDelay;     // Delay for IsItemHovered(ImGuiHoveredFlags_Stationary). Time required to consider mouse stationary.
     float             HoverDelayShort;          // Delay for IsItemHovered(ImGuiHoveredFlags_DelayShort). Usually used along with HoverStationaryDelay.
     float             HoverDelayNormal;         // Delay for IsItemHovered(ImGuiHoveredFlags_DelayNormal). "
-    ImGuiHoveredFlags HoverFlagsForTooltipMouse;// DefaultMaterial flags when using IsItemHovered(ImGuiHoveredFlags_ForTooltip) or BeginItemTooltip()/SetItemTooltip() while using mouse.
-    ImGuiHoveredFlags HoverFlagsForTooltipNav;  // DefaultMaterial flags when using IsItemHovered(ImGuiHoveredFlags_ForTooltip) or BeginItemTooltip()/SetItemTooltip() while using keyboard/gamepad.
+    ImGuiHoveredFlags HoverFlagsForTooltipMouse;// Default flags when using IsItemHovered(ImGuiHoveredFlags_ForTooltip) or BeginItemTooltip()/SetItemTooltip() while using mouse.
+    ImGuiHoveredFlags HoverFlagsForTooltipNav;  // Default flags when using IsItemHovered(ImGuiHoveredFlags_ForTooltip) or BeginItemTooltip()/SetItemTooltip() while using keyboard/gamepad.
 
     IMGUI_API ImGuiStyle();
     IMGUI_API void ScaleAllSizes(float scale_factor);
@@ -2012,7 +1994,7 @@ struct ImGuiKeyData
 struct ImGuiIO
 {
     //------------------------------------------------------------------
-    // Configuration                            // DefaultMaterial value
+    // Configuration                            // Default value
     //------------------------------------------------------------------
 
     ImGuiConfigFlags   ConfigFlags;             // = 0              // See ImGuiConfigFlags_ enum. Set by user/application. Gamepad/keyboard navigation options, etc.
@@ -2648,7 +2630,7 @@ enum ImDrawFlags_
     ImDrawFlags_RoundCornersLeft            = ImDrawFlags_RoundCornersBottomLeft | ImDrawFlags_RoundCornersTopLeft,
     ImDrawFlags_RoundCornersRight           = ImDrawFlags_RoundCornersBottomRight | ImDrawFlags_RoundCornersTopRight,
     ImDrawFlags_RoundCornersAll             = ImDrawFlags_RoundCornersTopLeft | ImDrawFlags_RoundCornersTopRight | ImDrawFlags_RoundCornersBottomLeft | ImDrawFlags_RoundCornersBottomRight,
-    ImDrawFlags_RoundCornersDefault_        = ImDrawFlags_RoundCornersAll, // DefaultMaterial to ALL corners if none of the _RoundCornersXX flags are specified.
+    ImDrawFlags_RoundCornersDefault_        = ImDrawFlags_RoundCornersAll, // Default to ALL corners if none of the _RoundCornersXX flags are specified.
     ImDrawFlags_RoundCornersMask_           = ImDrawFlags_RoundCornersAll | ImDrawFlags_RoundCornersNone,
 };
 
@@ -2955,14 +2937,14 @@ struct ImFontAtlas
     // Read https://github.com/ocornut/imgui/blob/master/docs/FONTS.md/#about-utf-8-encoding for details.
     // NB: Consider using ImFontGlyphRangesBuilder to build glyph ranges from textual data.
     IMGUI_API const ImWchar*    GetGlyphRangesDefault();                // Basic Latin, Extended Latin
-    IMGUI_API const ImWchar*    GetGlyphRangesGreek();                  // DefaultMaterial + Greek and Coptic
-    IMGUI_API const ImWchar*    GetGlyphRangesKorean();                 // DefaultMaterial + Korean characters
-    IMGUI_API const ImWchar*    GetGlyphRangesJapanese();               // DefaultMaterial + Hiragana, Katakana, Half-Width, Selection of 2999 Ideographs
-    IMGUI_API const ImWchar*    GetGlyphRangesChineseFull();            // DefaultMaterial + Half-Width + Japanese Hiragana/Katakana + full set of about 21000 CJK Unified Ideographs
-    IMGUI_API const ImWchar*    GetGlyphRangesChineseSimplifiedCommon();// DefaultMaterial + Half-Width + Japanese Hiragana/Katakana + set of 2500 CJK Unified Ideographs for common simplified Chinese
-    IMGUI_API const ImWchar*    GetGlyphRangesCyrillic();               // DefaultMaterial + about 400 Cyrillic characters
-    IMGUI_API const ImWchar*    GetGlyphRangesThai();                   // DefaultMaterial + Thai characters
-    IMGUI_API const ImWchar*    GetGlyphRangesVietnamese();             // DefaultMaterial + Vietnamese characters
+    IMGUI_API const ImWchar*    GetGlyphRangesGreek();                  // Default + Greek and Coptic
+    IMGUI_API const ImWchar*    GetGlyphRangesKorean();                 // Default + Korean characters
+    IMGUI_API const ImWchar*    GetGlyphRangesJapanese();               // Default + Hiragana, Katakana, Half-Width, Selection of 2999 Ideographs
+    IMGUI_API const ImWchar*    GetGlyphRangesChineseFull();            // Default + Half-Width + Japanese Hiragana/Katakana + full set of about 21000 CJK Unified Ideographs
+    IMGUI_API const ImWchar*    GetGlyphRangesChineseSimplifiedCommon();// Default + Half-Width + Japanese Hiragana/Katakana + set of 2500 CJK Unified Ideographs for common simplified Chinese
+    IMGUI_API const ImWchar*    GetGlyphRangesCyrillic();               // Default + about 400 Cyrillic characters
+    IMGUI_API const ImWchar*    GetGlyphRangesThai();                   // Default + Thai characters
+    IMGUI_API const ImWchar*    GetGlyphRangesVietnamese();             // Default + Vietnamese characters
 
     //-------------------------------------------
     // [BETA] Custom Rectangles/Glyphs API
@@ -3148,8 +3130,6 @@ namespace ImGui
 namespace ImGui
 {
     // OBSOLETED in 1.90.0 (from September 2023)
-    static inline bool  BeginChildFrame(ImGuiID id, const ImVec2& size, ImGuiWindowFlags window_flags = 0)                 { return BeginChild(id, size, ImGuiChildFlags_FrameStyle, window_flags); }
-    static inline void  EndChildFrame()                                                                                    { EndChild(); }
     static inline bool  BeginChild(const char* str_id, const ImVec2& size_arg, bool border, ImGuiWindowFlags window_flags) { return BeginChild(str_id, size_arg, border ? ImGuiChildFlags_Border : ImGuiChildFlags_None, window_flags); }
     static inline bool  BeginChild(ImGuiID id, const ImVec2& size_arg, bool border, ImGuiWindowFlags window_flags)         { return BeginChild(id, size_arg, border ? ImGuiChildFlags_Border : ImGuiChildFlags_None, window_flags);     }
     static inline void  ShowStackToolWindow(bool* p_open = NULL)                            { ShowIDStackToolWindow(p_open); }
@@ -3243,8 +3223,6 @@ typedef ImGuiKeyChord ImGuiModFlags;      // == int. We generally use ImGuiKeyCh
 enum ImGuiModFlags_ { ImGuiModFlags_None = 0, ImGuiModFlags_Ctrl = ImGuiMod_Ctrl, ImGuiModFlags_Shift = ImGuiMod_Shift, ImGuiModFlags_Alt = ImGuiMod_Alt, ImGuiModFlags_Super = ImGuiMod_Super };
 //typedef ImGuiKeyChord ImGuiKeyModFlags; // == int
 //enum ImGuiKeyModFlags_ { ImGuiKeyModFlags_None = 0, ImGuiKeyModFlags_Ctrl = ImGuiMod_Ctrl, ImGuiKeyModFlags_Shift = ImGuiMod_Shift, ImGuiKeyModFlags_Alt = ImGuiMod_Alt, ImGuiKeyModFlags_Super = ImGuiMod_Super };
-
-#define IM_OFFSETOF(_TYPE,_MEMBER)  offsetof(_TYPE, _MEMBER)    // OBSOLETED IN 1.90 (now using C++11 standard version)
 
 #endif // #ifndef IMGUI_DISABLE_OBSOLETE_FUNCTIONS
 
