@@ -739,8 +739,8 @@ void Renderer::SetDepthViewPort()
 {
 	// ビューポート設定
 	D3D11_VIEWPORT vp;
-	vp.Width = (FLOAT)SCREEN_WIDTH;
-	vp.Height = (FLOAT)SCREEN_HEIGHT;
+	vp.Width = 4096;
+	vp.Height = 4096;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0.0f;

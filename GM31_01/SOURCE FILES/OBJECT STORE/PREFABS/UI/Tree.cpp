@@ -4,7 +4,7 @@ void TREE::Start()
 {
 	Init();
 
-	AddMaterial<DissolveMaterial>();
+	//AddMaterial<DissolveMaterial>();
 
 	depthShadow = true;
 
