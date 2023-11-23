@@ -34,3 +34,12 @@ void ThirdPersonCamera::Update()
 		gameObject->transform->Position += PosVec * Time::fixedTimeScale;
 	}
 }
+
+void ThirdPersonCamera::EngineDisplay()
+{
+	if (ImGui::TreeNode("Third Person Camera"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

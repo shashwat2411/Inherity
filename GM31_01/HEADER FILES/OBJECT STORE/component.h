@@ -77,6 +77,7 @@ public:
 	virtual void End() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
+	virtual void EngineDisplay() = 0;
 
 	virtual void OnTriggerEnter(GAMEOBJECT* obj) {}
 	virtual void OnCollisionEnter(GAMEOBJECT* obj) {}
@@ -106,6 +107,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 	void FaceTowards(GAMEOBJECT* object);
 	void FaceTowards(D3DXVECTOR3 value);
@@ -138,6 +141,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	void SetFollowTarget(GAMEOBJECT* target, float dist) { FollowTarget = target; distance = dist; }
 };
 class Afterimage : public Component
@@ -151,6 +156,8 @@ public:
 	void End() override {}
 	void Update() override;
 	void Draw() override {}
+
+	void EngineDisplay() override;
 
 	void SetAfterimageNumber(int value) { imageNum = value; }
 };
@@ -180,6 +187,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	D3DXVECTOR2 GetSize() { return Size; }
 	D3DXVECTOR2 GetTexCoord() { return TexCoord; }
 	D3DXCOLOR GetColor() { return Color; }
@@ -196,6 +205,7 @@ private:
 
 	float blendRate;
 	float blendSpeed;
+	float frame;
 	float time;
 
 	std::string animationName;
@@ -213,6 +223,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 	const char* GetCurrentAnimation() { return animationBlendName.c_str(); }
 	bool GetAnimationOver(const char* name);
@@ -249,6 +261,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 	bool GetIsTrigger() { return isTrigger; }
 	bool GetIsKinematic() { return isKinematic; }
@@ -291,6 +305,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	float GetLen() { return len; }
 	D3DXVECTOR3 GetAt() { return at; }
 	D3DXVECTOR3 GetRot() { return rot; }
@@ -328,6 +344,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	D3DXVECTOR3 GetNormal() { return Normal; }
 
 	void SetNormal(D3DXVECTOR3 value) { Normal = value; }
@@ -362,6 +380,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	enum COOD { X = 0, Y };
 
 	bool GetAnimate() { return animate; }
@@ -390,6 +410,8 @@ public:
 	void End() override {}
 	void Update() override {}
 	void Draw() override {}
+
+	void EngineDisplay() override {}
 
 	void StrayUpdate() override {}
 };
@@ -421,6 +443,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	int GetNumberOfObjects() { return numberOfObjects; }
 
 	void SetTexture(ID3D11ShaderResourceView* text);
@@ -445,6 +469,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	void SetDigits(int num);
 	void SetNumber(int num) { number = num; }
 	void SetNumberColor(D3DXCOLOR value);
@@ -466,6 +492,8 @@ public:
 	void End();
 	void Update();
 	void Draw();
+
+	void EngineDisplay() override;
 
 	float GetStartArea() { return startArea; }
 	float GetEndArea() { return endArea; }
@@ -499,6 +527,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	bool GetLoop() { return loop; }
 	bool GetPlayOnAwake() { return playOnAwake; }
 	bool GetThreeDimension() { return threeDimension; }
@@ -523,7 +553,9 @@ public:
 		STANDBY = 0,
 		PLAYBACK,
 		END,
-		LOOP
+		LOOP,
+
+		ANIMATION_STATUS_MAX
 	};
 
 public:
@@ -555,11 +587,11 @@ public:
 		timer = 0.0f;
 		status = Animation::STANDBY;
 	}
-
-
 	void End() override {}
 	void Update() override {}
 	void Draw() override {}
+
+	void EngineDisplay() override {}
 };
 class Animator : public Component
 {
@@ -573,6 +605,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 	int GetCurrentIndex() { return animIndex; }
 	Animation::ANIMATION_STATUS GetAnimationState(int index)
@@ -640,6 +674,8 @@ public:
 	void End() override {}
 	void Update() override;
 	void Draw() override {}
+
+	void EngineDisplay() override;
 };
 class MeshField : public Component
 {
@@ -664,6 +700,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 	D3DXVECTOR3 GetNormal() { return Normal; }
 	float GetHeight(D3DXVECTOR3 position);
@@ -718,6 +756,8 @@ public:
 	}
 	void Draw() override {}
 
+	void EngineDisplay() override {}
+
 	bool GetFollowBool() { return follow; }
 	GAMEOBJECT* GetTarget() { return target; }
 
@@ -745,6 +785,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 	bool GetIsTrigger() { return isTrigger; }
 	bool GetIsKinematic() { return isKinematic; }

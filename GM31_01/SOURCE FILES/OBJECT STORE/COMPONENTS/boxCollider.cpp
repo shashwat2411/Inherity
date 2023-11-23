@@ -63,3 +63,29 @@ void BoxCollider::Draw()
 {
 
 }
+
+void BoxCollider::EngineDisplay()
+{
+	if (ImGui::TreeNode("Box Collider"))
+	{
+		char str[22];
+
+		ImGui::Checkbox("isTrigger", &isTrigger);
+		ImGui::Checkbox("Kinematic", &isKinematic);
+
+		ImGui::Text("\nCollision Size");
+		ImGui::DragFloat3("", CollisionSize, 0.1F);
+
+		if (ImGui::TreeNode("Details"))
+		{
+			std::string parent = "Parent : " + collider->Parent->GetTag() + "\n";
+			ImGui::Text(parent.c_str());
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

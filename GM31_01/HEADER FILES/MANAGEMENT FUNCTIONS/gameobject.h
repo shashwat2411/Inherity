@@ -37,7 +37,7 @@ protected:
 
 	int RingCounter = 0;
 
-	char tag[64];
+	std::string tag;
 
 	float defaultY = 1.01f;
 
@@ -81,6 +81,7 @@ public:
 	void Draw();
 	bool Remove();
 	void Destroy(bool value = true);
+	void EngineDisplay();
 
 	//Pure Virtual Functions
 	virtual void Init()		{ Initialize(); }
@@ -113,11 +114,12 @@ public:
 	bool		GetFreezeY() { return freezeY; }
 	bool		GetFreezeZ() { return freezeZ; }
 
-	int			GetRingCounter()	{ return RingCounter; }
-	const char* GetTag()			{ return tag; }
-	float		GetDefaultY()		{ return defaultY; }
-	D3DXCOLOR	GetColor()			{ return Color; }
-	Material*	GetMaterial()		{ return material; }
+	int						GetRingCounter()	{ return RingCounter; }
+	float					GetDefaultY()		{ return defaultY; }
+	D3DXCOLOR				GetColor()			{ return Color; }
+	Material*				GetMaterial()		{ return material; }
+	std::string				GetTag()			{ return tag; }
+	std::list<Component*>	GetComponentList()	{ return components; }
 
 
 	//Setter Functions
@@ -135,6 +137,8 @@ public:
 	void SetReflection(bool value) { reflection = value; }
 
 	void SetRingCounter(int value) { RingCounter = value; }
+	void SetTag(const char* value) { tag = value; }
+	void SetTag(std::string value) { tag = value; }
 	void SetColor(D3DXCOLOR color) { Color = color; }
 
 

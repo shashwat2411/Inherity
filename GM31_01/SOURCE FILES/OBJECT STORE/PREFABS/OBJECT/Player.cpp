@@ -11,7 +11,7 @@ void PLAYER::Start()
 
 	freezeY = true;
 
-	sprintf(tag, "player");
+	SetTag("Player");
 
 	transform->Position = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 }

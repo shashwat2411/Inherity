@@ -70,6 +70,20 @@ public:
 		assert(Animations["Idle"]);
 		assert(Animations["Dance"]);
 		assert(Animations["Jump"]);
+
+		//NAMING
+		ModelsOBJ[SPHERE_COLLIDER_M].name = "SPHERE_COLLIDER";
+		ModelsOBJ[BOX_COLLIDER_M].name = "BOX_COLLIDER";
+		ModelsOBJ[CYLINDER_M].name = "CYLINDER";
+		ModelsOBJ[CUBE_M].name = "CUBE";
+		ModelsOBJ[TORUS_M].name = "TORUS";
+		ModelsOBJ[SOUND_GIZMO_M].name = "SOUND_GIZMO";
+
+		ModelsOBJ[SKYDOME_M].name = "SKYDOME";
+		ModelsOBJ[ENEMY_M].name = "ENEMY";
+
+		ModelsFBX[THE_BOSS_M].name = "THE_BOSS";
+		ModelsFBX[ROCK_M].name = "ROCK";
 	}
 
 	static void UnReadModel()
@@ -98,9 +112,9 @@ public:
 	{
 		return &ModelsFBX[value];
 	}
-	static std::unordered_map<std::string, const aiScene*> GetAnimation()
+	static const aiScene* GetAnimation(const char* name)
 	{
-		return Animations;
+		return Animations[name];
 	}
 
 };

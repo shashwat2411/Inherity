@@ -13,6 +13,9 @@ void FADE::Init()
 	speed = 0.05f; //0.05f
 
 	Color = D3DXCOLOR(1.0f, 1.0, 1.0f, 1.0f);
+
+	SetTag("Fade");
+	
 	AddComponent<SpriteRenderer>()->SetSize(D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT));
 
 	AddMaterial<WipeMaterial>();

@@ -43,15 +43,19 @@ private:
 	std::vector<DEFORM_VERTEX>* m_DeformVertex;//変形後頂点データ
 	std::unordered_map<std::string, BONE> m_Bone;//ボーンデータ（名前で参照）
 
+
 	void CreateBone(aiNode* Node);
 	void UpdateBoneMatrix(aiNode* Node, aiMatrix4x4 Matrix);
 
 public:
 	bool over;
+	std::string name;
+
+public:
 
 	void Load( const char *FileName );
 	void LoadAnimation( const char *FileName, const char *Name );
-	void LoadAnimation(std::unordered_map<std::string, const aiScene*> value, const char *Name);
+	void LoadAnimation(const char *Name);
 	void Unload();
 
 	void Update(const char *AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate, float time);

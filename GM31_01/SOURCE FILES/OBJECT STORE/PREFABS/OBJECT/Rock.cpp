@@ -4,6 +4,8 @@ void ROCK::Start()
 {
 	Init();
 
+	SetTag("Rock");
+
 	AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::ROCK_M));
 	AddMaterial<DissolveMaterial>();
 

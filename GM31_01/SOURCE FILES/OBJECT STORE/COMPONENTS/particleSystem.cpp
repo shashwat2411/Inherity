@@ -127,6 +127,22 @@ void ParticleSystem::Draw()
 	}
 }
 
+void ParticleSystem::EngineDisplay()
+{
+	if (ImGui::TreeNode("Audio Source"))
+	{
+		char str[22];
+
+		ImGui::Checkbox("Loop", &loop);
+		ImGui::Checkbox("Burst\n", &burst);
+
+		ImGui::DragFloat("Rotation Speed", &rotationSpeed);
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
 void ParticleSystem::SetTexture(ID3D11ShaderResourceView* text)
 {
 	texture = text;

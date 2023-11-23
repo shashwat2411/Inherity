@@ -44,6 +44,23 @@ void BulletScript::Update()
 	}
 }
 
+void BulletScript::EngineDisplay()
+{
+	if (ImGui::TreeNode("Bullet Script"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
+void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
+{
+	//Manager::GetScene()->AddGameObject<EXPLOSION>(BILLBOARD_LAYER)->transform->Position = transform->Position;
+	//gameObject->Destroy(true);
+	//enemy->Destroy(true);
+	return;
+}
+
 void BulletScript::Shoot(GAMEOBJECT* st, float life, float speed, D3DXVECTOR3 offset)
 {
 	if (st == nullptr) { return; }
@@ -57,12 +74,4 @@ void BulletScript::Shoot(GAMEOBJECT* st, float life, float speed, D3DXVECTOR3 of
 	direction = shooter->transform->GetForwardDirection();
 
 	shooter = st;
-}
-
-void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
-{
-	//Manager::GetScene()->AddGameObject<EXPLOSION>(BILLBOARD_LAYER)->transform->Position = transform->Position;
-	//gameObject->Destroy(true);
-	//enemy->Destroy(true);
-	return;
 }

@@ -21,7 +21,7 @@ void GAME_SCENE::Init()
 	GAMEOBJECT* torus1;
 
 	//GAMEOBJECT
-	skyDome = AddGameObject<SKYDOME>(GAMEOBJECT_LAYER);
+	skyDome = AddGameObject<SKYDOME>();
 	gameManager = AddGameObject<EMPTYOBJECT>();
 	player = AddGameObject<PLAYER>();
 	PlayerModel = AddGameObject<PLAYERMODEL>();
@@ -48,8 +48,9 @@ void GAME_SCENE::Init()
 		rock[i] = AddGameObject<ROCK>();
 		rock[i]->transform->Position = position;
 	}
-
-	for (int i = 0; i < 300; i++)
+	*/
+	/*
+	for (int i = 0; i < 50; i++)
 	{
 		D3DXVECTOR3 position;
 
@@ -74,6 +75,14 @@ void GAME_SCENE::Init()
 	Buffer = AddGameObject<IMAGE>(SPRITE_LAYER);
 	Score = AddGameObject<NUMBER>(SPRITE_LAYER);
 
+	//ñºëO
+	{
+		Field->SetTag("Field");
+		Water->SetTag("Water");
+		cube->SetTag("Cube");
+		torus->SetTag("Torus");
+		torus1->SetTag("Torus1");
+	}
 
 	//ê⁄ë±èàóù
 	{

@@ -127,6 +127,8 @@ public:
 		Initialize();
 
 		camera = AddComponent<Camera>();
+
+		tag = "MainCamera";
 	}
 	void Update() override {}
 

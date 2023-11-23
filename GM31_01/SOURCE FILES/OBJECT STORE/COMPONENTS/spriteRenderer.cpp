@@ -24,7 +24,41 @@ void SpriteRenderer::Start()
 	gameObject->SetDepth(false);
 
 	{
+		float x = 0.0f;
+		float y = 0.0f;
+
+		D3DXVECTOR2 offset = D3DXVECTOR2(1.0f, 1.0f);
+
+		if (animate == true)
+		{
+			offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+			x = (count % elementsX) * offset.x;
+			y = (count / elementsX) * offset.y;
+		}
+
+
 		VERTEX_3D vertex[4];
+		vertex[0].Position = D3DXVECTOR3(-Size.x * gameObject->transform->Scale.x + barOffsetLeft, -Size.y * gameObject->transform->Scale.y, 0.0f);
+		vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		vertex[0].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+		vertex[0].TexCoord = D3DXVECTOR2(x, y);
+
+		vertex[1].Position = D3DXVECTOR3(Size.x * gameObject->transform->Scale.x + barOffsetRight, -Size.y * gameObject->transform->Scale.y, 0.0f);
+		vertex[1].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		vertex[1].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+		vertex[1].TexCoord = D3DXVECTOR2(x + offset.x, y);
+
+		vertex[2].Position = D3DXVECTOR3(-Size.x * gameObject->transform->Scale.x + barOffsetLeft, Size.y * gameObject->transform->Scale.y, 0.0f);
+		vertex[2].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		vertex[2].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+		vertex[2].TexCoord = D3DXVECTOR2(x, y + offset.y);
+
+		vertex[3].Position = D3DXVECTOR3(Size.x * gameObject->transform->Scale.x + barOffsetRight, Size.y * gameObject->transform->Scale.y, 0.0f);
+		vertex[3].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		vertex[3].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
+		vertex[3].TexCoord = D3DXVECTOR2(x + offset.x, y + offset.y);
+
+
 		//頂点バッファー生成
 		D3D11_BUFFER_DESC bd;
 		ZeroMemory(&bd, sizeof(bd));
@@ -131,4 +165,31 @@ void SpriteRenderer::Draw()
 	//ポリゴン設定
 	Renderer::GetDeviceContext()->Draw(4, 0);
 
+}
+
+void SpriteRenderer::EngineDisplay()
+{
+	if (ImGui::TreeNode("Sprite Renderer"))
+	{
+		char str[22];
+
+		ImGui::Checkbox("Animate\n", &animate);
+
+		ImGui::DragFloat2("Size", Size, 0.1F);
+		ImGui::DragFloat2("TexCoord\n", TexCoord, 0.1F);
+
+		ImGui::ColorEdit4("Color", Color);
+
+		if (ImGui::TreeNode("Details"))
+		{
+			ImGui::DragFloat("Left Offset", &barOffsetLeft, 0.05F);
+			ImGui::DragFloat("Right Offset", &barOffsetRight, 0.05F);
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
 }

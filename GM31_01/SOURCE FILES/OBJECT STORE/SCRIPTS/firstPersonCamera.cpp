@@ -6,3 +6,11 @@ void FirstPersonCamera::Update()
 	//Disable Look At
 }
 
+void FirstPersonCamera::EngineDisplay()
+{
+	if (ImGui::TreeNode("First Person Camera"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

@@ -78,6 +78,25 @@ void AudioSource::Draw()
 
 }
 
+void AudioSource::EngineDisplay()
+{
+	if (ImGui::TreeNode("Audio Source"))
+	{
+		char str[22];
+
+		ImGui::Checkbox("Loop", &loop);
+		ImGui::Checkbox("Play On Awake", &playOnAwake);
+		ImGui::Checkbox("3D\n", &threeDimension);
+
+		ImGui::PushItemWidth(-FLT_MIN);
+		sprintf_s(str, sizeof(str), "Volume : %.2f", volume);
+		ImGui::SliderFloat(" ", &volume, 0.0f, 1.0f, str);
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
 void AudioSource::Play(bool l, float v)
 {
 	loop = l;

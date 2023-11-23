@@ -35,6 +35,31 @@ void Transform::Draw()
 
 }
 
+void Transform::EngineDisplay()
+{
+	if (ImGui::TreeNode("Transform"))
+	{
+		ImGui::DragFloat3("Position", gameObject->transform->Position, 0.3F);
+		ImGui::DragFloat3("Rotation", gameObject->transform->Rotation, 0.5F);
+		ImGui::DragFloat3("Scale", gameObject->transform->Scale, 0.05F);
+
+		if (ImGui::TreeNode("Details"))
+		{
+			ImGui::Text("GlobalPosition");
+			ImGui::InputFloat3("", gameObject->transform->GlobalPosition, "%.2f");
+
+			ImGui::Text("Quaternion");
+			ImGui::InputFloat4("", gameObject->transform->Quaternion, "%.2f");
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
 
 void Transform::FaceTowards(GAMEOBJECT* object)
 {

@@ -2,6 +2,7 @@
 #include "renderer.h"
 #include "animationModel.h"
 #include "functions.h"
+#include "modelReader.h"
 
 
 #define INTERPOLATE
@@ -230,9 +231,9 @@ void AnimationModel::LoadAnimation( const char *FileName, const char *Name )
 }
 
 
-void AnimationModel::LoadAnimation(std::unordered_map<std::string, const aiScene*> value, const char *Name)
+void AnimationModel::LoadAnimation(const char *Name)
 {
-	m_Animation[Name] = value[Name];
+	m_Animation[Name] = ModelReader::GetAnimation(Name);
 	over = false;
 }
 

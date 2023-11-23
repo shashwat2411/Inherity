@@ -230,3 +230,8 @@ void GAMEOBJECT::RemoveComponent(Component* com)
 	components.remove(com);
 	delete com;
 }
+
+void GAMEOBJECT::EngineDisplay()
+{
+	ImGui::Checkbox("Active", &active);
+}

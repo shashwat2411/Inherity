@@ -152,3 +152,15 @@ void Plane::Draw()
 	//ƒ|ƒŠƒSƒ“Ý’è
 	Renderer::GetDeviceContext()->Draw(4, 0);
 }
+
+void Plane::EngineDisplay()
+{
+	if (ImGui::TreeNode("Plane"))
+	{
+		ImGui::DragFloat2("Size", Size, 0.1F);
+		ImGui::DragFloat2("TexCoord", TexCoord, 0.1F);
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

@@ -18,6 +18,7 @@ void SCENE::InitBefore()
 	Fade = Manager::GetDontDestroyOnLoadScene()->FindGameObject<FADE>();
 	if (Fade == nullptr) { Fade = Manager::GetDontDestroyOnLoadScene()->AddGameObject<FADE>(FADE_LAYER); }
 
+	reflectionProjector->SetTag("Reflection");
 	reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 
 	Fade->SetFadeIn();

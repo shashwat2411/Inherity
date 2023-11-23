@@ -68,3 +68,12 @@ void Ground::Draw()
 {
 	
 }
+
+void Ground::EngineDisplay()
+{
+	if (ImGui::TreeNode("Ground"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
