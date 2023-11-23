@@ -1,7 +1,5 @@
 #pragma once
-#include "../imGUI/imgui.h"
-#include "../imGUI/imgui_impl_win32.h"
-#include "../imGUI/imgui_impl_dx11.h"
+#include "main.h"
 
 class SCENE;
 
@@ -15,4 +13,7 @@ public:
 	static void Draw();
 
 	static void TransformDraw(SCENE* scene);
+
+	static bool BoolDisplay(bool* value, float offset, const char* text, int index = 0, bool uneditable = false);
+	static float FloatDisplay(float* value, float offset, const char* text, bool drag, D3DXVECTOR2 speedLimit, int index = 0, bool uneditable = false);
 };

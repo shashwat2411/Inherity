@@ -148,27 +148,9 @@ void PlayerMovement::EngineDisplay()
 		ImGui::PushItemWidth(-FLT_MIN);
 		ImGui::SliderInt(" \n", &playerstat, 0, PS_MAX - 1, playerStatus[playerstat]);
 
-		ImGui::PushItemWidth(-100.0f);
-		int jumper = jump;
-		ImGui::PushID(0);
-		if (jump == false) { ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(1.0f, 0.0f, 0.0f, 1.0f)); }
-		else { ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); }
-		ImGui::SliderInt("", &jumper, 0, 1, "Jump");
-		ImGui::PopStyleColor(1);
-		ImGui::PopID();
-		//if (jump == false) { ImGui::PushStyleColor(ImGui::GetItemID(), ImVec4(1.0f, 0.0f, 0.0f, color.w)); }
-		//else { ImGui::PushStyleColor(ImGui::GetItemID(), ImVec4(0.0f, 1.0f, 0.0f, color.w)); }
-		//if () {  }
-
-		ImGui::PushItemWidth(-100.0f);
-
-		jumper = move;
-		ImGui::PushID(0);
-		if (move == false) { ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(1.0f, 0.0f, 0.0f, 1.0f)); }
-		else { ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.0f, 1.0f, 0.0f, 1.0f)); }
-		ImGui::SliderInt("  ", &jumper, 0, 1, "Move");
-		ImGui::PopStyleColor(1);
-		ImGui::PopID();
+		DebugManager::BoolDisplay(&jump, -200.0f, "Jump", 0, true);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&move, -146.0f, "Move", 1, true);
 
 		ImGui::TreePop();
 		ImGui::Spacing();

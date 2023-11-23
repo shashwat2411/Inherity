@@ -54,9 +54,16 @@ void Rigidbody::EngineDisplay()
 {
 	if (ImGui::TreeNode("Rigidbody"))
 	{
-		ImGui::Checkbox("Use Gravity", &useGravity);
+		//char str[22];
 
-		ImGui::DragFloat("Acceleration", &Acceleration);
+		DebugManager::BoolDisplay(&useGravity, -200.0f, "Gravity");
+
+
+		DebugManager::FloatDisplay(&Acceleration, -FLT_MIN, "Acceleration", true, D3DXVECTOR2(0.05f, 0.0f), 1);
+		//ImGui::PushItemWidth(-FLT_MIN);
+		//sprintf_s(str, sizeof(str), "Acceleration : %.2f", Acceleration);
+		//ImGui::DragFloat("", &Acceleration, 0.1F, 0.0F, 0.0F, str);
+
 		ImGui::DragFloat3("Speed", Speed);
 
 		ImGui::TreePop();

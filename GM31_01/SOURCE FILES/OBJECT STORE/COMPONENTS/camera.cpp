@@ -1,9 +1,15 @@
 #include "component.h"
 #include "manager.h"
 
+float cameraShakeValueGlobal = 0.0f;
+float cameraShakeLimitGlobal = 15.0f / FRAME_RATE;
+bool cameraShakeBoolGlobal = false;
+
 void Camera::Start()
 {
 	shake = false;
+
+	power = 1;
 
 	fov = 60.0f;
 	len = 0.0f;
@@ -44,10 +50,10 @@ void Camera::Draw()
 	{
 		shakeCounter += Time::deltaTime;
 		time += Time::deltaTime;
-		if (shakeCounter >= 3.0f / FRAME_RATE) { shakeValue *= -1; shakeCounter = 0.0f; }
-		at.x += shakeValue * Time::fixedTimeScale;
+		if (shakeCounter >= 3.0f / FRAME_RATE) { power *= -1; shakeCounter = 0.0f; }
+		at.x += shakeValue * power * Time::fixedTimeScale;
 
-		if (time >= limit) { shake = false; }
+		if (time >= limit) { shake = false; cameraShakeBoolGlobal = false; }
 	}
 
 
@@ -68,19 +74,32 @@ void Camera::EngineDisplay()
 {
 	if (ImGui::TreeNode("Camera"))
 	{
-		ImGui::Text("Target : %s", Target->GetTag().c_str());
+		ImGui::Text("Target : %s", (Target ? Target->GetTag().c_str() : "nullptr"));
 
-		ImGui::PushItemWidth(-FLT_MIN);
-		char str[14];
-		sprintf_s(str, sizeof(str),"FOV : %.2f", fov);
-		ImGui::SliderFloat(" ", &fov, 1.0f, 120.0f, str);
 
-		if (ImGui::Checkbox("Shake", &shake)) { CameraShake(shakeValue); }
+		DebugManager::FloatDisplay(&fov, -FLT_MIN, "FOV", false, D3DXVECTOR2(1.0f, 120.0f), 0);
+		//ImGui::PushItemWidth(-FLT_MIN);
+		//char str[14];
+		//sprintf_s(str, sizeof(str),"FOV : %.2f", fov);
+		//ImGui::SliderFloat(" ", &fov, 1.0f, 120.0f, str);
+
+		if (DebugManager::BoolDisplay(&shake, -200.0f, "Shake", 1)) { 
+			CameraShake(cameraShakeValueGlobal, cameraShakeLimitGlobal); 
+		}
 
 		if (ImGui::TreeNode("Details"))
 		{
-			ImGui::PushItemWidth(-FLT_MIN);
-			ImGui::SliderFloat(" ", &shakeValue, 0.01f, 2.0f, "Shake Value");
+			//char str[22];
+
+			//ImGui::PushItemWidth(-FLT_MIN);
+			//sprintf_s(str, sizeof(str), "Shake Value : %.2f", cameraShakeValueGlobal);
+			//ImGui::DragFloat(" ", &cameraShakeValueGlobal, 0.01F, 0.0F, 0.0F, str);
+			DebugManager::FloatDisplay(&cameraShakeValueGlobal, -FLT_MIN, "Shake Value", true, D3DXVECTOR2(0.01f, 0.0f), 2);
+			DebugManager::FloatDisplay(&cameraShakeLimitGlobal, -FLT_MIN, "Shake Time", false, D3DXVECTOR2(15.0f / FRAME_RATE, 1.0f), 3);
+
+			//ImGui::PushItemWidth(-FLT_MIN);
+			//sprintf_s(str, sizeof(str), "Shake Time : %.2f", cameraShakeLimitGlobal);
+			//ImGui::SliderFloat("  ", &cameraShakeLimitGlobal, 15.0f / FRAME_RATE, 1.0f, str);
 
 			ImGui::Text("Target Transform");
 			Target->transform->EngineDisplay();
@@ -122,12 +141,13 @@ D3DXVECTOR3 Camera::GetRight()
 
 void Camera::CameraShake(float value, float t)
 {
-	//if (shake == false)
+	if (cameraShakeBoolGlobal == false)
 	{
+		cameraShakeBoolGlobal = true;
 		shake = true;
 		limit = t;
 		shakeCounter = 0.0f;
-		shakeValue = value * 2;
+		shakeValue = value;
 		time = 0.0f;
 	}
 }

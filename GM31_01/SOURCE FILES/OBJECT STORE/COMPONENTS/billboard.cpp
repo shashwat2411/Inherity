@@ -179,12 +179,15 @@ void Billboard::EngineDisplay()
 {
 	if (ImGui::TreeNode("Billboard"))
 	{
-		char str[22];
+		//char str[22];
 
-		ImGui::Checkbox("Animate", &animate);
-		ImGui::Checkbox("Flip", &flip);
+		DebugManager::BoolDisplay(&animate, -200.0f, "Animate");
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&flip, -146.0f, "Flip", 1);
+		
+		ImGui::Text("\n");
 
-		ImGui::DragFloat2("\nSize", Size, 0.1F);
+		ImGui::DragFloat2("Size", Size, 0.1F);
 		ImGui::DragFloat2("TexCoord", TexCoord, 0.1F);
 		ImGui::DragFloat2("Offset", Offset, 0.1F);
 

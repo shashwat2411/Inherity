@@ -51,12 +51,16 @@ void SphereCollider::EngineDisplay()
 {
 	if (ImGui::TreeNode("Sphere Collider"))
 	{
-		char str[22];
+		//char str[22];
 
-		ImGui::Checkbox("isTrigger", &isTrigger);
-		ImGui::Checkbox("Kinematic\n", &isKinematic);
 
-		ImGui::DragFloat("Collision Size", &CollisionSize, 0.01F);
+		DebugManager::BoolDisplay(&isTrigger, -180.0f, "IsTrigger");
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&isKinematic, -70.0f, "Kinematic", 1);
+
+
+		DebugManager::FloatDisplay(&CollisionSize, -FLT_MIN, "Collision Size", true, D3DXVECTOR2(0.01f, 0.0f), 2);
+		//ImGui::DragFloat("Collision Size", &CollisionSize, 0.01F);
 
 		if (ImGui::TreeNode("Details"))
 		{

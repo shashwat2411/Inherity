@@ -81,7 +81,7 @@ void MeshFilter::EngineDisplay()
 
 		if (ImGui::TreeNode("Details"))
 		{
-			ImGui::LabelText("##Label", "FBX : %s", fbx ? "true" : "false");
+			DebugManager::BoolDisplay(&fbx, -200.0f, "FBX", 0, true);
 			if (fbx)
 			{
 				std::string name;
@@ -92,8 +92,10 @@ void MeshFilter::EngineDisplay()
 				name = "	Animation 2 : " + animationBlendName;
 				ImGui::Text(name.c_str());
 
-				ImGui::LabelText("##Label", "	Time : %.2f", time);
-				ImGui::LabelText("##Label", "	Loop : %s", loop ? "true" : "false");
+
+				DebugManager::FloatDisplay(&time, -FLT_MIN, "Time", true, D3DXVECTOR2(0.01f, 0.0f), 1, true);
+				//ImGui::LabelText("##Label", "	Time : %.2f", time);
+				DebugManager::BoolDisplay(&loop, -200.0f, "Loop", true, 2);
 			}
 
 			ImGui::TreePop();

@@ -82,15 +82,20 @@ void AudioSource::EngineDisplay()
 {
 	if (ImGui::TreeNode("Audio Source"))
 	{
-		char str[22];
+		//char str[22];
 
-		ImGui::Checkbox("Loop", &loop);
-		ImGui::Checkbox("Play On Awake", &playOnAwake);
-		ImGui::Checkbox("3D\n", &threeDimension);
+		DebugManager::BoolDisplay(&loop, -200.0f, "Loop");
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&playOnAwake, -100.0f, "Play On Awake", 1);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&threeDimension, -40.0f, "3D", 2);
 
-		ImGui::PushItemWidth(-FLT_MIN);
-		sprintf_s(str, sizeof(str), "Volume : %.2f", volume);
-		ImGui::SliderFloat(" ", &volume, 0.0f, 1.0f, str);
+		ImGui::Text("\n");
+
+		DebugManager::FloatDisplay(&volume, -FLT_MIN, "Volume", false, D3DXVECTOR2(0.0f, 1.0f), 3);
+		//ImGui::PushItemWidth(-FLT_MIN);
+		//sprintf_s(str, sizeof(str), "Volume : %.2f", volume);
+		//ImGui::SliderFloat(" ", &volume, 0.0f, 1.0f, str);
 
 		ImGui::TreePop();
 		ImGui::Spacing();

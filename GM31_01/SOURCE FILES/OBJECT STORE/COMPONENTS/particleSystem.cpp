@@ -131,12 +131,19 @@ void ParticleSystem::EngineDisplay()
 {
 	if (ImGui::TreeNode("Audio Source"))
 	{
-		char str[22];
+		//char str[22];
 
-		ImGui::Checkbox("Loop", &loop);
-		ImGui::Checkbox("Burst\n", &burst);
 
-		ImGui::DragFloat("Rotation Speed", &rotationSpeed);
+		DebugManager::BoolDisplay(&loop, -200.0f, "Loop");
+		DebugManager::BoolDisplay(&burst, -146.0f, "Burst", 1);
+
+		ImGui::Text("\n");
+		
+
+		DebugManager::FloatDisplay(&rotationSpeed, -FLT_MIN, "Rotation Speed", true, D3DXVECTOR2(0.1f, 0.0f), 2);
+		//ImGui::PushItemWidth(-FLT_MIN);
+		//sprintf_s(str, sizeof(str), "Rotation Speed : %.2f", rotationSpeed);
+		//ImGui::DragFloat("", &rotationSpeed, 0.1F, 0.0F, 0.0F, str);
 
 		ImGui::TreePop();
 		ImGui::Spacing();

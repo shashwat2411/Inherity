@@ -51,15 +51,17 @@ void AudioListener::EngineDisplay()
 {
 	if (ImGui::TreeNode("Audio Listener"))
 	{
-		char str[22];
+		//char str[22];
 
-		ImGui::PushItemWidth(-FLT_MIN);
-		sprintf_s(str, sizeof(str), "Start Area : %.2f", startArea);
-		ImGui::SliderFloat(" ", &startArea, 1.0f, 5.0f, str);
+		DebugManager::FloatDisplay(&startArea, -FLT_MIN, "Start Area", false, D3DXVECTOR2(1.0f, 5.0f));
+		DebugManager::FloatDisplay(&endArea, -FLT_MIN, "End Area", false, D3DXVECTOR2(5.0f, 25.0f), 1);
+		//ImGui::PushItemWidth(-FLT_MIN);
+		//sprintf_s(str, sizeof(str), "Start Area : %.2f", startArea);
+		//ImGui::SliderFloat(" ", &startArea, 1.0f, 5.0f, str);
 
-		ImGui::PushItemWidth(-FLT_MIN);
-		sprintf_s(str, sizeof(str), "End Area : %.2f", endArea);
-		ImGui::SliderFloat("  ", &endArea, 5.0f, 25.0f, str);
+		//ImGui::PushItemWidth(-FLT_MIN);
+		//sprintf_s(str, sizeof(str), "End Area : %.2f", endArea);
+		//ImGui::SliderFloat("  ", &endArea, 5.0f, 25.0f, str);
 
 		if (ImGui::TreeNode("Details"))
 		{
