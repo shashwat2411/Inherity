@@ -4,17 +4,29 @@
 #include "../imGUI/imgui.h"
 #include "../imGUI/imgui_impl_dx11.h"
 #include "../imGUI/imgui_impl_win32.h"
+#include "manager.h"
+#include "input.h"
 
 
 bool show_demo_window = true;
 
+int index = 0;
+int layer = 0;
+
+const char* str[MAX_LAYER] =
+{
+	"CAMERA_LAYER",
+	"GAMEOBJECT_LAYER",
+	"COLLIDER_LAYER",
+	"GIZMO_LAYER",
+	"BILLBOARD_LAYER",
+	"SHADOW_LAYER",
+	"SPRITE_LAYER",
+	"FADE_LAYER"
+};
+
 void DebugManager::Init()
 {
-	//ImGui::CreateContext();
-	//ImGui_ImplWin32_Init(GetWindow());
-	//ImGui_ImplDX11_Init(Renderer::GetDevice(), Renderer::GetDeviceContext());
-
-		// Setup Dear ImGui context
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -31,8 +43,6 @@ void DebugManager::Init()
 
 
 	io.Fonts->AddFontDefault();
-
-
 }
 
 void DebugManager::Uninit()
@@ -52,21 +62,46 @@ void DebugManager::Update()
 
 void DebugManager::Draw()
 {
-
-	// 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-	//if (show_demo_window)
-	//	ImGui::ShowDemoWindow(&show_demo_window);
-
-	//ImGui::BeginGroup();
-	//// ImGuiウィンドウやコントロールの作成と更新
-	//ImGui::SetNextWindowSize(ImVec2(100, 100), ImGuiCond_Once);
-	//ImGui::Begin("hoge", ((bool*)0), ImGuiWindowFlags_NoResize);
-	//ImGui::Text("fugafuga");
-	//ImGui::End();
-
+	 //1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 
 	// ImGuiコード
 	//フレームの描画
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+}
+
+void DebugManager::TransformDraw(SCENE * scene)
+{
+	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
+
+	ImGui::BeginGroup();
+	//ImGui::SetNextWindowSize(ImVec2(140, 75));
+
+	ImGui::Begin("Index");
+	ImGui::PushItemWidth(-FLT_MIN);
+	ImGui::SliderInt(" ", &layer, 0, MAX_LAYER - 1, str[layer]);
+
+	if (index > vector.size() - 1) { index = vector.size() - 1; }
+	ImGui::PushItemWidth(-FLT_MIN);
+	if (vector[0] != nullptr) { ImGui::SliderInt("", &index, 0, vector.size() - 1, vector[index]->GetTag().c_str()); }
+	//ImGui::InputInt("Layer", &layer);
+
+	//ImGui::SetNextWindowSize(ImVec2(200, 170));
+	ImGui::Begin("Inspector");
+	{
+		if (vector[0] != nullptr)
+		{
+			vector[index]->EngineDisplay();
+
+			for (auto component : vector[index]->GetComponentList())
+			{
+				ImGui::SeparatorText("");
+				component->EngineDisplay();
+			}
+		}
+	}
+
+	ImGui::End();
 }

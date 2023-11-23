@@ -38,3 +38,12 @@ void Afterimage::Update()
 		gameObject->SetRingCounter(gameObject->GetRingCounter() % MAX_AFTERIMAGES);
 	}
 }
+
+void Afterimage::EngineDisplay()
+{
+	if (ImGui::TreeNode("Afterimage"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

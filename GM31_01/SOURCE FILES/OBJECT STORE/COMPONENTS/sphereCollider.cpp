@@ -15,6 +15,7 @@ void SphereCollider::Start()
 	//----------------------------------------------------------------
 	collider = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>(COLLIDER_LAYER);
 	collider->Parent = gameObject;
+	collider->SetTag(collider->Parent->GetTag());
 
 	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
 	collider->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
@@ -44,4 +45,29 @@ void SphereCollider::Update()
 void SphereCollider::Draw()
 {
 
+}
+
+void SphereCollider::EngineDisplay()
+{
+	if (ImGui::TreeNode("Sphere Collider"))
+	{
+		char str[22];
+
+		ImGui::Checkbox("isTrigger", &isTrigger);
+		ImGui::Checkbox("Kinematic\n", &isKinematic);
+
+		ImGui::DragFloat("Collision Size", &CollisionSize, 0.01F);
+
+		if (ImGui::TreeNode("Details"))
+		{
+			std::string parent = "Parent : " + collider->Parent->GetTag() + "\n";
+			ImGui::Text(parent.c_str());
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
 }

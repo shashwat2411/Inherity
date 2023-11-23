@@ -21,4 +21,14 @@ void EnemyScript::Update()
 
 void EnemyScript::Draw()
 {
+
+}
+
+void EnemyScript::EngineDisplay()
+{
+	if (ImGui::TreeNode("Enemy Script"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
 }

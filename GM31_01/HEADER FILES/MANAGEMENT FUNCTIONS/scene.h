@@ -69,6 +69,18 @@ public:
 	PLAYER* GetPlayer() { return player; }
 	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
 	std::list<GAMEOBJECT*> GetGameObjectList(LAYER layer) { return GameObjects[layer]; }
+	std::vector<GAMEOBJECT*> GetGameObjectListVector(LAYER layer) 
+	{
+		std::vector<GAMEOBJECT*> vector;
+		int i = 0;
+		for (auto obj : GameObjects[layer])
+		{
+			i++;
+			vector.push_back(obj);
+		}
+		if (i == 0) { vector.push_back(nullptr); }
+		return vector;
+	}
 
 	void SetEnd() { end = true; }
 

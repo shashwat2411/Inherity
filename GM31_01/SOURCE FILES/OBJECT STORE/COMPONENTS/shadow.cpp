@@ -52,3 +52,12 @@ void Shadow::Update()
 	//	}
 	//}
 }
+
+void Shadow::EngineDisplay()
+{
+	if (ImGui::TreeNode("Shadow"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

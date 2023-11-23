@@ -196,6 +196,18 @@ void MeshField::Draw()
 	Renderer::GetDeviceContext()->DrawIndexed(((TILES + 2) * 2) * TILES - 2, 0, 0);
 }
 
+void MeshField::EngineDisplay()
+{
+	if (ImGui::TreeNode("Mesh Field"))
+	{
+		ImGui::DragFloat2("Size", Size, 0.1F);
+		ImGui::DragFloat2("TexCoord", TexCoord, 0.1F);
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
 float MeshField::GetHeight(D3DXVECTOR3 position)
 {
 	int x, z;

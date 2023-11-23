@@ -11,14 +11,14 @@ void PLAYERMODEL::Start()
 	//AddMaterial<DissolveMaterial>();
 	//AddMaterial<UnlitMaterial>();
 
-	sprintf(tag, "model");
+	SetTag("PlayerModel");
 
 	model->SetModel(ModelReader::GetReadModel(ModelReader::THE_BOSS_M));
 
-	model->GetModel()->LoadAnimation(ModelReader::GetAnimation(), "Run");
-	model->GetModel()->LoadAnimation(ModelReader::GetAnimation(), "Idle");
-	model->GetModel()->LoadAnimation(ModelReader::GetAnimation(), "Dance");
-	model->GetModel()->LoadAnimation(ModelReader::GetAnimation(), "Jump");
+	model->GetModel()->LoadAnimation("Run");
+	model->GetModel()->LoadAnimation("Idle");
+	model->GetModel()->LoadAnimation("Dance");
+	model->GetModel()->LoadAnimation("Jump");
 
 	model->SetDefaultAnimation("Idle");
 

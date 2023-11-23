@@ -17,9 +17,7 @@
 #include <d3dx11.h>
 
 //ImGUI
-#include "../imGUI/imgui.h"
-#include "../imGUI/imgui_impl_win32.h"
-#include "../imGUI/imgui_impl_dx11.h"
+#include "debugManager.h"
 
 #pragma warning(pop)
 

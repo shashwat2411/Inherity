@@ -31,6 +31,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 	void UpdateGround();
 	void UpdateJump();
 };
@@ -41,17 +43,21 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 };
 class EnemyScript : public Script
 {
 private:
-	D3DXVECTOR3 Position;
+
 public:
 
 	void Start() override;
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 };
 class BulletScript : public Script
 {
@@ -68,6 +74,8 @@ public:
 
 	void Start() override;
 	void Update() override;
+
+	void EngineDisplay() override;
 
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
@@ -91,6 +99,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 	float GetHP() { return hp; }
 	bool GetNoDamage() { return noDamage; }
@@ -118,6 +128,8 @@ public:
 	void Update() override;
 	void Draw() override;
 
+	void EngineDisplay() override;
+
 private:
 	void Spawn();
 };
@@ -125,6 +137,7 @@ class GameManager : public Script
 {
 private:
 	GAMEOBJECT* Player;
+	float slowMotionSpeed;
 
 public:
 
@@ -132,6 +145,8 @@ public:
 	void End() override;
 	void Update() override;
 	void Draw() override;
+
+	void EngineDisplay() override;
 
 };
 
@@ -154,6 +169,8 @@ public:
 
 	void Update() override;
 
+	void EngineDisplay() override;
+
 };
 class ThirdPersonCamera : public CameraScript
 {
@@ -162,6 +179,8 @@ private:
 public:
 
 	void Update() override;
+
+	void EngineDisplay() override;
 
 };
 class FirstPersonCamera : public CameraScript
@@ -172,6 +191,8 @@ public:
 
 	void Update() override;
 
+	void EngineDisplay() override;
+
 };
 class OpenWorldCamera : public CameraScript
 {
@@ -181,6 +202,8 @@ public:
 
 	void Update() override;
 
+	void EngineDisplay() override;
+
 };
 class RevolutionCamera : public CameraScript
 {
@@ -189,5 +212,7 @@ private:
 public:
 
 	void Update() override;
+
+	void EngineDisplay() override;
 
 };

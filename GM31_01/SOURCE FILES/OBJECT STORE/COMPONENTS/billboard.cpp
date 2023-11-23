@@ -174,3 +174,21 @@ void Billboard::Draw()
 
 	if (atc == true) { Renderer::SetATCEnable(false); }
 }
+
+void Billboard::EngineDisplay()
+{
+	if (ImGui::TreeNode("Billboard"))
+	{
+		char str[22];
+
+		ImGui::Checkbox("Animate", &animate);
+		ImGui::Checkbox("Flip", &flip);
+
+		ImGui::DragFloat2("\nSize", Size, 0.1F);
+		ImGui::DragFloat2("TexCoord", TexCoord, 0.1F);
+		ImGui::DragFloat2("Offset", Offset, 0.1F);
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

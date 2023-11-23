@@ -16,3 +16,12 @@ void OpenWorldCamera::Update()
 	}
 	//Disable Look At
 }
+
+void OpenWorldCamera::EngineDisplay()
+{
+	if (ImGui::TreeNode("Open World Camera"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

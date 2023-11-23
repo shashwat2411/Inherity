@@ -26,6 +26,15 @@ void PlayerControl::Draw()
 
 }
 
+void PlayerControl::EngineDisplay()
+{
+	if (ImGui::TreeNode("Player Control"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
 void PlayerControl::Spawn()
 {
 	if (Time::WaitForSeconds(2.0f, &timerVector["_Counter"]) == false) { return; }

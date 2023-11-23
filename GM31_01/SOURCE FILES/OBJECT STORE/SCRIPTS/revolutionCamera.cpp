@@ -40,3 +40,12 @@ void RevolutionCamera::Update()
 	gameObject->transform->Position += PosVec * Time::fixedTimeScale;
 
 }
+
+void RevolutionCamera::EngineDisplay()
+{
+	if (ImGui::TreeNode("Revolution Camera"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}

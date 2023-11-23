@@ -47,4 +47,19 @@ void Rigidbody::Update()
 
 void Rigidbody::Draw()
 {
+
+}
+
+void Rigidbody::EngineDisplay()
+{
+	if (ImGui::TreeNode("Rigidbody"))
+	{
+		ImGui::Checkbox("Use Gravity", &useGravity);
+
+		ImGui::DragFloat("Acceleration", &Acceleration);
+		ImGui::DragFloat3("Speed", Speed);
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
 }

@@ -47,7 +47,7 @@ void Camera::Draw()
 		if (shakeCounter >= 3.0f / FRAME_RATE) { shakeValue *= -1; shakeCounter = 0.0f; }
 		at.x += shakeValue * Time::fixedTimeScale;
 
-		if (time >= 15.0f / FRAME_RATE) { shake = false; }
+		if (time >= limit) { shake = false; }
 	}
 
 
@@ -61,6 +61,36 @@ void Camera::Draw()
 
 
 		Renderer::SetCameraPosition(gameObject->transform->Position);
+	}
+}
+
+void Camera::EngineDisplay()
+{
+	if (ImGui::TreeNode("Camera"))
+	{
+		ImGui::Text("Target : %s", Target->GetTag().c_str());
+
+		ImGui::PushItemWidth(-FLT_MIN);
+		char str[14];
+		sprintf_s(str, sizeof(str),"FOV : %.2f", fov);
+		ImGui::SliderFloat(" ", &fov, 1.0f, 120.0f, str);
+
+		if (ImGui::Checkbox("Shake", &shake)) { CameraShake(shakeValue); }
+
+		if (ImGui::TreeNode("Details"))
+		{
+			ImGui::PushItemWidth(-FLT_MIN);
+			ImGui::SliderFloat(" ", &shakeValue, 0.01f, 2.0f, "Shake Value");
+
+			ImGui::Text("Target Transform");
+			Target->transform->EngineDisplay();
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+
+		ImGui::TreePop();
+		ImGui::Spacing();
 	}
 }
 
@@ -92,7 +122,7 @@ D3DXVECTOR3 Camera::GetRight()
 
 void Camera::CameraShake(float value, float t)
 {
-	if (shake == false)
+	//if (shake == false)
 	{
 		shake = true;
 		limit = t;

@@ -61,6 +61,18 @@ void Number::Draw()
 	}
 }
 
+void Number::EngineDisplay()
+{
+	if (ImGui::TreeNode("Number"))
+	{
+		ImGui::InputInt("Number", &number);
+		ImGui::InputInt("Digits", &digits);
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
 void Number::SetDigits(int num)
 {
 	int diff = num - digits;

@@ -51,6 +51,15 @@ void HitPoints::Draw()
 
 }
 
+void HitPoints::EngineDisplay()
+{
+	if (ImGui::TreeNode("Hit Points"))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
+
 bool HitPoints::Damage(float damage)
 {
 	if (invincible == false)

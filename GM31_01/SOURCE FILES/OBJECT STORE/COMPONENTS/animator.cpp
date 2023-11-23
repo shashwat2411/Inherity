@@ -51,3 +51,23 @@ void Animator::Draw()
 {
 
 }
+
+const char* status[Animation::ANIMATION_STATUS_MAX] =
+{
+	"STANDBY",
+	"PLAYBACK",
+	"END",
+	"LOOP",
+};
+
+void Animator::EngineDisplay()
+{
+	if (ImGui::TreeNode("Animator"))
+	{
+		std::string status = "Status : " + status[animation[animIndex]->status];
+		ImGui::Text(status.c_str());
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
+}
