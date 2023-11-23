@@ -65,6 +65,7 @@ void Number::EngineDisplay()
 {
 	if (ImGui::TreeNode("Number"))
 	{
+		ImGui::PushItemWidth(-160.0f);
 		ImGui::InputInt("Number", &number);
 		ImGui::InputInt("Digits", &digits);
 

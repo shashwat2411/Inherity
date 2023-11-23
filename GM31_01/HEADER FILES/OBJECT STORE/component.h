@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 #include "gameobject.h"
+#include "debugManager.h"
 
 #include <string>
 
@@ -278,6 +279,8 @@ class Camera : public Component
 {
 protected:
 	bool shake;
+
+	int power;
 
 	float fov;
 	float len;

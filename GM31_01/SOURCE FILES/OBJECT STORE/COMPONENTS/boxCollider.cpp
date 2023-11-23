@@ -68,13 +68,13 @@ void BoxCollider::EngineDisplay()
 {
 	if (ImGui::TreeNode("Box Collider"))
 	{
-		char str[22];
+		//char str[22];
 
-		ImGui::Checkbox("isTrigger", &isTrigger);
-		ImGui::Checkbox("Kinematic", &isKinematic);
+		DebugManager::BoolDisplay(&isTrigger, -200.0f, "IsTrigger");
+		DebugManager::BoolDisplay(&isKinematic, -146.0f, "Kinematic", 1);
 
 		ImGui::Text("\nCollision Size");
-		ImGui::DragFloat3("", CollisionSize, 0.1F);
+		ImGui::DragFloat3("", CollisionSize, 0.01F);
 
 		if (ImGui::TreeNode("Details"))
 		{

@@ -171,10 +171,11 @@ void SpriteRenderer::EngineDisplay()
 {
 	if (ImGui::TreeNode("Sprite Renderer"))
 	{
-		char str[22];
+		//char str[22];
 
-		ImGui::Checkbox("Animate\n", &animate);
+		DebugManager::BoolDisplay(&animate, -200.0f, "Animate", true);
 
+		ImGui::PushItemWidth(0.0f);
 		ImGui::DragFloat2("Size", Size, 0.1F);
 		ImGui::DragFloat2("TexCoord\n", TexCoord, 0.1F);
 
@@ -182,8 +183,10 @@ void SpriteRenderer::EngineDisplay()
 
 		if (ImGui::TreeNode("Details"))
 		{
-			ImGui::DragFloat("Left Offset", &barOffsetLeft, 0.05F);
-			ImGui::DragFloat("Right Offset", &barOffsetRight, 0.05F);
+			DebugManager::FloatDisplay(&barOffsetLeft, -FLT_MIN, "Left Offset", true, D3DXVECTOR2(0.05f, 0.0f), 1);
+			DebugManager::FloatDisplay(&barOffsetRight, -FLT_MIN, "Right Offset", true, D3DXVECTOR2(0.05f, 0.0f), 2);
+			//ImGui::DragFloat("Left Offset", &barOffsetLeft, 0.05F);
+			//ImGui::DragFloat("Right Offset", &barOffsetRight, 0.05F);
 
 			ImGui::TreePop();
 			ImGui::Spacing();

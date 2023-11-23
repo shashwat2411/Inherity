@@ -2,10 +2,9 @@
 #include "main.h"
 #include "renderer.h"
 #include "../imGUI/imgui.h"
-#include "../imGUI/imgui_impl_dx11.h"
 #include "../imGUI/imgui_impl_win32.h"
+#include "../imGUI/imgui_impl_dx11.h"
 #include "manager.h"
-#include "input.h"
 
 
 bool show_demo_window = true;
@@ -66,6 +65,7 @@ void DebugManager::Draw()
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
+	ImGui::EndFrame();
 	// ImGuiコード
 	//フレームの描画
 	ImGui::Render();
@@ -76,20 +76,21 @@ void DebugManager::TransformDraw(SCENE * scene)
 {
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
 
-	ImGui::BeginGroup();
+	//ImGui::BeginGroup();
 	//ImGui::SetNextWindowSize(ImVec2(140, 75));
 
-	ImGui::Begin("Index");
+	ImGui::Begin("Index", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
 	ImGui::PushItemWidth(-FLT_MIN);
 	ImGui::SliderInt(" ", &layer, 0, MAX_LAYER - 1, str[layer]);
 
 	if (index > vector.size() - 1) { index = vector.size() - 1; }
 	ImGui::PushItemWidth(-FLT_MIN);
 	if (vector[0] != nullptr) { ImGui::SliderInt("", &index, 0, vector.size() - 1, vector[index]->GetTag().c_str()); }
-	//ImGui::InputInt("Layer", &layer);
+
+	ImGui::End();
 
 	//ImGui::SetNextWindowSize(ImVec2(200, 170));
-	ImGui::Begin("Inspector");
+	ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
 	{
 		if (vector[0] != nullptr)
 		{
@@ -104,4 +105,56 @@ void DebugManager::TransformDraw(SCENE * scene)
 	}
 
 	ImGui::End();
+}
+
+bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int index, bool uneditable)
+{
+	int reference = (*value ? 1 : 0);
+
+	ImGui::PushItemWidth(offset);
+	ImGui::PushID(index);
+
+	if (*value == false) 
+	{ 
+		ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(1.0f, 0.0f, 0.0f, 1.0f)); 
+		ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.8f, 0.0f, 0.0f, 1.0f));
+	}
+	else 
+	{ 
+		ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.0f, 1.0f, 0.0f, 1.0f));
+		ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.0f, 0.8f, 0.0f, 1.0f));
+	}
+
+	ImGui::SliderInt("", &reference, 0, 1, text);
+
+	if (uneditable == false) { *value = (reference == 0 ? false : true); }
+
+	ImGui::PopStyleColor(2);
+	ImGui::PopID();
+
+	return *value;
+}
+
+float DebugManager::FloatDisplay(float* value, float offset, const char* text, bool drag, D3DXVECTOR2 speedLimit, int index, bool uneditable)
+{
+	char str[40];
+	sprintf_s(str, sizeof(str), "%s : %.2f", text, *value);
+
+	float reference = *value;
+
+	ImGui::PushItemWidth(offset);
+	ImGui::PushID(index);
+
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.0f, 0.0f, 0.8f, 1.0f));
+
+	if (drag == false) { ImGui::SliderFloat("", &reference, speedLimit.x, speedLimit.y, str); }
+	else { ImGui::DragFloat("", &reference, speedLimit.x, 0.0F, 0.0F, str); }
+
+	if (uneditable == false) { *value = reference; }
+
+	ImGui::PopStyleColor(2);
+	ImGui::PopID();
+
+	return *value;
 }
