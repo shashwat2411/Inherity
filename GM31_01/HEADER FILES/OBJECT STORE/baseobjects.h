@@ -185,8 +185,6 @@ public:
 	{
 		Initialize();
 
-		ignorePause = true;
-
 		sprite = AddComponent<SpriteRenderer>();
 	}
 	void Update() override {}

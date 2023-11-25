@@ -71,8 +71,12 @@ public:
 	{
 		*var += deltaTime;
 
-		char* str = GetDebugStr();
-		sprintf(&str[strlen(str)], " | Time : %.2f", *var);
+		char str[20];
+		sprintf_s(str, sizeof(str), "Timer : %.2f", *var);
+
+		ImGui::Begin("Time", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
+		ImGui::Text(str);
+		ImGui::End();
 
 		if (*var > time) { return true; }
 		else { return false; }

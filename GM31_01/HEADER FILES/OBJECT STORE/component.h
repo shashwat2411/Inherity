@@ -61,27 +61,28 @@ class Component
 {
 protected:
 	bool multiple = false;
-	bool ignorePause = false;
 	bool enabled = true;
 
 public:
 	GAMEOBJECT* gameObject;
 
-	bool GetMultipleSet() { return multiple; }
-	bool GetIgnorePause() { return ignorePause; }
-	bool GetEnabled() { return enabled; }
+	bool GetMultipleSet()		{ return multiple; }
+	bool GetEnabled()			{ return enabled; }
+	bool* GetEnabledPointer()	{ return &enabled; }
 
 	void SetEnabled(bool value) { enabled = value; }
 
+	Component() { enabled = true; multiple = false; }
 	virtual ~Component() {}
+
 	virtual void Start() = 0;
 	virtual void End() = 0;
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 	virtual void EngineDisplay() = 0;
 
-	virtual void OnTriggerEnter(GAMEOBJECT* obj) {}
-	virtual void OnCollisionEnter(GAMEOBJECT* obj) {}
+	virtual void OnTriggerEnter(GAMEOBJECT* obj)	{}
+	virtual void OnCollisionEnter(GAMEOBJECT* obj)	{}
 
 	virtual void StrayUpdate() {}
 

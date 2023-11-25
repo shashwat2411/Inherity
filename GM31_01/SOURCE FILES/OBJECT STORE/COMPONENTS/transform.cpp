@@ -39,10 +39,11 @@ void Transform::EngineDisplay()
 {
 	if (ImGui::TreeNode("Transform"))
 	{
-		ImGui::DragFloat3("Position", gameObject->transform->Position, 0.3F);
-		ImGui::DragFloat3("Rotation", gameObject->transform->Rotation, 0.5F);
-		ImGui::DragFloat3("Scale", gameObject->transform->Scale, 0.05F);
+		DebugManager::Float3Display(&gameObject->transform->Position, -1.0f, "Position ", 0.3f, 0);
+		DebugManager::Float3Display(&gameObject->transform->Rotation, -1.0f, "Rotation ", 0.5f, 1);
+		DebugManager::Float3Display(&gameObject->transform->Scale,	  -1.0f, "   Scale ", 0.05f, 2);
 
+		ImGui::PushItemWidth(0.0f);
 		if (ImGui::TreeNode("Details"))
 		{
 			ImGui::Text("GlobalPosition");

@@ -27,7 +27,6 @@ protected:
 	bool reflection;
 
 	bool destroy;
-	bool ignorePause;
 
 	bool faceInDirection;
 
@@ -108,7 +107,6 @@ public:
 	bool		GetReflection()		{ return reflection; }
 
 	bool		GetFaceInDirection() { return faceInDirection; }
-	bool		GetIgnorePause()	 { return ignorePause; }
 
 	bool		GetFreezeX() { return freezeX; }
 	bool		GetFreezeY() { return freezeY; }

@@ -15,7 +15,6 @@ void GAMEOBJECT::Initialize()
 	reflection = false;
 
 	destroy = false;
-	ignorePause = false;
 
 	faceInDirection = false;
 	parentMatrixEnable = false;
@@ -77,10 +76,7 @@ void GAMEOBJECT::Draw()
 		{
 			if (com->GetEnabled() == true)
 			{
-				if (Manager::GetScene()->GetPaused() == false || com->GetIgnorePause() == true)
-				{
-					com->Update();
-				}
+				com->Update();
 			}
 		}
 
@@ -233,5 +229,45 @@ void GAMEOBJECT::RemoveComponent(Component* com)
 
 void GAMEOBJECT::EngineDisplay()
 {
-	ImGui::Checkbox("Active", &active);
+	ImGui::Checkbox("", &active);
+	ImGui::SameLine();
+	ImGui::SeparatorText(tag.c_str());
+	if (ImGui::TreeNode("GameObject"))
+	{
+		DebugManager::BoolDisplay(&depthShadow, -200.0f, "Shadow", 1);
+
+		ImGui::Text("\nFreeze");
+		DebugManager::BoolDisplay(&freezeX, -200.0f, "X", 2, true);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&freezeY, -146.0f, "Y", 3, true);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&freezeZ, -92.0f, "Z", 4, true);
+
+		ImGui::Text("\n");
+		ImGui::ColorPicker4("Color\n", Color);
+
+		if (ImGui::TreeNode("Details"))
+		{
+			std::string n;
+			std::string c;
+
+			c = ((transform) ? "valid" : "nullptr");
+			n = "Transform : " + c;
+			ImGui::Text(n.c_str());
+
+			c = ((rigidbody) ? "valid" : "nullptr");
+			n = "Rigidbody : " + c;
+			ImGui::Text(n.c_str());
+
+			c = ((Parent) ? Parent->GetTag() : "nullptr");
+			n = "Parent : " + c;
+			ImGui::Text(n.c_str());
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
 }

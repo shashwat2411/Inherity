@@ -13,8 +13,8 @@ private:
 
 public:
 
-	void Init();
-	void Update();
+	static void Init();
+	static void Update();
 };
 
 enum LAYER
@@ -34,14 +34,11 @@ class SCENE
 {
 protected:
 	bool end;
-	bool paused;
 
 	CAMERA* MainCamera;
 	FADE* Fade;
 	SKYDOME* skyDome;
 	EMPTYOBJECT* reflectionProjector;
-
-	COLLISION Collision;
 
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GameObjects;
 
@@ -65,7 +62,6 @@ public:
 	virtual void Init() {}
 	virtual void Update() {}
 
-	bool GetPaused() { return paused; }
 	PLAYER* GetPlayer() { return player; }
 	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
 	std::list<GAMEOBJECT*> GetGameObjectList(LAYER layer) { return GameObjects[layer]; }

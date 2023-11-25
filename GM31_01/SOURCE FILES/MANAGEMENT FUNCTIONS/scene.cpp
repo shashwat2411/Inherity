@@ -5,9 +5,8 @@
 void SCENE::InitBefore()
 {
 	end = false;
-	paused = false;
 
-	Collision.Init();
+	COLLISION::Init();
 
 
 	//GAMEOBJECT
@@ -46,18 +45,14 @@ void SCENE::UpdateBefore()
 	{
 		for (auto var : GameObjects[i])
 		{
-			if (paused == false || var->GetIgnorePause() == true)
+			if (var->GetActive() == true)
 			{
-				if (var->GetActive() == true)
-				{
-					var->Update();
-				}
+				var->Update();
 			}
 		}
 		GameObjects[i].remove_if([](GAMEOBJECT* object) {return object->Remove(); });
+		COLLISION::Update();
 	}
-	if (paused == false) { Collision.Update(); }
-
 }
 
 void SCENE::Draw()
@@ -123,14 +118,6 @@ void SCENE::FakeDraw(GAMEOBJECT* var)
 		}
 
 		mesh->Draw();
-		//if (mesh->GetFBX() == true) 
-		//{ 
-		//	mesh->GetModel()->Draw(); 
-		//}
-		//else 
-		//{ 
-		//	mesh->GetModel(0)->Draw(); 
-		//}
 	}
 	else if (field != nullptr) { field->Draw(); }
 	else if (plane != nullptr) { plane->Draw(); }
@@ -191,21 +178,12 @@ void SCENE::ReflectionMap(D3DXMATRIX* view)
 	D3DXVECTOR3 up;
 
 
-	//for (auto var : GameObjects[GAMEOBJECT_LAYER])
-	//{
-	//	if (var->GetMaterial() != nullptr)
-	//	{
-	//		if (var->GetMaterial()->GetReflection() == true)
-	//		{
-				D3DXVECTOR3 vPlayerPos = reflectionProjector->transform->GlobalPosition;
-				for (int j = 0; j < 6; j++)
-				{
-					eye = vPlayerPos;
-					lookAt = vPlayerPos + lookatOffset[j];
-					up = upOffset[j];
-					D3DXMatrixLookAtLH(&view[j], &eye, &lookAt, &up);
-				}
-	//		}
-	//	}
-	//}
+	D3DXVECTOR3 vPlayerPos = reflectionProjector->transform->GlobalPosition;
+	for (int j = 0; j < 6; j++)
+	{
+		eye = vPlayerPos;
+		lookAt = vPlayerPos + lookatOffset[j];
+		up = upOffset[j];
+		D3DXMatrixLookAtLH(&view[j], &eye, &lookAt, &up);
+	}
 }

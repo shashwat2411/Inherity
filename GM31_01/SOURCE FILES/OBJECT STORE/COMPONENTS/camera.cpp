@@ -17,7 +17,7 @@ void Camera::Start()
 	
 	limit = 15.0f / FRAME_RATE;
 	shakeCounter = 0.0f;
-	shakeValue = 0.0f;
+	shakeValue = 0.15f;
 	time = 0.0f;
 
 	Up = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -38,10 +38,12 @@ void Camera::Start()
 
 void Camera::End()
 {
+
 }
 
 void Camera::Update()
 {
+
 }
 
 void Camera::Draw()

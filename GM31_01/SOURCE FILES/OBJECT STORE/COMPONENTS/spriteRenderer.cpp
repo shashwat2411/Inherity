@@ -5,7 +5,6 @@
 void SpriteRenderer::Start()
 {
 	animate = false;
-	ignorePause = true;
 
 	count = 0;
 
