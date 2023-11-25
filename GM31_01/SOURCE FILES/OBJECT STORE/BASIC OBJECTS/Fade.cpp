@@ -7,7 +7,6 @@ void FADE::Init()
 	depth = false;
 	fadeIn = true;
 	fadeOut = true;
-	ignorePause = true;
 
 	alpha = 1.0f;
 	speed = 0.05f; //0.05f

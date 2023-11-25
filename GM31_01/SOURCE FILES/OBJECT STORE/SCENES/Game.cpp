@@ -82,6 +82,9 @@ void GAME_SCENE::Init()
 		cube->SetTag("Cube");
 		torus->SetTag("Torus");
 		torus1->SetTag("Torus1");
+
+		Buffer->SetTag("Shadow Texture");
+		Score->SetTag("Score");
 	}
 
 	//Ú‘±ˆ—

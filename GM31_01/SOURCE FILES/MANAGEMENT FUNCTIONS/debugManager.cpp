@@ -94,13 +94,16 @@ void DebugManager::TransformDraw(SCENE * scene)
 	{
 		if (vector[0] != nullptr)
 		{
-			ImGui::SeparatorText(vector[index]->GetTag().c_str());
 			vector[index]->EngineDisplay();
 
 			for (auto component : vector[index]->GetComponentList())
 			{
 				ImGui::SeparatorText("");
-				ImGui::SameLine(-1.0f);
+				ImGui::SameLine(-0.3f);
+
+				ImGui::Checkbox(" ", component->GetEnabledPointer());
+
+				ImGui::SameLine();
 				component->EngineDisplay();
 			}
 		}
@@ -152,6 +155,29 @@ float DebugManager::FloatDisplay(float* value, float offset, const char* text, b
 
 	if (drag == false) { ImGui::SliderFloat("", &reference, speedLimit.x, speedLimit.y, str); }
 	else { ImGui::DragFloat("", &reference, speedLimit.x, 0.0F, 0.0F, str); }
+
+	if (uneditable == false) { *value = reference; }
+
+	ImGui::PopStyleColor(2);
+	ImGui::PopID();
+
+	return *value;
+}
+
+D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const char* text, float speed, int index, bool uneditable)
+{
+	D3DXVECTOR3 reference = *value;
+
+	ImGui::PushItemWidth(offset);
+	ImGui::Text(text);
+	ImGui::SameLine();
+
+	ImGui::PushID(index);
+
+	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));
+	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.0f, 0.0f, 0.8f, 1.0f));
+
+	ImGui::DragFloat3("", reference, speed);
 
 	if (uneditable == false) { *value = reference; }
 
