@@ -56,3 +56,6 @@
 39. ポートフォリオのテンプレート
 41. 参考にできるテンプレートはあるんですか？
 43. プチコンで作った作品も載せた方がいいですか？
+52. GitHubのRepositoryをPrivateにした方がいいかPublicにした方がいいか？
+53. Cybercore | TIMANIA のSolutionの中にエラーが出る、でも、もとのSolutionにえらは出ない？
+54. Gluttony Ball のプロジェクトは開けない
