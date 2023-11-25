@@ -151,9 +151,6 @@ void Model::Unload()
 }
 
 
-
-
-
 //モデル読込////////////////////////////////////////////
 void Model::LoadObj( const char *FileName, MODEL *Model )
 {
@@ -373,6 +370,19 @@ void Model::LoadObj( const char *FileName, MODEL *Model )
 			}
 			while( c != '\n' && c != '\r' );
 
+			CalcTangentAndBinormal
+			(
+				&Model->VertexArray[vc - in + 0].Position, &Model->VertexArray[vc - in + 0].TexCoord,
+				&Model->VertexArray[vc - in + 1].Position, &Model->VertexArray[vc - in + 1].TexCoord,
+				&Model->VertexArray[vc - in + 2].Position, &Model->VertexArray[vc - in + 2].TexCoord,
+				&Model->VertexArray[vc - in + 0].Tangent,
+				&Model->VertexArray[vc - in + 0].Binormal
+			);
+			Model->VertexArray[vc - in + 1].Tangent = Model->VertexArray[vc - in + 0].Tangent;
+			Model->VertexArray[vc - in + 1].Binormal = Model->VertexArray[vc - in + 0].Binormal;
+			Model->VertexArray[vc - in + 2].Tangent = Model->VertexArray[vc - in + 0].Tangent;
+			Model->VertexArray[vc - in + 2].Binormal = Model->VertexArray[vc - in + 0].Binormal;
+
 			//四角は三角に分割
 			if( in == 4 )
 			{
@@ -519,3 +529,51 @@ void Model::LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, 
 	*MaterialNum = materialNum;
 }
 
+
+void Model::CalcTangentAndBinormal(
+	D3DXVECTOR3 * p0, D3DXVECTOR2 * uv0, 
+	D3DXVECTOR3 * p1, D3DXVECTOR2 * uv1, 
+	D3DXVECTOR3 * p2, D3DXVECTOR2 * uv2, 
+	D3DXVECTOR3 * outTangent, D3DXVECTOR3 * outBinormal)
+{
+	D3DXVECTOR3 CP0[3] = {//頂点1を作成する
+	D3DXVECTOR3(p0->x, uv0->x, uv0->y),
+	D3DXVECTOR3(p0->y, uv0->x, uv0->y),
+	D3DXVECTOR3(p0->z, uv0->x, uv0->y),
+	};
+	D3DXVECTOR3 CP1[3] = {//頂点2を作成する
+	D3DXVECTOR3(p1->x, uv1->x, uv1->y),
+	D3DXVECTOR3(p1->y, uv1->x, uv1->y),
+	D3DXVECTOR3(p1->z, uv1->x, uv1->y),
+	};
+	D3DXVECTOR3 CP2[3] = {//頂点3を作成する
+	D3DXVECTOR3(p2->x, uv2->x, uv2->y),
+	D3DXVECTOR3(p2->y, uv2->x, uv2->y),
+	D3DXVECTOR3(p2->z, uv2->x, uv2->y),
+	};
+	float U[3], V[3];//X,Y,Zの各成分について計算する
+	for (int i = 0; i < 3; ++i)
+	{
+		D3DXVECTOR3 V1 = CP1[i] - CP0[i];
+		D3DXVECTOR3 V2 = CP2[i] - CP1[i];
+		D3DXVECTOR3 ABC;
+		//V1とV2の外積から法線を作成する
+		D3DXVec3Cross(&ABC, &V1, &V2);
+		if (ABC.x == 0.0f)
+		{
+			//縮退ポリゴン
+			*outTangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			*outBinormal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			return;
+		}
+		//偏微分で求められた値より
+		U[i] = -ABC.y / ABC.x;
+		V[i] = -ABC.z / ABC.x;
+	}
+	//値を代入
+	*outTangent = D3DXVECTOR3(U[0], U[1], U[2]);
+	*outBinormal = D3DXVECTOR3(V[0], V[1], V[2]);
+	//正規化する
+	D3DXVec3Normalize(outTangent, outTangent);
+	D3DXVec3Normalize(outBinormal, outBinormal);
+}

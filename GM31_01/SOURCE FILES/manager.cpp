@@ -7,6 +7,7 @@
 #include "debugManager.h"
 
 
+POSTPROCESS* Manager::PostProcess{};
 SCENE* Manager::Scene{};	//staticメンバ変数は再宣言が必要
 SCENE* Manager::DontDestroyOnLoad{};	//staticメンバ変数は再宣言が必要
 
@@ -37,6 +38,9 @@ void Manager::Init()
 	DontDestroyOnLoad = new EMPTY_SCENE();
 	DontDestroyOnLoad->Init();
 
+	//PostProcess = new POSTPROCESS();
+	//PostProcess->Init();
+
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
 
@@ -47,6 +51,8 @@ void Manager::Init()
 
 void Manager::Uninit()
 {
+	if (PostProcess) { PostProcess->UnInitialize(); }
+
 	Scene->Uninit();
 	DontDestroyOnLoad->Uninit();
 
@@ -76,6 +82,7 @@ void Manager::FixedUpdate()
 	DontDestroyOnLoad->UpdateBefore();
 	DontDestroyOnLoad->Update();
 
+	if (PostProcess) { PostProcess->Update(); }
 }
 
 void Manager::Draw()
@@ -104,7 +111,7 @@ void Manager::Draw()
 	}
 
 	//2パス目　環境マップイング
-	{	
+	{
 		D3DXMATRIX viewMatrixArray[6];
 		D3DXMATRIX projectionMatrix;
 
@@ -128,17 +135,20 @@ void Manager::Draw()
 
 			Renderer::GetDeviceContext()->CopySubresourceRegion(Renderer::GetCubeReflectTexture(), D3D11CalcSubresource(0, i, 1), 0, 0, 0, Renderer::GetReflectTexture(), 0, nullptr);
 		}
-		
+
 	}
 
 	//3パス目　通常の描画
 	{
-		Renderer::Begin();
+		if (PostProcess) { Renderer::BeginPostProcess(); }
+		else { Renderer::Begin(); }
 
 		Renderer::SetDefaultViewPort();
 
 		Scene->Draw();
 		DontDestroyOnLoad->Draw();
+
+		if (PostProcess) { Renderer::Begin(); PostProcess->Draw(); }
 
 		DebugManager::TransformDraw(Scene);
 		DebugManager::Draw();

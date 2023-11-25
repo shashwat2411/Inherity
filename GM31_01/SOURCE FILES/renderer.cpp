@@ -13,6 +13,7 @@ ID3D11DeviceContext*	Renderer::m_DeviceContext{};
 IDXGISwapChain*	Renderer::m_SwapChain{};
 
 ID3D11RenderTargetView*	Renderer::m_RenderTargetView{};
+ID3D11RenderTargetView*	Renderer::m_PostProcessRenderTargetView{};
 ID3D11RenderTargetView*	Renderer::m_ReflectRenderTargetView{};
 
 ID3D11DepthStencilView*	Renderer::m_DepthStencilView{};
@@ -20,6 +21,7 @@ ID3D11DepthStencilView*	Renderer::m_DepthShadowDepthStencilView{};
 ID3D11DepthStencilView*	Renderer::m_ReflectDepthStencilView{};
 
 ID3D11ShaderResourceView*	Renderer::m_DepthShadowShaderResourceView{};
+ID3D11ShaderResourceView*	Renderer::m_PostProcessShaderResourceView{};
 ID3D11ShaderResourceView*	Renderer::m_CubeReflectShaderResourceView{};
 
 ID3D11Buffer*	Renderer::m_WorldBuffer{};
@@ -270,7 +272,7 @@ void Renderer::Init()
 	m_DeviceContext->PSSetSamplers(1, 1, &m_samplerState_C);
 	//こいつを3つ分用意して、描画のところに切り替えてる
 
-
+	//Shadow
 	{
 		swapChainDesc.SampleDesc.Count = 1;
 
@@ -333,7 +335,7 @@ void Renderer::Init()
 
 	m_Device->CreateBuffer(&bufferDesc, NULL, &m_MaterialBuffer);
 	m_DeviceContext->VSSetConstantBuffers(3, 1, &m_MaterialBuffer);
-	m_DeviceContext->PSSetConstantBuffers( 3, 1, &m_MaterialBuffer );
+	m_DeviceContext->PSSetConstantBuffers(3, 1, &m_MaterialBuffer);
 
 
 	bufferDesc.ByteWidth = sizeof(LIGHT);
@@ -373,7 +375,7 @@ void Renderer::Init()
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
-	
+
 	//Reflect Rendering
 	{
 		{
@@ -480,8 +482,42 @@ void Renderer::Init()
 			m_Device->CreateShaderResourceView(m_CubeReflectTexture, &srvd, &m_CubeReflectShaderResourceView);
 		}
 	}
-	
 
+	//Post Process
+	{
+		swapChainDesc.SampleDesc.Count = 1;
+
+		//PPテクスチャ作成
+		ID3D11Texture2D* ppTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = swapChainDesc.BufferDesc.Width;
+		td.Height = swapChainDesc.BufferDesc.Height;
+		td.MipLevels = 1;
+		td.ArraySize = 1;
+		td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		td.SampleDesc = swapChainDesc.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		td.CPUAccessFlags = 0;
+		td.MiscFlags = 0;
+		m_Device->CreateTexture2D(&td, NULL, &ppTexture);
+
+		D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+		ZeroMemory(&rtvd, sizeof(rtvd));
+		rtvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		m_Device->CreateRenderTargetView(ppTexture, &rtvd, &m_PostProcessRenderTargetView);
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+		ZeroMemory(&srvd, sizeof(srvd));
+		srvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvd.Texture2D.MipLevels = 1;
+		m_Device->CreateShaderResourceView(ppTexture, &srvd, &m_PostProcessShaderResourceView);
+
+		ppTexture->Release();
+	}
 }
 
 
@@ -492,19 +528,27 @@ void Renderer::Uninit()
 	if (g_RasterStateCullCW)	g_RasterStateCullCW->Release();
 	if (g_RasterStateCullCCW)	g_RasterStateCullCCW->Release();
 
+	//Buffer
 	m_WorldBuffer->Release();
 	m_ViewBuffer->Release();
 	m_ProjectionBuffer->Release();
 	m_LightBuffer->Release();
 	m_MaterialBuffer->Release();
 
-
 	m_DeviceContext->ClearState();
+	
+	m_PostProcessShaderResourceView->Release();
+	m_DepthShadowShaderResourceView->Release();
+	m_CubeReflectShaderResourceView->Release();
+
 	m_RenderTargetView->Release();
+	m_PostProcessRenderTargetView->Release();
+	m_ReflectRenderTargetView->Release();
+	
 	m_SwapChain->Release();
+	
 	m_DeviceContext->Release();
 	m_Device->Release();
-
 }
 
 
@@ -519,6 +563,15 @@ void Renderer::Begin()
 	m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, clearColor);
 	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
+}
+
+void Renderer::BeginPostProcess()
+{
+	m_DeviceContext->OMSetRenderTargets(1, &m_PostProcessRenderTargetView, m_DepthStencilView);
+
+	float clearColor[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+	m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, clearColor);
+	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void Renderer::BeginCube()

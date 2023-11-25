@@ -12,6 +12,7 @@ protected:
 
 	std::unordered_map<std::string, ID3D11ShaderResourceView*> textures;
 	std::unordered_map<std::string, float> floats;
+	std::unordered_map<std::string, D3DXCOLOR> colors;
 
 public:
 	GAMEOBJECT* gameObject;
@@ -25,9 +26,11 @@ public:
 
 	bool GetReflection() { return reflection; }
 	float GetFloat(std::string Name) { return floats[Name]; }
+	D3DXCOLOR GetColor(std::string Name) { return colors[Name]; }
 	ID3D11ShaderResourceView* GetTexture(std::string Name) { return textures[Name]; }
 
 	void SetFloat(std::string Name, float value) { floats[Name] = value; }
+	void SetColor(std::string Name, D3DXCOLOR value) { colors[Name] = value; }
 	void SetTexture(std::string Name, ID3D11ShaderResourceView* tex) { textures[Name] = tex; }
 };
 
@@ -119,5 +122,23 @@ public:
 	void Start() override;
 
 	void Update() override;
+	void Draw() override;
+};
+class GaugeMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override {}
+	void Draw() override;
+};
+class PostProcessMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override {}
 	void Draw() override;
 };
