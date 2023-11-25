@@ -72,7 +72,7 @@ void DebugManager::Draw()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-void DebugManager::TransformDraw(SCENE * scene)
+void DebugManager::DebugDraw(SCENE * scene)
 {
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
 
@@ -99,7 +99,7 @@ void DebugManager::TransformDraw(SCENE * scene)
 			for (auto component : vector[index]->GetComponentList())
 			{
 				ImGui::SeparatorText("");
-				ImGui::SameLine(-0.3f);
+				ImGui::SameLine();
 
 				ImGui::Checkbox(" ", component->GetEnabledPointer());
 

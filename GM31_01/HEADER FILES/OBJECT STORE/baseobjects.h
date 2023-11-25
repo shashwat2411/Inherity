@@ -393,14 +393,3 @@ public:
 	void Amount(float value);
 
 };
-class POSTPROCESS :public GAMEOBJECT
-{
-public:
-	SpriteRenderer* sprite;
-
-public:
-
-	void Init() override;
-	void Update() override;
-
-};

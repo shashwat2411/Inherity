@@ -174,6 +174,9 @@
     <ClInclude Include="imGUI\imstb_truetype.h">
       <Filter>ImGUI\HEADER FILES</Filter>
     </ClInclude>
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcess.h">
+      <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp">
@@ -395,11 +398,11 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\GaugeMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\PostProcess.cpp">
-      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
-    </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\PostProcessMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\postProcess.cpp">
+      <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

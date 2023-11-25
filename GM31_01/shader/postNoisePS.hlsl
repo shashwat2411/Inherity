@@ -8,7 +8,7 @@ SamplerState g_SamplerState : register(s0);
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
 	float4 Tex = g_Texture.Sample(g_SamplerState, In.TexCoord);
-	float noise = clamp(0.2f, 0.5f, Rand(In.TexCoord));
+	float noise = clamp(0.2f, 0.5f, Rand(In.TexCoord * 0.1f));
 
 	Tex.rgb += noise;
 
