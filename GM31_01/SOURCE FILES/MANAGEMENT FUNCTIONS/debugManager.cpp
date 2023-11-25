@@ -131,18 +131,15 @@ void DebugManager::DebugDraw(SCENE * scene)
 	ImGui::SameLine();
 	if (ImGui::Button("||"))
 	{
-		if (play == true)
+		if (paused == true)
 		{
-			if (paused == true)
-			{
-				Time::timeScale = 1.0f;
-				paused = false;
-			}
-			else
-			{
-				Time::timeScale = 0.0f;
-				paused = true;
-			}
+			if (play == true) { Time::timeScale = 1.0f; }
+			paused = false;
+		}
+		else
+		{
+			if (play == true) { Time::timeScale = 0.0f; }
+			paused = true;
 		}
 	}
 	ImGui::SameLine();
