@@ -177,7 +177,14 @@ public:
 
 
 	static void BeginCube();
-	static void BeginPostProcess();
+	static void BeginPostProcess()
+	{
+		m_DeviceContext->OMSetRenderTargets(1, &m_PostProcessRenderTargetView, m_DepthStencilView);
+
+		float ClearColor[4] = { 0.0f, 0.5f, 0.0f, 1.0f };
+		m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, ClearColor);
+		m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	}
 	static void BeginDepth()
 	{
 		m_DeviceContext->OMSetRenderTargets(0, NULL, m_DepthShadowDepthStencilView);

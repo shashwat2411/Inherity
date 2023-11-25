@@ -140,7 +140,7 @@ void COLLISION::Update()
 								else
 								{
 									float overlap = (collider->GetCollisionSize() + anotherCollider->GetCollisionSize()) - length;
-									D3DXVECTOR3 dir = collider->gameObject->transform->Position - anotherCollider->gameObject->transform->Position;
+									D3DXVECTOR3 dir = object->transform->GlobalPosition - anotherObject->transform->GlobalPosition;
 									D3DXVec3Normalize(&dir, &dir);
 									//object->transform->Position += dir * overlap;
 
@@ -150,12 +150,12 @@ void COLLISION::Update()
 
 									if (collider->GetIsKinematic() == false)
 									{
-										temp->transform->Position.x += dir.x * overlap;
-										temp->transform->Position.z += dir.z * overlap;
+										temp->transform->Position.x += dir.x * overlap * Time::deltaTime;
+										temp->transform->Position.z += dir.z * overlap * Time::deltaTime;
 
 										if (temp->GetFreezeY() == false)
 										{
-											if ((temp->transform->Position.y + dir.y * overlap) >= temp->GetDefaultY()) { temp->transform->Position.y += dir.y * overlap; }
+											if ((temp->transform->Position.y + dir.y * overlap * Time::deltaTime) >= temp->GetDefaultY()) { temp->transform->Position.y += dir.y * overlap * Time::deltaTime; }
 											else { temp->transform->Position.y = temp->GetDefaultY(); }
 										}
 									}

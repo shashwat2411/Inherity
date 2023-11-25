@@ -12,7 +12,7 @@ public:
 	static void Update();
 	static void Draw();
 
-	static void TransformDraw(SCENE* scene);
+	static void DebugDraw(SCENE* scene);
 
 	static bool BoolDisplay(bool* value, float offset, const char* text, int index = 0, bool uneditable = false);
 	static float FloatDisplay(float* value, float offset, const char* text, bool drag, D3DXVECTOR2 speedLimit, int index = 0, bool uneditable = false);

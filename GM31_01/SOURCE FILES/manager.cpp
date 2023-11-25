@@ -5,6 +5,7 @@
 #include "soundReader.h"
 #include "modelReader.h"
 #include "debugManager.h"
+#include "postProcess.h"
 
 
 POSTPROCESS* Manager::PostProcess{};
@@ -51,7 +52,7 @@ void Manager::Init()
 
 void Manager::Uninit()
 {
-	if (PostProcess) { PostProcess->UnInitialize(); }
+	if (PostProcess) { PostProcess->Uninit(); }
 
 	Scene->Uninit();
 	DontDestroyOnLoad->Uninit();
@@ -141,7 +142,7 @@ void Manager::Draw()
 	//3ƒpƒX–Ú@’Êí‚Ì•`‰æ
 	{
 		if (PostProcess) { Renderer::BeginPostProcess(); }
-		else { Renderer::Begin(); }
+		 { Renderer::Begin(); }
 
 		Renderer::SetDefaultViewPort();
 
@@ -150,7 +151,7 @@ void Manager::Draw()
 
 		if (PostProcess) { Renderer::Begin(); PostProcess->Draw(); }
 
-		DebugManager::TransformDraw(Scene);
+		DebugManager::DebugDraw(Scene);
 		DebugManager::Draw();
 
 		Renderer::End();

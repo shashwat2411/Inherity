@@ -26,6 +26,7 @@
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\debugManager.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\input.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcess.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\scene.h" />
     <ClInclude Include="HEADER FILES\manager.h" />
     <ClInclude Include="HEADER FILES\OBJECT STORE\animations.h" />
@@ -65,12 +66,12 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\debugManager.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\gameobject.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\input.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\postProcess.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp" />
     <ClCompile Include="SOURCE FILES\manager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Bar.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Fade.cpp" />
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\PostProcess.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Skydome.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Sound.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\afterimage.cpp" />

@@ -537,14 +537,6 @@ void Renderer::Uninit()
 
 	m_DeviceContext->ClearState();
 	
-	m_PostProcessShaderResourceView->Release();
-	m_DepthShadowShaderResourceView->Release();
-	m_CubeReflectShaderResourceView->Release();
-
-	m_RenderTargetView->Release();
-	m_PostProcessRenderTargetView->Release();
-	m_ReflectRenderTargetView->Release();
-	
 	m_SwapChain->Release();
 	
 	m_DeviceContext->Release();
@@ -565,14 +557,14 @@ void Renderer::Begin()
 
 }
 
-void Renderer::BeginPostProcess()
-{
-	m_DeviceContext->OMSetRenderTargets(1, &m_PostProcessRenderTargetView, m_DepthStencilView);
-
-	float clearColor[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
-	m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, clearColor);
-	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-}
+//void Renderer::BeginPostProcess()
+//{
+//	m_DeviceContext->OMSetRenderTargets(1, &m_PostProcessRenderTargetView, m_DepthStencilView);
+//
+//	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+//	m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, clearColor);
+//	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+//}
 
 void Renderer::BeginCube()
 {

@@ -27,8 +27,8 @@ void PLAYERMODEL::Start()
 	collider = AddComponent<SphereCollider>();
 
 	//collider->collider->Parent = nullptr;
-	collider->collider->parentMatrixEnable = true;
-	collider->collider->parentMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone("mixamorig:LeftHand")->worldMatrix);
+	collider->collider->boneMatrixEnable = true;
+	collider->collider->boneMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone("mixamorig:LeftHand")->worldMatrix);
 	collider->SetIsTrigger(true);
 	collider->SetIsKinematic(true);
 	collider->SetCollisionSize(0.3f);
@@ -48,7 +48,7 @@ void PLAYERMODEL::Start()
 
 void PLAYERMODEL::Update()
 {
-	collider->collider->parentMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone("mixamorig:LeftHand")->worldMatrix);
+	collider->collider->boneMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone("mixamorig:LeftHand")->worldMatrix);
 
 
 	//bcollider->collider->parentMatrix = Mathf::MatrixConvert(model->GetModel()->GetBone()["mixamorig:LeftHand"].worldMatrix);

@@ -1,6 +1,8 @@
 #pragma once
 #include "scene.h"
 
+class POSTPROCESS;
+
 class Manager
 {
 private:
