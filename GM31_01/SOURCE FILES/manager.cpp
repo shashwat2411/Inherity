@@ -45,7 +45,7 @@ void Manager::Init()
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
 
-	Time::timeScale = 1.0f;
+	Time::timeScale = 0.0f;
 	Time::fixedTimeScale = 1.0f;
 	Time::deltaTime = 1.0f / FRAME_RATE;
 }
@@ -74,16 +74,18 @@ void Manager::Uninit()
 void Manager::FixedUpdate()
 {
 	Input::Update();
-
 	DebugManager::Update();
 
-	Scene->UpdateBefore();
-	Scene->Update();
+	if (Time::timeScale > 0.0f)
+	{
+		Scene->UpdateBefore();
+		Scene->Update();
 
-	DontDestroyOnLoad->UpdateBefore();
-	DontDestroyOnLoad->Update();
+		DontDestroyOnLoad->UpdateBefore();
+		DontDestroyOnLoad->Update();
 
-	if (PostProcess) { PostProcess->Update(); }
+		if (PostProcess) { PostProcess->Update(); }
+	}
 }
 
 void Manager::Draw()
@@ -142,9 +144,10 @@ void Manager::Draw()
 	//3ƒpƒX–Ú@’Êí‚Ì•`‰æ
 	{
 		if (PostProcess) { Renderer::BeginPostProcess(); }
-		 { Renderer::Begin(); }
+		{ Renderer::Begin(); }
 
 		Renderer::SetDefaultViewPort();
+
 
 		Scene->Draw();
 		DontDestroyOnLoad->Draw();

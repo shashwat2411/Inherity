@@ -34,4 +34,12 @@ public:
 		Scene->InitBefore();
 		Scene->Init();
 	}
+
+	static void ResetScene()
+	{
+		Scene->Uninit();
+
+		Scene->InitBefore();
+		Scene->Init();
+	}
 };

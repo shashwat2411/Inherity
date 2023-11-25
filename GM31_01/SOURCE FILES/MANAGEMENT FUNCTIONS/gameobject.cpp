@@ -67,16 +67,19 @@ void GAMEOBJECT::Draw()
 
 	if (active == true)
 	{
-		if (material != nullptr)
+		if (Time::timeScale > 0.0f)
 		{
-			material->Update();
-		}
-
-		for (auto com : components)
-		{
-			if (com->GetEnabled() == true)
+			if (material != nullptr)
 			{
-				com->Update();
+				material->Update();
+			}
+
+			for (auto com : components)
+			{
+				if (com->GetEnabled() == true)
+				{
+					com->Update();
+				}
 			}
 		}
 
