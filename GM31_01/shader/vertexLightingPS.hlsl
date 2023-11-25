@@ -4,11 +4,26 @@
 
 
 Texture2D g_Texture : register(t0);
+Texture2D g_NormalMap : register(t1);
 SamplerState g_SamplerState : register(s0);
 
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
+	float4 normal = normalize(In.Normal);
+	if (dissolveRange > 1.0f)
+	{
+		float4 normalMap = g_NormalMap.Sample(g_SamplerState, In.TexCoord);
+		normalMap = (normalMap * 2.0f) - 1.0f;
+
+		float4 n = normalize(In.Normal);
+		float4 t = normalize(In.Tangent);
+		float4 b = normalize(In.Binormal);
+
+		normal.xyz = t.xyz * normalMap.x + b.xyz * normalMap.y + n.xyz * normalMap.z;
+		normal.w = 0.0;
+	}
+
 
 	if (Material.TextureEnable)
 	{
@@ -24,7 +39,6 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	if (outDiffuse.a > 0.01f)
 	{
 		//–@ü‚ğ³‹K‰»‚µ‚ÄŠi”[‚·‚é
-		float4 normal = normalize(In.Normal);
 		float light = -dot(Light.Direction.xyz, normal.xyz);
 		light = saturate(light);
 

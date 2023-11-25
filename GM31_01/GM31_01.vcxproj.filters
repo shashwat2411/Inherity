@@ -392,6 +392,15 @@
     <ClCompile Include="imGUI\imgui_widgets.cpp">
       <Filter>ImGUI\SOURCE FILES</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\GaugeMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\PostProcess.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\BASIC OBJECTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\PostProcessMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -452,6 +461,18 @@
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
     <FxCompile Include="shader\toonPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\gaugeVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\gaugePS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\postNoiseVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\postNoisePS.hlsl">
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
   </ItemGroup>

@@ -94,11 +94,13 @@ void DebugManager::TransformDraw(SCENE * scene)
 	{
 		if (vector[0] != nullptr)
 		{
+			ImGui::SeparatorText(vector[index]->GetTag().c_str());
 			vector[index]->EngineDisplay();
 
 			for (auto component : vector[index]->GetComponentList())
 			{
 				ImGui::SeparatorText("");
+				ImGui::SameLine(-1.0f);
 				component->EngineDisplay();
 			}
 		}

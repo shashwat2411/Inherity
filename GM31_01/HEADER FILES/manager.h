@@ -4,6 +4,7 @@
 class Manager
 {
 private:
+	static POSTPROCESS* PostProcess;
 	static SCENE* Scene;
 	static SCENE* DontDestroyOnLoad;
 	//static SCENE* NextScene;

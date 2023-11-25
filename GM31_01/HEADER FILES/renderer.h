@@ -66,6 +66,9 @@ struct PARAMETER
 	float	dissolveRange;
 	float	dummy[2];
 	D3DXCOLOR	color;
+	D3DXCOLOR	color2;
+	D3DXCOLOR	color3;
+	D3DXCOLOR	color4;
 };
 
 
@@ -103,6 +106,7 @@ private:
 	static IDXGISwapChain*	m_SwapChain;
 
 	static ID3D11RenderTargetView*	m_RenderTargetView;
+	static ID3D11RenderTargetView*	m_PostProcessRenderTargetView;
 	static ID3D11RenderTargetView*	m_ReflectRenderTargetView;
 
 	static ID3D11DepthStencilView*	m_DepthStencilView;
@@ -110,6 +114,7 @@ private:
 	static ID3D11DepthStencilView*	m_ReflectDepthStencilView;
 
 	static ID3D11ShaderResourceView*	m_DepthShadowShaderResourceView;
+	static ID3D11ShaderResourceView*	m_PostProcessShaderResourceView;
 	static ID3D11ShaderResourceView*	m_CubeReflectShaderResourceView;
 
 	static ID3D11Buffer*	m_WorldBuffer;
@@ -155,15 +160,16 @@ public:
 	static void SetParameter(PARAMETER param);
 	static void SetSamplerState(SAMPLER_STATE sampler, int i = 0);
 
-	static ID3D11Device* GetDevice(void) { return m_Device; }
-	static ID3D11DeviceContext* GetDeviceContext(void) { return m_DeviceContext; }
+	static ID3D11Device* GetDevice(void)				{ return m_Device; }
+	static ID3D11DeviceContext* GetDeviceContext(void)	{ return m_DeviceContext; }
 
 	static ID3D11RenderTargetView** GetRendererTargetView(void) { return &m_RenderTargetView; }
 
-	static ID3D11ShaderResourceView*	GetDepthShadowTexture() { return m_DepthShadowShaderResourceView; }
-	static ID3D11ShaderResourceView*	GetCubeReflectShaderResourceView() { return m_CubeReflectShaderResourceView; }
+	static ID3D11ShaderResourceView*	GetDepthShadowTexture()				{ return m_DepthShadowShaderResourceView; }
+	static ID3D11ShaderResourceView*	GetPostProcessTexture()				{ return m_PostProcessShaderResourceView; }
+	static ID3D11ShaderResourceView*	GetCubeReflectShaderResourceView()	{ return m_CubeReflectShaderResourceView; }
 
-	static ID3D11Texture2D*	GetReflectTexture() { return m_ReflectTexture; }
+	static ID3D11Texture2D*	GetReflectTexture()		{ return m_ReflectTexture; }
 	static ID3D11Texture2D*	GetCubeReflectTexture() { return m_CubeReflectTexture; }
 
 	static void CreateVertexShader(ID3D11VertexShader** VertexShader, ID3D11InputLayout** VertexLayout, const char* FileName);
@@ -171,6 +177,7 @@ public:
 
 
 	static void BeginCube();
+	static void BeginPostProcess();
 	static void BeginDepth()
 	{
 		m_DeviceContext->OMSetRenderTargets(0, NULL, m_DepthShadowDepthStencilView);
