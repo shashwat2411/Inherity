@@ -11,6 +11,8 @@ bool show_demo_window = true;
 
 int index = 0;
 int layer = 0;
+bool play = false;
+bool paused = false;
 
 const char* str[MAX_LAYER] =
 {
@@ -76,10 +78,10 @@ void DebugManager::DebugDraw(SCENE * scene)
 {
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
 
-	//ImGui::BeginGroup();
 	//ImGui::SetNextWindowSize(ImVec2(140, 75));
 
 	ImGui::Begin("Index", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
+
 	ImGui::PushItemWidth(-FLT_MIN);
 	ImGui::SliderInt(" ", &layer, 0, MAX_LAYER - 1, str[layer]);
 
@@ -105,6 +107,62 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 				ImGui::SameLine();
 				component->EngineDisplay();
+			}
+		}
+	}
+
+	ImGui::End();
+
+	ImGui::Begin("", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
+	if (ImGui::Button(">"))
+	{
+		if (play == false)
+		{
+			Time::timeScale = 1.0f;
+			play = true;
+		}
+		else
+		{
+			Time::timeScale = 0.0f;
+			play = false;
+			Manager::ResetScene();
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("||"))
+	{
+		if (play == true)
+		{
+			if (paused == true)
+			{
+				Time::timeScale = 1.0f;
+				paused = false;
+			}
+			else
+			{
+				Time::timeScale = 0.0f;
+				paused = true;
+			}
+		}
+	}
+	ImGui::SameLine();
+	if (ImGui::Button(">|"))
+	{
+		if (play == true)
+		{
+			if (paused == true)
+			{
+				Time::timeScale = 1.0f;
+			}
+		}
+	}
+	else
+	{
+		if (play == true)
+		{
+			if (paused == true)
+			{
+				Time::timeScale = 0.0f;
 			}
 		}
 	}

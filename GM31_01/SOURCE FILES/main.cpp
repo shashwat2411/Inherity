@@ -109,7 +109,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			}
 
 			float ab = 1000.0f / (FRAME_RATE * ((Time::timeScale > 0.0f) ? Time::timeScale : 1.0f/ FRAME_RATE));
-			if ((dwCurrentTime - dwExecFixedLastTime) >= (ab) && Time::timeScale > 0.0f)
+			//if ((dwCurrentTime - dwExecFixedLastTime) >= (ab) && Time::timeScale > 0.0f)
+			if ((dwCurrentTime - dwExecFixedLastTime) >= (1000 / FRAME_RATE))
 			{
 #ifdef DEBUG
 				wsprintf(g_DebugStr, "ENGINE| FPS : %d | FixedFPS : %d | ", g_CountFPS, g_CountFixedFPS);
