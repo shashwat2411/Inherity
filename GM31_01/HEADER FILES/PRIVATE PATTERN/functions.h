@@ -74,7 +74,7 @@ public:
 		char str[20];
 		sprintf_s(str, sizeof(str), "Timer : %.2f", *var);
 
-		ImGui::Begin("Time", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
+		ImGui::Begin("Time", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 		ImGui::Text(str);
 		ImGui::End();
 

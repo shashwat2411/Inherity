@@ -478,5 +478,11 @@
     <FxCompile Include="shader\postNoisePS.hlsl">
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
+    <FxCompile Include="shader\postMosaicPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\postMosaicVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

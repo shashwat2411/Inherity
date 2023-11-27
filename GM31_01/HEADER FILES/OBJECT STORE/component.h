@@ -118,6 +118,7 @@ public:
 	float FaceInDirection();
 	D3DXMATRIX FaceInDirectionXYZ();
 	D3DXVECTOR3 GetForwardDirection();
+	D3DXVECTOR3 GetUpDirection();
 	D3DXVECTOR3 GetRightDirection();
 	float DistanceFrom(GAMEOBJECT* from);
 	float DistanceFromWithY0(GAMEOBJECT* from);
@@ -323,6 +324,7 @@ public:
 
 
 	D3DXVECTOR3 GetForward();
+	D3DXVECTOR3 GetUp();
 	D3DXVECTOR3 GetRight();
 	void CameraShake(float value, float t = 15.0f / FRAME_RATE);
 	bool CheckView(Transform* target);

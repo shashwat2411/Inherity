@@ -86,9 +86,3 @@ cbuffer ParamBuffer : register(b6)
 	float4 color3;
 	float4 color4;
 }
-
-float Rand(float2 coord)
-{
-	//frac(x) = x ‚Ì­”•”‚ğ•Ô‚·@—”‚Í 0.0 <= rand < 1.0 ‚Ì”ÍˆÍ
-	return frac(sin(dot(coord.xy, float2(12.9898f, 78.233f))) * 43758.5453f);
-}

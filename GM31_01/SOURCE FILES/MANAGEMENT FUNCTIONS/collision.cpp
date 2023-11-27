@@ -2,11 +2,6 @@
 
 #define BOUND_CONST 1.01f
 
-void COLLISION::Init()
-{
-
-}
-
 //void COLLISION::Update()
 //{
 //	SCENE* game = Manager::GetScene();
@@ -106,6 +101,7 @@ void COLLISION::Update()
 	for (auto object : game->GetGameObjectList(COLLIDER_LAYER))
 	{
 		//Sphere Collider
+		if(game->GetGameObjectList(COLLIDER_LAYER).size() >= 2)
 		{
 			SphereCollider* collider = object->Parent->GetComponent<SphereCollider>();
 			if (collider != nullptr)
@@ -197,6 +193,7 @@ void COLLISION::Update()
 		}
 
 		//Box Collider
+		if(game->GetGameObjectList(COLLIDER_LAYER).size() >= 2)
 		{
 			BoxCollider* collider = object->Parent->GetComponent<BoxCollider>();
 			if (collider != nullptr)

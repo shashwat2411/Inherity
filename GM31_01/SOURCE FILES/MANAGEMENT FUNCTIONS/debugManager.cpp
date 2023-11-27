@@ -5,14 +5,17 @@
 #include "../imGUI/imgui_impl_win32.h"
 #include "../imGUI/imgui_impl_dx11.h"
 #include "manager.h"
+#include "input.h"
 
 
+bool play = false;
+bool paused = false;
 bool show_demo_window = true;
 
 int index = 0;
 int layer = 0;
-bool play = false;
-bool paused = false;
+
+float speed = 0.1f;
 
 const char* str[MAX_LAYER] =
 {
@@ -25,6 +28,8 @@ const char* str[MAX_LAYER] =
 	"SPRITE_LAYER",
 	"FADE_LAYER"
 };
+
+EDIT_MODE edit = EDIT_MODE::POSITION;
 
 void DebugManager::Init()
 {
@@ -80,7 +85,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 	//ImGui::SetNextWindowSize(ImVec2(140, 75));
 
-	ImGui::Begin("Index", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Index", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
 	ImGui::PushItemWidth(-FLT_MIN);
 	ImGui::SliderInt(" ", &layer, 0, MAX_LAYER - 1, str[layer]);
@@ -92,10 +97,59 @@ void DebugManager::DebugDraw(SCENE * scene)
 	ImGui::End();
 
 	//ImGui::SetNextWindowSize(ImVec2(200, 170));
-	ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 	{
 		if (vector[0] != nullptr)
 		{
+			if (play == false || paused == true)
+			{
+				if (Input::GetKeyTrigger('1')) { edit = EDIT_MODE::POSITION; }
+				if (Input::GetKeyTrigger('2')) { edit = EDIT_MODE::ROTATION; }
+				if (Input::GetKeyTrigger('3')) { edit = EDIT_MODE::SCALE; }
+
+				GAMEOBJECT* mover = vector[index];
+				if (Input::GetKeyPress(VK_LSHIFT)) { mover = scene->GetCamera(); }
+
+				D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
+				D3DXVECTOR3 directionY(0.0f, 0.0f, 0.0f);
+				D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
+
+				if (edit != EDIT_MODE::ROTATION)
+				{
+						 if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ =  scene->GetCamera()->camera->GetForward();	}
+					else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -scene->GetCamera()->camera->GetForward();	}
+						 if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY =  scene->GetCamera()->camera->GetUp();		}
+					else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -scene->GetCamera()->camera->GetUp();		}
+						 if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX =  scene->GetCamera()->camera->GetRight();		}
+					else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = -scene->GetCamera()->camera->GetRight();		}
+				}
+				else
+				{
+						 if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = mover->transform->GetRightDirection();		}
+					else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -mover->transform->GetRightDirection();		}
+						 if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = mover->transform->GetUpDirection();			}
+					else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -mover->transform->GetUpDirection();			}
+						 if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = -mover->transform->GetForwardDirection();	}
+					else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = mover->transform->GetForwardDirection();		}
+				}
+
+				directionX.y = 0.0f;
+				directionZ.y = 0.0f;
+
+				directionY.x = 0.0f;
+				directionY.z = 0.0f;
+
+				D3DXVECTOR3 direction = directionX + directionY + directionZ;
+				D3DXVec3Normalize(&direction, &direction);
+
+				switch (edit)
+				{
+				case EDIT_MODE::POSITION:	speed = 0.1f; mover->transform->Position += direction * speed;	break;
+				case EDIT_MODE::ROTATION:	speed = 0.5f; mover->transform->Rotation += direction * speed;	break;
+				case EDIT_MODE::SCALE:		speed = 0.01f; mover->transform->Scale += direction * speed;	break;
+				default: break;
+				}
+			}
 			vector[index]->EngineDisplay();
 
 			for (auto component : vector[index]->GetComponentList())
@@ -113,7 +167,18 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 	ImGui::End();
 
-	ImGui::Begin("", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_NoMove | ImGuiWindowFlags_::ImGuiWindowFlags_NoResize);
+	ImGui::Begin("Edit Mode", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
+	int ret = edit;
+	ImGui::RadioButton("Move", &ret, 0); ImGui::SameLine();
+	ImGui::RadioButton("Rotate", &ret, 1); ImGui::SameLine();
+	ImGui::RadioButton("Scale", &ret, 2); ImGui::SameLine();
+
+	edit = (EDIT_MODE)ret;
+
+	ImGui::End();
+
+	ImGui::Begin("", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 	if (ImGui::Button(">"))
 	{
 		if (play == false)

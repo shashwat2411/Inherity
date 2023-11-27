@@ -33,18 +33,13 @@ void SphereCollider::End()
 
 void SphereCollider::Update()
 {
-	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
-	collider->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
 
-#ifdef DEBUG
-	//char* str = GetDebugStr();
-	//sprintf(&str[strlen(str)], " | Collider Position [ X : %.2f, Y : %.2f, Z : %.2f ]", collider->transform->GlobalPosition.x, collider->transform->GlobalPosition.y, collider->transform->GlobalPosition.z);
-#endif
 }
 
 void SphereCollider::Draw()
 {
-
+	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
+	collider->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
 }
 
 void SphereCollider::EngineDisplay()

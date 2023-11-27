@@ -211,23 +211,10 @@ D3DXMATRIX Transform::FaceInDirectionXYZ()
 	return rot;
 }
 
-//D3DXVECTOR3 Transform::GetForwardDirection()
-//{
-//	D3DXMATRIX rot;
-//	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
-//
-//	D3DXVECTOR3 returner;
-//	returner.x = rot._31;
-//	returner.y = rot._32;
-//	returner.z = rot._33;
-//
-//	return returner;
-//}
-
 D3DXVECTOR3 Transform::GetForwardDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
+	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
 
 	D3DXVECTOR3 returner;
 	returner.x = rot._31;
@@ -237,10 +224,23 @@ D3DXVECTOR3 Transform::GetForwardDirection()
 	return returner;
 }
 
+D3DXVECTOR3 Transform::GetUpDirection()
+{
+	D3DXMATRIX rot;
+	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
+
+	D3DXVECTOR3 returner;
+	returner.x = rot._21;
+	returner.y = rot._22;
+	returner.z = rot._23;
+
+	return returner;
+}
+
 D3DXVECTOR3 Transform::GetRightDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
+	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
 
 	D3DXVECTOR3 returner;
 	returner.x = rot._11;
@@ -250,10 +250,36 @@ D3DXVECTOR3 Transform::GetRightDirection()
 	return returner;
 }
 
+//D3DXVECTOR3 Transform::GetForwardDirection()
+//{
+//	D3DXMATRIX rot;
+//	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
+//
+//	D3DXVECTOR3 returner;
+//	returner.x = rot._31;
+//	returner.y = rot._32;
+//	returner.z = rot._33;
+//
+//	return returner;
+//}
+//
+//D3DXVECTOR3 Transform::GetUpDirection()
+//{
+//	D3DXMATRIX rot;
+//	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
+//
+//	D3DXVECTOR3 returner;
+//	returner.x = rot._21;
+//	returner.y = rot._22;
+//	returner.z = rot._23;
+//
+//	return returner;
+//}
+//
 //D3DXVECTOR3 Transform::GetRightDirection()
 //{
 //	D3DXMATRIX rot;
-//	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
+//	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
 //
 //	D3DXVECTOR3 returner;
 //	returner.x = rot._11;

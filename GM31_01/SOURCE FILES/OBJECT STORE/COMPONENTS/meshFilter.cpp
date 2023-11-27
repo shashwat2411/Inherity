@@ -95,7 +95,7 @@ void MeshFilter::EngineDisplay()
 
 				DebugManager::FloatDisplay(&time, -FLT_MIN, "Time", true, D3DXVECTOR2(0.01f, 0.0f), 1, true);
 				//ImGui::LabelText("##Label", "	Time : %.2f", time);
-				DebugManager::BoolDisplay(&loop, -200.0f, "Loop", true, 2);
+				DebugManager::BoolDisplay(&loop, -200.0f, "Loop", 2, true);
 			}
 
 			ImGui::TreePop();

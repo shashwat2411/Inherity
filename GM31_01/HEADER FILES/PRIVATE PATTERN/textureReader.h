@@ -35,6 +35,7 @@ public:
 		GROUND_T,
 		TITLE_BG_T,
 		RESULT_BG_T,
+		BUBBLE_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -68,6 +69,7 @@ public:
 		LoadTexture(&Textures[GROUND_T], "asset\\texture\\field004.jpg");
 		LoadTexture(&Textures[TITLE_BG_T], "asset\\texture\\titlegm.png");
 		LoadTexture(&Textures[RESULT_BG_T], "asset\\texture\\resultgm.png");
+		LoadTexture(&Textures[BUBBLE_T], "asset\\texture\\bubble.png");
 	}
 
 	static void UnReadTexture()
