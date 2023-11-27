@@ -24,7 +24,7 @@ void ParticleSystem::Start()
 	for (int i = 0; i < numberOfObjects; i++)
 	{
 		auto b = new PARTICLE();
-		b->Start();
+		b->Init();
 
 		b->GetMaterial()->SetTexture("_Texture", texture);
 		objects.push_back(b);
@@ -55,38 +55,35 @@ void ParticleSystem::Update()
 {
 	for (auto object : objects)
 	{
-		if (gameObject->GetActive() == true)
+		if (rotateRandom == true) { object->SetBillboard(false); object->transform->Rotation += object->velocity * 50.0f * Time::fixedTimeScale; }
+		else { object->SetBillboard(true); }
+
+		object->transform->Position += object->velocity;
+
+		if (object->counter < object->life) { object->counter += Time::deltaTime; }
+		else { object->counter = object->life; }
+
+		if (object->counter >= object->life)
 		{
-			if (rotateRandom == true) { object->SetBillboard(false); object->transform->Rotation += object->velocity * 50.0f * Time::fixedTimeScale; }
-			else { object->SetBillboard(true); }
-
-			object->transform->Position += object->velocity;
-
-			if (object->counter < object->life) { object->counter += Time::deltaTime; }
-			else { object->counter = object->life; }
-
-			if (object->counter >= object->life)
+			if (loop == true)
 			{
-				if (loop == true)
+				object->ReInitialize();
+				if (burst == true)
 				{
-					object->ReInitialize();
-					if (burst == true)
-					{
-						object->life = object->setLife;
-						object->counter = 0.0f;
-					}
+					object->life = object->setLife;
+					object->counter = 0.0f;
 				}
-				else
+			}
+			else
+			{
+				gameObject->SetActive(false);
+				object->ReInitialize();
+				if (burst == true)
 				{
-					gameObject->SetActive(false);
-					object->ReInitialize();
-					if (burst == true)
-					{
-						object->life = object->setLife;
-						object->counter = 0;
-					}
-					//scene->GetCamera()->GetComponent<Camera>()->Target = nullptr;
+					object->life = object->setLife;
+					object->counter = 0;
 				}
+				//scene->GetCamera()->GetComponent<Camera>()->Target = nullptr;
 			}
 		}
 	}
@@ -145,10 +142,9 @@ void ParticleSystem::EngineDisplay()
 
 void ParticleSystem::SetTexture(ID3D11ShaderResourceView* text)
 {
-	texture = text;
 	for (PARTICLE* obj : objects)
 	{
-		obj->GetMaterial()->SetTexture("_Texture", texture);
+		obj->GetMaterial()->SetTexture("_Texture", text);
 	}
 }
 
@@ -192,7 +188,7 @@ void ParticleSystem::SetParticleCount(int value)
 	while (numberOfObjectsToAdd > 0)
 	{
 		auto b = new PARTICLE();
-		b->Start();
+		b->Init();
 
 		b->GetMaterial()->SetTexture("_Texture", texture);
 		objects.push_back(b);

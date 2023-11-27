@@ -7,6 +7,10 @@
 #include "debugManager.h"
 #include "postProcess.h"
 
+#include <iostream>
+#include <fstream>
+#include <map>
+
 
 POSTPROCESS* Manager::PostProcess{};
 SCENE* Manager::Scene{};	//staticメンバ変数は再宣言が必要
@@ -48,6 +52,8 @@ void Manager::Init()
 	Time::timeScale = 0.0f;
 	Time::fixedTimeScale = 1.0f;
 	Time::deltaTime = 1.0f / FRAME_RATE;
+
+	Open();
 }
 
 void Manager::Uninit()
@@ -88,6 +94,18 @@ void Manager::FixedUpdate()
 	}
 
 	COLLISION::Update();
+
+	if (Input::GetKeyPress(VK_CONTROL))
+	{
+		if (Input::GetKeyTrigger('S'))
+		{
+			Save();
+		}
+		if (Input::GetKeyTrigger('O'))
+		{
+			Open();
+		}
+	}
 }
 
 void Manager::Draw()
@@ -188,4 +206,64 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 	//ライトカメラのプロジェクション行列を作成
 	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 20.0f);
 
+}
+
+void Manager::Save()
+{
+	// Open a file named "example.txt" for writing
+	std::ofstream outFile("save.txt");
+
+	// Check if the file is successfully opened
+	if (!outFile.is_open()) {
+		return; // Return an error code
+	}
+
+	// Write some content to the file
+	//outFile << "Hello, this is a text file created using C++!" << std::endl;
+	//outFile << "You can add more lines to this file." << std::endl;
+
+	GAMEOBJECT* obj = Scene->FindGameObject<PLAYER>();
+
+	// Create a map to store variable names and values
+	//std::string str = obj->GetTag() + "_";
+
+	std::map<std::string, D3DXVECTOR3> variableMap;
+	variableMap["Position"] = obj->transform->Position;
+
+	// Write variable names and values to the file
+	for (const auto& pair : variableMap) {
+		outFile << pair.first << " " << pair.second.x << " " << pair.second.y << " " << pair.second.z << "\n";
+	}
+
+
+	// Close the file
+	outFile.close();
+}
+
+void Manager::Open()
+{
+	std::ifstream inFile("save.txt");
+
+	// Check if the file is successfully opened
+	if (!inFile.is_open()) {
+		return; // Return an error code
+	}
+
+	// Create a map to store variable names and values
+	std::map<std::string, D3DXVECTOR3> variableMap;
+
+	// Read variable names and values from the file
+	std::string variableName;
+	D3DXVECTOR3 var;
+
+	while (inFile >> variableName >> var.x >> var.y >> var.z) {
+		variableMap[variableName] = var;
+	}
+
+	GAMEOBJECT* obj = Scene->FindGameObject<PLAYER>();
+
+	obj->transform->Position = variableMap[variableName];
+
+	// Close the file
+	inFile.close();
 }
