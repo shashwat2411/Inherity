@@ -3,6 +3,13 @@
 
 class SCENE;
 
+enum EDIT_MODE
+{
+	POSITION,
+	ROTATION,
+	SCALE
+};
+
 class DebugManager
 {
 public:

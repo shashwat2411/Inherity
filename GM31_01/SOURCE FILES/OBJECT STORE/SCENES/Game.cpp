@@ -10,6 +10,7 @@ IMAGE* Buffer;
 CUBE* cube;
 GAMEOBJECT* gameManager;
 AudioSource* audio;
+PARTICLESYSTEM* particleSystem;
 
 void GAME_SCENE::Init()
 {
@@ -31,6 +32,7 @@ void GAME_SCENE::Init()
 	cube = AddGameObject<CUBE>();
 	torus = AddGameObject<EMPTYOBJECT>();
 	torus1 = AddGameObject<EMPTYOBJECT>();
+	particleSystem = AddGameObject<PARTICLESYSTEM>(BILLBOARD_LAYER);
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -82,6 +84,7 @@ void GAME_SCENE::Init()
 		cube->SetTag("Cube");
 		torus->SetTag("Torus");
 		torus1->SetTag("Torus1");
+		particleSystem->SetTag("Particle System");
 
 		Buffer->SetTag("Shadow Texture");
 		Score->SetTag("Score");
@@ -101,6 +104,8 @@ void GAME_SCENE::Init()
 
 	//Ý’è
 	{
+		particleSystem->particleSystem->SetTexture(TextureReader::GetReadTexture(TextureReader::BUBBLE_T));
+
 		gameManager->AddComponent<GameManager>();
 
 		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::GROUND_T));

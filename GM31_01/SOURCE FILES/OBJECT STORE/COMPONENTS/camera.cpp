@@ -128,6 +128,19 @@ D3DXVECTOR3 Camera::GetForward()
 	return forward;
 }
 
+D3DXVECTOR3 Camera::GetUp()
+{
+	D3DXMATRIX rot;
+	D3DXMatrixInverse(&rot, nullptr, &mtxView);
+
+	D3DXVECTOR3 up;
+	up.x = rot._21;
+	up.y = rot._22;
+	up.z = rot._23;
+
+	return up;
+}
+
 D3DXVECTOR3 Camera::GetRight()
 {
 	D3DXMATRIX rot;

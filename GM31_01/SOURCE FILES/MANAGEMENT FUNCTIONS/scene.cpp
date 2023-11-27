@@ -6,9 +6,6 @@ void SCENE::InitBefore()
 {
 	end = false;
 
-	COLLISION::Init();
-
-
 	//GAMEOBJECT
 	MainCamera = AddGameObject<CAMERA>(CAMERA_LAYER);
 	reflectionProjector = AddGameObject<EMPTYOBJECT>();
@@ -51,7 +48,6 @@ void SCENE::UpdateBefore()
 			}
 		}
 		GameObjects[i].remove_if([](GAMEOBJECT* object) {return object->Remove(); });
-		COLLISION::Update();
 	}
 }
 
