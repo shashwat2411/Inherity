@@ -32,7 +32,7 @@ void GAME_SCENE::Init()
 	cube = AddGameObject<CUBE>();
 	torus = AddGameObject<EMPTYOBJECT>();
 	torus1 = AddGameObject<EMPTYOBJECT>();
-	particleSystem = AddGameObject<PARTICLESYSTEM>(BILLBOARD_LAYER);
+	//particleSystem = AddGameObject<PARTICLESYSTEM>(BILLBOARD_LAYER);
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -84,7 +84,7 @@ void GAME_SCENE::Init()
 		cube->SetTag("Cube");
 		torus->SetTag("Torus");
 		torus1->SetTag("Torus1");
-		particleSystem->SetTag("Particle System");
+		//particleSystem->SetTag("Particle System");
 
 		Buffer->SetTag("Shadow Texture");
 		Score->SetTag("Score");
@@ -104,7 +104,7 @@ void GAME_SCENE::Init()
 
 	//設定
 	{
-		particleSystem->particleSystem->SetTexture(TextureReader::GetReadTexture(TextureReader::BUBBLE_T));
+		//particleSystem->particleSystem->SetTexture(TextureReader::GetReadTexture(TextureReader::BUBBLE_T));
 
 		gameManager->AddComponent<GameManager>();
 
@@ -212,13 +212,13 @@ void GAME_SCENE::Update()
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
 
 #ifdef DEBUG	// デバッグ情報を表示する
-	char* str = GetDebugStr();
+	//char* str = GetDebugStr();
 	//sprintf(&str[strlen(str)], " |||  Number : %d, Player_L_Joint1 x : %.2f, y : %.2f, z : %.2f", GameObjects[SHADOW_LAYER].Size(), PlayerModel->L_joint1->transform->Position.x, PlayerModel->L_joint1->transform->Position.y, PlayerModel->L_joint1->transform->Position.z);
 	//sprintf(&str[strlen(str)], " | Player_L_arm1  x : %.2f, y : %.2f, z : %.2f", PlayerModel->L_arm1->transform->Position.x, PlayerModel->L_arm1->transform->Position.y, PlayerModel->L_arm1->transform->Position.z);
 	//sprintf(&str[strlen(str)], " | Water Y : %.2f", Water->transform->Position.y);
 	//sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
 	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
 	//sprintf(&str[strlen(str)], " | Volume : %.2f", audio->volume);
-	sprintf(&str[strlen(str)], " | Volume Percentage : %.2f", audio->volumePercentage);
+	//sprintf(&str[strlen(str)], " | Volume Percentage : %.2f", audio->volumePercentage);
 #endif
 }

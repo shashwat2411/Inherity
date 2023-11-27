@@ -84,152 +84,160 @@ void DebugManager::DebugDraw(SCENE * scene)
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
 
 	//ImGui::SetNextWindowSize(ImVec2(140, 75));
-
-	ImGui::Begin("Index", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-
-	ImGui::PushItemWidth(-FLT_MIN);
-	ImGui::SliderInt(" ", &layer, 0, MAX_LAYER - 1, str[layer]);
-
-	if (index > vector.size() - 1) { index = vector.size() - 1; }
-	ImGui::PushItemWidth(-FLT_MIN);
-	if (vector[0] != nullptr) { ImGui::SliderInt("", &index, 0, vector.size() - 1, vector[index]->GetTag().c_str()); }
-
-	ImGui::End();
-
-	//ImGui::SetNextWindowSize(ImVec2(200, 170));
-	ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 	{
-		if (vector[0] != nullptr)
+		ImGui::Begin("Index", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
+		ImGui::PushItemWidth(-FLT_MIN);
+		ImGui::SliderInt(" ", &layer, 0, MAX_LAYER - 1, str[layer]);
+
+		if (index > vector.size() - 1) { index = vector.size() - 1; }
+		ImGui::PushItemWidth(-FLT_MIN);
+		if (vector[0] != nullptr) { ImGui::SliderInt("", &index, 0, vector.size() - 1, vector[index]->GetTag().c_str()); }
+
+		ImGui::End();
+	}
+
+	{
+		//ImGui::SetNextWindowSize(ImVec2(200, 170));
+		ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 		{
-			if (play == false || paused == true)
+			if (vector[0] != nullptr)
 			{
-				if (Input::GetKeyTrigger('1')) { edit = EDIT_MODE::POSITION; }
-				if (Input::GetKeyTrigger('2')) { edit = EDIT_MODE::ROTATION; }
-				if (Input::GetKeyTrigger('3')) { edit = EDIT_MODE::SCALE; }
-
-				GAMEOBJECT* mover = vector[index];
-				if (Input::GetKeyPress(VK_LSHIFT)) { mover = scene->GetCamera(); }
-
-				D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
-				D3DXVECTOR3 directionY(0.0f, 0.0f, 0.0f);
-				D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
-
-				if (edit != EDIT_MODE::ROTATION)
+				if (play == false || paused == true)
 				{
-						 if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ =  scene->GetCamera()->camera->GetForward();	}
-					else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -scene->GetCamera()->camera->GetForward();	}
-						 if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY =  scene->GetCamera()->camera->GetUp();		}
-					else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -scene->GetCamera()->camera->GetUp();		}
-						 if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX =  scene->GetCamera()->camera->GetRight();		}
-					else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = -scene->GetCamera()->camera->GetRight();		}
+					if (Input::GetKeyTrigger('1')) { edit = EDIT_MODE::POSITION; }
+					if (Input::GetKeyTrigger('2')) { edit = EDIT_MODE::ROTATION; }
+					if (Input::GetKeyTrigger('3')) { edit = EDIT_MODE::SCALE; }
+
+					GAMEOBJECT* mover = vector[index];
+					if (Input::GetKeyPress(VK_LSHIFT)) { mover = scene->GetCamera(); }
+
+					D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
+					D3DXVECTOR3 directionY(0.0f, 0.0f, 0.0f);
+					D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
+
+					if (edit != EDIT_MODE::ROTATION)
+					{
+						if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = scene->GetCamera()->camera->GetForward(); }
+						else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -scene->GetCamera()->camera->GetForward(); }
+						if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = scene->GetCamera()->camera->GetUp(); }
+						else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -scene->GetCamera()->camera->GetUp(); }
+						if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = scene->GetCamera()->camera->GetRight(); }
+						else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = -scene->GetCamera()->camera->GetRight(); }
+					}
+					else
+					{
+						if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = mover->transform->GetRightDirection(); }
+						else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -mover->transform->GetRightDirection(); }
+						if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = mover->transform->GetUpDirection(); }
+						else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -mover->transform->GetUpDirection(); }
+						if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = -mover->transform->GetForwardDirection(); }
+						else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = mover->transform->GetForwardDirection(); }
+					}
+
+					directionX.y = 0.0f;
+					directionZ.y = 0.0f;
+
+					directionY.x = 0.0f;
+					directionY.z = 0.0f;
+
+					D3DXVECTOR3 direction = directionX + directionY + directionZ;
+					D3DXVec3Normalize(&direction, &direction);
+
+					switch (edit)
+					{
+					case EDIT_MODE::POSITION:	speed = 0.1f; mover->transform->Position += direction * speed;	break;
+					case EDIT_MODE::ROTATION:	speed = 0.5f; mover->transform->Rotation += direction * speed;	break;
+					case EDIT_MODE::SCALE:		speed = 0.01f; mover->transform->Scale += direction * speed;	break;
+					default: break;
+					}
 				}
-				else
+				vector[index]->EngineDisplay();
+
+				for (auto component : vector[index]->GetComponentList())
 				{
-						 if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = mover->transform->GetRightDirection();		}
-					else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -mover->transform->GetRightDirection();		}
-						 if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = mover->transform->GetUpDirection();			}
-					else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -mover->transform->GetUpDirection();			}
-						 if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = -mover->transform->GetForwardDirection();	}
-					else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = mover->transform->GetForwardDirection();		}
-				}
+					ImGui::SeparatorText("");
+					ImGui::SameLine();
 
-				directionX.y = 0.0f;
-				directionZ.y = 0.0f;
+					ImGui::Checkbox(" ", component->GetEnabledPointer());
 
-				directionY.x = 0.0f;
-				directionY.z = 0.0f;
-
-				D3DXVECTOR3 direction = directionX + directionY + directionZ;
-				D3DXVec3Normalize(&direction, &direction);
-
-				switch (edit)
-				{
-				case EDIT_MODE::POSITION:	speed = 0.1f; mover->transform->Position += direction * speed;	break;
-				case EDIT_MODE::ROTATION:	speed = 0.5f; mover->transform->Rotation += direction * speed;	break;
-				case EDIT_MODE::SCALE:		speed = 0.01f; mover->transform->Scale += direction * speed;	break;
-				default: break;
+					ImGui::SameLine();
+					component->EngineDisplay();
 				}
 			}
-			vector[index]->EngineDisplay();
-
-			for (auto component : vector[index]->GetComponentList())
-			{
-				ImGui::SeparatorText("");
-				ImGui::SameLine();
-
-				ImGui::Checkbox(" ", component->GetEnabledPointer());
-
-				ImGui::SameLine();
-				component->EngineDisplay();
-			}
 		}
+
+		ImGui::End();
 	}
 
-	ImGui::End();
-
-	ImGui::Begin("Edit Mode", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-
-	int ret = edit;
-	ImGui::RadioButton("Move", &ret, 0); ImGui::SameLine();
-	ImGui::RadioButton("Rotate", &ret, 1); ImGui::SameLine();
-	ImGui::RadioButton("Scale", &ret, 2); ImGui::SameLine();
-
-	edit = (EDIT_MODE)ret;
-
-	ImGui::End();
-
-	ImGui::Begin("", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
-	if (ImGui::Button(">"))
 	{
-		if (play == false)
-		{
-			Time::timeScale = 1.0f;
-			play = true;
-		}
-		else
-		{
-			Time::timeScale = 0.0f;
-			play = false;
-			Manager::ResetScene();
-		}
+		ImGui::Begin("Edit Mode", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
+		int ret = edit;
+		ImGui::RadioButton("Move", &ret, 0); ImGui::SameLine();
+		ImGui::RadioButton("Rotate", &ret, 1); ImGui::SameLine();
+		ImGui::RadioButton("Scale", &ret, 2); ImGui::SameLine();
+
+		edit = (EDIT_MODE)ret;
+
+		ImGui::End();
 	}
-	ImGui::SameLine();
-	if (ImGui::Button("||"))
+
 	{
-		if (paused == true)
+		ImGui::Begin("___", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+
+		if (ImGui::Button(">"))
 		{
-			if (play == true) { Time::timeScale = 1.0f; }
-			paused = false;
-		}
-		else
-		{
-			if (play == true) { Time::timeScale = 0.0f; }
-			paused = true;
-		}
-	}
-	ImGui::SameLine();
-	if (ImGui::Button(">|"))
-	{
-		if (play == true)
-		{
-			if (paused == true)
+			if (play == false)
 			{
 				Time::timeScale = 1.0f;
+				play = true;
+			}
+			else
+			{
+				Time::timeScale = 0.0f;
+				play = false;
+				Manager::ResetScene();
 			}
 		}
-	}
-	else
-	{
-		if (play == true)
+		ImGui::SameLine();
+		if (ImGui::Button("||"))
 		{
 			if (paused == true)
 			{
-				Time::timeScale = 0.0f;
+				if (play == true) { Time::timeScale = 1.0f; }
+				paused = false;
+			}
+			else
+			{
+				if (play == true) { Time::timeScale = 0.0f; }
+				paused = true;
 			}
 		}
-	}
+		ImGui::SameLine();
+		if (ImGui::Button(">|"))
+		{
+			if (play == true)
+			{
+				if (paused == true)
+				{
+					Time::timeScale = 1.0f;
+				}
+			}
+		}
+		else
+		{
+			if (play == true)
+			{
+				if (paused == true)
+				{
+					Time::timeScale = 0.0f;
+				}
+			}
+		}
 
-	ImGui::End();
+		ImGui::End();
+	}
 }
 
 bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int index, bool uneditable)
