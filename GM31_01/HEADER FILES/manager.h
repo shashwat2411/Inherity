@@ -18,6 +18,9 @@ public:
 	static void FixedUpdate();
 	static void Draw();
 
+	static void Save();
+	static void Open();
+
 	static SCENE* GetScene() { return Scene; }
 	static SCENE* GetDontDestroyOnLoadScene() { return DontDestroyOnLoad; }
 

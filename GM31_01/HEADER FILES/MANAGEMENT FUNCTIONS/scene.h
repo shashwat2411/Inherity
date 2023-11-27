@@ -64,6 +64,7 @@ public:
 
 	PLAYER* GetPlayer() { return player; }
 	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
+	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GetGameObjectList() { return GameObjects; }
 	std::list<GAMEOBJECT*> GetGameObjectList(LAYER layer) { return GameObjects[layer]; }
 	std::vector<GAMEOBJECT*> GetGameObjectListVector(LAYER layer) 
 	{

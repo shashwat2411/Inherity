@@ -116,23 +116,26 @@ void DebugManager::DebugDraw(SCENE * scene)
 					D3DXVECTOR3 directionY(0.0f, 0.0f, 0.0f);
 					D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 
-					if (edit != EDIT_MODE::ROTATION)
+					if (!Input::GetKeyPress(VK_CONTROL))
 					{
-						if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = scene->GetCamera()->camera->GetForward(); }
-						else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -scene->GetCamera()->camera->GetForward(); }
-						if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = scene->GetCamera()->camera->GetUp(); }
-						else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -scene->GetCamera()->camera->GetUp(); }
-						if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = scene->GetCamera()->camera->GetRight(); }
-						else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = -scene->GetCamera()->camera->GetRight(); }
-					}
-					else
-					{
-						if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = mover->transform->GetRightDirection(); }
-						else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -mover->transform->GetRightDirection(); }
-						if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = mover->transform->GetUpDirection(); }
-						else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -mover->transform->GetUpDirection(); }
-						if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = -mover->transform->GetForwardDirection(); }
-						else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = mover->transform->GetForwardDirection(); }
+						if (edit != EDIT_MODE::ROTATION)
+						{
+							if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = scene->GetCamera()->camera->GetForward(); }
+							else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -scene->GetCamera()->camera->GetForward(); }
+							if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = scene->GetCamera()->camera->GetUp(); }
+							else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -scene->GetCamera()->camera->GetUp(); }
+							if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = scene->GetCamera()->camera->GetRight(); }
+							else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = -scene->GetCamera()->camera->GetRight(); }
+						}
+						else
+						{
+							if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = mover->transform->GetRightDirection(); }
+							else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -mover->transform->GetRightDirection(); }
+							if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = mover->transform->GetUpDirection(); }
+							else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -mover->transform->GetUpDirection(); }
+							if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = -mover->transform->GetForwardDirection(); }
+							else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = mover->transform->GetForwardDirection(); }
+						}
 					}
 
 					directionX.y = 0.0f;
