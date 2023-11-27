@@ -487,33 +487,31 @@ void Renderer::Init()
 	{
 		swapChainDesc.SampleDesc.Count = 1;
 
-		//シャドーバッファー作成
+		//テクスチャ作成
 		ID3D11Texture2D* ppTexture = NULL;
 		D3D11_TEXTURE2D_DESC td;
-		ZeroMemory(&td, sizeof(&td));
+		ZeroMemory(&td, sizeof(td));
 		td.Width = swapChainDesc.BufferDesc.Width;
 		td.Height = swapChainDesc.BufferDesc.Height;
 		td.MipLevels = 1;
 		td.ArraySize = 1;
-		td.Format = DXGI_FORMAT_R32_TYPELESS;	//32bit の自由な形式のデータとする
-		td.SampleDesc = swapChainDesc.SampleDesc;//
-		td.Usage = D3D11_USAGE_DEFAULT;	//	↓デプス＆ステンシルバッファとして作成
-		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		td.SampleDesc = swapChainDesc.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
 		td.CPUAccessFlags = 0;
 		td.MiscFlags = 0;
 		m_Device->CreateTexture2D(&td, NULL, &ppTexture);
 
-		//デプスステンシルターゲットビュー作成
-		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
-		ZeroMemory(&dsvd, sizeof(dsvd));
-		dsvd.Format = DXGI_FORMAT_D32_FLOAT;	//ピクセルフォーマットは 32	BitFLOAT型
-		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-		m_Device->CreateDepthStencilView(ppTexture, &dsvd, &m_DepthStencilView);
+		D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+		ZeroMemory(&rtvd, sizeof(rtvd));
+		rtvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		m_Device->CreateRenderTargetView(ppTexture, &rtvd, &m_PostProcessRenderTargetView);
 
-		//シェーダーリソースビュー作成
 		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
 		ZeroMemory(&srvd, sizeof(srvd));
-		srvd.Format = DXGI_FORMAT_R32_FLOAT;	//ピクセルフォーマットは 32BitFLOAT型
+		srvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 		srvd.Texture2D.MipLevels = 1;
 		m_Device->CreateShaderResourceView(ppTexture, &srvd, &m_PostProcessShaderResourceView);
@@ -559,21 +557,21 @@ void Renderer::Begin()
 
 }
 
-//void Renderer::BeginPostProcess()
-//{
-//	m_DeviceContext->OMSetRenderTargets(1, &m_PostProcessRenderTargetView, m_DepthStencilView);
-//
-//	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
-//	m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, clearColor);
-//	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
-//}
+void Renderer::BeginPostProcess()
+{
+	m_DeviceContext->OMSetRenderTargets(1, &m_PostProcessRenderTargetView, m_DepthStencilView);
+
+	float ClearColor[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+	m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, ClearColor);
+	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
 
 void Renderer::BeginCube()
 {
 	m_DeviceContext->OMSetRenderTargets(1, &m_ReflectRenderTargetView, m_ReflectDepthStencilView);
 
 	// バックバッファクリア
-	float clearColor[4] = { 1.0f, 0.0f, 0.5f, 1.0f };
+	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	m_DeviceContext->ClearRenderTargetView(m_ReflectRenderTargetView, clearColor);
 	m_DeviceContext->ClearDepthStencilView(m_ReflectDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }

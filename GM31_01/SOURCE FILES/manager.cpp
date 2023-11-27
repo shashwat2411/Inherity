@@ -39,8 +39,8 @@ void Manager::Init()
 	DontDestroyOnLoad = new EMPTY_SCENE();
 	DontDestroyOnLoad->Init();
 
-	PostProcess = new POSTPROCESS();
-	PostProcess->Init();
+	//PostProcess = new POSTPROCESS();
+	//PostProcess->Init();
 
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
