@@ -43,8 +43,8 @@ void Manager::Init()
 	DontDestroyOnLoad = new EMPTY_SCENE();
 	DontDestroyOnLoad->Init();
 
-	PostProcess = new POSTPROCESS();
-	PostProcess->Init();
+	//PostProcess = new POSTPROCESS();
+	//PostProcess->Init();
 
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
@@ -54,6 +54,9 @@ void Manager::Init()
 	Time::deltaTime = 1.0f / FRAME_RATE;
 
 	Open();
+
+	Scene->UpdateBefore();
+	DontDestroyOnLoad->UpdateBefore();
 }
 
 void Manager::Uninit()

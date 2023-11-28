@@ -15,6 +15,7 @@ class DebugManager
 public:
 	static bool play;
 	static bool paused;
+	static bool gizmo;
 	static bool show_demo_window;
 
 	static int index;

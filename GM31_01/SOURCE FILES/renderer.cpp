@@ -3,7 +3,7 @@
 #include "renderer.h"
 #include <io.h>
 
-//#define MULTI_SAMPLE_ANTI_ALIASING 8
+#define MULTI_SAMPLE_ANTI_ALIASING 8
 
 D3D_FEATURE_LEVEL	Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
