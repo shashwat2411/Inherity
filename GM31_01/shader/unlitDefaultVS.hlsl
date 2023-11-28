@@ -16,7 +16,7 @@ void main(in VS_IN In, out PS_IN Out)
 	Out.Normal = worldNormal;
 
 	Out.Diffuse.rgb = In.Diffuse.rgb * Material.Diffuse.rgb;
-	Out.Diffuse.rgb += In.Diffuse.rgb * Material.Ambient.rgb;
+	//Out.Diffuse.rgb += In.Diffuse.rgb * Material.Ambient.rgb;
 	Out.Diffuse.rgb += Material.Emission.rgb;
 	Out.Diffuse.a = In.Diffuse.a * Material.Diffuse.a;
 

@@ -53,13 +53,13 @@
 51. マウスの座標を3次元座標に変換する方法？
 56. なんでPostProcessがちゃんと施されてない？
 58. ImGuiから全てのゲーム上の入力を管理することは可能？
-59. セーブ機能はどんな感じに作った方がいいですか？
+59. セーブ機能はどんな感じに作った方がいいですか？  cereal c++ serialization library
 
     ●ポートフォリオ
 39. ポートフォリオのテンプレート
 41. 参考にできるテンプレートはあるんですか？
 43. プチコンで作った作品も載せた方がいいですか？
 52. GitHubのRepositoryをPrivateにした方がいいかPublicにした方がいいか？
-53. Cybercore | TIMANIA のSolutionの中にエラーが出る、でも、もとのSolutionにえらは出ない？
+53. Cybercore のSolutionの中にエラーが出る、でも、もとのSolutionにえらは出ない？
 54. Gluttony Ball のプロジェクトは開けない？
 57. Engineとこれから作るゲームを別の作品として入れた方がいいですか？

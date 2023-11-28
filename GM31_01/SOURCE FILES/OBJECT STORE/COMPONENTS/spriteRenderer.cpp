@@ -102,7 +102,7 @@ void SpriteRenderer::Draw()
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-	VERTEX_3D vertex[4];
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 	vertex[0].Position = D3DXVECTOR3(-Size.x * gameObject->transform->Scale.x + barOffsetLeft, -Size.y * gameObject->transform->Scale.y, 0.0f);
 	vertex[0].Normal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	vertex[0].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
@@ -137,21 +137,21 @@ void SpriteRenderer::Draw()
 
 	Renderer::GetDeviceContext()->Unmap(VertexBuffer, 0);
 
-	{
-		////頂点バッファー生成
-		//D3D11_BUFFER_DESC bd;
-		//ZeroMemory(&bd, sizeof(bd));
-		//bd.Usage = D3D11_USAGE_DYNAMIC;
-		//bd.ByteWidth = sizeof(VERTEX_3D) * 4;
-		//bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-		//bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	//{
+	//	//頂点バッファー生成
+	//	D3D11_BUFFER_DESC bd;
+	//	ZeroMemory(&bd, sizeof(bd));
+	//	bd.Usage = D3D11_USAGE_DYNAMIC;
+	//	bd.ByteWidth = sizeof(VERTEX_3D) * 4;
+	//	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
+	//	bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
-		//D3D11_SUBRESOURCE_DATA sd;
-		//ZeroMemory(&sd, sizeof(sd));
-		//sd.pSysMem = vertex;
+	//	D3D11_SUBRESOURCE_DATA sd;
+	//	ZeroMemory(&sd, sizeof(sd));
+	//	sd.pSysMem = vertex;
 
-		//Renderer::GetDevice()->CreateBuffer(&bd, &sd, &VertexBuffer);
-	}
+	//	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &VertexBuffer);
+	//}
 
 
 	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());

@@ -3,7 +3,7 @@
 #include "renderer.h"
 #include <io.h>
 
-#define MULTI_SAMPLE_ANTI_ALIASING 8
+//#define MULTI_SAMPLE_ANTI_ALIASING 8
 
 D3D_FEATURE_LEVEL	Renderer::m_FeatureLevel = D3D_FEATURE_LEVEL_11_0;
 
@@ -309,7 +309,9 @@ void Renderer::Init()
 
 		depthTexture->Release();
 
+#ifdef MULTI_SAMPLE_ANTI_ALIASING
 		swapChainDesc.SampleDesc.Count = MULTI_SAMPLE_ANTI_ALIASING;
+#endif
 	}
 
 	// 定数バッファ生成
