@@ -13,15 +13,15 @@ void SphereCollider::Start()
 	scaleOffset = 1.0f;
 
 	//----------------------------------------------------------------
-	collider = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>(COLLIDER_LAYER);
-	collider->Parent = gameObject;
-	collider->SetTag(collider->Parent->GetTag());
+	colliderObject = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>(COLLIDER_LAYER);
+	colliderObject->Parent = gameObject;
+	colliderObject->SetTag(colliderObject->Parent->GetTag());
 
 	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
-	collider->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
+	colliderObject->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
 
 #ifdef DEBUG
-	collider->GetComponent<MeshFilter>()->SetEnabled(true);
+	colliderObject->GetComponent<MeshFilter>()->SetEnabled(true);
 #endif
 
 }
@@ -39,7 +39,7 @@ void SphereCollider::Update()
 void SphereCollider::Draw()
 {
 	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
-	collider->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
+	colliderObject->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;
 }
 
 void SphereCollider::EngineDisplay()
@@ -59,7 +59,7 @@ void SphereCollider::EngineDisplay()
 
 		if (ImGui::TreeNode("Details"))
 		{
-			std::string parent = "Parent : " + collider->Parent->GetTag() + "\n";
+			std::string parent = "Parent : " + colliderObject->Parent->GetTag() + "\n";
 			ImGui::Text(parent.c_str());
 
 			ImGui::TreePop();
@@ -68,5 +68,13 @@ void SphereCollider::EngineDisplay()
 
 		ImGui::TreePop();
 		ImGui::Spacing();
+	}
+}
+
+void SphereCollider::SetBone(MeshFilter* model, const char* bone)
+{
+	if (model->GetModel() != nullptr)
+	{
+		colliderObject->transform->boneMatrix = model->GetModel()->GetBoneMatrix(bone);
 	}
 }

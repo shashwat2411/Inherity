@@ -101,7 +101,7 @@ void COLLISION::Update()
 	for (auto object : game->GetGameObjectList(COLLIDER_LAYER))
 	{
 		//Sphere Collider
-		if(game->GetGameObjectList(COLLIDER_LAYER).size() >= 2)
+		//if(game->GetGameObjectList(COLLIDER_LAYER).size() >= 2)
 		{
 			SphereCollider* collider = object->Parent->GetComponent<SphereCollider>();
 			if (collider != nullptr)
@@ -114,7 +114,6 @@ void COLLISION::Update()
 
 						if (anotherCollider != nullptr)
 						{
-
 							D3DXVECTOR3 distance;
 							distance = object->transform->GlobalPosition - anotherObject->transform->GlobalPosition;
 							float length = D3DXVec3Length(&distance);
@@ -140,18 +139,20 @@ void COLLISION::Update()
 									D3DXVec3Normalize(&dir, &dir);
 									//object->transform->Position += dir * overlap;
 
+									D3DXVECTOR3 mover = dir * overlap * Time::deltaTime * 3.0f;
+
 									//Dynamic Collision
 									GAMEOBJECT* temp = collider->gameObject;
 									while (temp->Parent != nullptr) { temp = temp->Parent; }
 
 									if (collider->GetIsKinematic() == false)
 									{
-										temp->transform->Position.x += dir.x * overlap * Time::deltaTime;
-										temp->transform->Position.z += dir.z * overlap * Time::deltaTime;
+										temp->transform->Position.x += mover.x;
+										temp->transform->Position.z += mover.z;
 
 										if (temp->GetFreezeY() == false)
 										{
-											if ((temp->transform->Position.y + dir.y * overlap * Time::deltaTime) >= temp->GetDefaultY()) { temp->transform->Position.y += dir.y * overlap * Time::deltaTime; }
+											if ((temp->transform->Position.y + mover.y) >= temp->GetDefaultY()) { temp->transform->Position.y += mover.y; }
 											else { temp->transform->Position.y = temp->GetDefaultY(); }
 										}
 									}

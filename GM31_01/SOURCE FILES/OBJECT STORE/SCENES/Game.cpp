@@ -108,6 +108,8 @@ void GAME_SCENE::Init()
 
 		gameManager->AddComponent<GameManager>();
 
+		//gameManager->GetComponent<GameManager>()->SetEnabled(false);
+
 		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::GROUND_T));
 		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
 		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
