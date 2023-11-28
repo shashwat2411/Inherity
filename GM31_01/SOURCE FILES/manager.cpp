@@ -93,7 +93,6 @@ void Manager::FixedUpdate()
 		if (PostProcess) { PostProcess->Update(); }
 	}
 
-	COLLISION::Update();
 
 	if (Input::GetKeyPress(VK_CONTROL))
 	{

@@ -61,5 +61,5 @@ public:
 	void Update(const char *AnimationName1, int Frame1, const char* AnimationName2, int Frame2, float BlendRate, float time);
 	void Draw();
 
-	BONE* GetBone(const char* name) { return &m_Bone[name]; }
+	aiMatrix4x4* GetBoneMatrix(const char* name) { return &m_Bone[name].worldMatrix; }
 };

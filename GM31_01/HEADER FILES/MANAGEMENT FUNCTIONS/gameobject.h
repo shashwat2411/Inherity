@@ -56,8 +56,6 @@ protected:
 
 
 public:
-	bool boneMatrixEnable;
-
 	float cameraDistance;
 
 	Transform*	transform;
@@ -66,7 +64,6 @@ public:
 	GAMEOBJECT* Parent;
 	std::vector<GAMEOBJECT*>Children;
 
-	D3DXMATRIX boneMatrix;
 	//bool operator<(const GAMEOBJECT* other) const{
 	//	// Compare points based on their Z-coordinates in descending order
 	//	return this->cameraDistance > other->cameraDistance;

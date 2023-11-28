@@ -8,14 +8,14 @@
 #include "input.h"
 
 
-bool play = false;
-bool paused = false;
-bool show_demo_window = true;
+bool DebugManager::play = false;
+bool DebugManager::paused = false;
+bool DebugManager::show_demo_window = true;
 
-int index = 0;
-int layer = 0;
+int DebugManager::index = 0;
+int DebugManager::layer = 0;
 
-float speed = 0.1f;
+float DebugManager::speed = 0.1f;
 
 const char* str[MAX_LAYER] =
 {
@@ -79,6 +79,7 @@ void DebugManager::Draw()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
+float s = 20.72f;
 void DebugManager::DebugDraw(SCENE * scene)
 {
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -157,12 +158,16 @@ void DebugManager::DebugDraw(SCENE * scene)
 				}
 				vector[index]->EngineDisplay();
 
+				int i = 0;
 				for (auto component : vector[index]->GetComponentList())
 				{
 					ImGui::SeparatorText("");
 					ImGui::SameLine();
 
-					ImGui::Checkbox(" ", component->GetEnabledPointer());
+					ImGui::PushID(i);
+					ImGui::Checkbox("", component->GetEnabledPointer());
+					ImGui::PopID();
+					i++;
 
 					ImGui::SameLine();
 					component->EngineDisplay();
@@ -189,7 +194,11 @@ void DebugManager::DebugDraw(SCENE * scene)
 	{
 		ImGui::Begin("___", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
-		if (ImGui::Button(">"))
+		//ImGui::DragFloat("size", &s, 0.01f);
+		
+		ImVec2 size(17.32f, 17.32f);
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PLAY_BUTTON_T), size))
 		{
 			if (play == false)
 			{
@@ -204,7 +213,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 			}
 		}
 		ImGui::SameLine();
-		if (ImGui::Button("||"))
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PAUSE_BUTTON_T), size))
 		{
 			if (paused == true)
 			{
@@ -218,7 +227,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 			}
 		}
 		ImGui::SameLine();
-		if (ImGui::Button(">|"))
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::NEXT_FRAME_BUTTON_T), size))
 		{
 			if (play == true)
 			{

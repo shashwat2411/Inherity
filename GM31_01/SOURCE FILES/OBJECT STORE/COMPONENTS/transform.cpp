@@ -12,6 +12,8 @@ void Transform::Start()
 
 	Quaternion = D3DXQUATERNION(0.0f, 0.0f, 0.0f, 1.0f);
 
+	boneMatrix = nullptr;
+
 	GlobalPosition = Position;
 }
 
@@ -60,7 +62,6 @@ void Transform::EngineDisplay()
 		ImGui::Spacing();
 	}
 }
-
 
 void Transform::FaceTowards(GAMEOBJECT* object)
 {

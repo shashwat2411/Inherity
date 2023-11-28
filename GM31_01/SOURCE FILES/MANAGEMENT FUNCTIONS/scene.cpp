@@ -49,6 +49,7 @@ void SCENE::UpdateBefore()
 		}
 		GameObjects[i].remove_if([](GAMEOBJECT* object) {return object->Remove(); });
 	}
+	COLLISION::Update();
 }
 
 void SCENE::Draw()

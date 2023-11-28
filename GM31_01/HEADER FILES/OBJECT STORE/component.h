@@ -92,18 +92,21 @@ public:
 class Transform : public Component
 {
 public:
+	bool culling;
 
-public:
+	float drawRadius;
+
 	D3DXVECTOR3 Position;
 	D3DXVECTOR3 Rotation;
 	D3DXVECTOR3 Scale;
 
-	D3DXQUATERNION Quaternion;
-
 	D3DXVECTOR3 GlobalPosition;
 
-	float drawRadius;
-	bool culling;
+	D3DXQUATERNION Quaternion;
+
+	aiMatrix4x4* boneMatrix;
+
+public:
 
 	void Start() override;
 	void End() override;
@@ -253,10 +256,10 @@ private:
 
 	float CollisionSize;
 
+	GAMEOBJECT* colliderObject;
+
 public:
 	float scaleOffset;
-
-	GAMEOBJECT* collider = nullptr;
 
 public:
 
@@ -267,10 +270,12 @@ public:
 
 	void EngineDisplay() override;
 
+	void SetBone(MeshFilter* model, const char* bone);
+
 	bool GetIsTrigger() { return isTrigger; }
 	bool GetIsKinematic() { return isKinematic; }
 	float GetCollisionSize() { return CollisionSize; }
-	GAMEOBJECT* GetColliderObject() { return collider; }
+	GAMEOBJECT* GetColliderObject() { return colliderObject; }
 
 	void SetIsTrigger(bool value) { isTrigger = value; }
 	void SetIsKinematic(bool value) { isKinematic = value; }

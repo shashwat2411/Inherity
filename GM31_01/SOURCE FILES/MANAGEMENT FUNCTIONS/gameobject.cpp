@@ -17,7 +17,6 @@ void GAMEOBJECT::Initialize()
 	destroy = false;
 
 	faceInDirection = false;
-	boneMatrixEnable = false;
 
 	freezeX = false;
 	freezeY = false;
@@ -127,10 +126,11 @@ void GAMEOBJECT::Draw()
 
 			if (Parent != nullptr)
 			{
-				if (boneMatrixEnable == true)
+				if (transform->boneMatrix != nullptr)
 				{
 					D3DXMATRIX temp;
-					D3DXMatrixMultiply(&temp, &boneMatrix, &Parent->GetWorldMatrix());
+					D3DXMATRIX convert = Mathf::MatrixConvert(*transform->boneMatrix);
+					D3DXMatrixMultiply(&temp, &convert, &Parent->GetWorldMatrix());
 
 					D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->Position, &temp); //Global Position
 					D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &temp); //World = World * Parent->World
