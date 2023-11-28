@@ -13,6 +13,16 @@ enum EDIT_MODE
 class DebugManager
 {
 public:
+	static bool play;
+	static bool paused;
+	static bool show_demo_window;
+
+	static int index;
+	static int layer;
+
+	static float speed;
+
+public:
 
 	static void Init();
 	static void Uninit();
