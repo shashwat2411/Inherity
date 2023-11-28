@@ -19,4 +19,5 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 	outDiffuse = g_Texture.Sample(g_SamplerState, uv);
 	outDiffuse *= In.Diffuse;
+	outDiffuse.a = 1.0f;
 }

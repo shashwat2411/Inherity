@@ -54,6 +54,9 @@ void Manager::Init()
 	Time::deltaTime = 1.0f / FRAME_RATE;
 
 	Open();
+
+	Scene->UpdateBefore();
+	DontDestroyOnLoad->UpdateBefore();
 }
 
 void Manager::Uninit()

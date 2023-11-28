@@ -40,14 +40,17 @@ void SCENE::UpdateBefore()
 {
 	for (int i = 0; i < MAX_LAYER; i++)
 	{
-		for (auto var : GameObjects[i])
+		if (i != GIZMO_LAYER || (DebugManager::gizmo == true && DebugManager::play == true))
 		{
-			if (var->GetActive() == true)
+			for (auto var : GameObjects[i])
 			{
-				var->Update();
+				if (var->GetActive() == true)
+				{
+					var->Update();
+				}
 			}
+			GameObjects[i].remove_if([](GAMEOBJECT* object) {return object->Remove(); });
 		}
-		GameObjects[i].remove_if([](GAMEOBJECT* object) {return object->Remove(); });
 	}
 	COLLISION::Update();
 }
@@ -56,9 +59,12 @@ void SCENE::Draw()
 {
 	for (int i = 0; i < MAX_LAYER; i++)
 	{
-		for (auto var : GameObjects[i])
+		if (i != GIZMO_LAYER || (DebugManager::gizmo == true && DebugManager::play == true))
 		{
-			var->Draw();
+			for (auto var : GameObjects[i])
+			{
+				var->Draw();
+			}
 		}
 	}
 }

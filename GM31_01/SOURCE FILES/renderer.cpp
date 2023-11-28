@@ -309,7 +309,9 @@ void Renderer::Init()
 
 		depthTexture->Release();
 
+#ifdef MULTI_SAMPLE_ANTI_ALIASING
 		swapChainDesc.SampleDesc.Count = MULTI_SAMPLE_ANTI_ALIASING;
+#endif
 	}
 
 	// 定数バッファ生成

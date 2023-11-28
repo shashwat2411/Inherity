@@ -51,7 +51,7 @@ public:
 		ModelsOBJ[SOUND_GIZMO_M].Load("asset\\model\\soundAreaGizmo.obj");
 
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
-		ModelsOBJ[ENEMY_M].Load("asset\\model\\Explode.obj");
+		ModelsOBJ[ENEMY_M].Load("asset\\model\\ExplodeNew.obj");
 
 
 		//FBX
