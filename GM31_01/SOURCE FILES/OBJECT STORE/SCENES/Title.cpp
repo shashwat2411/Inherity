@@ -2,6 +2,8 @@
 
 void TITLE_SCENE::Init()
 {
+	name = "title";
+
 	//GAMEOBJECT
 
 	//UI

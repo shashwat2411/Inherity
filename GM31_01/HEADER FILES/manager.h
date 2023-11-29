@@ -18,8 +18,8 @@ public:
 	static void FixedUpdate();
 	static void Draw();
 
-	static void Save();
-	static void Open();
+	static void Save(std::string name);
+	static void Open(std::string name);
 
 	static SCENE* GetScene() { return Scene; }
 	static SCENE* GetDontDestroyOnLoadScene() { return DontDestroyOnLoad; }
@@ -36,6 +36,8 @@ public:
 		Scene = new T();
 		Scene->InitBefore();
 		Scene->Init();
+
+		Open(Scene->name);
 	}
 
 	static void ResetScene()
@@ -44,5 +46,7 @@ public:
 
 		Scene->InitBefore();
 		Scene->Init();
+
+		Open(Scene->name);
 	}
 };

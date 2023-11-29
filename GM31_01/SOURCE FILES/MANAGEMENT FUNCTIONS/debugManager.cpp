@@ -7,6 +7,7 @@
 #include "manager.h"
 #include "input.h"
 
+bool pressed[2] = { false };
 
 bool DebugManager::play = false;
 bool DebugManager::paused = false;
@@ -225,7 +226,12 @@ void DebugManager::DebugDraw(SCENE * scene)
 				}
 			}
 
-			ImGui::PopStyleColor(4);
+			if (pressed[0] == true) { ImGui::PopStyleColor(2); }
+
+			if (play == true && pressed[0] == false) { pressed[0] = true; }
+			if (play == false && pressed[0] == true) { pressed[0] = false; }
+
+			ImGui::PopStyleColor(2);
 			ImGui::SameLine();
 		}
 
@@ -254,7 +260,12 @@ void DebugManager::DebugDraw(SCENE * scene)
 				}
 			}
 
-			ImGui::PopStyleColor(4);
+			if (pressed[1] == true) { ImGui::PopStyleColor(2); }
+
+			if (paused == true && pressed[1] == false) { pressed[1] = true; }
+			if (paused == false && pressed[1] == true) { pressed[1] = false; }
+
+			ImGui::PopStyleColor(2);
 			ImGui::SameLine();
 		}
 
