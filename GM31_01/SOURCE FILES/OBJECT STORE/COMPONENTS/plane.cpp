@@ -90,7 +90,10 @@ void Plane::Draw()
 	Normal.y = gameObject->GetWorldMatrix()._22;
 	Normal.z = gameObject->GetWorldMatrix()._23;
 
-	VERTEX_3D vertex[4];
+	D3D11_MAPPED_SUBRESOURCE msr;
+	Renderer::GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+	
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 	vertex[0].Position = D3DXVECTOR3(-Size.x, 0.0f, Size.y);
 	vertex[0].Normal = Normal;
 	vertex[0].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
@@ -111,6 +114,7 @@ void Plane::Draw()
 	vertex[3].Diffuse = (D3DXVECTOR4)gameObject->GetColor();
 	vertex[3].TexCoord = D3DXVECTOR2(TexCoord.x, TexCoord.y);
 
+	Renderer::GetDeviceContext()->Unmap(VertexBuffer, 0);
 
 
 	//入力レイアウト設定
