@@ -210,62 +210,22 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 
 }
 
+//template<class Archive>
+//void Serialize(Archive& archive, D3DXVECTOR3& vector)
+//{
+//	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), , cereal::make_nvp("z", vector.z));
+//}
+
 void Manager::Save()
 {
-	// Open a file named "example.txt" for writing
-	std::ofstream outFile("save.txt");
-
-	// Check if the file is successfully opened
-	if (!outFile.is_open()) {
-		return; // Return an error code
-	}
-
-	// Write some content to the file
-	//outFile << "Hello, this is a text file created using C++!" << std::endl;
-	//outFile << "You can add more lines to this file." << std::endl;
-
 	GAMEOBJECT* obj = Scene->FindGameObject<PLAYER>();
 
-	// Create a map to store variable names and values
-	//std::string str = obj->GetTag() + "_";
+	cereal::JSONOutputArchive output(std::cout); // stream to cout
 
-	std::map<std::string, D3DXVECTOR3> variableMap;
-	variableMap["Position"] = obj->transform->Position;
-
-	// Write variable names and values to the file
-	for (const auto& pair : variableMap) {
-		outFile << pair.first << " " << pair.second.x << " " << pair.second.y << " " << pair.second.z << "\n";
-	}
-
-
-	// Close the file
-	outFile.close();
+	output(cereal::make_nvp(obj->GetTag(), obj));
 }
 
 void Manager::Open()
 {
-	std::ifstream inFile("save.txt");
 
-	// Check if the file is successfully opened
-	if (!inFile.is_open()) {
-		return; // Return an error code
-	}
-
-	// Create a map to store variable names and values
-	std::map<std::string, D3DXVECTOR3> variableMap;
-
-	// Read variable names and values from the file
-	std::string variableName;
-	D3DXVECTOR3 var;
-
-	while (inFile >> variableName >> var.x >> var.y >> var.z) {
-		variableMap[variableName] = var;
-	}
-
-	GAMEOBJECT* obj = Scene->FindGameObject<PLAYER>();
-
-	obj->transform->Position = variableMap[variableName];
-
-	// Close the file
-	inFile.close();
 }

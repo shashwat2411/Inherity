@@ -54,6 +54,7 @@ protected:
 	D3DXMATRIX RotationMatrix;
 	D3DXMATRIX TransformMatrix;
 
+	friend class cereal::access;
 
 public:
 	float cameraDistance;
@@ -241,5 +242,13 @@ public:
 			}
 		}
 		return objects;
+	}
+
+
+	//Serialization
+	template<class Archive>
+	void save(Archive& archive)
+	{
+		archive(cereal::defer(transform), active);
 	}
 };
