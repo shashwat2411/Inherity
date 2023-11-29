@@ -64,7 +64,11 @@ protected:
 	bool enabled = true;
 
 public:
+	std::string name;
+
 	GAMEOBJECT* gameObject;
+
+public:
 
 	bool GetMultipleSet()		{ return multiple; }
 	bool GetEnabled()			{ return enabled; }
@@ -72,7 +76,7 @@ public:
 
 	void SetEnabled(bool value) { enabled = value; }
 
-	Component() { enabled = true; multiple = false; }
+	Component() { enabled = true; multiple = false; name = ""; }
 	virtual ~Component() {}
 
 	virtual void Start() = 0;
@@ -85,6 +89,12 @@ public:
 	virtual void OnCollisionEnter(GAMEOBJECT* obj)	{}
 
 	virtual void StrayUpdate() {}
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(CEREAL_NVP(enabled));
+	}
 
 };
 
@@ -125,6 +135,17 @@ public:
 	D3DXVECTOR3 GetRightDirection();
 	float DistanceFrom(GAMEOBJECT* from);
 	float DistanceFromWithY0(GAMEOBJECT* from);
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(CEREAL_NVP(enabled),
+			CEREAL_NVP(Position),
+			CEREAL_NVP(Rotation),
+			CEREAL_NVP(Scale)
+		);
+	}
+
 };
 class Rigidbody : public Component
 {

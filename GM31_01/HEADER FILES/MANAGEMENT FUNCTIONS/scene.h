@@ -43,6 +43,8 @@ protected:
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GameObjects;
 
 public:
+	std::string name;
+
 	PLAYER* player;
 	GAMEOBJECT* torus;
 

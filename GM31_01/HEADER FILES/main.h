@@ -21,10 +21,6 @@
 #include "../imGUI/imgui_impl_win32.h"
 #include "../imGUI/imgui_impl_dx11.h"
 
-//Cereal C++
-#include <cereal/cereal.hpp>
-#include <cereal/archives/json.hpp>
-#include <cereal/types/vector.hpp>
 
 #pragma warning(pop)
 

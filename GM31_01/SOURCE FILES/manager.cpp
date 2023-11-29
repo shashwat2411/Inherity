@@ -7,9 +7,7 @@
 #include "debugManager.h"
 #include "postProcess.h"
 
-#include <iostream>
 #include <fstream>
-#include <map>
 
 
 POSTPROCESS* Manager::PostProcess{};
@@ -52,8 +50,6 @@ void Manager::Init()
 	Time::timeScale = 0.0f;
 	Time::fixedTimeScale = 1.0f;
 	Time::deltaTime = 1.0f / FRAME_RATE;
-
-	Open();
 
 	Scene->UpdateBefore();
 	DontDestroyOnLoad->UpdateBefore();
@@ -101,11 +97,11 @@ void Manager::FixedUpdate()
 	{
 		if (Input::GetKeyTrigger('S'))
 		{
-			Save();
+			Save(Scene->name);
 		}
 		if (Input::GetKeyTrigger('O'))
 		{
-			Open();
+			Open(Scene->name);
 		}
 	}
 }
@@ -216,16 +212,45 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 //	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), , cereal::make_nvp("z", vector.z));
 //}
 
-void Manager::Save()
+void Manager::Save(std::string name)
 {
-	GAMEOBJECT* obj = Scene->FindGameObject<PLAYER>();
+	std::string fileName = name + ".txt";
 
-	cereal::JSONOutputArchive output(std::cout); // stream to cout
+	std::ofstream outFile(fileName.c_str());
 
-	output(cereal::make_nvp(obj->GetTag(), obj));
+	if (!outFile.is_open()) { return; }
+
+	cereal::JSONOutputArchive archive(outFile);
+
+	for (int i = 0; i < MAX_LAYER; i++)
+	{
+		for (GAMEOBJECT* object : Scene->GetGameObjectList((LAYER)i))
+		{
+			//GAMEOBJECT* obj = Scene->FindGameObject<PLAYER>();
+
+			archive(cereal::make_nvp(object->GetTag(), *object));
+		}
+	}
 }
 
-void Manager::Open()
+void Manager::Open(std::string name)
 {
+	std::string fileName = name + ".txt";
 
+	std::ifstream inFile(fileName.c_str());
+
+	if (!inFile.is_open()) { return; }
+
+	//PLAYER* obj = Scene->FindGameObject<PLAYER>();
+	cereal::JSONInputArchive archive(inFile);
+
+	for (int i = 0; i < MAX_LAYER; i++)
+	{
+		for (GAMEOBJECT* object : Scene->GetGameObjectList((LAYER)i))
+		{
+			archive(*object);
+		}
+	}
+
+	//*Scene->FindGameObject<PLAYER>() = obj;
 }

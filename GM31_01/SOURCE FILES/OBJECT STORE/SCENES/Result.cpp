@@ -2,6 +2,8 @@
 
 void RESULT_SCENE::Init()
 {
+	name = "result";
+
 	//GAMEOBJECT
 
 	//UI

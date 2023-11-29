@@ -6,6 +6,8 @@ void SCENE::InitBefore()
 {
 	end = false;
 
+	name = "";
+
 	//GAMEOBJECT
 	MainCamera = AddGameObject<CAMERA>(CAMERA_LAYER);
 	reflectionProjector = AddGameObject<EMPTYOBJECT>();

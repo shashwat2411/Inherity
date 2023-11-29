@@ -14,6 +14,8 @@ PARTICLESYSTEM* particleSystem;
 
 void GAME_SCENE::Init()
 {
+	name = "game";
+
 	//ïœêî
 	GAMEOBJECT* Cylinder;
 	ENEMY* enemy;

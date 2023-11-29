@@ -7,6 +7,13 @@
 #include "renderer.h"
 #include "functions.h"
 
+//Cereal C++
+#include <cereal/cereal.hpp>
+#include <cereal/types/base_class.hpp>
+#include <cereal/archives/json.hpp>
+#include <cereal/types/vector.hpp>
+#include <cereal/types/list.hpp>
+
 #define MAX_AFTERIMAGES 1
 
 class Component;
@@ -14,6 +21,12 @@ class Transform;
 class Rigidbody;
 class Shadow;
 class Material;
+
+template<class Archive>
+void serialize(Archive & archive, D3DXVECTOR3 & vector)
+{
+	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), cereal::make_nvp("z", vector.z));
+}
 
 class GAMEOBJECT
 {
@@ -69,6 +82,8 @@ public:
 	//	// Compare points based on their Z-coordinates in descending order
 	//	return this->cameraDistance > other->cameraDistance;
 	//}
+
+	void operator=(const GAMEOBJECT* other);
 
 public:
 
@@ -247,8 +262,6 @@ public:
 
 	//Serialization
 	template<class Archive>
-	void save(Archive& archive)
-	{
-		archive(cereal::defer(transform), active);
-	}
+	void serialize(Archive & archive);
 };
+

@@ -4,6 +4,15 @@
 #include "manager.h"
 #include "material.h"
 
+
+void GAMEOBJECT::operator=(const GAMEOBJECT * other)
+{
+	active				= other->active;
+	transform->Position = other->transform->Position;
+	transform->Rotation = other->transform->Rotation;
+	transform->Scale	= other->transform->Scale;
+}
+
 void GAMEOBJECT::Initialize()
 {
 	active = true;
@@ -274,3 +283,20 @@ void GAMEOBJECT::EngineDisplay()
 		ImGui::Spacing();
 	}
 }
+
+template<class Archive>
+void GAMEOBJECT::serialize(Archive & archive)
+{
+	archive(CEREAL_NVP(active), 
+		cereal::make_nvp(transform->name, *transform)
+	);
+}
+
+template void GAMEOBJECT::serialize<cereal::JSONOutputArchive>(cereal::JSONOutputArchive& archive);
+template void GAMEOBJECT::serialize<cereal::JSONInputArchive>(cereal::JSONInputArchive& archive);
+
+//template<class Archive>
+//void serialize(Archive & archive, D3DXVECTOR3 const & vector)
+//{
+//	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), cereal::make_nvp("z", vector.z));
+//}
