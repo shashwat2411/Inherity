@@ -105,7 +105,7 @@ void Billboard::Draw()
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
-	VERTEX_3D vertex[4];
+	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
 	vertex[0].Position = D3DXVECTOR3(-Size.x + Offset.x, Size.y + Offset.y, 0.0f);
 	vertex[0].Normal = Normal;
 	vertex[0].Diffuse = (D3DXVECTOR4)gameObject->GetColor();

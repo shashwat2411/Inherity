@@ -43,8 +43,8 @@ void Manager::Init()
 	DontDestroyOnLoad = new EMPTY_SCENE();
 	DontDestroyOnLoad->Init();
 
-	//PostProcess = new POSTPROCESS();
-	//PostProcess->Init();
+	PostProcess = new POSTPROCESS();
+	PostProcess->Init();
 
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
@@ -88,13 +88,13 @@ void Manager::FixedUpdate()
 	if (Time::timeScale > 0.0f)
 	{
 		Scene->UpdateBefore();
-		Scene->Update();
-
 		DontDestroyOnLoad->UpdateBefore();
-		DontDestroyOnLoad->Update();
 
 		if (PostProcess) { PostProcess->Update(); }
 	}
+
+	Scene->Update();
+	DontDestroyOnLoad->Update();
 
 
 	if (Input::GetKeyPress(VK_CONTROL))

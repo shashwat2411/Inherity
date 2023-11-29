@@ -80,7 +80,7 @@ void DebugManager::Draw()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-float s = 20.72f;
+
 void DebugManager::DebugDraw(SCENE * scene)
 {
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -199,54 +199,92 @@ void DebugManager::DebugDraw(SCENE * scene)
 		
 		ImVec2 size(17.32f, 17.32f);
 
-		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PLAY_BUTTON_T), size))
+		//Play Button
 		{
-			if (play == false)
-			{
-				Time::timeScale = 1.0f;
-				play = true;
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+			if (play == true) 
+			{ 
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f)); 
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 			}
-			else
+
+			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PLAY_BUTTON_T), size))
 			{
-				Time::timeScale = 0.0f;
-				play = false;
-				Manager::ResetScene();
-			}
-		}
-		ImGui::SameLine();
-		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PAUSE_BUTTON_T), size))
-		{
-			if (paused == true)
-			{
-				if (play == true) { Time::timeScale = 1.0f; }
-				paused = false;
-			}
-			else
-			{
-				if (play == true) { Time::timeScale = 0.0f; }
-				paused = true;
-			}
-		}
-		ImGui::SameLine();
-		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::NEXT_FRAME_BUTTON_T), size))
-		{
-			if (play == true)
-			{
-				if (paused == true)
+				if (play == false)
 				{
 					Time::timeScale = 1.0f;
+					play = true;
+				}
+				else
+				{
+					Time::timeScale = 0.0f;
+					play = false;
+					Manager::ResetScene();
 				}
 			}
+
+			ImGui::PopStyleColor(4);
+			ImGui::SameLine();
 		}
-		else
+
+		//Pause Button
 		{
-			if (play == true)
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+			if (paused == true) 
+			{ 
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+			}
+
+			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PAUSE_BUTTON_T), size))
 			{
 				if (paused == true)
 				{
-					Time::timeScale = 0.0f;
+					if (play == true) { Time::timeScale = 1.0f; }
+					paused = false;
+				}
+				else
+				{
+					if (play == true) { Time::timeScale = 0.0f; }
+					paused = true;
 				}
 			}
+
+			ImGui::PopStyleColor(4);
+			ImGui::SameLine();
+		}
+
+		//Next Frame Button
+		{
+			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
+
+			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::NEXT_FRAME_BUTTON_T), size))
+			{
+				if (play == true)
+				{
+					if (paused == true)
+					{
+						Time::timeScale = 1.0f;
+					}
+				}
+			}
+			else
+			{
+				if (play == true)
+				{
+					if (paused == true)
+					{
+						Time::timeScale = 0.0f;
+					}
+				}
+			}
+
+			ImGui::PopStyleColor(2);
 		}
 
 		ImGui::End();

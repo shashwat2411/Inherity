@@ -33,6 +33,11 @@ void Number::End()
 
 void Number::Update()
 {
+
+}
+
+void Number::Draw()
+{
 	int i = digits / 2;
 	int c = 0;
 	int d = digits;
@@ -51,10 +56,7 @@ void Number::Update()
 		i--;
 		c++;
 	}
-}
 
-void Number::Draw()
-{
 	for (auto num : numbers)
 	{
 		num->Draw();
@@ -65,9 +67,11 @@ void Number::EngineDisplay()
 {
 	if (ImGui::TreeNode("Number"))
 	{
+		int digitsTemp = digits;
+
 		ImGui::PushItemWidth(-160.0f);
 		ImGui::InputInt("Number", &number);
-		ImGui::InputInt("Digits", &digits);
+		if (ImGui::InputInt("Digits", &digitsTemp)) { SetDigits(digitsTemp); }
 
 		ImGui::TreePop();
 		ImGui::Spacing();
@@ -81,9 +85,7 @@ void Number::SetDigits(int num)
 	{
 		auto b = new DIGIT();
 		
-		b->Initialize();
 		b->Init();
-		b->Start();
 		
 		b->GetComponent<SpriteRenderer>()->elementsX = 5;
 		b->GetComponent<SpriteRenderer>()->elementsY = 5;

@@ -74,19 +74,24 @@ void SpriteRenderer::Start()
 	}
 
 }
+
 void SpriteRenderer::End()
 {
 	VertexBuffer->Release();
 }
+
 void SpriteRenderer::Update()
+{
+
+}
+
+void SpriteRenderer::Draw()
 {
 	if (count >= elementsX * elementsY)
 	{
 		count = 0;
 	}
-}
-void SpriteRenderer::Draw()
-{
+
 	float x = 0.0f;
 	float y = 0.0f;
 
