@@ -5,6 +5,8 @@ void SKYDOME::Init()
 {
 	Initialize();
 
+	quaternion = true;
+
 	transform->culling = false;
 
 	transform->Position.y = -10.0f;

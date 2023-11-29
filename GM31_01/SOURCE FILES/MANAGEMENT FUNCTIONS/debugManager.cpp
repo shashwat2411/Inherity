@@ -81,12 +81,12 @@ void DebugManager::Draw()
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 }
 
-
+float s = 30.0f;
 void DebugManager::DebugDraw(SCENE * scene)
 {
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
 
-	//ImGui::SetNextWindowSize(ImVec2(140, 75));
+	//Index
 	{
 		ImGui::Begin("Index", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
@@ -97,9 +97,21 @@ void DebugManager::DebugDraw(SCENE * scene)
 		ImGui::PushItemWidth(-FLT_MIN);
 		if (vector[0] != nullptr) { ImGui::SliderInt("", &index, 0, vector.size() - 1, vector[index]->GetTag().c_str()); }
 
+		if (Input::GetKeyPress(VK_SHIFT))
+		{
+			if (Input::GetKeyTrigger(VK_ADD)) { if (layer < MAX_LAYER - 1) { layer++; } else { layer = 0; } }
+			if (Input::GetKeyTrigger(VK_SUBTRACT)) { if (layer > 0) { layer--; } else { layer = MAX_LAYER - 1; } }
+		}
+		else
+		{
+			if (Input::GetKeyTrigger(VK_ADD)) { if (index < vector.size() - 1) { index++; } else { index = 0; } }
+			if (Input::GetKeyTrigger(VK_SUBTRACT)) { if (index > 0) { index--; } else { index = vector.size() - 1; } }
+		}
+
 		ImGui::End();
 	}
 
+	//Inspector
 	{
 		//ImGui::SetNextWindowSize(ImVec2(200, 170));
 		ImGui::Begin("Inspector", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
@@ -153,7 +165,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 					switch (edit)
 					{
 					case EDIT_MODE::POSITION:	speed = 0.1f; mover->transform->Position += direction * speed;	break;
-					case EDIT_MODE::ROTATION:	speed = 0.5f; mover->transform->Rotation += direction * speed;	break;
+					case EDIT_MODE::ROTATION:	speed = 0.8f; mover->transform->Rotation += direction * speed;	break;
 					case EDIT_MODE::SCALE:		speed = 0.01f; mover->transform->Scale += direction * speed;	break;
 					default: break;
 					}
@@ -180,6 +192,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 		ImGui::End();
 	}
 
+	//Edit Mode
 	{
 		ImGui::Begin("Edit Mode", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
@@ -193,11 +206,12 @@ void DebugManager::DebugDraw(SCENE * scene)
 		ImGui::End();
 	}
 
+	//Execute Controls
 	{
 		ImGui::Begin("___", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
 
 		//ImGui::DragFloat("size", &s, 0.01f);
-		
+
 		ImVec2 size(17.32f, 17.32f);
 
 		//Play Button
@@ -205,9 +219,9 @@ void DebugManager::DebugDraw(SCENE * scene)
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-			if (play == true) 
-			{ 
-				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f)); 
+			if (play == true)
+			{
+				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 			}
 
@@ -240,8 +254,8 @@ void DebugManager::DebugDraw(SCENE * scene)
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-			if (paused == true) 
-			{ 
+			if (paused == true)
+			{
 				ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 			}
@@ -296,6 +310,34 @@ void DebugManager::DebugDraw(SCENE * scene)
 			}
 
 			ImGui::PopStyleColor(2);
+		}
+
+		ImGui::End();
+	}
+
+	//Editor
+	{
+		ImGui::Begin("Editor"/*, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize*/);
+		
+		ImGui::DragFloat("size", &s, 0.05f);
+		ImVec2 size(s, s);
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CUBE_T), size))
+		{
+			Manager::GetScene()->AddGameObject<CUBE>()->SetTag("Cube(Clone)");
+			layer = GAMEOBJECT_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = vector.size() - 1;
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CYLINDER_T), size))
+		{
+			Manager::GetScene()->AddGameObject<CYLINDER>()->SetTag("Cylinder(Clone)");
+			layer = GAMEOBJECT_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = vector.size() - 1;
 		}
 
 		ImGui::End();

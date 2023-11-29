@@ -18,6 +18,8 @@ public:
 		PLAY_BUTTON_T,
 		PAUSE_BUTTON_T,
 		NEXT_FRAME_BUTTON_T,
+		CUBE_T,
+		CYLINDER_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -55,9 +57,11 @@ public:
 		LoadTexture(&Textures[BOX_T], "asset\\texture\\Box.png");
 		LoadTexture(&Textures[HOME2_T], "asset\\texture\\home2.png");
 		LoadTexture(&Textures[WATER_T], "asset\\texture\\waterTexture.png");
-		LoadTexture(&Textures[PLAY_BUTTON_T], "asset\\texture\\playButton.png");
-		LoadTexture(&Textures[PAUSE_BUTTON_T], "asset\\texture\\pauseButton.png");
-		LoadTexture(&Textures[NEXT_FRAME_BUTTON_T], "asset\\texture\\nextFrameButton.png");
+		LoadTexture(&Textures[PLAY_BUTTON_T], "asset\\texture\\imGui\\playButton.png");
+		LoadTexture(&Textures[PAUSE_BUTTON_T], "asset\\texture\\imGui\\pauseButton.png");
+		LoadTexture(&Textures[NEXT_FRAME_BUTTON_T], "asset\\texture\\imGui\\nextFrameButton.png");
+		LoadTexture(&Textures[CUBE_T], "asset\\texture\\imGui\\cube.png");
+		LoadTexture(&Textures[CYLINDER_T], "asset\\texture\\imGui\\cylinder.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");

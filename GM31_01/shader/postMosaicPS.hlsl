@@ -9,7 +9,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	float2 uv = In.TexCoord;
 	float2 screen = float2(960, 540);
 
-	float pixel = 0.5f;
+	float pixel = 0.1f;
 
 	uv *= screen;	//UV値をスクリーン座標へ変換する
 	uv /= pixel;	//矩形のサイズで割る
