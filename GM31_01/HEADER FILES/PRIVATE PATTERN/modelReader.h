@@ -46,7 +46,7 @@ public:
 		ModelsOBJ[SPHERE_COLLIDER_M].Load("asset\\model\\SphereCollider.obj");
 		ModelsOBJ[BOX_COLLIDER_M].Load("asset\\model\\BoxCollider.obj");
 		ModelsOBJ[CYLINDER_M].Load("asset\\model\\cylinder.obj");
-		ModelsOBJ[CUBE_M].Load("asset\\model\\Cube1.obj");
+		ModelsOBJ[CUBE_M].Load("asset\\model\\Cube.obj");
 		ModelsOBJ[TORUS_M].Load("asset\\model\\torus.obj");
 		ModelsOBJ[SOUND_GIZMO_M].Load("asset\\model\\soundAreaGizmo.obj");
 

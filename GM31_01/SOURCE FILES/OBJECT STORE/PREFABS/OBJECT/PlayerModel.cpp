@@ -7,6 +7,8 @@ void PLAYERMODEL::Start()
 {
 	Init();
 
+	quaternion = true;
+
 	model = AddComponent<MeshFilter>();
 	//AddMaterial<DissolveMaterial>();
 	//AddMaterial<UnlitMaterial>();

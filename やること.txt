@@ -12,8 +12,8 @@
 ●カメラからの距離によって　Zソートを行う ❌
 ●ImGUI 適応 ❌
 ●立体音響 ❌
+●セーブ機能 ❌
 
-●セーブ機能
 ●回転可能なBoxCollider
 
 
@@ -44,6 +44,6 @@
 
 ●Anti Aliasing
 	・ Super Sampling Anti Aliasing (4 x rendering)
-	・ Multi Sample Anti Aliasing
+	・ Multi Sample Anti Aliasing ❌
 	・ Fast Approximate Anti Aliasing
 	・ Temporal Anti Aliasing

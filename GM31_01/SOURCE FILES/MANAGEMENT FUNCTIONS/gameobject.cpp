@@ -26,6 +26,7 @@ void GAMEOBJECT::Initialize()
 	destroy = false;
 
 	faceInDirection = false;
+	quaternion = false;
 
 	freezeX = false;
 	freezeY = false;
@@ -110,13 +111,17 @@ void GAMEOBJECT::Draw()
 			if (rigidbody != nullptr)
 			{
 				if (rigidbody->FollowTarget != nullptr) {}
-				else { D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+				else
+				{
+					if (quaternion == true) { D3DXMatrixRotationQuaternion(&RotationMatrix, &transform->Quaternion); }
+					else { D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+				}
 			}
 			else if (faceInDirection == true) {}
 			else 
 			{
-				//D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); 
-				D3DXMatrixRotationQuaternion(&RotationMatrix, &transform->Quaternion);
+				if (quaternion == true) { D3DXMatrixRotationQuaternion(&RotationMatrix, &transform->Quaternion); }
+				else { D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
 			}
 
 			D3DXMATRIX view = Manager::GetScene()->GetCamera()->GetComponent<Camera>()->GetViewMatrix();

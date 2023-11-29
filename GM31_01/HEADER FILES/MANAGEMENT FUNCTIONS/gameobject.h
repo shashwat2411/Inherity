@@ -42,6 +42,7 @@ protected:
 	bool destroy;
 
 	bool faceInDirection;
+	bool quaternion;
 
 	bool freezeX;
 	bool freezeY;

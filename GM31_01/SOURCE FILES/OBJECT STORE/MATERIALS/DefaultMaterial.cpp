@@ -19,6 +19,7 @@ void DefaultMaterial::Draw()
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
 	param.dissolveRange = 0.0f;
+	param.color = gameObject->GetColor();
 
 	Renderer::SetParameter(param);
 }
