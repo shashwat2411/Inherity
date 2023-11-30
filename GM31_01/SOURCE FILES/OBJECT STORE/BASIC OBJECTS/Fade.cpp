@@ -11,7 +11,7 @@ void FADE::Init()
 	alpha = 1.0f;
 	speed = 0.05f; //0.05f
 
-	Color = D3DXCOLOR(1.0f, 1.0, 1.0f, 1.0f);
+	Color = D3DXCOLOR(0.0f, 0.0, 0.0f, 1.0f);
 
 	SetTag("Fade");
 	

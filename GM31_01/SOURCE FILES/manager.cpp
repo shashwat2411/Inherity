@@ -168,7 +168,7 @@ void Manager::Draw()
 
 
 		Scene->Draw();
-		DontDestroyOnLoad->Draw();
+		//DontDestroyOnLoad->Draw();
 
 		if (PostProcess) { Renderer::Begin(); PostProcess->Draw(); }
 
