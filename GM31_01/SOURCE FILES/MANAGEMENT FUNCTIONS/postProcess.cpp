@@ -41,8 +41,8 @@ void POSTPROCESS::Init()
 	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
 
 	//ここにシェーダーファイルのロードを追加
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\postMosaicVS.cso");
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\postMosaicPS.cso");
+	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\postNoiseVS.cso");
+	Renderer::CreatePixelShader(&m_PixelShader, "shader\\postNoisePS.cso");
 }
 
 
