@@ -215,19 +215,18 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 void Manager::Save(std::string name)
 {
 	std::string fileName = name + ".txt";
-
 	std::ofstream outFile(fileName.c_str());
 
 	if (!outFile.is_open()) { return; }
 
 	cereal::JSONOutputArchive archive(outFile);
 
+	archive(CEREAL_NVP(GetScene()->objectAdder));
+
 	for (int i = 0; i < MAX_LAYER; i++)
 	{
 		for (GAMEOBJECT* object : Scene->GetGameObjectList((LAYER)i))
 		{
-			//GAMEOBJECT* obj = Scene->FindGameObject<PLAYER>();
-
 			archive(cereal::make_nvp(object->GetTag(), *object));
 		}
 	}
@@ -236,13 +235,19 @@ void Manager::Save(std::string name)
 void Manager::Open(std::string name)
 {
 	std::string fileName = name + ".txt";
-
 	std::ifstream inFile(fileName.c_str());
 
 	if (!inFile.is_open()) { return; }
 
-	//PLAYER* obj = Scene->FindGameObject<PLAYER>();
 	cereal::JSONInputArchive archive(inFile);
+
+	std::vector<AddObjectSaveFile> adder;
+	archive(adder);
+	for(AddObjectSaveFile add : adder)
+	{
+		if (add.name == "CUBE")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(); } }
+		if (add.name == "CYLINDER") { for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(); } }
+	}
 
 	for (int i = 0; i < MAX_LAYER; i++)
 	{
@@ -251,6 +256,4 @@ void Manager::Open(std::string name)
 			archive(*object);
 		}
 	}
-
-	//*Scene->FindGameObject<PLAYER>() = obj;
 }

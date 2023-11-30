@@ -26,6 +26,7 @@
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\debugManager.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\input.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\InputController.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcess.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\scene.h" />
     <ClInclude Include="HEADER FILES\manager.h" />
@@ -66,6 +67,7 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\debugManager.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\gameobject.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\input.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\InputController.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\postProcess.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp" />
     <ClCompile Include="SOURCE FILES\manager.cpp" />
@@ -128,6 +130,12 @@
     <ClCompile Include="SOURCE FILES\renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="HEADER FILES\LOAD FUNCTIONS\FXAA.hlsl">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
+    </FxCompile>
     <FxCompile Include="shader\common.hlsl">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</ExcludedFromBuild>

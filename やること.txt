@@ -47,3 +47,8 @@
 	・ Multi Sample Anti Aliasing ❌
 	・ Fast Approximate Anti Aliasing
 	・ Temporal Anti Aliasing
+
+●空間分割
+	・QuadTree
+	・OcTree
+	・Binary Space Partitioning

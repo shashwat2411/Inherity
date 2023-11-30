@@ -24,6 +24,7 @@ private:
 	static BYTE m_KeyState[256];
 
 	static std::vector<BYTE> input[KEYMAPPING_MAX];
+	static std::vector<WORD> controllerInput[KEYMAPPING_MAX];
 
 public:
 	static void Init();
@@ -35,4 +36,7 @@ public:
 
 	static bool GetButtonPress(KEYMAPPING value);
 	static bool GetButtonTrigger(KEYMAPPING value);
+
+	static float Horizontal();
+	static float Vertical();
 };
