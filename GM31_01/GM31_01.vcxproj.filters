@@ -177,6 +177,9 @@
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcess.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClInclude>
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\InputController.h">
+      <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp">
@@ -404,6 +407,9 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\postProcess.cpp">
       <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\InputController.cpp">
+      <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -483,6 +489,9 @@
     </FxCompile>
     <FxCompile Include="shader\postMosaicVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="HEADER FILES\LOAD FUNCTIONS\FXAA.hlsl">
+      <Filter>☯️SHADER</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

@@ -6,8 +6,6 @@ void Transform::Start()
 
 	drawRadius = 1.0f;
 
-	name = "Transform";
-
 	Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	Rotation = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);

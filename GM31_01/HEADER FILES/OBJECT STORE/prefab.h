@@ -10,6 +10,7 @@ public:
 	void Update() override {}
 
 };
+
 class PLAYERMODEL : public GAMEOBJECT
 {
 private:

@@ -90,10 +90,13 @@ public:
 
 	virtual void StrayUpdate() {}
 
+
 	template<class Archive>
 	void serialize(Archive & archive)
 	{
-		archive(CEREAL_NVP(enabled));
+		archive(
+			CEREAL_NVP(enabled)
+		);
 	}
 
 };
@@ -118,6 +121,8 @@ public:
 
 public:
 
+	Transform() { name = "Transform"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -139,12 +144,22 @@ public:
 	template<class Archive>
 	void serialize(Archive & archive)
 	{
-		archive(CEREAL_NVP(enabled),
+		archive(cereal::make_nvp("Component",cereal::virtual_base_class<Component>(this)),
 			CEREAL_NVP(Position),
 			CEREAL_NVP(Rotation),
 			CEREAL_NVP(Scale)
 		);
 	}
+
+	//void serialize(std::ostream& ar) const override 
+	//{
+	//	cereal::JSONOutputArchive archive(ar);
+	//	archive(cereal::virtual_base_class<Component>(this),
+	//		CEREAL_NVP(Position),
+	//		CEREAL_NVP(Rotation),
+	//		CEREAL_NVP(Scale)
+	//	);
+	//}
 
 };
 class Rigidbody : public Component
@@ -163,6 +178,8 @@ public:
 
 public:
 
+	Rigidbody() { name = "Rigidbody"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -178,6 +195,8 @@ public:
 	int imageNum;
 
 public:
+
+	Afterimage() { name = "Afterimage"; }
 
 	void Start() override;
 	void End() override {}
@@ -208,6 +227,8 @@ public:
 	float barOffsetLeft;
 
 public:
+
+	SpriteRenderer() { name = "SpriteRenderer"; }
 
 	void Start() override;
 	void End() override;
@@ -245,6 +266,8 @@ public:
 	bool loop;
 
 public:
+
+	MeshFilter() { name = "MeshFilter"; }
 
 	void Start() override;
 	void End() override;
@@ -284,6 +307,8 @@ public:
 
 public:
 
+	SphereCollider() { name = "SphereCollider"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -302,6 +327,16 @@ public:
 	void SetIsKinematic(bool value) { isKinematic = value; }
 	void SetCollisionSize(float s) { CollisionSize = s; }
 
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(isTrigger),
+			CEREAL_NVP(isKinematic),
+			CEREAL_NVP(CollisionSize),
+			CEREAL_NVP(scaleOffset)
+		);
+	}
 };
 class Camera : public Component
 {
@@ -331,6 +366,8 @@ public:
 
 public:
 
+	Camera() { name = "Camera"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -354,6 +391,15 @@ public:
 	D3DXVECTOR3 GetRight();
 	void CameraShake(float value, float t = 15.0f / FRAME_RATE);
 	bool CheckView(Transform* target);
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(fov),
+			CEREAL_NVP(shakeValue)
+		);
+	}
 };
 class Plane : public Component
 {
@@ -369,7 +415,8 @@ public:
 	GAMEOBJECT* collisionObject;
 
 public:
-	~Plane() {}
+
+	Plane() { name = "Plane"; }
 
 	void Start() override;
 	void End() override;
@@ -406,6 +453,8 @@ public:
 	GAMEOBJECT* collisionObject;
 
 public:
+
+	Billboard() { name = "Billboard"; }
 
 	void Start() override;
 	void End() override;
@@ -470,6 +519,8 @@ public:
 
 public:
 
+	ParticleSystem() { name = "ParticleSystem"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -496,6 +547,8 @@ private:
 	std::vector<DIGIT*> numbers;
 public:
 
+	Number() { name = "Number"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -506,6 +559,15 @@ public:
 	void SetDigits(int num);
 	void SetNumber(int num) { number = num; }
 	void SetNumberColor(D3DXCOLOR value);
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(number),
+			CEREAL_NVP(digits)
+		);
+	}
 };
 class AudioListener : public Component
 {
@@ -519,6 +581,8 @@ private:
 	GAMEOBJECT* area2;
 
 public:
+
+	AudioListener() { name = "AudioListener"; }
 
 	void Start();
 	void End();
@@ -553,6 +617,8 @@ public:
 	Audio* clip;
 
 public:
+
+	AudioSource() { name = "AudioSource"; }
 
 	void Start() override;
 	void End() override;
@@ -601,6 +667,10 @@ public:
 
 	std::vector<AnimationData> data;
 
+public:
+
+	Animation() { name = "Animation"; }
+
 	void Start() override
 	{
 		data.push_back(AnimationData(0, Data(0.0f, &gameObject->transform->Rotation.x)));
@@ -633,6 +703,9 @@ private:
 	std::vector<Animation*> animation;
 
 public:
+
+	Animator() { name = "Animator"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -700,7 +773,8 @@ public:
 	SHADOW* shadow;
 
 public:
-	~Shadow() {}
+
+	Shadow() { name = "Shadow"; }
 
 	void Start() override;
 	void End() override {}
@@ -726,7 +800,8 @@ public:
 	GAMEOBJECT* collisionObject;
 
 public:
-	~MeshField() {}
+
+	MeshField() { name = "MeshField"; }
 
 	void Start() override;
 	void End() override;
@@ -752,6 +827,8 @@ public:
 	GAMEOBJECT* target;
 
 public:
+
+	FollowObject() { name = "FollowObject"; }
 
 	void Start() override
 	{
@@ -812,6 +889,8 @@ public:
 	GAMEOBJECT* collider = nullptr;
 
 public:
+
+	BoxCollider() { name = "BoxCollider"; }
 
 	void Start() override;
 	void End() override;

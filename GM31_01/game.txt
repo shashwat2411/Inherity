@@ -1,12 +1,38 @@
 {
+    "GetScene()->objectAdder": [
+        {
+            "class": "CYLINDER",
+            "number": 1
+        },
+        {
+            "class": "CYLINDER",
+            "number": 1
+        },
+        {
+            "class": "CUBE",
+            "number": 1
+        },
+        {
+            "class": "CYLINDER",
+            "number": 1
+        }
+    ],
     "MainCamera": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
-                "x": 0.0,
+                "x": -0.5045701265335083,
                 "y": 5.0,
-                "z": -10.0
+                "z": -14.514245986938477
             },
             "Rotation": {
                 "x": 0.0,
@@ -18,12 +44,27 @@
                 "y": 1.0,
                 "z": 1.0
             }
+        },
+        "Camera": {
+            "value0": {
+                "enabled": true
+            },
+            "fov": 60.0,
+            "shakeValue": 0.15000000596046449
         }
     },
     "Reflection": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 5.0,
@@ -43,8 +84,16 @@
     },
     "SkyDome": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": -10.0,
@@ -64,8 +113,16 @@
     },
     "GameManager": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -85,8 +142,16 @@
     },
     "Player": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 1.0,
                 "y": 1.0,
@@ -106,8 +171,16 @@
     },
     "PlayerModel": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -123,12 +196,29 @@
                 "y": 0.009999999776482582,
                 "z": 0.009999999776482582
             }
+        },
+        "SphereCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": false,
+            "CollisionSize": 0.30000001192092898,
+            "scaleOffset": 100.0
         }
     },
     "Enemy": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": -4.0,
                 "y": 1.0,
@@ -144,12 +234,29 @@
                 "y": 0.6000000238418579,
                 "z": 0.6000000238418579
             }
+        },
+        "SphereCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": false,
+            "CollisionSize": 1.0,
+            "scaleOffset": 1.0
         }
     },
     "Field": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -169,8 +276,16 @@
     },
     "Water": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.699999988079071
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.28999999165534975,
@@ -190,8 +305,16 @@
     },
     "Cube": {
         "active": false,
+        "Color": {
+            "r": 0.2000000923871994,
+            "g": 2.9802322387695315e-8,
+            "b": 0.5999999046325684,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 2.0,
@@ -211,8 +334,16 @@
     },
     "Torus": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 1.0,
@@ -232,8 +363,16 @@
     },
     "Torus1": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 1.0,
@@ -251,10 +390,134 @@
             }
         }
     },
+    "Cylinder(Clone)": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": -5.053958415985107,
+                "y": 0.0,
+                "z": 3.245596170425415
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
+    "Cylinder(Clone)": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 5.358612060546875,
+                "y": 0.0,
+                "z": 4.258421897888184
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
+    "Cube(Clone)": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 2.2225639820098879,
+                "y": 0.0,
+                "z": -4.792907238006592
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
+    "Cylinder(Clone)": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": -4.02233362197876,
+                "y": 0.0,
+                "z": -3.8105111122131349
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        }
+    },
     "PlayerModel": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -274,8 +537,16 @@
     },
     "Enemy": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -295,8 +566,16 @@
     },
     "Lis Start - Player": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -316,8 +595,16 @@
     },
     "Lis End - Player": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 0.0,
                 "y": 0.0,
@@ -337,8 +624,16 @@
     },
     "Shadow Texture": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 137.0,
                 "y": 120.0,
@@ -358,8 +653,16 @@
     },
     "Score": {
         "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
         "Transform": {
-            "enabled": true,
+            "Component": {
+                "enabled": true
+            },
             "Position": {
                 "x": 480.0,
                 "y": 30.0,
@@ -375,6 +678,13 @@
                 "y": 0.5,
                 "z": 0.5
             }
+        },
+        "Number": {
+            "value0": {
+                "enabled": true
+            },
+            "number": 0,
+            "digits": 3
         }
     }
 }

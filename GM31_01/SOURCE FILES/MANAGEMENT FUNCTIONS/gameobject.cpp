@@ -5,14 +5,6 @@
 #include "material.h"
 
 
-void GAMEOBJECT::operator=(const GAMEOBJECT * other)
-{
-	active				= other->active;
-	transform->Position = other->transform->Position;
-	transform->Rotation = other->transform->Rotation;
-	transform->Scale	= other->transform->Scale;
-}
-
 void GAMEOBJECT::Initialize()
 {
 	active = true;
@@ -292,16 +284,19 @@ void GAMEOBJECT::EngineDisplay()
 template<class Archive>
 void GAMEOBJECT::serialize(Archive & archive)
 {
-	archive(CEREAL_NVP(active), 
-		cereal::make_nvp(transform->name, *transform)
-	);
+	archive(CEREAL_NVP(active), CEREAL_NVP(Color));
+	
+	for (auto com : components)
+	{
+		if		(Transform* caster		= dynamic_cast<Transform*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (Camera* caster			= dynamic_cast<Camera*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (Number* caster			= dynamic_cast<Number*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (SphereCollider* caster = dynamic_cast<SphereCollider*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+
+		//archive(cereal::make_nvp(commer->name.c_str(),*commer));
+	}
 }
+CEREAL_CLASS_VERSION(GAMEOBJECT, 0);
 
 template void GAMEOBJECT::serialize<cereal::JSONOutputArchive>(cereal::JSONOutputArchive& archive);
 template void GAMEOBJECT::serialize<cereal::JSONInputArchive>(cereal::JSONInputArchive& archive);
-
-//template<class Archive>
-//void serialize(Archive & archive, D3DXVECTOR3 const & vector)
-//{
-//	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), cereal::make_nvp("z", vector.z));
-//}

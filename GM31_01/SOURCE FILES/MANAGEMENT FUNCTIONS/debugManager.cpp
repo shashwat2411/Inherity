@@ -7,7 +7,7 @@
 #include "manager.h"
 #include "input.h"
 
-bool pressed[2] = { false };
+bool pressedDebug[2] = { false };
 
 bool DebugManager::play = false;
 bool DebugManager::paused = false;
@@ -240,10 +240,10 @@ void DebugManager::DebugDraw(SCENE * scene)
 				}
 			}
 
-			if (pressed[0] == true) { ImGui::PopStyleColor(2); }
+			if (pressedDebug[0] == true) { ImGui::PopStyleColor(2); }
 
-			if (play == true && pressed[0] == false) { pressed[0] = true; }
-			if (play == false && pressed[0] == true) { pressed[0] = false; }
+			if (play == true && pressedDebug[0] == false) { pressedDebug[0] = true; }
+			if (play == false && pressedDebug[0] == true) { pressedDebug[0] = false; }
 
 			ImGui::PopStyleColor(2);
 			ImGui::SameLine();
@@ -274,10 +274,10 @@ void DebugManager::DebugDraw(SCENE * scene)
 				}
 			}
 
-			if (pressed[1] == true) { ImGui::PopStyleColor(2); }
+			if (pressedDebug[1] == true) { ImGui::PopStyleColor(2); }
 
-			if (paused == true && pressed[1] == false) { pressed[1] = true; }
-			if (paused == false && pressed[1] == true) { pressed[1] = false; }
+			if (paused == true && pressedDebug[1] == false) { pressedDebug[1] = true; }
+			if (paused == false && pressedDebug[1] == true) { pressedDebug[1] = false; }
 
 			ImGui::PopStyleColor(2);
 			ImGui::SameLine();
@@ -318,13 +318,14 @@ void DebugManager::DebugDraw(SCENE * scene)
 	//Editor
 	{
 		ImGui::Begin("Editor"/*, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize*/);
-		
+
 		ImGui::DragFloat("size", &s, 0.05f);
 		ImVec2 size(s, s);
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CUBE_T), size))
 		{
 			Manager::GetScene()->AddGameObject<CUBE>()->SetTag("Cube(Clone)");
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CUBE", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
 			index = vector.size() - 1;
@@ -335,6 +336,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CYLINDER_T), size))
 		{
 			Manager::GetScene()->AddGameObject<CYLINDER>()->SetTag("Cylinder(Clone)");
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CYLINDER", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
 			index = vector.size() - 1;

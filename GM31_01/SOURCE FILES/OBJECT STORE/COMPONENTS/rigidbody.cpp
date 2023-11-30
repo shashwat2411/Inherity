@@ -9,6 +9,8 @@ void Rigidbody::Start()
 	distance = 0.0f;
 	groundLevel = 0.0f;
 
+	FollowTarget = nullptr;
+
 	Speed = D3DXVECTOR3(0.00001f, 0.0f, 0.0f);
 
 	gameObject->rigidbody = this;

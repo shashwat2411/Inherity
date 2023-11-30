@@ -16,6 +16,24 @@ public:
 	static void Update();
 };
 
+class AddObjectSaveFile
+{
+public:
+	std::string name;
+	int number;
+
+public:
+
+	AddObjectSaveFile() {}
+	AddObjectSaveFile(std::string n, int num) :name(n), number(num) {}
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("class", name), CEREAL_NVP(number));
+	}
+};
+
 enum LAYER
 {
 	CAMERA_LAYER = 0,
@@ -47,6 +65,8 @@ public:
 
 	PLAYER* player;
 	GAMEOBJECT* torus;
+
+	std::vector<AddObjectSaveFile> objectAdder;
 
 public:
 
