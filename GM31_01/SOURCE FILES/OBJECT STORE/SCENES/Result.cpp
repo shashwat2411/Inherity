@@ -7,7 +7,7 @@ void RESULT_SCENE::Init()
 	//GAMEOBJECT
 
 	//UI
-	GAMEOBJECT* result = AddGameObject<IMAGE>(SPRITE_LAYER);
+	GAMEOBJECT* result = AddGameObject<IMAGE>("Result", SPRITE_LAYER);
 
 	//êeéqä÷åWê›íË
 	{

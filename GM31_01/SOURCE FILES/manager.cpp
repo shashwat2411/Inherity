@@ -22,6 +22,10 @@ Audio SoundReader::Audios[SoundReader::READ_SOUND_MAX]{};
 
 ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXTURE_MAX]{};
 
+//Names
+const char* ModelReader::modelNames[ModelReader::READ_MODEL_OBJ_MAX + ModelReader::READ_MODEL_FBX_MAX];
+const char* SoundReader::soundNames[SoundReader::READ_SOUND_MAX];
+
 float Time::timeScale = 1.0f;
 float Time::fixedTimeScale = 1.0f;
 float Time::deltaTime = 1.0f / FRAME_RATE;
@@ -41,9 +45,9 @@ void Manager::Init()
 	DontDestroyOnLoad = new EMPTY_SCENE();
 	DontDestroyOnLoad->Init();
 
-	PostProcess = new POSTPROCESS();
-	PostProcess->Init();
-
+	//PostProcess = new POSTPROCESS();
+	//PostProcess->Init();
+	
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
 
@@ -245,8 +249,8 @@ void Manager::Open(std::string name)
 	archive(adder);
 	for(AddObjectSaveFile add : adder)
 	{
-		if (add.name == "CUBE")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(); } }
-		if (add.name == "CYLINDER") { for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(); } }
+		if (add.name == "CUBE")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>("Cube(Clone)"); } }
+		if (add.name == "CYLINDER") { for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>("Cylinder(Clone)"); } }
 	}
 
 	for (int i = 0; i < MAX_LAYER; i++)

@@ -6,7 +6,7 @@ void ROCK::Start()
 
 	SetTag("Rock");
 
-	AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::ROCK_M));
+	AddComponent<MeshFilter>()->SetModel(ModelReader::ROCK_M);
 	AddMaterial<DissolveMaterial>();
 
 	dissolveSpeed = 0.0075f;

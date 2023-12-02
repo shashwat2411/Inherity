@@ -7,7 +7,7 @@ void TITLE_SCENE::Init()
 	//GAMEOBJECT
 
 	//UI
-	GAMEOBJECT* logo = AddGameObject<IMAGE>(SPRITE_LAYER);
+	GAMEOBJECT* logo = AddGameObject<IMAGE>("Logo", SPRITE_LAYER);
 
 	//êeéqä÷åWê›íË
 

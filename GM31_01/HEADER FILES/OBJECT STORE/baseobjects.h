@@ -22,7 +22,7 @@ public:
 	{
 		Initialize();
 
-		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::SPHERE_COLLIDER_M));
+		AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
 
 		AddMaterial<UnlitMaterial>();
 
@@ -42,7 +42,7 @@ public:
 	{
 		Initialize();
 
-		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::SOUND_GIZMO_M));
+		AddComponent<MeshFilter>()->SetModel(ModelReader::SOUND_GIZMO_M);
 
 		AddMaterial<UnlitMaterial>();
 
@@ -62,7 +62,7 @@ public:
 	{
 		Initialize();
 
-		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::BOX_COLLIDER_M));
+		AddComponent<MeshFilter>()->SetModel(ModelReader::BOX_COLLIDER_M);
 
 		AddMaterial<UnlitMaterial>();
 
@@ -95,7 +95,7 @@ public:
 	{
 		Initialize();
 
-		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::CYLINDER_M));
+		AddComponent<MeshFilter>()->SetModel(ModelReader::CYLINDER_M);
 	}
 	void Update() override {}
 
@@ -110,7 +110,7 @@ public:
 	{
 		Initialize();
 
-		AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::CUBE_M));
+		AddComponent<MeshFilter>()->SetModel(ModelReader::CUBE_M);
 	}
 	void Update() override {}
 
@@ -127,8 +127,6 @@ public:
 		Initialize();
 
 		camera = AddComponent<Camera>();
-
-		tag = "MainCamera";
 	}
 	void Update() override {}
 

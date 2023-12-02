@@ -46,14 +46,14 @@ void UpdateXinput()
 
 }
 
-const D3DXVECTOR2& GetLeftJoyStick()
+const D3DXVECTOR2 GetLeftJoyStick()
 {
-	return	D3DXVECTOR2((float)state.Gamepad.sThumbLX / 32768.0f, (float)state.Gamepad.sThumbLY / 32768.0f);
+	return D3DXVECTOR2((float)state.Gamepad.sThumbLX / 32768.0f, (float)state.Gamepad.sThumbLY / 32768.0f);
 }
 
-const	D3DXVECTOR2&	GetRightJoystick()
+const D3DXVECTOR2	GetRightJoystick()
 {
-	return	D3DXVECTOR2((float)state.Gamepad.sThumbRX / 32768.0f, (float)state.Gamepad.sThumbRY / 32768.0f);
+	return D3DXVECTOR2((float)state.Gamepad.sThumbRX / 32768.0f, (float)state.Gamepad.sThumbRY / 32768.0f);
 }
 
 bool GetControllerButtonPress(WORD button)

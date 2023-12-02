@@ -58,6 +58,7 @@ protected:
 	SKYDOME* skyDome;
 	EMPTYOBJECT* reflectionProjector;
 
+	std::vector<const char*> gameObjectNames;
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GameObjects;
 
 public:
@@ -106,11 +107,15 @@ public:
 
 	//ADD
 	template <typename T>
-	T* AddGameObject(LAYER layer = GAMEOBJECT_LAYER)
+	T* AddGameObject(const char* name = "", LAYER layer = GAMEOBJECT_LAYER)
 	{
 		T* gameObject = new T();
 		GameObjects[layer].push_back(gameObject);
 		gameObject->Start();
+
+		if (name != "") { gameObject->SetTag(name); }
+
+		gameObjectNames.push_back(gameObject->GetTag().c_str());
 
 		return gameObject;
 	}

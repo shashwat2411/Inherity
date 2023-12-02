@@ -29,11 +29,11 @@ void GAME_SCENE::Init()
 	player = AddGameObject<PLAYER>();
 	PlayerModel = AddGameObject<PLAYERMODEL>();
 	enemy = AddGameObject<ENEMY>();
-	Field = AddGameObject<PLANE>();
-	Water = AddGameObject<PLANE>();
-	cube = AddGameObject<CUBE>();
-	torus = AddGameObject<EMPTYOBJECT>();
-	torus1 = AddGameObject<EMPTYOBJECT>();
+	Field = AddGameObject<PLANE>("Field");
+	Water = AddGameObject<PLANE>("Water");
+	cube = AddGameObject<CUBE>("Cube");
+	torus = AddGameObject<EMPTYOBJECT>("Torus");
+	torus1 = AddGameObject<EMPTYOBJECT>("Torus1");
 	//particleSystem = AddGameObject<PARTICLESYSTEM>(BILLBOARD_LAYER);
 
 	srand(0);	//Seed Value for the random numbers
@@ -76,21 +76,9 @@ void GAME_SCENE::Init()
 	*/
 
 	//UI
-	Buffer = AddGameObject<IMAGE>(SPRITE_LAYER);
-	Score = AddGameObject<NUMBER>(SPRITE_LAYER);
+	Buffer = AddGameObject<IMAGE>("Shadow Texture", SPRITE_LAYER);
+	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
 
-	//–¼‘O
-	{
-		Field->SetTag("Field");
-		Water->SetTag("Water");
-		cube->SetTag("Cube");
-		torus->SetTag("Torus");
-		torus1->SetTag("Torus1");
-		//particleSystem->SetTag("Particle System");
-
-		Buffer->SetTag("Shadow Texture");
-		Score->SetTag("Score");
-	}
 
 	//Ú‘±ˆ—
 	{
@@ -149,11 +137,11 @@ void GAME_SCENE::Init()
 		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 		Score->SetDigits(3);
 
-		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
+		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::TORUS_M);
 		torus->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 		torus->AddMaterial<MetallicMaterial>();
 
-		torus1->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::TORUS_M));
+		torus1->AddComponent<MeshFilter>()->SetModel(ModelReader::TORUS_M);
 		torus1->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 6.0f);
 		torus1->AddMaterial<MetallicMaterial>();
 	}
@@ -167,7 +155,7 @@ void GAME_SCENE::Init()
 		//audio->Play(true, 0.2f);
 
 		audio = enemy->AddComponent<AudioSource>();
-		audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
+		audio->SetClip(SoundReader::GAME);
 		audio->SetThreeDimension(true);
 		//audio->Play(true, 0.2f);
 	}
@@ -195,7 +183,7 @@ void GAME_SCENE::Update()
 	//g = sinf(g);
 	//b = sinf(b);
 
-	if (Input::GetKeyTrigger('Z')) { GetCamera()->camera->CameraShake(1.0f); }
+	if (Input::GetKeyTrigger('Z')) { GetCamera()->camera->CameraShake(D3DXVECTOR3(1.0f, 0.0f, 0.0f)); }
 	if (Input::GetKeyTrigger('Z')) { Score->Increment(10); }
 
 	if (Input::GetKeyTrigger(VK_RETURN)) { end = true; }

@@ -13,9 +13,11 @@ void SphereCollider::Start()
 	scaleOffset = 1.0f;
 
 	//----------------------------------------------------------------
-	colliderObject = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>(COLLIDER_LAYER);
+	colliderObject = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>("", COLLIDER_LAYER);
 	colliderObject->Parent = gameObject;
 	colliderObject->SetTag(colliderObject->Parent->GetTag());
+
+	scaleOffset = 1.0f / gameObject->transform->Scale.x;
 
 	float size = CollisionSize * COLLIDER_MODEL_OFFSET;
 	colliderObject->transform->Scale = D3DXVECTOR3(size, size, size) * scaleOffset;

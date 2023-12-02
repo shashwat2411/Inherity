@@ -19,6 +19,8 @@ public:
 	int m_Length;
 	int m_PlayLength;
 
+	std::string name;
+
 public:
 
 	static void InitMaster();
