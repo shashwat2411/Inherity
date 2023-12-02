@@ -192,9 +192,17 @@ void SpriteRenderer::EngineDisplay()
 {
 	if (ImGui::TreeNode("Sprite Renderer"))
 	{
-		//char str[22];
+		ImGui::Text("Texture : ");
+		ImGui::SameLine();
 
-		DebugManager::BoolDisplay(&animate, -200.0f, "Animate", true);
+		ImGui::PushID(0);
+		if (ImGui::Combo("", gameObject->GetMaterial()->GetIndex(), TextureReader::GetTextureNames(), TextureReader::READ_TEXTURE_MAX))
+		{
+			gameObject->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*gameObject->GetMaterial()->GetIndex()));
+		}
+		ImGui::PopID();
+
+		DebugManager::BoolDisplay(&animate, -200.0f, "Animate", 1, true);
 
 		ImGui::PushItemWidth(0.0f);
 		ImGui::DragFloat2("Size", Size, 0.1F);
@@ -204,8 +212,8 @@ void SpriteRenderer::EngineDisplay()
 
 		if (ImGui::TreeNode("Details"))
 		{
-			DebugManager::FloatDisplay(&barOffsetLeft, -FLT_MIN, "Left Offset", true, D3DXVECTOR2(0.05f, 0.0f), 1);
-			DebugManager::FloatDisplay(&barOffsetRight, -FLT_MIN, "Right Offset", true, D3DXVECTOR2(0.05f, 0.0f), 2);
+			DebugManager::FloatDisplay(&barOffsetLeft, -FLT_MIN, "Left Offset", true, D3DXVECTOR2(0.05f, 0.0f), 2);
+			DebugManager::FloatDisplay(&barOffsetRight, -FLT_MIN, "Right Offset", true, D3DXVECTOR2(0.05f, 0.0f), 3);
 			//ImGui::DragFloat("Left Offset", &barOffsetLeft, 0.05F);
 			//ImGui::DragFloat("Right Offset", &barOffsetRight, 0.05F);
 

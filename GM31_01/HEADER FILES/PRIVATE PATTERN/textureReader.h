@@ -48,6 +48,8 @@ public:
 private:
 	static ID3D11ShaderResourceView* Textures[READ_TEXTURE_MAX];
 
+	static const char* textureNames[TextureReader::READ_TEXTURE_MAX];
+
 public:
 	static void ReadTexture()
 	{
@@ -80,6 +82,38 @@ public:
 		LoadTexture(&Textures[TITLE_BG_T], "asset\\texture\\titlegm.png");
 		LoadTexture(&Textures[RESULT_BG_T], "asset\\texture\\resultgm.png");
 		LoadTexture(&Textures[BUBBLE_T], "asset\\texture\\bubble.png");
+
+
+		//NAMES
+		textureNames[NUMBER_T]				= "NUMBER";
+		textureNames[SHADOW_T]				= "SHADOW";
+		textureNames[FADE_T]				= "FADE";
+		textureNames[BOX_T]					= "BOX";
+		textureNames[HOME2_T]				= "HOME2";
+		textureNames[WATER_T]				= "WATER";
+		textureNames[PLAY_BUTTON_T]			= "PLAY_BUTTON";
+		textureNames[PAUSE_BUTTON_T]		= "PAUSE_BUTTON";
+		textureNames[NEXT_FRAME_BUTTON_T]	= "NEXT_FRAME_BUTTON";
+		textureNames[CUBE_T]				= "CUBE";
+		textureNames[CYLINDER_T]			= "CYLINDER";
+
+		textureNames[DISSOLVE_T]			= "DISSOLVE";
+		textureNames[WIPE_T]				= "WIPE";
+		textureNames[TOON_T]				= "TOON";
+		textureNames[ENVMAP_T]				= "ENVMAP";
+		textureNames[ENVCUBEMAP_T]			= "ENVCUBEMAP";
+
+		textureNames[FIELD_NM_T]			= "FIELD_NM";
+
+		textureNames[TREE_T]				= "TREE";
+		textureNames[RING_T]				= "RING";
+		textureNames[EXPLOSION_T]			= "EXPLOSION";
+		textureNames[ROCK_T]				= "ROCK";
+		textureNames[GRASS_T]				= "GRASS";
+		textureNames[GROUND_T]				= "GROUND";
+		textureNames[TITLE_BG_T]			= "TITLE_BG";
+		textureNames[RESULT_BG_T]			= "RESULT_BG";
+		textureNames[BUBBLE_T]				= "BUBBLE";
 	}
 
 	static void UnReadTexture()
@@ -92,6 +126,10 @@ public:
 	static ID3D11ShaderResourceView* GetReadTexture(READ_TEXTURE value)
 	{
 		return Textures[value];
+	}
+	static const char* const* GetTextureNames()
+	{
+		return textureNames;
 	}
 
 	static void LoadTexture(ID3D11ShaderResourceView** texture, const char* path)

@@ -198,11 +198,19 @@ void Billboard::EngineDisplay()
 {
 	if (ImGui::TreeNode("Billboard"))
 	{
-		//char str[22];
-
-		DebugManager::BoolDisplay(&animate, -200.0f, "Animate");
+		ImGui::Text("Texture : ");
 		ImGui::SameLine();
-		DebugManager::BoolDisplay(&flip, -146.0f, "Flip", 1);
+
+		ImGui::PushID(0);
+		if (ImGui::Combo("", gameObject->GetMaterial()->GetIndex(), TextureReader::GetTextureNames(), TextureReader::READ_TEXTURE_MAX))
+		{
+			gameObject->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*gameObject->GetMaterial()->GetIndex()));
+		}
+		ImGui::PopID();
+
+		DebugManager::BoolDisplay(&animate, -200.0f, "Animate", 1);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&flip, -146.0f, "Flip", 2);
 		
 		ImGui::Text("\n");
 

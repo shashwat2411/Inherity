@@ -7,8 +7,8 @@ void MetallicMaterial::Start()
 
 	SetFloat("_Offset", 0.0f);
 
-	SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::ENVMAP_T));
-	SetTexture("_CubeTexture", TextureReader::GetReadTexture(TextureReader::ENVCUBEMAP_T));
+	SetTexture("_Texture", TextureReader::ENVMAP_T);
+	SetTexture("_CubeTexture", TextureReader::ENVCUBEMAP_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\envMappingVS.cso");
 	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\envMappingPS.cso");

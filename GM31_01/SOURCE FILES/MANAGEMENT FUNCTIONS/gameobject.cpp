@@ -24,6 +24,7 @@ void GAMEOBJECT::Initialize()
 	freezeY = false;
 	freezeZ = false;
 
+	id = 0;
 	RingCounter = 0;
 
 	tag = "";
@@ -42,9 +43,7 @@ void GAMEOBJECT::Initialize()
 	PixelShader = nullptr;
 	VertexLayout = nullptr;
 
-
-	if (Parent != nullptr) { D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->Position, &Parent->GetWorldMatrix()); }
-	else { transform->GlobalPosition = transform->Position; }
+	transform->GlobalPosition = transform->Position;
 }
 
 void GAMEOBJECT::UnInitialize()

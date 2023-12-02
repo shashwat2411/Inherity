@@ -198,7 +198,7 @@ public:
 
 		AddComponent<SpriteRenderer>();
 
-		GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::NUMBER_T));
+		GetMaterial()->SetTexture("_Texture", TextureReader::NUMBER_T);
 
 	}
 	void Update() override {}
@@ -359,7 +359,7 @@ public:
 		plane = AddComponent<Plane>();
 		plane->Size = D3DXVECTOR2(1.0f, 1.0f);
 
-		GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::SHADOW_T));
+		GetMaterial()->SetTexture("_Texture", TextureReader::SHADOW_T);
 	}
 	void Update() override {}
 

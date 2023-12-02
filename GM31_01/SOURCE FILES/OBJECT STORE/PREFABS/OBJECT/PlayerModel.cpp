@@ -13,8 +13,6 @@ void PLAYERMODEL::Start()
 	//AddMaterial<DissolveMaterial>();
 	//AddMaterial<UnlitMaterial>();
 
-	SetTag("PlayerModel");
-
 	model->SetModel(ModelReader::THE_BOSS_M);
 
 	model->GetModel()->LoadAnimation("Run");

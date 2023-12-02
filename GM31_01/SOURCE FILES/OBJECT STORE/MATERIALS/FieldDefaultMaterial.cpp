@@ -7,7 +7,7 @@ void FieldDefaultMaterial::Start()
 	SetFloat("_Time", 0.0f);
 	SetFloat("_Frequency", 10.0f);
 
-	SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::BOX_T));
+	SetTexture("_Texture", TextureReader::BOX_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\DepthShadowMappingVS.cso");
 	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\DepthShadowMappingPS.cso");

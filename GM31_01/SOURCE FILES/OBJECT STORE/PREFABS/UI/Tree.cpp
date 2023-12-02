@@ -8,7 +8,7 @@ void TREE::Start()
 
 	depthShadow = true;
 
-	GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::TREE_T));
+	GetMaterial()->SetTexture("_Texture", TextureReader::TREE_T);
 
 	billboard->SetAnimate(false);
 	billboard->SetATC(true);

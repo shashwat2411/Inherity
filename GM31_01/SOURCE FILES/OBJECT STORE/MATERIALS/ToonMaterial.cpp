@@ -4,7 +4,7 @@ void ToonMaterial::Start()
 {
 	SetFloat("_Offset", 0.0f);
 
-	SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::TOON_T));
+	SetTexture("_Texture", TextureReader::TOON_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\toonVS.cso");
 	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\toonPS.cso");

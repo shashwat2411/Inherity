@@ -24,11 +24,11 @@ void GAME_SCENE::Init()
 	GAMEOBJECT* torus1;
 
 	//GAMEOBJECT
-	skyDome = AddGameObject<SKYDOME>();
-	gameManager = AddGameObject<EMPTYOBJECT>();
-	player = AddGameObject<PLAYER>();
-	PlayerModel = AddGameObject<PLAYERMODEL>();
-	enemy = AddGameObject<ENEMY>();
+	skyDome = AddGameObject<SKYDOME>("SkyDome");
+	gameManager = AddGameObject<EMPTYOBJECT>("GameManager");
+	player = AddGameObject<PLAYER>("Player");
+	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
+	enemy = AddGameObject<ENEMY>("Enemy");
 	Field = AddGameObject<PLANE>("Field");
 	Water = AddGameObject<PLANE>("Water");
 	cube = AddGameObject<CUBE>("Cube");
@@ -100,7 +100,7 @@ void GAME_SCENE::Init()
 
 		//gameManager->GetComponent<GameManager>()->SetEnabled(false);
 
-		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::GROUND_T));
+		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
 		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
 		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
 		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -114,7 +114,7 @@ void GAME_SCENE::Init()
 		Water->SetReflection(true);
 
 		Water->AddMaterial<WaterMaterial>();
-		Water->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
+		Water->GetMaterial()->SetTexture("_Texture", TextureReader::WATER_T);
 		Water->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
 		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
 		Water->transform->Scale = D3DXVECTOR3(1.0f, 1.0f, 0.1f);
@@ -127,15 +127,8 @@ void GAME_SCENE::Init()
 		cube->transform->Position.y = 2.0f;
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 		cube->AddMaterial<LitTextureMaterial>();
-		//cube->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::RING_T));
+		//cube->GetMaterial()->SetTexture("_Texture", TextureReader::RING_T);
 		cube->SetActive(false);
-
-		Buffer->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2 - 150.0f, 0.0f);
-		Buffer->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
-
-		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
-		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
-		Score->SetDigits(3);
 
 		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::TORUS_M);
 		torus->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
@@ -144,6 +137,14 @@ void GAME_SCENE::Init()
 		torus1->AddComponent<MeshFilter>()->SetModel(ModelReader::TORUS_M);
 		torus1->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 6.0f);
 		torus1->AddMaterial<MetallicMaterial>();
+
+		//UI
+		Buffer->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2 - 150.0f, 0.0f);
+		Buffer->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
+
+		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
+		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+		Score->SetDigits(3);
 	}
 
 	//‰¹

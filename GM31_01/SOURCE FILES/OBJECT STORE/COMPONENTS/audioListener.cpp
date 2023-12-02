@@ -18,6 +18,9 @@ void AudioListener::Start()
 	area1->SetTag(str1);
 	area2->SetTag(str2);
 
+	Manager::GetScene()->SetGameObjectName(area1, GIZMO_LAYER);
+	Manager::GetScene()->SetGameObjectName(area2, GIZMO_LAYER);
+
 	float size1 = startArea;
 	float size2 = endArea + startArea;
 	area1->transform->Scale = D3DXVECTOR3(size1, size1, size1) * scaleOffset;

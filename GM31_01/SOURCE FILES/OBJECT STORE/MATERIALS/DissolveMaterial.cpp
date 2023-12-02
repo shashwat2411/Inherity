@@ -8,8 +8,8 @@ void DissolveMaterial::Start()
 	SetFloat("_Delta", 0.0075f);
 	SetFloat("_Dissolve_Range", 0.3f);
 
-	SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::BOX_T));
-	SetTexture("_Dissolve_Texture", TextureReader::GetReadTexture(TextureReader::DISSOLVE_T));
+	SetTexture("_Texture", TextureReader::BOX_T);
+	SetTexture("_Dissolve_Texture", TextureReader::DISSOLVE_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\DepthShadowMappingVS.cso");
 	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\DissolveDepthShadowPS.cso");

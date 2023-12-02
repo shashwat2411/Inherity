@@ -10,8 +10,6 @@ void ENEMY::Start()
 	freezeY = true;
 	reflection = true;
 
-	SetTag("Enemy");
-
 	AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
 
 	AddComponent<EnemyScript>();

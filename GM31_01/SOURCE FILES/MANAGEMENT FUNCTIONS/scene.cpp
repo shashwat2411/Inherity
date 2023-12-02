@@ -58,7 +58,7 @@ void SCENE::UpdateBefore()
 
 void SCENE::Draw()
 {
-	std::sort(gameObjectNames.begin(), gameObjectNames.end());
+	//std::sort(gameObjectNames.begin(), gameObjectNames.end());
 
 	for (int i = 0; i < MAX_LAYER; i++)
 	{

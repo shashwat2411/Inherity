@@ -54,17 +54,18 @@ protected:
 	bool freezeY;
 	bool freezeZ;
 
-	int RingCounter = 0;
+	int id;
+	int RingCounter;
 
 	std::string tag;
 
-	float defaultY = 1.01f;
+	float defaultY;
 
-	D3DXCOLOR Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	D3DXCOLOR Color;
 
-	ID3D11VertexShader* VertexShader = nullptr;
-	ID3D11PixelShader* PixelShader = nullptr;
-	ID3D11InputLayout* VertexLayout = nullptr;
+	ID3D11VertexShader* VertexShader;
+	ID3D11PixelShader* PixelShader;
+	ID3D11InputLayout* VertexLayout;
 
 	std::list<Component*> components;
 	Material* material;
@@ -73,8 +74,6 @@ protected:
 	D3DXMATRIX ScaleMatrix;
 	D3DXMATRIX RotationMatrix;
 	D3DXMATRIX TransformMatrix;
-
-	friend class cereal::access;
 
 public:
 	float cameraDistance;
@@ -130,6 +129,7 @@ public:
 	bool		GetFreezeY() { return freezeY; }
 	bool		GetFreezeZ() { return freezeZ; }
 
+	int						GetID()				{ return id; }
 	int						GetRingCounter()	{ return RingCounter; }
 	float					GetDefaultY()		{ return defaultY; }
 	D3DXCOLOR				GetColor()			{ return Color; }
@@ -150,12 +150,13 @@ public:
 	void SetDepth(bool value)			{ depth = value; }
 	void SetDepthShadow(bool value)		{ depthShadow = value; }
 	void SetFaceInDirection(bool value)	{ faceInDirection = value; }
-	void SetReflection(bool value) { reflection = value; }
+	void SetReflection(bool value)		{ reflection = value; }
 
-	void SetRingCounter(int value) { RingCounter = value; }
-	void SetTag(const char* value) { tag = value; }
-	void SetTag(std::string value) { tag = value; }
-	void SetColor(D3DXCOLOR color) { Color = color; }
+	void SetID(int value)			{ id = value; }
+	void SetRingCounter(int value)	{ RingCounter = value; }
+	void SetTag(const char* value)	{ tag = value; }
+	void SetTag(std::string value)	{ tag = value; }
+	void SetColor(D3DXCOLOR color)	{ Color = color; }
 
 
 

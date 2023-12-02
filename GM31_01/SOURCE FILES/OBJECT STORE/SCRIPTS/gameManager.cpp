@@ -9,8 +9,6 @@ void GameManager::Start()
 
 	Player = Manager::GetScene()->GetPlayer();
 
-	gameObject->SetTag("GameManager");
-
 }
 
 void GameManager::End()
