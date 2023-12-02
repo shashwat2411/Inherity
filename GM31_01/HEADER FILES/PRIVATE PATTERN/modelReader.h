@@ -39,6 +39,8 @@ private:
 	static AnimationModel ModelsFBX[ModelReader::READ_MODEL_FBX_MAX];
 	static std::unordered_map<std::string, const aiScene*> Animations;
 
+	static const char* modelNames[ModelReader::READ_MODEL_OBJ_MAX + ModelReader::READ_MODEL_FBX_MAX];
+
 public:
 	static void ReadModel()
 	{
@@ -72,18 +74,28 @@ public:
 		assert(Animations["Jump"]);
 
 		//NAMING
-		ModelsOBJ[SPHERE_COLLIDER_M].name = "SPHERE_COLLIDER";
-		ModelsOBJ[BOX_COLLIDER_M].name = "BOX_COLLIDER";
-		ModelsOBJ[CYLINDER_M].name = "CYLINDER";
-		ModelsOBJ[CUBE_M].name = "CUBE";
-		ModelsOBJ[TORUS_M].name = "TORUS";
-		ModelsOBJ[SOUND_GIZMO_M].name = "SOUND_GIZMO";
+		ModelsOBJ[SPHERE_COLLIDER_M]	.name = "SPHERE_COLLIDER";
+		ModelsOBJ[BOX_COLLIDER_M]		.name = "BOX_COLLIDER";
+		ModelsOBJ[CYLINDER_M]			.name = "CYLINDER";
+		ModelsOBJ[CUBE_M]				.name = "CUBE";
+		ModelsOBJ[TORUS_M]				.name = "TORUS";
+		ModelsOBJ[SOUND_GIZMO_M]		.name = "SOUND_GIZMO";
 
-		ModelsOBJ[SKYDOME_M].name = "SKYDOME";
-		ModelsOBJ[ENEMY_M].name = "ENEMY";
+		ModelsOBJ[SKYDOME_M]			.name = "SKYDOME";
+		ModelsOBJ[ENEMY_M]				.name = "ENEMY";
 
-		ModelsFBX[THE_BOSS_M].name = "THE_BOSS";
-		ModelsFBX[ROCK_M].name = "ROCK";
+		ModelsFBX[THE_BOSS_M]			.name = "THE_BOSS";
+		ModelsFBX[ROCK_M]				.name = "ROCK";
+
+
+		for (int i = 0; i < ModelReader::READ_MODEL_OBJ_MAX; i++)
+		{
+			modelNames[i] = ModelsOBJ[i].name.c_str();
+		}
+		for (int i = 0; i < ModelReader::READ_MODEL_FBX_MAX; i++)
+		{
+			modelNames[i + ModelReader::READ_MODEL_OBJ_MAX] = ModelsFBX[i].name.c_str();
+		}
 	}
 
 	static void UnReadModel()
@@ -115,6 +127,10 @@ public:
 	static const aiScene* GetAnimation(const char* name)
 	{
 		return Animations[name];
+	}
+	static const char* const* GetModelNames()
+	{
+		return modelNames;
 	}
 
 };

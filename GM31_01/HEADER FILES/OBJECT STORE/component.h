@@ -3,6 +3,8 @@
 
 #include "gameobject.h"
 #include "debugManager.h"
+#include "modelReader.h"
+#include "soundReader.h"
 
 #include <string>
 
@@ -251,6 +253,8 @@ class MeshFilter :public Component
 private:
 	bool fbx;
 
+	int modelIndex;
+
 	float blendRate;
 	float blendSpeed;
 	float frame;
@@ -276,7 +280,7 @@ public:
 
 	void EngineDisplay() override;
 
-	const char* GetCurrentAnimation() { return animationBlendName.c_str(); }
+	const char* GetCurrentAnimation() { if (m_Model != nullptr) { return animationBlendName.c_str(); } return ""; }
 	bool GetAnimationOver(const char* name);
 
 	void SetAnimationBlend(const char* name, bool lp = false, float speed = 0.05f);
@@ -284,10 +288,10 @@ public:
 	void SetFBX(bool value);
 	bool GetFBX() { return fbx; }
 
-	void SetModel(AnimationModel* value) { SetFBX(true); m_Model = value; }
-	void SetModel(Model* value) { SetFBX(false); m_Model_obj = value; }
+	void SetModel(ModelReader::READ_MODEL_FBX index);
+	void SetModel(ModelReader::READ_MODEL_OBJ index);
 
-	void SetDefaultAnimation(std::string value) { animationName = value; animationBlendName = value; }
+	void SetDefaultAnimation(std::string value) { if (m_Model != nullptr) { animationName = value; animationBlendName = value; } }
 
 	AnimationModel* GetModel() { return m_Model; }
 	Model* GetModel(int i) { return m_Model_obj; }
@@ -349,10 +353,15 @@ protected:
 	float len;
 	float rad;
 
-	float limit;
-	float shakeCounter;
-	float shakeValue;
-	float time;
+	//float limit;
+	//float shakeCounter;
+	//float shakeValue;
+	//float time;
+
+	D3DXVECTOR3 shakeOffset;
+	float shakeTime;
+	float frequency;
+	D3DXVECTOR3 shakeAmplitude;
 
 	D3DXVECTOR3 Up;
 	D3DXVECTOR3 rot;
@@ -389,15 +398,14 @@ public:
 	D3DXVECTOR3 GetForward();
 	D3DXVECTOR3 GetUp();
 	D3DXVECTOR3 GetRight();
-	void CameraShake(float value, float t = 15.0f / FRAME_RATE);
+	void CameraShake(D3DXVECTOR3 value, float f = 1.5f);
 	bool CheckView(Transform* target);
 
 	template<class Archive>
 	void serialize(Archive & archive)
 	{
 		archive(cereal::virtual_base_class<Component>(this),
-			CEREAL_NVP(fov),
-			CEREAL_NVP(shakeValue)
+			CEREAL_NVP(fov)
 		);
 	}
 };
@@ -608,13 +616,13 @@ private:
 	bool playOnAwake;
 	bool threeDimension;
 
+	int soundIndex;
+
 	float volume;
-
-	std::vector<AudioListener*> listeners;
-
-public:
 	float volumePercentage;
+
 	Audio* clip;
+	std::vector<AudioListener*> listeners;
 
 public:
 
@@ -631,11 +639,13 @@ public:
 	bool GetPlayOnAwake() { return playOnAwake; }
 	bool GetThreeDimension() { return threeDimension; }
 	float GetVolume() { return volume; }
+	Audio* GetClip() { return clip; }
 
 	void SetLoop(bool value) { loop = value; }
 	void SetPlayOnAwake(bool value) { playOnAwake = value; }
 	void SetThreeDimension(bool value) { threeDimension = value; }
 	void SetVolume(float value) { volume = value; }
+	void SetClip(SoundReader::READ_SOUND index);
 
 	void Play(bool l = false, float v = 1.0f);
 	void PlayOneShot(Audio* audio, float v = 1.0f);
@@ -898,6 +908,8 @@ public:
 	void Draw() override;
 
 	void EngineDisplay() override;
+
+	void SetBone(MeshFilter* model, const char* bone);
 
 	bool GetIsTrigger() { return isTrigger; }
 	bool GetIsKinematic() { return isKinematic; }

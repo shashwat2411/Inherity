@@ -10,6 +10,8 @@ void AudioSource::Start()
 	playOnAwake = true;
 	threeDimension = false;
 
+	soundIndex = 0;
+
 	volume = DEFAULT_VOLUME;
 	volumePercentage = 100.0f;
 
@@ -25,6 +27,11 @@ void AudioSource::End()
 }
 
 void AudioSource::Update()
+{
+	
+}
+
+void AudioSource::Draw()
 {
 	if (parentActive != gameObject->GetActive())
 	{
@@ -73,26 +80,36 @@ void AudioSource::Update()
 	}
 }
 
-void AudioSource::Draw()
-{
-
-}
-
 void AudioSource::EngineDisplay()
 {
 	if (ImGui::TreeNode("Audio Source"))
 	{
-		//char str[22];
+		ImGui::Text("Clip : ");
+		ImGui::SameLine();
 
-		DebugManager::BoolDisplay(&loop, -200.0f, "Loop");
+		ImGui::PushID(0);
+		if (ImGui::Combo("", &soundIndex, SoundReader::GetSoundNames(), SoundReader::READ_SOUND_MAX))
+		{
+			clip->Stop();
+			SetClip((SoundReader::READ_SOUND)soundIndex);
+		}
+		ImGui::PopID();
+
+		ImGui::Text("\n");
+		if (ImGui::Button("Play")) { clip->Play(loop, volume); }
 		ImGui::SameLine();
-		DebugManager::BoolDisplay(&playOnAwake, -100.0f, "Play On Awake", 1);
+		if (ImGui::Button("Stop")) { clip->Stop(); }
+		ImGui::Text("\n");
+
+		DebugManager::BoolDisplay(&loop, -200.0f, "Loop", 2);
 		ImGui::SameLine();
-		DebugManager::BoolDisplay(&threeDimension, -40.0f, "3D", 2);
+		DebugManager::BoolDisplay(&playOnAwake, -100.0f, "Play On Awake", 3);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&threeDimension, -40.0f, "3D", 4);
 
 		ImGui::Text("\n");
 
-		DebugManager::FloatDisplay(&volume, -FLT_MIN, "Volume", false, D3DXVECTOR2(0.0f, 1.0f), 3);
+		DebugManager::FloatDisplay(&volume, -FLT_MIN, "Volume", false, D3DXVECTOR2(0.0f, 1.0f), 5);
 		//ImGui::PushItemWidth(-FLT_MIN);
 		//sprintf_s(str, sizeof(str), "Volume : %.2f", volume);
 		//ImGui::SliderFloat(" ", &volume, 0.0f, 1.0f, str);
@@ -100,6 +117,13 @@ void AudioSource::EngineDisplay()
 		ImGui::TreePop();
 		ImGui::Spacing();
 	}
+}
+
+void AudioSource::SetClip(SoundReader::READ_SOUND index)
+{
+	clip = SoundReader::GetReadSound(index);
+
+	soundIndex = index;
 }
 
 void AudioSource::Play(bool l, float v)

@@ -10,7 +10,7 @@ void BulletScript::Start()
 	shooter = nullptr;
 
 	gameObject->AddComponent<Rigidbody>();
-	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::ENEMY_M));
+	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
 
 }
 
@@ -30,7 +30,7 @@ void BulletScript::Update()
 	{
 		if (gameObject->transform->DistanceFrom(enemy) < 1.0f)
 		{
-			Manager::GetScene()->AddGameObject<EXPLOSION>(BILLBOARD_LAYER)->transform->Position = gameObject->transform->Position;
+			Manager::GetScene()->AddGameObject<EXPLOSION>("Explosion(Clone)", BILLBOARD_LAYER)->transform->Position = gameObject->transform->Position;
 			gameObject->Destroy(true);
 			//enemy->Destroy(true);
 			return;

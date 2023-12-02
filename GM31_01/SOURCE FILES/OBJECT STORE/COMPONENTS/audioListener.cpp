@@ -8,8 +8,8 @@ void AudioListener::Start()
 
 	scaleOffset = 1.0f;
 
-	area1 = Manager::GetScene()->AddGameObject<SOUNDAREA>(GIZMO_LAYER);
-	area2 = Manager::GetScene()->AddGameObject<SOUNDAREA>(GIZMO_LAYER);
+	area1 = Manager::GetScene()->AddGameObject<SOUNDAREA>("", GIZMO_LAYER);
+	area2 = Manager::GetScene()->AddGameObject<SOUNDAREA>("", GIZMO_LAYER);
 	area1->Parent = gameObject;
 	area2->Parent = gameObject;
 
@@ -36,15 +36,15 @@ void AudioListener::End()
 
 void AudioListener::Update()
 {
-	float size1 = startArea;
-	float size2 = endArea + startArea;
-	area1->transform->Scale = D3DXVECTOR3(size1, size1, size1) * scaleOffset;
-	area2->transform->Scale = D3DXVECTOR3(size2, size2, size2) * scaleOffset;
+
 }
 
 void AudioListener::Draw()
 {
-
+	float size1 = startArea;
+	float size2 = endArea + startArea;
+	area1->transform->Scale = D3DXVECTOR3(size1, size1, size1) * scaleOffset;
+	area2->transform->Scale = D3DXVECTOR3(size2, size2, size2) * scaleOffset;
 }
 
 void AudioListener::EngineDisplay()

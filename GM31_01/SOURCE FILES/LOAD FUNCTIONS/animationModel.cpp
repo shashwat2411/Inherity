@@ -581,6 +581,7 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 			vertex[v].Position.y = deformVertex->Position.y;
 			vertex[v].Position.z = deformVertex->Position.z;
 
+			//’¸“_‚ÌNormal‚ð•Û‘¶‚·‚éêŠ
 			vertex[v].Normal.x = deformVertex->Normal.x;
 			vertex[v].Normal.y = deformVertex->Normal.y;
 			vertex[v].Normal.z = deformVertex->Normal.z;

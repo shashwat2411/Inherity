@@ -9,14 +9,13 @@ void SCENE::InitBefore()
 	name = "";
 
 	//GAMEOBJECT
-	MainCamera = AddGameObject<CAMERA>(CAMERA_LAYER);
-	reflectionProjector = AddGameObject<EMPTYOBJECT>();
+	MainCamera = AddGameObject<CAMERA>("MainCamera", CAMERA_LAYER);
+	reflectionProjector = AddGameObject<EMPTYOBJECT>("Reflection");
 
 	//UI
 	Fade = Manager::GetDontDestroyOnLoadScene()->FindGameObject<FADE>();
-	if (Fade == nullptr) { Fade = Manager::GetDontDestroyOnLoadScene()->AddGameObject<FADE>(FADE_LAYER); }
+	if (Fade == nullptr) { Fade = Manager::GetDontDestroyOnLoadScene()->AddGameObject<FADE>("Fade", FADE_LAYER); }
 
-	reflectionProjector->SetTag("Reflection");
 	reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 
 	Fade->SetFadeIn();
@@ -59,9 +58,11 @@ void SCENE::UpdateBefore()
 
 void SCENE::Draw()
 {
+	std::sort(gameObjectNames.begin(), gameObjectNames.end());
+
 	for (int i = 0; i < MAX_LAYER; i++)
 	{
-		if (i != GIZMO_LAYER || (DebugManager::gizmo == true && DebugManager::play == true))
+		if (i != GIZMO_LAYER || (DebugManager::gizmo == true && DebugManager::play == false))
 		{
 			for (auto var : GameObjects[i])
 			{

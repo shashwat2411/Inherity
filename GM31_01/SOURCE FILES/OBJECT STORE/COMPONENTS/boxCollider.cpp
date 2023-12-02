@@ -11,22 +11,13 @@ void BoxCollider::Start()
 	scaleOffset = 1.0f;
 
 	//----------------------------------------------------------------
-	collider = Manager::GetScene()->AddGameObject<BOXCOLLIDER>(COLLIDER_LAYER);
+	collider = Manager::GetScene()->AddGameObject<BOXCOLLIDER>("", COLLIDER_LAYER);
 	collider->Parent = gameObject;
+	collider->SetTag(collider->Parent->GetTag());
+
+	scaleOffset = 1.0f / gameObject->transform->Scale.x;
 
 	collider->transform->Scale = D3DXVECTOR3(CollisionSize.x, CollisionSize.y, CollisionSize.z) * scaleOffset;
-
-	//Front
-	vertex[0] = D3DXVECTOR3( CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
-	vertex[1] = D3DXVECTOR3(-CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
-	vertex[2] = D3DXVECTOR3( CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
-	vertex[3] = D3DXVECTOR3(-CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
-
-	//Back
-	vertex[4] = D3DXVECTOR3( CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
-	vertex[5] = D3DXVECTOR3(-CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
-	vertex[6] = D3DXVECTOR3( CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
-	vertex[7] = D3DXVECTOR3(-CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
 
 	for (int i = 0; i < 8; i++) { vertex[i] += collider->transform->GlobalPosition; }
 
@@ -42,26 +33,12 @@ void BoxCollider::End()
 
 void BoxCollider::Update()
 {
-	//Front
-	vertex[0] = D3DXVECTOR3( CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
-	vertex[1] = D3DXVECTOR3(-CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
-	vertex[2] = D3DXVECTOR3( CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
-	vertex[3] = D3DXVECTOR3(-CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f,  CollisionSize.z / 2.0f);
 
-	//Back
-	vertex[4] = D3DXVECTOR3( CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
-	vertex[5] = D3DXVECTOR3(-CollisionSize.x / 2.0f,  CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
-	vertex[6] = D3DXVECTOR3( CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
-	vertex[7] = D3DXVECTOR3(-CollisionSize.x / 2.0f, -CollisionSize.y / 2.0f, -CollisionSize.z / 2.0f);
-
-	for (int i = 0; i < 8; i++) { vertex[i] += collider->transform->GlobalPosition; }
-
-	collider->transform->Scale = D3DXVECTOR3(CollisionSize.x, CollisionSize.y, CollisionSize.z) * scaleOffset;
 }
 
 void BoxCollider::Draw()
 {
-
+	collider->transform->Scale = D3DXVECTOR3(CollisionSize.x, CollisionSize.y, CollisionSize.z) * scaleOffset;
 }
 
 void BoxCollider::EngineDisplay()
@@ -70,11 +47,14 @@ void BoxCollider::EngineDisplay()
 	{
 		//char str[22];
 
-		DebugManager::BoolDisplay(&isTrigger, -200.0f, "IsTrigger");
+		DebugManager::BoolDisplay(&isTrigger, -200.0f, "IsTrigger", 0);
 		DebugManager::BoolDisplay(&isKinematic, -146.0f, "Kinematic", 1);
 
 		ImGui::Text("\nCollision Size");
+		ImGui::PushID(2);
 		ImGui::DragFloat3("", CollisionSize, 0.01F);
+		ImGui::PopID();
+
 
 		if (ImGui::TreeNode("Details"))
 		{
@@ -87,5 +67,13 @@ void BoxCollider::EngineDisplay()
 
 		ImGui::TreePop();
 		ImGui::Spacing();
+	}
+}
+
+void BoxCollider::SetBone(MeshFilter* model, const char* bone)
+{
+	if (model->GetModel() != nullptr)
+	{
+		collider->transform->boneMatrix = model->GetModel()->GetBoneMatrix(bone);
 	}
 }

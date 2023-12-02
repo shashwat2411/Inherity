@@ -11,7 +11,7 @@ bool pressedDebug[2] = { false };
 
 bool DebugManager::play = false;
 bool DebugManager::paused = false;
-bool DebugManager::gizmo = false;
+bool DebugManager::gizmo = true;
 bool DebugManager::show_demo_window = true;
 
 int DebugManager::index = 0;
@@ -194,7 +194,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 	//Edit Mode
 	{
-		ImGui::Begin("Edit Mode", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::Begin("Edit Mode", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground);
 
 		int ret = edit;
 		ImGui::RadioButton("Move", &ret, 0); ImGui::SameLine();
@@ -208,7 +208,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 	//Execute Controls
 	{
-		ImGui::Begin("___", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize);
+		ImGui::Begin("___", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 
 		//ImGui::DragFloat("size", &s, 0.01f);
 
@@ -324,7 +324,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CUBE_T), size))
 		{
-			Manager::GetScene()->AddGameObject<CUBE>()->SetTag("Cube(Clone)");
+			Manager::GetScene()->AddGameObject<CUBE>("Cube(Clone)");
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CUBE", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);

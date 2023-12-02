@@ -15,7 +15,7 @@ void PLAYERMODEL::Start()
 
 	SetTag("PlayerModel");
 
-	model->SetModel(ModelReader::GetReadModel(ModelReader::THE_BOSS_M));
+	model->SetModel(ModelReader::THE_BOSS_M);
 
 	model->GetModel()->LoadAnimation("Run");
 	model->GetModel()->LoadAnimation("Idle");
@@ -27,13 +27,17 @@ void PLAYERMODEL::Start()
 	transform->Scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
 
 	collider = AddComponent<SphereCollider>();
-
 	collider->SetBone(model, "mixamorig:LeftHand");
-
 	collider->SetIsTrigger(false);
 	collider->SetIsKinematic(false);
 	collider->SetCollisionSize(0.3f);
-	collider->scaleOffset = 100.0f;
+
+	//BoxCollider* bcollider = AddComponent<BoxCollider>();
+	//bcollider->SetBone(model, "mixamorig:LeftHand");
+	//bcollider->SetIsTrigger(false);
+	//bcollider->SetIsKinematic(false);
+	//bcollider->SetCollisionSize(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
+	//bcollider->scaleOffset = 100.0f;
 
 
 	Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);

@@ -12,7 +12,8 @@ void ENEMY::Start()
 
 	SetTag("Enemy");
 
-	AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::ENEMY_M));
+	AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
+
 	AddComponent<EnemyScript>();
 
 	AddMaterial<UnlitMaterial>();

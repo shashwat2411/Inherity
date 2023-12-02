@@ -14,7 +14,7 @@ void SKYDOME::Init()
 
 	SetTag("SkyDome");
 
-	AddComponent<MeshFilter>()->SetModel(ModelReader::GetReadModel(ModelReader::SKYDOME_M));
+	AddComponent<MeshFilter>()->SetModel(ModelReader::SKYDOME_M);
 
 	AddMaterial<UnlitMaterial>();
 	SetDepthShadow(false);

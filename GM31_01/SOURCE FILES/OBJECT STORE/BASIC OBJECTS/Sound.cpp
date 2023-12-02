@@ -12,7 +12,7 @@ void SOUND::Update()
 {
 	if (source != nullptr)
 	{
-		if (source->clip->IsPlaying() == false)
+		if (source->GetClip()->IsPlaying() == false)
 		{
 			Destroy(true);
 		}
