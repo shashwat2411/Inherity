@@ -7,5 +7,5 @@ void EXPLOSION::Start()
 	billboard->SetAnimate(true);
 	billboard->SetElements(4, 4);
 
-	GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::EXPLOSION_T));
+	GetMaterial()->SetTexture("_Texture", TextureReader::EXPLOSION_T);
 }

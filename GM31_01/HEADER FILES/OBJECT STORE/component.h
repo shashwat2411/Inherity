@@ -5,6 +5,7 @@
 #include "debugManager.h"
 #include "modelReader.h"
 #include "soundReader.h"
+#include "textureReader.h"
 
 #include <string>
 
@@ -509,10 +510,9 @@ class ParticleSystem : public Component
 private:
 	int numberOfObjects;
 	int numberOfObjectsToAdd;
+	int texture;
 
 	D3DXVECTOR3 direction;
-
-	ID3D11ShaderResourceView* texture;
 
 	std::vector<PARTICLE*> objects;
 
@@ -538,7 +538,7 @@ public:
 
 	int GetNumberOfObjects() { return numberOfObjects; }
 
-	void SetTexture(ID3D11ShaderResourceView* text);
+	void SetTexture(TextureReader::READ_TEXTURE text);
 	void SetLife(const float value);
 	void SetSpeed(const float value);
 	void SetParticleCount(int value);

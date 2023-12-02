@@ -25,6 +25,7 @@ ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXTURE_MA
 //Names
 const char* ModelReader::modelNames[ModelReader::READ_MODEL_OBJ_MAX + ModelReader::READ_MODEL_FBX_MAX];
 const char* SoundReader::soundNames[SoundReader::READ_SOUND_MAX];
+const char* TextureReader::textureNames[TextureReader::READ_TEXTURE_MAX];
 
 float Time::timeScale = 1.0f;
 float Time::fixedTimeScale = 1.0f;

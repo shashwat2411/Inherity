@@ -12,8 +12,6 @@ void SKYDOME::Init()
 	transform->Position.y = -10.0f;
 	transform->Scale = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
 
-	SetTag("SkyDome");
-
 	AddComponent<MeshFilter>()->SetModel(ModelReader::SKYDOME_M);
 
 	AddMaterial<UnlitMaterial>();

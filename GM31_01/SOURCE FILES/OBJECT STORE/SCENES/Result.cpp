@@ -16,7 +16,7 @@ void RESULT_SCENE::Init()
 
 	//Ý’è
 	{
-		result->GetMaterial()->SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::RESULT_BG_T));
+		result->GetMaterial()->SetTexture("_Texture", TextureReader::RESULT_BG_T);
 		result->GetComponent<SpriteRenderer>()->SetSize(D3DXVECTOR2(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2));
 		result->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
 	}

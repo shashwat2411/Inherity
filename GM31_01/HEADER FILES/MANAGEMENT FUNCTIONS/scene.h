@@ -58,7 +58,7 @@ protected:
 	SKYDOME* skyDome;
 	EMPTYOBJECT* reflectionProjector;
 
-	std::vector<const char*> gameObjectNames;
+	std::array<std::vector<std::string>, MAX_LAYER> gameObjectNames;
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GameObjects;
 
 public:
@@ -89,6 +89,7 @@ public:
 	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GetGameObjectList() { return GameObjects; }
 	std::list<GAMEOBJECT*> GetGameObjectList(LAYER layer) { return GameObjects[layer]; }
+	std::vector<std::string> GetGameObjectNames(LAYER layer) { return gameObjectNames[layer]; }
 	std::vector<GAMEOBJECT*> GetGameObjectListVector(LAYER layer) 
 	{
 		std::vector<GAMEOBJECT*> vector;
@@ -103,6 +104,7 @@ public:
 	}
 
 	void SetEnd() { end = true; }
+	void SetGameObjectName(GAMEOBJECT* itself, LAYER layer) { gameObjectNames[layer][itself->GetID()] = itself->GetTag(); }
 
 
 	//ADD
@@ -113,9 +115,10 @@ public:
 		GameObjects[layer].push_back(gameObject);
 		gameObject->Start();
 
+		gameObject->SetID(GameObjects[layer].size() - 1);
 		if (name != "") { gameObject->SetTag(name); }
 
-		gameObjectNames.push_back(gameObject->GetTag().c_str());
+		gameObjectNames[layer].push_back(gameObject->GetTag());
 
 		return gameObject;
 	}
@@ -145,6 +148,22 @@ public:
 				if (buff != nullptr)
 				{
 					return buff;
+				}
+			}
+		}
+		return nullptr;
+	}
+
+	//FIND
+	GAMEOBJECT* Find(std::string name)
+	{
+		for (int i = 0; i < MAX_LAYER; i++)
+		{
+			for (auto com : GameObjects[i])
+			{
+				if (com->GetTag() == name)
+				{
+					return com;
 				}
 			}
 		}

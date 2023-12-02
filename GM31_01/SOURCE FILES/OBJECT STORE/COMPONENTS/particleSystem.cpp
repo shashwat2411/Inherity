@@ -19,14 +19,14 @@ void ParticleSystem::Start()
 
 
 	//----------------------------------------------------------------
-	texture = TextureReader::GetReadTexture(TextureReader::BOX_T);
+	texture = TextureReader::BOX_T;
 
 	for (int i = 0; i < numberOfObjects; i++)
 	{
 		auto b = new PARTICLE();
 		b->Init();
 
-		b->GetMaterial()->SetTexture("_Texture", texture);
+		b->GetMaterial()->SetTexture("_Texture", TextureReader::READ_TEXTURE(texture));
 		objects.push_back(b);
 	}
 
@@ -140,7 +140,7 @@ void ParticleSystem::EngineDisplay()
 	}
 }
 
-void ParticleSystem::SetTexture(ID3D11ShaderResourceView* text)
+void ParticleSystem::SetTexture(TextureReader::READ_TEXTURE text)
 {
 	for (PARTICLE* obj : objects)
 	{
@@ -190,7 +190,7 @@ void ParticleSystem::SetParticleCount(int value)
 		auto b = new PARTICLE();
 		b->Init();
 
-		b->GetMaterial()->SetTexture("_Texture", texture);
+		b->GetMaterial()->SetTexture("_Texture", TextureReader::READ_TEXTURE(texture));
 		objects.push_back(b);
 
 		numberOfObjectsToAdd--;

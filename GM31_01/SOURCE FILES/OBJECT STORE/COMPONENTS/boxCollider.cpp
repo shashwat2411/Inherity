@@ -14,6 +14,7 @@ void BoxCollider::Start()
 	collider = Manager::GetScene()->AddGameObject<BOXCOLLIDER>("", COLLIDER_LAYER);
 	collider->Parent = gameObject;
 	collider->SetTag(collider->Parent->GetTag());
+	Manager::GetScene()->SetGameObjectName(collider, COLLIDER_LAYER);
 
 	scaleOffset = 1.0f / gameObject->transform->Scale.x;
 

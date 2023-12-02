@@ -85,9 +85,26 @@ void Camera::EngineDisplay()
 {
 	if (ImGui::TreeNode("Camera"))
 	{
+		ImGui::Text("Target : ");
+		ImGui::SameLine();
+
+		static int index = 0;
+
+		std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
+		std::vector<const char*> vector;
+		for (std::string str : list)
+		{
+			vector.push_back(str.c_str());
+		}
+		const char** names = vector.data();
+
+		ImGui::PushID(0);
+		ImGui::Combo("", &index, names, vector.size());
+		ImGui::PopID();
+
 		ImGui::Text("Target : %s", (Target ? Target->GetTag().c_str() : "nullptr"));
 
-		DebugManager::FloatDisplay(&fov, -FLT_MIN, "FOV", false, D3DXVECTOR2(1.0f, 120.0f), 0);
+		DebugManager::FloatDisplay(&fov, -FLT_MIN, "FOV", false, D3DXVECTOR2(1.0f, 120.0f), 1);
 
 		if (ImGui::TreeNode("Details"))
 		{

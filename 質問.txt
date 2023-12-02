@@ -65,6 +65,7 @@
 65. なんでFadeを描画すると画面も一緒に消えちゃうの？
 66. なんでGreyScaleしたはずなのに水とSphereColliderの色が残る？
 67. SoundReader::READ_SOUND これの前方宣言をどうやってやるんですか？
+68. std::vector<const char*> に書き込みをする方法？
 
     ●ポートフォリオ
 43. プチコンで作った作品も載せた方がいいですか？

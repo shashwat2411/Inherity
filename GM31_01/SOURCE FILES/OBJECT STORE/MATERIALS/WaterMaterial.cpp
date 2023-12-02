@@ -6,7 +6,7 @@ void WaterMaterial::Start()
 	SetFloat("_Speed", 10.0f);
 	SetFloat("_Frequency", 10.0f);
 
-	SetTexture("_Texture", TextureReader::GetReadTexture(TextureReader::WATER_T));
+	SetTexture("_Texture", TextureReader::WATER_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitWaterVS.cso");
 	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\unlitWaterPS.cso");

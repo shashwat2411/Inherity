@@ -4,7 +4,7 @@ void DefaultMaterial::Start()
 {
 	gameObject->SetDepthShadow(true);
 
-	SetTexture("_Texture", /*TextureReader::GetReadTexture(TextureReader::BOX_T)*/nullptr);
+	SetTexture("_Texture", nullptr);
 	SetTexture("_Normal_Map", nullptr);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\vertexLightingVS.cso");
