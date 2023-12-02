@@ -4,6 +4,7 @@
 #include "../imGUI/imgui.h"
 #include "../imGUI/imgui_impl_win32.h"
 #include "../imGUI/imgui_impl_dx11.h"
+#include "../imGUI/implot.h"
 #include "manager.h"
 #include "input.h"
 
@@ -13,6 +14,7 @@ bool DebugManager::play = false;
 bool DebugManager::paused = false;
 bool DebugManager::gizmo = true;
 bool DebugManager::show_demo_window = true;
+bool show_plot_demo_window = true;
 
 int DebugManager::index = 0;
 int DebugManager::layer = 0;
@@ -37,6 +39,7 @@ void DebugManager::Init()
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
+	ImPlot::CreateContext();
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
 	io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
@@ -57,6 +60,7 @@ void DebugManager::Uninit()
 {
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
+	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
 }
 
@@ -74,6 +78,9 @@ void DebugManager::Draw()
 	if (show_demo_window)
 		ImGui::ShowDemoWindow(&show_demo_window);
 
+	if (show_plot_demo_window)
+		ImPlot::ShowDemoWindow(&show_plot_demo_window);
+
 	ImGui::EndFrame();
 	// ImGuiコード
 	//フレームの描画
@@ -85,6 +92,7 @@ float s = 30.0f;
 void DebugManager::DebugDraw(SCENE * scene)
 {
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
+
 
 	//Index
 	{

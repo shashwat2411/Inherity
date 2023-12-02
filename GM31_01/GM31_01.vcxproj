@@ -47,6 +47,7 @@
     <ClInclude Include="imGUI\imgui_impl_dx11.h" />
     <ClInclude Include="imGUI\imgui_impl_win32.h" />
     <ClInclude Include="imGUI\imgui_internal.h" />
+    <ClInclude Include="imGUI\implot.h" />
     <ClInclude Include="imGUI\imstb_rectpack.h" />
     <ClInclude Include="imGUI\imstb_textedit.h" />
     <ClInclude Include="imGUI\imstb_truetype.h" />
@@ -59,6 +60,9 @@
     <ClCompile Include="imGUI\imgui_impl_win32.cpp" />
     <ClCompile Include="imGUI\imgui_tables.cpp" />
     <ClCompile Include="imGUI\imgui_widgets.cpp" />
+    <ClCompile Include="imGUI\implot.cpp" />
+    <ClCompile Include="imGUI\implot_demo.cpp" />
+    <ClCompile Include="imGUI\implot_items.cpp" />
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\animationModel.cpp" />
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\audio.cpp" />
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\model.cpp" />
@@ -72,6 +76,7 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp" />
     <ClCompile Include="SOURCE FILES\manager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Bar.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Fade.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Skydome.cpp" />

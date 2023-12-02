@@ -683,17 +683,17 @@ public:
 
 	void Start() override
 	{
-		data.push_back(AnimationData(0, Data(0.0f, &gameObject->transform->Rotation.x)));
-		data.push_back(AnimationData(20, Data(50.0f, &gameObject->transform->Rotation.x)));
-		data.push_back(AnimationData(40, Data(-120.0f, &gameObject->transform->Rotation.x)));
-		data.push_back(AnimationData(60, Data(30.0f, &gameObject->transform->Rotation.x)));
-		data.push_back(AnimationData(80, Data(-70.0f, &gameObject->transform->Rotation.x)));
+		data.push_back(AnimationData(0, Data(0.0f, &gameObject->transform->Position.x)));
+		data.push_back(AnimationData(20, Data(50.0f, &gameObject->transform->Position.x)));
+		data.push_back(AnimationData(40, Data(-120.0f, &gameObject->transform->Position.x)));
+		data.push_back(AnimationData(60, Data(30.0f, &gameObject->transform->Position.x)));
+		data.push_back(AnimationData(80, Data(-70.0f, &gameObject->transform->Position.x)));
 
-		data[0].angle.push_back(Data(0.0f, &gameObject->transform->Rotation.y));
-		data[1].angle.push_back(Data(50.0f, &gameObject->transform->Rotation.y));
-		data[2].angle.push_back(Data(-120.0f, &gameObject->transform->Rotation.y));
-		data[3].angle.push_back(Data(60.0f, &gameObject->transform->Rotation.y));
-		data[4].angle.push_back(Data(-20.0f, &gameObject->transform->Rotation.y));
+		data[0].angle.push_back(Data(0.0f, &gameObject->transform->Position.y));
+		data[1].angle.push_back(Data(50.0f, &gameObject->transform->Position.y));
+		data[2].angle.push_back(Data(-120.0f, &gameObject->transform->Position.y));
+		data[3].angle.push_back(Data(60.0f, &gameObject->transform->Position.y));
+		data[4].angle.push_back(Data(-20.0f, &gameObject->transform->Position.y));
 
 		index = 0;
 		timer = 0.0f;
