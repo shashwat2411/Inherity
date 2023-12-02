@@ -1,4 +1,5 @@
 #include "prefab.h"
+#include "animations.h"
 
 void ENEMY::Start()
 {
@@ -13,6 +14,8 @@ void ENEMY::Start()
 	AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
 
 	AddComponent<EnemyScript>();
+	
+	AddComponent<Animator>()->AddAnimation(AddComponent<TrialAnimation>(), 0);
 
 	AddMaterial<UnlitMaterial>();
 

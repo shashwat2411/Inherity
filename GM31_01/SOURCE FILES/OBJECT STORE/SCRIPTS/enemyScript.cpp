@@ -1,4 +1,5 @@
 #include "script.h"
+#include "input.h"
 
 void EnemyScript::Start()
 {
@@ -15,6 +16,11 @@ void EnemyScript::End()
 
 void EnemyScript::Update()
 {
+	if (Input::GetKeyTrigger('V'))
+	{
+		gameObject->GetComponent<Animator>()->PlayAnimation(0);
+	}
+
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 	gameObject->rigidbody->Speed *= 0.9f;
 }

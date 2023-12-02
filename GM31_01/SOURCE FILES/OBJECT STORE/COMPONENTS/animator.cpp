@@ -1,5 +1,5 @@
 #include "component.h"
-
+#include "../imGUI/implot.h"
 void Animator::Start()
 {
 	multiple = true;
@@ -17,19 +17,22 @@ void Animator::Update()
 		float dt, dangle;
 		float timer = animation[animIndex]->timer;
 
-		float frame1 = (float)animation[animIndex]->data[animation[animIndex]->index].frame;
-		float frame2 = (float)animation[animIndex]->data[animation[animIndex]->index + 1].frame;
+		int index1 = animation[animIndex]->index;
+		int index2 = animation[animIndex]->index + 1;
+
+		float frame1 = (float)animation[animIndex]->data[index1].frame;
+		float frame2 = (float)animation[animIndex]->data[index2].frame;
 
 		dt = (timer - frame1) / (frame2 - frame1);
 
-		for (int i = 0; i < animation[animIndex]->data[animation[animIndex]->index].angle.size(); i++)
+		for (int i = 0; i < animation[animIndex]->data[index1].angle.size(); i++)
 		{
-			float angle1 = animation[animIndex]->data[animation[animIndex]->index].angle[i].move;
-			float angle2 = animation[animIndex]->data[animation[animIndex]->index + 1].angle[i].move;
+			float angle1 = animation[animIndex]->data[index1].angle[i].move;
+			float angle2 = animation[animIndex]->data[index2].angle[i].move;
 
 			dangle = (angle2 - angle1);
 
-			*animation[animIndex]->data[animation[animIndex]->index].angle[i].pointer = angle1 + (dt * dangle);
+			*animation[animIndex]->data[index1].angle[i].pointer = angle1 + (dt * dangle);
 		}
 
 		animation[animIndex]->timer += Time::fixedTimeScale;
@@ -62,10 +65,36 @@ const char* status[Animation::ANIMATION_STATUS_MAX] =
 
 void Animator::EngineDisplay()
 {
+
 	if (ImGui::TreeNode("Animator"))
 	{
-		std::string status = "Status : " + status[animation[animIndex]->status];
+		std::string status = "Status : " + animation[animIndex]->status;
 		ImGui::Text(status.c_str());
+
+
+		ImGui::Text("ImPlot Example");
+
+		// Create a simple line plot
+		if (ImPlot::BeginPlot("Line Plot", "X-axis", "Y-axis")) {
+			// Sample data
+			float xs[] = { 0.0, 1.0, 2.0, 3.0, 4.0 };
+			float ys[] = { 0.0, 1.0, 0.5, 1.5, 1.0 };
+
+			// Plot the data
+			ImPlot::PlotLine("Line", xs, ys, IM_ARRAYSIZE(xs));
+
+			// End the plot
+			ImPlot::EndPlot();
+		}
+
+		//std::vector<const float*> floats;
+		//int i = 0;
+		//for (int i = 0; i < animation[animIndex]->data[animation[animIndex]->index].angle.size(); i++)
+		//{
+		//	floats.push_back(&animation[animIndex]->data[animation[animIndex]->index].angle[i].move);
+		//}
+		//const float** floater = floats.data();
+		//ImGui::PlotLines("Frame Times", *floater, floats.size());
 
 		ImGui::TreePop();
 		ImGui::Spacing();

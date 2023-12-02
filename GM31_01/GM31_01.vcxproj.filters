@@ -180,6 +180,9 @@
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\InputController.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClInclude>
+    <ClInclude Include="imGUI\implot.h">
+      <Filter>ImGUI\HEADER FILES</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp">
@@ -409,6 +412,18 @@
     </ClCompile>
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\InputController.cpp">
       <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\implot.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\implot_demo.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="imGUI\implot_items.cpp">
+      <Filter>ImGUI\SOURCE FILES</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
