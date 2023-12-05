@@ -28,6 +28,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	outDiffuse.r = gray;
 	outDiffuse.g = gray;
 	outDiffuse.b = gray;
+	outDiffuse.a = 1.0f;
 }
 
 //Fog

@@ -27,8 +27,6 @@ void GAMEOBJECT::Initialize()
 	id = 0;
 	RingCounter = 0;
 
-	tag = "";
-
 	defaultY = 1.01f;
 	cameraDistance = 0.0f;
 

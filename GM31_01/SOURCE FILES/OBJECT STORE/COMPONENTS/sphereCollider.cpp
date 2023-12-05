@@ -15,7 +15,9 @@ void SphereCollider::Start()
 	//----------------------------------------------------------------
 	colliderObject = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>("", COLLIDER_LAYER);
 	colliderObject->Parent = gameObject;
-	colliderObject->SetTag(colliderObject->Parent->GetTag());
+
+	std::string name = colliderObject->Parent->GetTag().c_str();
+	colliderObject->SetTag(name);
 	Manager::GetScene()->SetGameObjectName(colliderObject, COLLIDER_LAYER);
 
 	scaleOffset = 1.0f / gameObject->transform->Scale.x;

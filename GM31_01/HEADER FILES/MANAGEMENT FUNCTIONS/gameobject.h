@@ -175,9 +175,7 @@ public:
 		}
 		else
 		{
-			Material* temp = material;
-			delete temp;
-
+			delete material;
 			material = buff;
 		}
 		return buff;

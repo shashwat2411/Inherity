@@ -33,22 +33,29 @@ class SOUND;
 
 #define TILES 20
 
-//Data Class
+//Animation Based Classes
 class Data
 {
 public:
-	Data() {}
-	Data(float m, float* p) { move = m; pointer = p; }
 	float move;
 	float* pointer;
+
+public:
+
+	Data() {}
+	Data(float m, float* p) { move = m; pointer = p; }
+
 };
 class AnimationData
 {
 public:
-	AnimationData() {}
-	AnimationData(int f, Data a) { frame = f; angle.push_back(a); }
 	int frame;
 	std::vector<Data> angle;
+
+public:
+
+	AnimationData() {}
+	AnimationData(int f, Data a) { frame = f; angle.push_back(a); }
 
 	AnimationData operator=(AnimationData const& obj)
 	{
@@ -57,6 +64,41 @@ public:
 		result.angle = obj.angle;
 		return result;
 	}
+
+};
+class Animation
+{
+public:
+	enum ANIMATION_STATUS
+	{
+		STANDBY = 0,
+		PLAYBACK,
+		END,
+		LOOP,
+
+		ANIMATION_STATUS_MAX
+	};
+
+public:
+	int index;
+	int animationSize;
+	int keyframes;
+
+	float timer;
+
+	ANIMATION_STATUS status;
+
+	std::string name;
+
+	GAMEOBJECT* gameObject;
+
+	std::vector<std::string> keyName;
+	std::vector<AnimationData> data;
+
+public:
+
+	virtual void Start() = 0;
+
 };
 
 //Base Component Virtual Class
@@ -88,6 +130,7 @@ public:
 	virtual void Draw() = 0;
 	virtual void EngineDisplay() = 0;
 
+	virtual void ObjectJointer() {}
 	virtual void OnTriggerEnter(GAMEOBJECT* obj)	{}
 	virtual void OnCollisionEnter(GAMEOBJECT* obj)	{}
 
@@ -349,6 +392,7 @@ protected:
 	bool shake;
 
 	int power;
+	int targetIndex;
 
 	float fov;
 	float len;
@@ -371,7 +415,6 @@ protected:
 	D3DXMATRIX  mtxView;
 	D3DXMATRIX  mtxProjection;
 
-public:
 	GAMEOBJECT* Target;
 
 public:
@@ -390,10 +433,12 @@ public:
 	D3DXVECTOR3 GetRot() { return rot; }
 	D3DXMATRIX GetViewMatrix() { return mtxView; }
 	D3DXMATRIX GetProjectionMatrix() { return mtxProjection; }
+	GAMEOBJECT* GetTarget() { return Target; }
 
 	void SetAt(D3DXVECTOR3 value) { at = value; }
 	void SetViewMatrix(D3DXMATRIX value) { mtxView = value; }
 	void SetProjectionMatrix(D3DXMATRIX value) { mtxProjection = value; }
+	void SetTarget(GAMEOBJECT* value);
 
 
 	D3DXVECTOR3 GetForward();
@@ -653,60 +698,48 @@ public:
 	static SOUND* PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float volume);
 
 };
-class Animation : public Component
-{
-public:
-	enum ANIMATION_STATUS
-	{
-		STANDBY = 0,
-		PLAYBACK,
-		END,
-		LOOP,
-
-		ANIMATION_STATUS_MAX
-	};
-
-public:
-	int index;
-	int animationSize;
-	int keyframes;
-
-	float timer;
-
-	ANIMATION_STATUS status;
-
-	std::vector<AnimationData> data;
-
-public:
-
-	Animation() { name = "Animation"; }
-
-	void Start() override
-	{
-		data.push_back(AnimationData(0, Data(0.0f, &gameObject->transform->Position.x)));
-		data.push_back(AnimationData(20, Data(50.0f, &gameObject->transform->Position.x)));
-		data.push_back(AnimationData(40, Data(-120.0f, &gameObject->transform->Position.x)));
-		data.push_back(AnimationData(60, Data(30.0f, &gameObject->transform->Position.x)));
-		data.push_back(AnimationData(80, Data(-70.0f, &gameObject->transform->Position.x)));
-
-		data[0].angle.push_back(Data(0.0f, &gameObject->transform->Position.y));
-		data[1].angle.push_back(Data(50.0f, &gameObject->transform->Position.y));
-		data[2].angle.push_back(Data(-120.0f, &gameObject->transform->Position.y));
-		data[3].angle.push_back(Data(60.0f, &gameObject->transform->Position.y));
-		data[4].angle.push_back(Data(-20.0f, &gameObject->transform->Position.y));
-
-		index = 0;
-		timer = 0.0f;
-		status = Animation::STANDBY;
-	}
-	void End() override {}
-	void Update() override {}
-	void Draw() override {}
-
-	void EngineDisplay() override {}
-};
 class Animator : public Component
 {
+private:
+	class AnimatorPoint
+	{
+	public:
+		bool clicked;
+		bool hovered;
+		bool held;
+
+		D3DXVECTOR2 minusDirection;
+		D3DXVECTOR2 plusDirection;
+
+		ImPlotPoint point;
+
+	public:
+
+		AnimatorPoint()
+		{
+			clicked = false;
+			hovered = false;
+			held = false;
+
+			minusDirection = D3DXVECTOR2(0.0f, 0.0f);
+			plusDirection = D3DXVECTOR2(0.0f, 0.0f);
+		}
+
+		AnimatorPoint(float x, float y)
+		{
+			clicked = false;
+			hovered = false;
+			held = false;
+
+			minusDirection = D3DXVECTOR2(0.0f, 0.0f);
+			plusDirection = D3DXVECTOR2(0.0f, 0.0f);
+
+			point.x = x;
+			point.y = y;
+		}
+
+	};
+
 private:
 	int animIndex;
 
@@ -739,13 +772,16 @@ public:
 		animation[animIndex]->index = 0;
 		animation[animIndex]->timer = 0;
 		animation[animIndex]->status = stat;
+
+		animation[animIndex]->animationSize = animation[animIndex]->data.back().frame;
+		animation[animIndex]->keyframes = (int)animation[animIndex]->data[0].angle.size();
 	}
-	void AddAnimation(Animation* anim, int index, Animation::ANIMATION_STATUS stat = Animation::STANDBY)
-	{
-		animation.push_back(anim);
-		animIndex = index;
-		InitAnimation(stat);
-	}
+	//void AddAnimation(Animation* anim, int index, Animation::ANIMATION_STATUS stat = Animation::STANDBY)
+	//{
+	//	animation.push_back(anim);
+	//	animIndex = index;
+	//	InitAnimation(stat);
+	//}
 	void PlayAnimation(int index, Animation::ANIMATION_STATUS stat = Animation::PLAYBACK)
 	{
 		if (animation[animIndex]->status != Animation::LOOP)
@@ -774,6 +810,19 @@ public:
 		PlayAnimation(index);
 	}//(次のアニメーション, 止めるアニメーション)
 
+	template<class T>
+	T* AddAnimation(Animation::ANIMATION_STATUS stat = Animation::STANDBY)
+	{
+		T* buff = new T();
+		buff->gameObject = gameObject;
+		buff->Start();
+
+		animation.push_back(buff);
+		animIndex = (int)animation.size() - 1;
+		InitAnimation(stat);
+
+		return buff;
+	}
 };
 class Shadow : public Component
 {
@@ -822,6 +871,7 @@ public:
 
 	D3DXVECTOR3 GetNormal() { return Normal; }
 	float GetHeight(D3DXVECTOR3 position);
+	ID3D11Buffer* GetVertexBuffer() { return VertexBuffer; }
 
 	void SetNormal(D3DXVECTOR3 value) { Normal = value; }
 
@@ -891,8 +941,6 @@ private:
 
 	D3DXVECTOR3 CollisionSize;
 
-	D3DXVECTOR3 vertex[8];
-
 public:
 	float scaleOffset;
 
@@ -914,7 +962,6 @@ public:
 	bool GetIsTrigger() { return isTrigger; }
 	bool GetIsKinematic() { return isKinematic; }
 	D3DXVECTOR3 GetCollisionSize() { return CollisionSize; }
-	D3DXVECTOR3* GetVertex() { return &vertex[0]; }
 	GAMEOBJECT* GetColliderObject() { return collider; }
 
 	void SetIsTrigger(bool value) { isTrigger = value; }

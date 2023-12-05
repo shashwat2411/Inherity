@@ -99,9 +99,28 @@ void AnimationModel::Load( const char *FileName )
 			{
 				vertex[v].Position = D3DXVECTOR3(mesh->mVertices[v].x, mesh->mVertices[v].y, mesh->mVertices[v].z);
 				vertex[v].Normal = D3DXVECTOR3(mesh->mNormals[v].x, mesh->mNormals[v].y, mesh->mNormals[v].z);
-				vertex[v].TexCoord = D3DXVECTOR2( mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
+				vertex[v].TexCoord = D3DXVECTOR2(mesh->mTextureCoords[0][v].x, mesh->mTextureCoords[0][v].y);
 				vertex[v].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+
+				vertex[v].Tangent = D3DXVECTOR3(mesh->mTangents[v].x, mesh->mTangents[v].y, mesh->mTangents[v].z);
+				vertex[v].Binormal = D3DXVECTOR3(mesh->mBitangents[v].x, mesh->mBitangents[v].y, mesh->mBitangents[v].z);
 			}
+
+			//for (unsigned int vc = 0; vc < mesh->mNumVertices; vc += 3)
+			//{
+			//	CalcTangentAndBinormal
+			//	(
+			//		&vertex[vc + 0].Position, &vertex[vc + 0].TexCoord,
+			//		&vertex[vc + 1].Position, &vertex[vc + 1].TexCoord,
+			//		&vertex[vc + 2].Position, &vertex[vc + 2].TexCoord,
+			//		&vertex[vc + 0].Tangent,
+			//		&vertex[vc + 0].Binormal
+			//	);
+			//	vertex[vc + 1].Tangent  = vertex[vc + 0].Tangent;
+			//	vertex[vc + 1].Binormal = vertex[vc + 0].Binormal;
+			//	vertex[vc + 2].Tangent  = vertex[vc + 0].Tangent;
+			//	vertex[vc + 2].Binormal = vertex[vc + 0].Binormal;
+			//}
 
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
@@ -114,8 +133,7 @@ void AnimationModel::Load( const char *FileName )
 			ZeroMemory(&sd, sizeof(sd));
 			sd.pSysMem = vertex;
 
-			Renderer::GetDevice()->CreateBuffer(&bd, &sd,
-											&m_VertexBuffer[m]);
+			Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer[m]);
 
 			delete[] vertex;
 		}
@@ -616,3 +634,50 @@ void AnimationModel::UpdateBoneMatrix(aiNode* node, aiMatrix4x4 matrix)
 	}
 }
 
+void AnimationModel::CalcTangentAndBinormal(
+	D3DXVECTOR3 * p0, D3DXVECTOR2 * uv0,
+	D3DXVECTOR3 * p1, D3DXVECTOR2 * uv1,
+	D3DXVECTOR3 * p2, D3DXVECTOR2 * uv2,
+	D3DXVECTOR3 * outTangent, D3DXVECTOR3 * outBinormal)
+{
+	D3DXVECTOR3 CP0[3] = {//頂点1を作成する
+	D3DXVECTOR3(p0->x, uv0->x, uv0->y),
+	D3DXVECTOR3(p0->y, uv0->x, uv0->y),
+	D3DXVECTOR3(p0->z, uv0->x, uv0->y),
+	};
+	D3DXVECTOR3 CP1[3] = {//頂点2を作成する
+	D3DXVECTOR3(p1->x, uv1->x, uv1->y),
+	D3DXVECTOR3(p1->y, uv1->x, uv1->y),
+	D3DXVECTOR3(p1->z, uv1->x, uv1->y),
+	};
+	D3DXVECTOR3 CP2[3] = {//頂点3を作成する
+	D3DXVECTOR3(p2->x, uv2->x, uv2->y),
+	D3DXVECTOR3(p2->y, uv2->x, uv2->y),
+	D3DXVECTOR3(p2->z, uv2->x, uv2->y),
+	};
+	float U[3], V[3];//X,Y,Zの各成分について計算する
+	for (int i = 0; i < 3; ++i)
+	{
+		D3DXVECTOR3 V1 = CP1[i] - CP0[i];
+		D3DXVECTOR3 V2 = CP2[i] - CP1[i];
+		D3DXVECTOR3 ABC;
+		//V1とV2の外積から法線を作成する
+		D3DXVec3Cross(&ABC, &V1, &V2);
+		if (ABC.x == 0.0f)
+		{
+			//縮退ポリゴン
+			*outTangent = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			*outBinormal = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			return;
+		}
+		//偏微分で求められた値より
+		U[i] = -ABC.y / ABC.x;
+		V[i] = -ABC.z / ABC.x;
+	}
+	//値を代入
+	*outTangent = D3DXVECTOR3(U[0], U[1], U[2]);
+	*outBinormal = D3DXVECTOR3(V[0], V[1], V[2]);
+	//正規化する
+	D3DXVec3Normalize(outTangent, outTangent);
+	D3DXVec3Normalize(outBinormal, outBinormal);
+}

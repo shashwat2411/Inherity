@@ -12,10 +12,12 @@ void RevolutionCamera::Update()
 	//gameObject->transform->Position = Target->transform->Position + D3DXVECTOR3(sinf(rotation) * 5.0f, 4.0f, cosf(rotation) * 5.0f);
 	//at = Target->transform->Position;
 
+	D3DXVECTOR3 forward;
+	if ((int)camera->GetTarget()->Children.size() > 0) { forward = camera->GetTarget()->Children[0]->transform->GetForwardDirection(); }
+	else { forward = camera->GetTarget()->transform->GetForwardDirection(); }
 
-
-	D3DXVECTOR3 toBeAt = camera->Target->transform->GlobalPosition - camera->Target->Children[0]->transform->GetForwardDirection() * 8.0f + D3DXVECTOR3(0.0f, 4.0f, 0.0f);
-	D3DXVECTOR3 toLookAt = camera->Target->transform->GlobalPosition;
+	D3DXVECTOR3 toBeAt = camera->GetTarget()->transform->GlobalPosition - forward * 8.0f + D3DXVECTOR3(0.0f, 4.0f, 0.0f);
+	D3DXVECTOR3 toLookAt = camera->GetTarget()->transform->GlobalPosition;
 
 
 	D3DXVECTOR3 AtVec;

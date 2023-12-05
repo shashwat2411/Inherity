@@ -2,13 +2,13 @@
 
 void ThirdPersonCamera::Update()
 {
-	if (camera->Target != nullptr)
+	if (camera->GetTarget() != nullptr)
 	{
 
 		//D3DXVECTOR3 Focus = Target->transform->Position + gameObject->GetRightDirection() * 0.5f;
-		D3DXVECTOR3 toBeAt = camera->Target->transform->GlobalPosition - camera->Target->Children[0]->transform->GetForwardDirection() * 8.0f + D3DXVECTOR3(0.0f, 4.0f, 0.0f);
+		D3DXVECTOR3 toBeAt = camera->GetTarget()->transform->GlobalPosition - camera->GetTarget()->Children[0]->transform->GetForwardDirection() * 8.0f + D3DXVECTOR3(0.0f, 4.0f, 0.0f);
 		//D3DXVECTOR3 toBeAt = Target->transform->GlobalPosition - Target->Children[0]->transform->GetForwardDirection() * 12.0f + D3DXVECTOR3(0.0f, 8.0f, 0.0f);
-		D3DXVECTOR3 toLookAt = camera->Target->transform->GlobalPosition;
+		D3DXVECTOR3 toLookAt = camera->GetTarget()->transform->GlobalPosition;
 		//D3DXVECTOR3 toBeAt = at - Target->transform->GetForwardDirection() * 1.0f + D3DXVECTOR3asds(0.0f, 0.0f, 0.0f);
 
 

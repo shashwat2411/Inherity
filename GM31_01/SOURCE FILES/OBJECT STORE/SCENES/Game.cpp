@@ -22,6 +22,7 @@ void GAME_SCENE::Init()
 	GAMEOBJECT* rock[20];
 	BILLBOARD* tree[300];
 	GAMEOBJECT* torus1;
+	PLANE* Flag;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>("SkyDome");
@@ -30,6 +31,7 @@ void GAME_SCENE::Init()
 	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
 	enemy = AddGameObject<ENEMY>("Enemy");
 	Field = AddGameObject<PLANE>("Field");
+	Flag = AddGameObject<PLANE>("Flag");
 	Water = AddGameObject<PLANE>("Water");
 	cube = AddGameObject<CUBE>("Cube");
 	torus = AddGameObject<EMPTYOBJECT>("Torus");
@@ -89,7 +91,7 @@ void GAME_SCENE::Init()
 
 		//MainCamera->SetType(CAMERA::REVOLUTION);
 		MainCamera->AddComponent<RevolutionCamera>();
-		MainCamera->camera->Target = player;
+		MainCamera->camera->SetTarget(player);
 	}
 
 	//Ý’è
@@ -97,8 +99,9 @@ void GAME_SCENE::Init()
 		//particleSystem->particleSystem->SetTexture(TextureReader::GetReadTexture(TextureReader::BUBBLE_T));
 
 		gameManager->AddComponent<GameManager>();
-
 		//gameManager->GetComponent<GameManager>()->SetEnabled(false);
+
+		//PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
 
 		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
 		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
@@ -123,6 +126,15 @@ void GAME_SCENE::Init()
 		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
 		Water->SetDepthShadow(false);
 		Water->meshField->RecreateField();
+
+		Flag->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
+		Flag->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
+		Flag->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
+		Flag->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		Flag->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+		Flag->meshField->RecreateField();
+		Flag->SetActive(false);
+		Flag->AddComponent<ClothSimulator>();
 
 		cube->transform->Position.y = 2.0f;
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);

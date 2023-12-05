@@ -1,12 +1,15 @@
 #include "component.h"
 #include "manager.h"
+#include "input.h"
 
+EMPTYOBJECT* point;
 
 void Camera::Start()
 {
 	shake = false;
 
 	power = 1;
+	targetIndex = 0;
 
 	fov = 60.0f;
 	len = 0.0f;
@@ -35,11 +38,17 @@ void Camera::Start()
 
 	gameObject->transform->Position = D3DXVECTOR3(0.0f, 5.0f, -10.0f);
 
+	point = new EMPTYOBJECT();
+	point->Start();
+	point->Parent = gameObject;
+	point->transform->Position.z = 2.0f;
+
 }
 
 void Camera::End()
 {
-
+	point->UnInitialize();
+	delete point;
 }
 
 void Camera::Update()
@@ -49,6 +58,14 @@ void Camera::Update()
 
 void Camera::Draw()
 {
+	if (DebugManager::play == false || DebugManager::paused == true)
+	{
+		point->Update();
+		point->Draw();
+
+		at = point->transform->GlobalPosition;
+	}
+
 	//Camera Shake
 	{
 		shakeOffset = sinf(shakeTime * FRAME_RATE * frequency) * shakeAmplitude;
@@ -88,19 +105,25 @@ void Camera::EngineDisplay()
 		ImGui::Text("Target : ");
 		ImGui::SameLine();
 
-		static int index = 0;
 
 		std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
-		std::vector<const char*> vector;
-		for (std::string str : list)
-		{
-			vector.push_back(str.c_str());
-		}
-		const char** names = vector.data();
 
-		ImGui::PushID(0);
-		ImGui::Combo("", &index, names, vector.size());
-		ImGui::PopID();
+		if (ImGui::BeginCombo("##combo", list[targetIndex].c_str()))
+		{
+			for (int i = 0; i < list.size(); i++)
+			{
+				const bool isSelected = (targetIndex == i);
+
+				if (ImGui::Selectable(list[i].c_str(), isSelected)) 
+				{ 
+					targetIndex = i;
+					Target = Manager::GetScene()->Find(list[targetIndex].c_str());
+				}
+				if (isSelected) { ImGui::SetItemDefaultFocus(); }
+			}
+
+			ImGui::EndCombo();
+		}
 
 		ImGui::Text("Target : %s", (Target ? Target->GetTag().c_str() : "nullptr"));
 
@@ -117,6 +140,22 @@ void Camera::EngineDisplay()
 
 		ImGui::TreePop();
 		ImGui::Spacing();
+	}
+}
+
+void Camera::SetTarget(GAMEOBJECT* value)
+{
+	Target = value;
+
+	std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
+
+	for (int i = 0; i < list.size(); i++)
+	{
+		if (Target->GetTag() == list[i])
+		{
+			targetIndex = i;
+			return;
+		}
 	}
 }
 

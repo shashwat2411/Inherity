@@ -34,7 +34,7 @@ public:
 		}
 
 		Scene = new T();
-		Scene->InitBefore();
+		Scene->BeforeInit();
 		Scene->Init();
 
 		Open(Scene->name);
@@ -44,7 +44,7 @@ public:
 	{
 		Scene->Uninit();
 
-		Scene->InitBefore();
+		Scene->BeforeInit();
 		Scene->Init();
 
 		Open(Scene->name);
