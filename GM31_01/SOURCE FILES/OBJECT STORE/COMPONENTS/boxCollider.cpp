@@ -13,14 +13,15 @@ void BoxCollider::Start()
 	//----------------------------------------------------------------
 	collider = Manager::GetScene()->AddGameObject<BOXCOLLIDER>("", COLLIDER_LAYER);
 	collider->Parent = gameObject;
-	collider->SetTag(collider->Parent->GetTag());
+
+	std::string name = collider->Parent->GetTag();
+	collider->SetTag(name);
 	Manager::GetScene()->SetGameObjectName(collider, COLLIDER_LAYER);
 
 	scaleOffset = 1.0f / gameObject->transform->Scale.x;
 
 	collider->transform->Scale = D3DXVECTOR3(CollisionSize.x, CollisionSize.y, CollisionSize.z) * scaleOffset;
 
-	for (int i = 0; i < 8; i++) { vertex[i] += collider->transform->GlobalPosition; }
 
 #ifdef DEBUG
 	collider->GetComponent<MeshFilter>()->SetEnabled(true);

@@ -44,6 +44,10 @@
 63. FXAAのファイルのサイトを教えてほしいです？　→　俺が持ってるファイルだった　❌
 64. セーブファイルに存在しないGameObjectがあったらそれを追加する方法？　→　手動　❌
 48. どうやって回転出来るBoxColliderを作れるんですか？　→　oriented bounding box　❌
+66. なんでGreyScaleしたはずなのに水とSphereColliderの色が残る？　→　ClearColorがピンクだから　❌
+65. なんでFadeを描画すると画面も一緒に消えちゃうの？　→　α値がはいってた　❌
+67. SoundReader::READ_SOUND これの前方宣言をどうやってやるんですか？　→　無理　❌
+69. なんでT*クラスのレファレンスを確認するように言われる？　→　size_tをintとして使ってたから　❌
 
     ●未実装
 03．なんで残像は子供を描画しないの？　→　残像も親の座標に固定されているから
@@ -53,6 +57,8 @@
 47. 環境マッピングで生成してるテクスチャをどうやってCubeTextureじゃなくて、普通のテクスチャとして作成するんですか？　→　自分で生成できる
 51. マウスの座標を3次元座標に変換する方法？　→　マウスがいる座標からRayを飛ばして、そのRayが当たった座標を入手する
 56. なんでPostProcessがちゃんと施されてない？　→　MULTI_SAMPLE_ANTI_ALIASING と一緒にPostProcess使えないから Fast Approximate Anti Aliasing を入れる
+68. std::vector<const char*> に書き込みをする方法？　→　begin combo / end combo
+70. 布のシミュレーションはどこが間違っているか？　→　頂点データを全部埋める
 
 
     ●CSM
@@ -62,10 +68,9 @@
 14. なぜテクスチャをモデルに貼り付けることが出来ない
 
     ●就職作品
-65. なんでFadeを描画すると画面も一緒に消えちゃうの？
-66. なんでGreyScaleしたはずなのに水とSphereColliderの色が残る？
-67. SoundReader::READ_SOUND これの前方宣言をどうやってやるんですか？
-68. std::vector<const char*> に書き込みをする方法？
+71. 何故NormalMapを付けたらチカチカする？　→　AnimationModelのBinormalとTangent計算していない
+72. docking branch in ImGui？　→　docking ImGui をダウンロード
+73. fullscreenにさせる方法？　→　WS_MAXIMIZE	を入れれば出来る
 
     ●ポートフォリオ
 43. プチコンで作った作品も載せた方がいいですか？

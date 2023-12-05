@@ -53,9 +53,6 @@ private:
 	void LoadMaterial( const char *FileName, MODEL_MATERIAL **MaterialArray, unsigned int *MaterialNum );
 
 public:
-	std::string name;
-
-public:
 
 	void Draw();
 

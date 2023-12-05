@@ -1,7 +1,7 @@
 #include "component.h"
 #include "material.h"
 
-float g_FieldHeight[21][21] = 
+float g_FieldHeight[TILES + 1][TILES + 1] =
 {
 	{ 0.0f, 0.0f, 0.0f, 2.0f, 1.0f, 1.0f, 2.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 0.0f, 2.0f, 1.0f, 3.0f, 5.0f, 1.0f, 0.0f, 1.0f },
 	{ 0.0f, 0.0f, 0.0f, 2.0f, 3.0f, 3.0f, 0.0f, 3.0f, 1.0f, 2.0f, 2.0f, 2.0f, 1.0f, 2.0f, 0.0f, 3.0f, 0.0f, 1.0f, 0.0f, 0.0f },
@@ -27,7 +27,6 @@ float g_FieldHeight[21][21] =
 
 void MeshField::RecreateField()
 {
-	//gameObject->GetMaterial<DefaultMaterial>()->SetTexture(TextureReader::GetReadTexture(TextureReader::FIELD_NM_T), 1);
 	{
 		// 頂点バッファ生成
 		{
@@ -61,10 +60,10 @@ void MeshField::RecreateField()
 
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
-			bd.Usage = D3D11_USAGE_DEFAULT;
+			bd.Usage = D3D11_USAGE_DYNAMIC;
 			bd.ByteWidth = sizeof(VERTEX_3D) * (TILES + 1) * (TILES + 1);
 			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-			bd.CPUAccessFlags = 0;
+			bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 			D3D11_SUBRESOURCE_DATA sd;
 			ZeroMemory(&sd, sizeof(sd));

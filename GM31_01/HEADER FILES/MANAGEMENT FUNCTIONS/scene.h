@@ -72,7 +72,7 @@ public:
 public:
 
 	//Functions
-	void InitBefore();
+	void BeforeInit();
 	void Uninit();
 	void UpdateBefore();
 	void Draw();
@@ -109,16 +109,17 @@ public:
 
 	//ADD
 	template <typename T>
-	T* AddGameObject(const char* name = "", LAYER layer = GAMEOBJECT_LAYER)
+	T* AddGameObject(std::string name = "", LAYER layer = GAMEOBJECT_LAYER)
 	{
 		T* gameObject = new T();
 		GameObjects[layer].push_back(gameObject);
-		gameObject->Start();
 
-		gameObject->SetID(GameObjects[layer].size() - 1);
+		gameObject->SetID((int)GameObjects[layer].size() - 1);
 		if (name != "") { gameObject->SetTag(name); }
 
 		gameObjectNames[layer].push_back(gameObject->GetTag());
+
+		gameObject->Start();
 
 		return gameObject;
 	}

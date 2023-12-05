@@ -18,7 +18,7 @@ void DefaultMaterial::Draw()
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
-	param.dissolveRange = 0.0f;
+	param.dissolveRange = (textures["_Normal_Map"] != nullptr ? 2.0f : 0.0f);
 	param.color = gameObject->GetColor();
 
 	Renderer::SetParameter(param);

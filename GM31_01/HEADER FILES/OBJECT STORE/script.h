@@ -4,6 +4,8 @@
 
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
 
+#define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// スプリング総数
+
 class PlayerMovement : public Script
 {
 public:
@@ -148,6 +150,55 @@ public:
 
 	void EngineDisplay() override;
 
+};
+class ClothSimulator : public Script
+{
+public:
+	struct WINDFORCE {
+		int			status;				// ステータス
+		D3DXVECTOR3	force;				// 風力ベクトル
+	};
+	struct Particle {
+		bool	onLock;				// 固定フラグ
+		bool	onDrag;				// マウスドラッグ中判定フラグ
+		D3DXVECTOR3	position;			// 位置座標 (Position)
+		D3DXVECTOR3	velocity;			// 速度 (Velocity)
+		D3DXVECTOR3	acceleration;		// 加速度 (Acceleration)
+		D3DXVECTOR3	resultant;			// 合力 (Resultant)
+		D3DXVECTOR3	gravity;			// 重力 (Gravity)
+	};
+	struct P_REF {
+		int		horz;				// 横方向インデックス
+		int		vert;				// 縦方向インデックス
+	};
+	struct Spring {
+		P_REF	p1;					// 接続されている粒子１
+		P_REF	p2;					// 接続されている粒子２
+		float	length;				// 自然長
+	};
+	struct CLOTH {
+		int			status;														// ステータス
+		Particle	particle[TILES + 1][TILES + 1];		// 構成粒子
+		Spring		Spring[SPRING_NUMS];										// 粒子間のバネ
+	};
+
+public:
+	int num;
+	MeshField* mesh;
+	CLOTH cloth;
+	WINDFORCE	windForce;
+
+public:
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	void WindForce();
+	void ClothSimulation();
 };
 
 //Camera Scripts

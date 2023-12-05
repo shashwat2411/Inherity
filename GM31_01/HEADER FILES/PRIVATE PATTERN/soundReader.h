@@ -36,13 +36,13 @@ public:
 		Audios[GAME].Load					("asset\\sound\\bgm.wav");
 
 		//NAMING
-		Audios[GUARD].name = "GUARD";
-		Audios[GAME].name = "GAME";
+		soundNames[GUARD] = "GUARD";
+		soundNames[GAME]  = "GAME";
 
-		for (int i = 0; i < SoundReader::READ_SOUND_MAX; i++)
-		{
-			soundNames[i] = Audios[i].name.c_str();
-		}
+		//for (int i = 0; i < SoundReader::READ_SOUND_MAX; i++)
+		//{
+		//	soundNames[i] = Audios[i].name.c_str();
+		//}
 	}
 
 	static void UnloadAudio()

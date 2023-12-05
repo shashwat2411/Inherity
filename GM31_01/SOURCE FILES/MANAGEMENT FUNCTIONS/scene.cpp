@@ -2,7 +2,7 @@
 #include "manager.h"
 #include "soundReader.h"
 
-void SCENE::InitBefore()
+void SCENE::BeforeInit()
 {
 	end = false;
 

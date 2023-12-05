@@ -49,7 +49,6 @@ private:
 
 public:
 	bool over;
-	std::string name;
 
 public:
 
@@ -62,4 +61,10 @@ public:
 	void Draw();
 
 	aiMatrix4x4* GetBoneMatrix(const char* name) { return &m_Bone[name].worldMatrix; }
+
+	void CalcTangentAndBinormal(
+		D3DXVECTOR3* p0, D3DXVECTOR2* uv0,
+		D3DXVECTOR3* p1, D3DXVECTOR2* uv1,
+		D3DXVECTOR3* p2, D3DXVECTOR2* uv2,
+		D3DXVECTOR3* outTangent, D3DXVECTOR3* outBinormal);
 };
