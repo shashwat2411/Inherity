@@ -96,7 +96,7 @@ void Animator::EngineDisplay()
 
 				for (int i = 0; i < animation[animIndex]->keyName.size(); i++)
 				{
-					ImPlot::PlotLine(animation[animIndex]->keyName[i].c_str(), x.data(), y[i].data(), x.size());
+					ImPlot::PlotLine(animation[animIndex]->keyName[i].c_str(), x.data(), y[i].data(), (int)x.size());
 				}
 
 
@@ -104,9 +104,122 @@ void Animator::EngineDisplay()
 					ImPlotAxisFlags ax_flags = ImPlotDragToolFlags_None;
 					static ImPlotDragToolFlags flags = ImPlotDragToolFlags_None;
 
-					//for (int i = 0; i < animation[animIndex]->keyName.size(); i++)
 					{
-						static AnimatorPoint cNode[4];
+						static AnimatorPoint aNode[3] = { AnimatorPoint(x[0], y[0][0]), AnimatorPoint(x[1], y[0][1]), AnimatorPoint(x[2], y[0][2]) };
+
+						aNode[0].plusDirection = D3DXVECTOR2((x[1] - x[0]) * 0.1f, (y[0][1] - y[0][0]) * 0.1f);
+
+						aNode[1].minusDirection = D3DXVECTOR2((x[0] - x[1]) * 0.1f, (y[0][0] - y[0][1]) * 0.1f);
+						aNode[1].plusDirection = D3DXVECTOR2((x[2] - x[1]) * 0.1f, (y[0][2] - y[0][1]) * 0.1f);
+
+						aNode[2].minusDirection = D3DXVECTOR2((x[1] - x[2]) * 0.1f, (y[0][1] - y[0][2]) * 0.1f);
+
+						static AnimatorPoint cNode[4] = {
+							AnimatorPoint(x[0] + aNode[0].plusDirection.x,  y[0][0] + aNode[0].plusDirection.y),
+							AnimatorPoint(x[1] + aNode[1].minusDirection.x, y[0][1] + aNode[1].minusDirection.y),
+							AnimatorPoint(x[1] + aNode[1].plusDirection.x,  y[0][1] + aNode[1].plusDirection.y),
+							AnimatorPoint(x[2] + aNode[2].minusDirection.x, y[0][2] + aNode[2].minusDirection.y)
+						};
+
+						static ImPlotPoint B[2][100];
+
+						ImVec4 aNodeColor = ImVec4(0, 0.9f, 0, 1);
+						ImVec4 cNodeColor = ImVec4(0, 0.5f, 1, 1);
+
+						int id = 0;
+						int c = 0;
+						//for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
+						{
+							for (int i = 0; i < animation[animIndex]->keyframes; i++)
+							{
+								if (i == 0)
+								{
+									ImPlot::DragPoint(id, &aNode[i].point.x, &aNode[i].point.y, aNodeColor, 4, flags, &aNode[i].clicked, &aNode[i].hovered, &aNode[i].held);
+									id++;
+
+									ImPlot::DragPoint(id, &cNode[c].point.x, &cNode[c].point.y, cNodeColor, 4, flags, &cNode[c].clicked, &cNode[c].hovered, &cNode[c].held);
+									id++;
+									c++;
+								}
+								else if (i == (int)animation[animIndex]->keyName.size() - 1)
+								{
+									ImPlot::DragPoint(id++, &cNode[c].point.x, &cNode[c].point.y, cNodeColor, 4, flags, &cNode[c].clicked, &cNode[c].hovered, &cNode[c].held);
+									id++;
+									c++;
+
+									ImPlot::DragPoint(id++, &aNode[i].point.x, &aNode[i].point.y, aNodeColor, 4, flags, &aNode[i].clicked, &aNode[i].hovered, &aNode[i].held);
+									id++;
+								}
+								else
+								{
+									ImPlot::DragPoint(id, &cNode[c].point.x, &cNode[c].point.y, cNodeColor, 4, flags, &cNode[c].clicked, &cNode[c].hovered, &cNode[c].held);
+									id++;
+									c++;
+
+									ImPlot::DragPoint(id, &aNode[i].point.x, &aNode[i].point.y, aNodeColor, 4, flags, &aNode[i].clicked, &aNode[i].hovered, &aNode[i].held);
+									id++;
+
+									ImPlot::DragPoint(id, &cNode[c].point.x, &cNode[c].point.y, cNodeColor, 4, flags, &cNode[c].clicked, &cNode[c].hovered, &cNode[c].held);
+									id++;
+									c++;
+								}
+							}
+
+							for (int num = 0; num < animation[animIndex]->keyframes; num++)
+							{
+								if (num < (int)animation[animIndex]->keyName.size() - 1)
+								{
+									for (int i = 0; i < 100; ++i) {
+										double t = i / 99.0;
+										double u = 1 - t;
+										double w1 = u * u*u;
+										double w2 = 3 * u*u*t;
+										double w3 = 3 * u*t*t;
+										double w4 = t * t*t;
+										B[num][i] = ImPlotPoint(
+											w1 * aNode[i].point.x +
+											w2 * cNode[i * 2].point.x +
+											w3 * cNode[(i * 1) * 2 - 1].point.x +
+											w4 * aNode[i + 1].point.x,
+											w1 * aNode[i].point.y +
+											w2 * cNode[i * 2].point.y +
+											w3 * cNode[(i * 1) * 2 - 1].point.y +
+											w4 * aNode[i + 1].point.y
+										);
+									}
+								}
+							}
+
+							for (int i = 0; i < c; i++)
+							{
+								std::string str = "##h" + std::to_string(i);
+
+								static ImPlotPoint P[2];
+								static ImPlotPoint P2[2];
+								static ImPlotPoint P3[2];
+								static ImPlotPoint P4[2];
+
+								P[0] = aNode[(i + 1) / 2].point;
+								P[1] = cNode[i].point;
+
+								ImVec4 color = ImVec4((float)i / (float)(c - 1), 0.5f, 1, 1);
+
+								ImPlot::SetNextLineStyle(color, cNode[i].hovered || cNode[i].held ? 2.0f : 1.0f);
+								ImPlot::PlotLine(str.c_str(), &P[0].x, &P[0].y, 2, 0, 0, sizeof(ImPlotPoint));
+							}
+
+							for (int i = 0; i < animation[animIndex]->keyframes; i++)
+							{
+								if (i < (int)animation[animIndex]->keyName.size() - 1)
+								{
+									ImPlot::SetNextLineStyle(ImVec4(0, 0.9f, 0, 1), aNode[i].hovered || aNode[i].held || aNode[i + 1].hovered || aNode[i + 1].held ? 3.0f : 2.0f);
+									ImPlot::PlotLine(animation[animIndex]->keyName[0].c_str(), &B[i][0].x, &B[i][0].y, 100, 0, 0, sizeof(ImPlotPoint));
+								}
+							}
+						}
+
+						//Step 2
+						/*
 						static AnimatorPoint aNode[3] = { AnimatorPoint(x[0], y[0][0]), AnimatorPoint(x[1], y[0][1]), AnimatorPoint(x[2], y[0][2]) };
 
 						aNode[0].plusDirection = D3DXVECTOR2((x[1] - x[0]) * 0.1f, (y[0][1] - y[0][0]) * 0.1f);
@@ -116,17 +229,24 @@ void Animator::EngineDisplay()
 
 						aNode[2].minusDirection = D3DXVECTOR2((x[1] - x[2]) * 0.1f, (y[0][1] - y[0][2]) * 0.1f);
 
+						static AnimatorPoint cNode[4] = {
+							AnimatorPoint(x[0] + aNode[0].plusDirection.x,  y[0][0] + aNode[0].plusDirection.y),
+							AnimatorPoint(x[1] + aNode[1].minusDirection.x, y[0][1] + aNode[1].minusDirection.y),
+							AnimatorPoint(x[1] + aNode[1].plusDirection.x,  y[0][1] + aNode[1].plusDirection.y),
+							AnimatorPoint(x[2] + aNode[2].minusDirection.x, y[0][2] + aNode[2].minusDirection.y)
+						};
 
-						aNode[0].point = ImPlotPoint(x[0], y[0][0]);
-						aNode[1].point = ImPlotPoint(x[1], y[0][1]);
-						aNode[2].point = ImPlotPoint(x[2], y[0][2]);
 
-						cNode[0].point = ImPlotPoint(x[0] + aNode[0].plusDirection.x, y[0][0] + aNode[0].plusDirection.y);
+						//aNode[0].point = ImPlotPoint(x[0], y[0][0]);
+						//aNode[1].point = ImPlotPoint(x[1], y[0][1]);
+						//aNode[2].point = ImPlotPoint(x[2], y[0][2]);
 
-						cNode[1].point = ImPlotPoint(x[1] + aNode[1].minusDirection.x, y[0][1] + aNode[1].minusDirection.y);
-						cNode[2].point = ImPlotPoint(x[1] + aNode[1].plusDirection.x, y[0][1] + aNode[1].plusDirection.y);
-
-						cNode[3].point = ImPlotPoint(x[2] + aNode[2].minusDirection.x, y[0][2] + aNode[2].minusDirection.y);
+						//cNode[0].point = ImPlotPoint(x[0] + aNode[0].plusDirection.x, y[0][0] + aNode[0].plusDirection.y);
+						//
+						//cNode[1].point = ImPlotPoint(x[1] + aNode[1].minusDirection.x, y[0][1] + aNode[1].minusDirection.y);
+						//cNode[2].point = ImPlotPoint(x[1] + aNode[1].plusDirection.x, y[0][1] + aNode[1].plusDirection.y);
+						//
+						//cNode[3].point = ImPlotPoint(x[2] + aNode[2].minusDirection.x, y[0][2] + aNode[2].minusDirection.y);
 
 						ImVec4 aNodeColor = ImVec4(0, 0.9f, 0, 1);
 						ImVec4 cNodeColor = ImVec4(0, 0.5f, 1, 1);
@@ -213,7 +333,9 @@ void Animator::EngineDisplay()
 						ImPlot::PlotLine(animation[animIndex]->keyName[0].c_str(), &B1[0].x, &B1[0].y, 100, 0, 0, sizeof(ImPlotPoint));
 						ImPlot::SetNextLineStyle(ImVec4(0, 0.9f, 0, 1), aNode[1].hovered || aNode[1].held || aNode[2].hovered || aNode[2].held ? 3.0f : 2.0f);
 						ImPlot::PlotLine(animation[animIndex]->keyName[0].c_str(), &B2[0].x, &B2[0].y, 100, 0, 0, sizeof(ImPlotPoint));
+						*/
 
+						//Step 1
 						/*
 						{
 							bool clicked1[2] = { false };

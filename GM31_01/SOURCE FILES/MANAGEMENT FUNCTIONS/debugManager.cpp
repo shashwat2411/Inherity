@@ -101,9 +101,9 @@ void DebugManager::DebugDraw(SCENE * scene)
 		ImGui::PushItemWidth(-FLT_MIN);
 		ImGui::SliderInt(" ", &layer, 0, MAX_LAYER - 1, str[layer]);
 
-		if (index > vector.size() - 1) { index = vector.size() - 1; }
+		if (index > (int)vector.size() - 1) { index = (int)vector.size() - 1; }
 		ImGui::PushItemWidth(-FLT_MIN);
-		if (vector[0] != nullptr) { ImGui::SliderInt("", &index, 0, vector.size() - 1, vector[index]->GetTag().c_str()); }
+		if (vector[0] != nullptr) { ImGui::SliderInt("", &index, 0, (int)vector.size() - 1, vector[index]->GetTag().c_str()); }
 
 		if (Input::GetKeyPress(VK_SHIFT))
 		{
@@ -112,8 +112,8 @@ void DebugManager::DebugDraw(SCENE * scene)
 		}
 		else
 		{
-			if (Input::GetKeyTrigger(VK_ADD)) { if (index < vector.size() - 1) { index++; } else { index = 0; } }
-			if (Input::GetKeyTrigger(VK_SUBTRACT)) { if (index > 0) { index--; } else { index = vector.size() - 1; } }
+			if (Input::GetKeyTrigger(VK_ADD)) { if (index < (int)vector.size() - 1) { index++; } else { index = 0; } }
+			if (Input::GetKeyTrigger(VK_SUBTRACT)) { if (index > 0) { index--; } else { index = (int)vector.size() - 1; } }
 		}
 
 		ImGui::End();

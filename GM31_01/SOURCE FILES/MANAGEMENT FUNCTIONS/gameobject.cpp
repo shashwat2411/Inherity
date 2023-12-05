@@ -25,6 +25,7 @@ void GAMEOBJECT::Initialize()
 	freezeZ = false;
 
 	id = 0;
+	parentIndex = 0;
 	RingCounter = 0;
 
 	defaultY = 1.01f;
@@ -201,6 +202,25 @@ void GAMEOBJECT::Draw()
 	}
 }
 
+GAMEOBJECT* GAMEOBJECT::SetParent(GAMEOBJECT* parent) 
+{ 
+	Parent = parent; 
+	Parent->Children.push_back(this);  
+	
+	std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
+
+	for (int i = 0; i < list.size(); i++)
+	{
+		if (Parent->GetTag() == list[i])
+		{
+			parentIndex = i;
+			return this;
+		}
+	}
+	
+	return this; 
+}
+
 void GAMEOBJECT::Destroy(bool value)
 {
 	destroy = value;
@@ -265,9 +285,33 @@ void GAMEOBJECT::EngineDisplay()
 			n = "Rigidbody : " + c;
 			ImGui::Text(n.c_str());
 
-			c = ((Parent) ? Parent->GetTag() : "nullptr");
-			n = "Parent : " + c;
-			ImGui::Text(n.c_str());
+			//c = ((Parent) ? Parent->GetTag() : "nullptr");
+			//n = "Parent : " + c;
+			//ImGui::Text(n.c_str());
+
+			ImGui::Text("Parent: ");
+			ImGui::SameLine();
+
+			std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
+			list.push_back("nullptr");
+
+			if (Parent == nullptr) { parentIndex = (int)list.size() - 1; }
+			if (ImGui::BeginCombo("##combo", list[parentIndex].c_str()))
+			{
+				for (int i = 0; i < list.size(); i++)
+				{
+					const bool isSelected = (parentIndex == i);
+
+					if (ImGui::Selectable(list[i].c_str(), isSelected))
+					{
+						parentIndex = i;
+						Parent = Manager::GetScene()->Find(list[parentIndex].c_str());
+					}
+					if (isSelected) { ImGui::SetItemDefaultFocus(); }
+				}
+
+				ImGui::EndCombo();
+			}
 
 			ImGui::TreePop();
 			ImGui::Spacing();
