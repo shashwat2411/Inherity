@@ -134,7 +134,7 @@ void GAME_SCENE::Init()
 		Flag->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		Flag->meshField->RecreateField();
 		Flag->SetActive(false);
-		Flag->AddComponent<ClothSimulator>();
+		//Flag->AddComponent<ClothSimulator>();
 
 		cube->transform->Position.y = 2.0f;
 		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);

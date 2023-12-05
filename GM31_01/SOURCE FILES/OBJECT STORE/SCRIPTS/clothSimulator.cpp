@@ -132,14 +132,33 @@ void ClothSimulator::Update()
 	Renderer::GetDeviceContext()->Map(mesh->GetVertexBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
 
 	VERTEX_3D* vertex = (VERTEX_3D*)msr.pData;
-	//for (int i = 0; i <= TILES; i++)
-	//{
-	//	for (int j = 0; j <= TILES; j++)
-	//	{
-	//		((vertex + i) + j)->Position = cloth.particle[i][j].position;
-	//		((vertex + i) + j)->Diffuse = (D3DXVECTOR4)gameObject->GetColor();
-	//	}
-	//}
+
+	for (int i = 0; i <= TILES; i++)
+	{
+		for (int j = 0; j <= TILES; j++)
+		{
+			//((vertex + i) + j)->Position = D3DXVECTOR3(/*(i - TILES / 2) * mesh->Size.x + */cloth.particle[i][j].position.x, cloth.particle[i][j].position.y, /*(j - TILES / 2) * -mesh->Size.y + */cloth.particle[i][j].position.z);
+			((vertex + i) + j)->Position = cloth.particle[i][j].position;
+			((vertex + i) + j)->Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+			((vertex + i) + j)->Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
+			((vertex + i) + j)->TexCoord = D3DXVECTOR2(i * (mesh->TexCoord.x / (float)TILES), j * (mesh->TexCoord.y / (float)TILES));
+		}
+	}
+
+	//法線ベクトル算出
+	for (int x = 1; x <= (TILES - 1); x++)
+	{
+		for (int z = 1; z <= (TILES - 1); z++)
+		{
+			D3DXVECTOR3 vx, vz, vn;
+			vx = ((vertex + x + 1) + z)->Position - ((vertex + x - 1) + z)->Position;
+			vz = ((vertex + x) + z - 1)->Position - ((vertex + x) + z + 1)->Position;
+
+			D3DXVec3Cross(&vn, &vz, &vx);
+			D3DXVec3Normalize(&vn, &vn);
+			((vertex + x) + z)->Normal = vn;
+		}
+	}
 
 	Renderer::GetDeviceContext()->Unmap(mesh->GetVertexBuffer(), 0);
 }

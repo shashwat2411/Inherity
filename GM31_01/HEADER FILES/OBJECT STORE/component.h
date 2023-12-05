@@ -774,7 +774,7 @@ public:
 		animation[animIndex]->status = stat;
 
 		animation[animIndex]->animationSize = animation[animIndex]->data.back().frame;
-		animation[animIndex]->keyframes = (int)animation[animIndex]->data[0].angle.size();
+		animation[animIndex]->keyframes = (int)animation[animIndex]->data.size();
 	}
 	//void AddAnimation(Animation* anim, int index, Animation::ANIMATION_STATUS stat = Animation::STANDBY)
 	//{

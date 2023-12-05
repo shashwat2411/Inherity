@@ -55,6 +55,7 @@ protected:
 	bool freezeZ;
 
 	int id;
+	int parentIndex;
 	int RingCounter;
 
 	std::string tag;
@@ -143,7 +144,7 @@ public:
 	void SetScaleMatrix(D3DXMATRIX value)				{ ScaleMatrix = value; }
 	void SetRotationMatrix(D3DXMATRIX value)			{ RotationMatrix = value; }
 	void SetTransformMatrix(D3DXMATRIX value)			{ TransformMatrix = value; }
-	GAMEOBJECT* SetParent(GAMEOBJECT* parent)			{ Parent = parent; Parent->Children.push_back(this);  return this; }
+	GAMEOBJECT* SetParent(GAMEOBJECT* parent);
 
 	void SetActive(bool value)			{ active = value; }
 	void SetBillboard(bool value)		{ billboard = value; }
