@@ -428,6 +428,9 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\clothSimulator.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation2.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

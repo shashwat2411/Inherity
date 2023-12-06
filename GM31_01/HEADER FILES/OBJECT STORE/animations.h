@@ -13,3 +13,9 @@ public:
 
 	void Start() override;
 };
+class TrialAnimation2 : public Animation
+{
+public:
+
+	void Start() override;
+};

@@ -80,7 +80,7 @@ public:
 	};
 
 public:
-	int index;
+	int bezierIndex;
 	int animationSize;
 	int keyframes;
 
@@ -92,6 +92,8 @@ public:
 
 	GAMEOBJECT* gameObject;
 
+	std::vector<int> index;
+	std::vector<D3DXCOLOR> color;
 	std::vector<std::string> keyName;
 	std::vector<AnimationData> data;
 
@@ -745,6 +747,13 @@ private:
 
 	std::vector<Animation*> animation;
 
+	std::vector<std::vector<std::vector<AnimatorPoint>>> aNode;
+	std::vector<std::vector<std::vector<AnimatorPoint>>> cNode;
+	std::vector<std::vector<std::vector<std::array<ImPlotPoint, 100>>>> B;
+
+	ImVec4 aNodeColor;
+	ImVec4 cNodeColor;
+
 public:
 
 	Animator() { name = "Animator"; }
@@ -769,7 +778,8 @@ public:
 
 	void InitAnimation(Animation::ANIMATION_STATUS stat = Animation::STANDBY)
 	{
-		animation[animIndex]->index = 0;
+		for (int i = 0; i < animation[animIndex]->keyName.size(); i++) { animation[animIndex]->index.push_back(0); }
+		animation[animIndex]->bezierIndex = 0;
 		animation[animIndex]->timer = 0;
 		animation[animIndex]->status = stat;
 
@@ -788,6 +798,10 @@ public:
 		{
 			animIndex = index;
 			animation[animIndex]->status = stat;
+
+			for (int i = 0; i < animation[animIndex]->index.size(); i++) { animation[animIndex]->index[i] = 0; }
+			animation[animIndex]->bezierIndex = 0;
+			animation[animIndex]->timer = 0;
 		}
 	}
 	void PauseAnimation(int index)
@@ -796,7 +810,7 @@ public:
 	}
 	void StopAnimation(int index)
 	{
-		animation[index]->index = 0;
+		for (int i = 0; i < animation[animIndex]->index.size(); i++) { animation[animIndex]->index[i] = 0; }
 		animation[index]->timer = 0;
 		PauseAnimation(index);
 	}
@@ -804,11 +818,13 @@ public:
 	{
 		PauseAnimation(anotherIndex);
 		animation[index]->timer = animation[anotherIndex]->animationSize - animation[anotherIndex]->timer;
-		animation[index]->index = animation[anotherIndex]->keyframes - 2 - animation[anotherIndex]->index;
+		for (int i = 0; i < animation[animIndex]->index.size(); i++) { animation[animIndex]->index[i] = animation[anotherIndex]->keyframes - 2 - animation[animIndex]->index[i]; }
 		StopAnimation(anotherIndex);
 
 		PlayAnimation(index);
 	}//(次のアニメーション, 止めるアニメーション)
+
+	void AnimatorPlotInit();
 
 	template<class T>
 	T* AddAnimation(Animation::ANIMATION_STATUS stat = Animation::STANDBY)
@@ -820,6 +836,12 @@ public:
 		animation.push_back(buff);
 		animIndex = (int)animation.size() - 1;
 		InitAnimation(stat);
+
+		aNode.emplace_back();
+		cNode.emplace_back();
+		B.emplace_back();
+
+		AnimatorPlotInit();
 
 		return buff;
 	}
