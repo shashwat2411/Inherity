@@ -80,7 +80,6 @@ public:
 	};
 
 public:
-	int bezierIndex;
 	int animationSize;
 	int keyframes;
 
@@ -93,6 +92,7 @@ public:
 	GAMEOBJECT* gameObject;
 
 	std::vector<int> index;
+	std::vector<int> bezierIndex;
 	std::vector<D3DXCOLOR> color;
 	std::vector<std::string> keyName;
 	std::vector<AnimationData> data;
@@ -778,9 +778,9 @@ public:
 
 	void InitAnimation(Animation::ANIMATION_STATUS stat = Animation::STANDBY)
 	{
-		for (int i = 0; i < animation[animIndex]->keyName.size(); i++) { animation[animIndex]->index.push_back(0); }
-		animation[animIndex]->bezierIndex = 0;
-		animation[animIndex]->timer = 0;
+		for (int i = 0; i < animation[animIndex]->index.size(); i++) { animation[animIndex]->index[i] = 0; }
+		for (int i = 0; i < animation[animIndex]->bezierIndex.size(); i++) { animation[animIndex]->bezierIndex[i] = 0; }
+		animation[animIndex]->timer = 0.0f;
 		animation[animIndex]->status = stat;
 
 		animation[animIndex]->animationSize = animation[animIndex]->data.back().frame;
@@ -798,10 +798,6 @@ public:
 		{
 			animIndex = index;
 			animation[animIndex]->status = stat;
-
-			for (int i = 0; i < animation[animIndex]->index.size(); i++) { animation[animIndex]->index[i] = 0; }
-			animation[animIndex]->bezierIndex = 0;
-			animation[animIndex]->timer = 0;
 		}
 	}
 	void PauseAnimation(int index)
@@ -836,6 +832,12 @@ public:
 		animation.push_back(buff);
 		animIndex = (int)animation.size() - 1;
 		InitAnimation(stat);
+
+		for (int i = 0; i < animation[animIndex]->keyName.size(); i++)
+		{
+			animation[animIndex]->index.push_back(0);
+			animation[animIndex]->bezierIndex.push_back(0);
+		}
 
 		aNode.emplace_back();
 		cNode.emplace_back();

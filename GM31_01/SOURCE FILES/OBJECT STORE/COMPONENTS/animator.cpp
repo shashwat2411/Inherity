@@ -25,12 +25,16 @@ void Animator::Update()
 
 		index1 = animation[animIndex]->index;
 		index2 = animation[animIndex]->index;
-		for (int i; i = index2.size(); i++) { index2[i]++; }
+		for (int i = 0; i < index2.size(); i++) 
+		{ 
+			index2[i]++; 
+		}
 
 
-		int i = animation[animIndex]->bezierIndex;//index of the Bezier line
 		for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
 		{
+			int i = animation[animIndex]->bezierIndex[num];//index of the Bezier line
+
 			frame1 = (float)B[animIndex][num][i][index1[num]].x;
 			frame2 = (float)B[animIndex][num][i][index2[num]].x;
 
@@ -41,23 +45,25 @@ void Animator::Update()
 
 			dangle = (angle2 - angle1);
 
-			*animation[animIndex]->data[0].angle[num].pointer = angle1 + (dt * dangle);
+			*animation[animIndex]->data[i].angle[num].pointer = angle1 + (dt * dangle);
 		}
 
 		animation[animIndex]->timer += Time::fixedTimeScale;
 
 		for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
 		{
+			int i = animation[animIndex]->bezierIndex[num];//index of the Bezier line
+
 			if (animation[animIndex]->timer > B[animIndex][num][i][index2[num]].x)
 			{
 				animation[animIndex]->index[num]++;
 
-				if (animation[animIndex]->index[num] >= B[animIndex][num][i].size() - 1)
+				if (animation[animIndex]->timer > B[animIndex][num][i].back().x)
 				{
-					animation[animIndex]->bezierIndex++;
+					animation[animIndex]->bezierIndex[num]++;
 					animation[animIndex]->index[num] = 0;
 
-					if (animation[animIndex]->bezierIndex >= animation[animIndex]->keyframes - 1)
+					if (animation[animIndex]->bezierIndex[num] >= animation[animIndex]->keyframes - 1)
 					{
 						if (animation[animIndex]->status != Animation::LOOP) { InitAnimation(Animation::END); }
 						else { InitAnimation(Animation::LOOP); }
@@ -738,7 +744,6 @@ void Animator::AnimatorPlotInit()
 			}
 			else
 			{
-				bool abcd = true;
 				aNode[animIndex][num][i].minusDirection = D3DXVECTOR2((x[i - 1] - x[i]) * 0.1f, (y[num][i - 1] - y[num][i]) * 0.1f);
 				aNode[animIndex][num][i].plusDirection = D3DXVECTOR2((x[i + 1] - x[i]) * 0.1f, (y[num][i + 1] - y[num][i]) * 0.1f);
 
