@@ -16,6 +16,7 @@ void ENEMY::Start()
 	AddComponent<EnemyScript>();
 	
 	AddComponent<Animator>()->AddAnimation<TrialAnimation>();
+	//GetComponent<Animator>()->AddAnimation<TrialAnimation2>();
 
 	AddMaterial<UnlitMaterial>();
 

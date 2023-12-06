@@ -336,7 +336,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CUBE", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
-			index = vector.size() - 1;
+			index = (int)vector.size() - 1;
 		}
 
 		ImGui::SameLine();
@@ -347,7 +347,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CYLINDER", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
-			index = vector.size() - 1;
+			index = (int)vector.size() - 1;
 		}
 
 		ImGui::End();
