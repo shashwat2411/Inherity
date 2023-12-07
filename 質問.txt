@@ -50,6 +50,8 @@
 69. なんでT*クラスのレファレンスを確認するように言われる？　→　size_tをintとして使ってたから　❌
 68. std::vector<const char*> に書き込みをする方法？　→　begin combo / end combo　❌
 43. プチコンで作った作品も載せた方がいいですか？　→　載せなくていい　❌
+71. 何故NormalMapを付けたらチカチカする？　→　AnimationModelのBinormalとTangent計算していない　❌
+74. どうやってBezier曲線のKeyFrameから２Frameすぎるとかくついて移動する？　→　Bezier曲線の頂点数が多すぎてスキップしてしまうときがあった　❌
 
     ●未実装
 03．なんで残像は子供を描画しないの？　→　残像も親の座標に固定されているから
@@ -69,10 +71,8 @@
 14. なぜテクスチャをモデルに貼り付けることが出来ない
 
     ●就職作品
-71. 何故NormalMapを付けたらチカチカする？　→　AnimationModelのBinormalとTangent計算していない
 72. docking branch in ImGui？　→　docking ImGui をダウンロード
 73. fullscreenにさせる方法？　→　WS_MAXIMIZE	を入れれば出来る
-74. なんでBezier曲線を使用してAnimationさせるとKeyFrame所にかくついて移動するか？　→　
 
     ●ポートフォリオ
 52. GitHubのRepositoryをPrivateにした方がいいかPublicにした方がいいか？　→　フリー素材を外してアップする

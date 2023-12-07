@@ -101,7 +101,7 @@ void GAME_SCENE::Init()
 		gameManager->AddComponent<GameManager>();
 		//gameManager->GetComponent<GameManager>()->SetEnabled(false);
 
-		//PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
+		PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
 
 		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
 		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);

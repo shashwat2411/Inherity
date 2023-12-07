@@ -1,4 +1,8 @@
 #include "component.h"
+#include "input.h"
+#include <fstream>
+
+#define INTERPOLATE
 
 void Animator::Start()
 {
@@ -16,6 +20,7 @@ void Animator::Update()
 {
 	if (animation[animIndex]->status == Animation::PLAYBACK || animation[animIndex]->status == Animation::LOOP)
 	{
+#ifdef INTERPOLATE
 		float dt, dangle;
 		float frame1, frame2;
 		std::vector<int> index1;
@@ -25,9 +30,9 @@ void Animator::Update()
 
 		index1 = animation[animIndex]->index;
 		index2 = animation[animIndex]->index;
-		for (int i = 0; i < index2.size(); i++) 
-		{ 
-			index2[i]++; 
+		for (int i = 0; i < index2.size(); i++)
+		{
+			index2[i]++;
 		}
 
 
@@ -69,8 +74,52 @@ void Animator::Update()
 						else { InitAnimation(Animation::LOOP); }
 					}
 				}
+	}
+}
+#else INTERPOLATE
+		float dt, dangle;
+		std::vector<int> index;
+
+		float timer = animation[animIndex]->timer;
+
+		index = animation[animIndex]->index;
+
+
+		for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
+		{
+			int i = animation[animIndex]->bezierIndex[num];//index of the Bezier line
+
+			float angle = (float)B[animIndex][num][i][index[num]].y;
+
+			*animation[animIndex]->data[i].angle[num].pointer = angle;
+		}
+
+		animation[animIndex]->timer += Time::fixedTimeScale;
+
+		for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
+		{
+			int i = animation[animIndex]->bezierIndex[num];//index of the Bezier line
+
+			if (animation[animIndex]->timer > B[animIndex][num][i][index[num]].x)
+			{
+				animation[animIndex]->index[num]++;
+
+				if (animation[animIndex]->timer > B[animIndex][num][i].back().x)
+				{
+					animation[animIndex]->bezierIndex[num]++;
+					animation[animIndex]->index[num] = 0;
+
+					if (animation[animIndex]->bezierIndex[num] >= animation[animIndex]->keyframes - 1)
+					{
+						if (animation[animIndex]->status != Animation::LOOP) { InitAnimation(Animation::END); }
+						else { InitAnimation(Animation::LOOP); }
+					}
+				}
 			}
 		}
+
+
+#endif
 
 		//Step 0
 		/*
@@ -113,16 +162,14 @@ void Animator::Update()
 
 void Animator::Draw()
 {
-
+	if (Input::GetKeyPress(VK_CONTROL))
+	{
+		if (Input::GetKeyTrigger('K'))
+		{
+			Save();
+		}
+	}
 }
-
-const char* status[Animation::ANIMATION_STATUS_MAX] =
-{
-	"STANDBY",
-	"PLAYBACK",
-	"END",
-	"LOOP",
-};
 
 D3DXVECTOR2 size = D3DXVECTOR2(667.0f, 177.0f);//D3DXVECTOR2(384.0f, 177.0f);
 const char* animationStatus[Animation::ANIMATION_STATUS_MAX] =
@@ -142,7 +189,7 @@ void Animator::EngineDisplay()
 		ImGui::SliderInt(" ", &stat, 0, Animation::ANIMATION_STATUS_MAX - 1, animationStatus[stat]);
 		ImGui::DragFloat2("size", size);
 
-		std::string str = "\n Time" + std::to_string(animation[animIndex]->timer);
+		std::string str = "\n Time : " + std::to_string((int)animation[animIndex]->timer);
 		ImGui::Text(str.c_str());
 
 		ImGui::Begin("Animator", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
@@ -204,8 +251,8 @@ void Animator::EngineDisplay()
 
 										for (int i = 0; i < animation[a]->keyframes - 1; i++)
 										{
-											for (int p = 0; p < 100; ++p) {
-												double t = p / 99.0;
+											for (int p = 0; p < BEZIER_NUM; ++p) {
+												double t = p / double(BEZIER_NUM - 1);
 												double u = 1 - t;
 												double w1 = u * u*u;
 												double w2 = 3 * u*u*t;
@@ -242,9 +289,14 @@ void Animator::EngineDisplay()
 										for (int i = 0; i < animation[a]->keyframes - 1; i++)
 										{
 											ImPlot::SetNextLineStyle(aNodeColor, aNode[a][num][i].hovered || aNode[a][num][i].held || aNode[a][num][i + 1].hovered || aNode[a][num][i + 1].held ? 3.0f : 2.0f);
-											ImPlot::PlotLine(animation[a]->keyName[num].c_str(), &B[a][num][i][0].x, &B[a][num][i][0].y, 100, 0, 0, sizeof(ImPlotPoint));
+											ImPlot::PlotLine(animation[a]->keyName[num].c_str(), &B[a][num][i][0].x, &B[a][num][i][0].y, BEZIER_NUM, 0, 0, sizeof(ImPlotPoint));
 										}
+
 									}
+
+									ImPlotPoint timer[] = { ImPlotPoint(animation[animIndex]->timer, ImPlot::GetPlotLimits().Y.Min), ImPlotPoint(animation[animIndex]->timer, ImPlot::GetPlotLimits().Y.Max) };
+									ImPlot::SetNextLineStyle(ImVec4(1.0f,1.0f,1.0f,1.0f), 1.0f);
+									ImPlot::PlotLine("Time", &timer[0].x, &timer[0].y, 2, 0, 0, sizeof(ImPlotPoint));
 
 									//Step 4
 									/*
@@ -756,5 +808,92 @@ void Animator::AnimatorPlotInit()
 		{
 			B[animIndex][num].emplace_back();
 		}
+
+		for (int i = 0; i < animation[animIndex]->keyframes - 1; i++)
+		{
+			for (int p = 0; p < BEZIER_NUM; ++p) {
+				double t = p / double(BEZIER_NUM - 1);
+				double u = 1 - t;
+				double w1 = u * u*u;
+				double w2 = 3 * u*u*t;
+				double w3 = 3 * u*t*t;
+				double w4 = t * t*t;
+				B[animIndex][num][i][p] = ImPlotPoint(
+					w1 * aNode[animIndex][num][i].point.x +
+					w2 * cNode[animIndex][num][i * 2].point.x +
+					w3 * cNode[animIndex][num][(i + 1) * 2 - 1].point.x +
+					w4 * aNode[animIndex][num][i + 1].point.x,
+					w1 * aNode[animIndex][num][i].point.y +
+					w2 * cNode[animIndex][num][i * 2].point.y +
+					w3 * cNode[animIndex][num][(i + 1) * 2 - 1].point.y +
+					w4 * aNode[animIndex][num][i + 1].point.y
+				);
+			}
+		}
+	}
+
+	Open();
+	BezierCalculate();
+}
+
+void Animator::BezierCalculate()
+{
+	for (int a = 0; a < animation.size(); a++)
+	{
+		for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
+		{
+			for (int i = 0; i < animation[a]->keyframes - 1; i++)
+			{
+				for (int p = 0; p < BEZIER_NUM; ++p) {
+					double t = p / double(BEZIER_NUM - 1);
+					double u = 1 - t;
+					double w1 = u * u*u;
+					double w2 = 3 * u*u*t;
+					double w3 = 3 * u*t*t;
+					double w4 = t * t*t;
+					B[a][num][i][p] = ImPlotPoint(
+						w1 * aNode[a][num][i].point.x +
+						w2 * cNode[a][num][i * 2].point.x +
+						w3 * cNode[a][num][(i + 1) * 2 - 1].point.x +
+						w4 * aNode[a][num][i + 1].point.x,
+						w1 * aNode[a][num][i].point.y +
+						w2 * cNode[a][num][i * 2].point.y +
+						w3 * cNode[a][num][(i + 1) * 2 - 1].point.y +
+						w4 * aNode[a][num][i + 1].point.y
+					);
+				}
+			}
+		}
+	}
+}
+
+void Animator::Save()
+{
+	for (int a = 0; a < animation.size(); a++)
+	{
+		std::string fileName = "/animations/" + animation[a]->name + ".txt";
+		std::ofstream outFile(fileName.c_str());
+
+		if (!outFile.is_open()) { return; }
+
+		cereal::JSONOutputArchive archive(outFile);
+
+		archive(CEREAL_NVP(aNode[a]), CEREAL_NVP(cNode[a]));
+	}
+
+}
+
+void Animator::Open()
+{
+	for (int a = 0; a < animation.size(); a++)
+	{
+		std::string fileName = "/animations/" + animation[a]->name + ".txt";
+		std::ifstream inFile(fileName.c_str());
+
+		if (!inFile.is_open()) { return; }
+
+		cereal::JSONInputArchive archive(inFile);
+
+		archive(CEREAL_NVP(aNode[a]), CEREAL_NVP(cNode[a]));
 	}
 }

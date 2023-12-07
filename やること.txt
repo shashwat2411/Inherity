@@ -51,3 +51,8 @@
 	・QuadTree
 	・OcTree
 	・Binary Space Partitioning
+
+●LOD (Level Of Detail)
+	・change the number of polygons in a model based on the distance of the object from the camera
+		(change the model to billboard if too far to tell)
+		Make an LOD Tree component like unity

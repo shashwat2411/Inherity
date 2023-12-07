@@ -593,6 +593,12 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 			deformVertex->Normal = mesh->mNormals[v];
 			deformVertex->Normal *= outMatrix;
 
+			deformVertex->Tangent = mesh->mTangents[v];
+			deformVertex->Tangent *= outMatrix;
+
+			deformVertex->Binormal = mesh->mBitangents[v];
+			deformVertex->Binormal *= outMatrix;
+
 
 			//頂点バッファへ書き込み
 			vertex[v].Position.x = deformVertex->Position.x;
@@ -603,6 +609,14 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 			vertex[v].Normal.x = deformVertex->Normal.x;
 			vertex[v].Normal.y = deformVertex->Normal.y;
 			vertex[v].Normal.z = deformVertex->Normal.z;
+
+			vertex[v].Tangent.x = deformVertex->Tangent.x;
+			vertex[v].Tangent.y = deformVertex->Tangent.y;
+			vertex[v].Tangent.z = deformVertex->Tangent.z;
+
+			vertex[v].Binormal.x = deformVertex->Binormal.x;
+			vertex[v].Binormal.y = deformVertex->Binormal.y;
+			vertex[v].Binormal.z = deformVertex->Binormal.z;
 
 			vertex[v].TexCoord.x = mesh->mTextureCoords[0][v].x;
 			vertex[v].TexCoord.y = mesh->mTextureCoords[0][v].y;
