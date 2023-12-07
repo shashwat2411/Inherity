@@ -33,6 +33,11 @@ void serialize(Archive & archive, D3DXCOLOR & vector)
 {
 	archive(cereal::make_nvp("r", vector.r), cereal::make_nvp("g", vector.g), cereal::make_nvp("b", vector.b), cereal::make_nvp("a", vector.a));
 }
+template<class Archive>
+void serialize(Archive & archive, ImPlotPoint & vector)
+{
+	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y));
+}
 
 class GAMEOBJECT
 {

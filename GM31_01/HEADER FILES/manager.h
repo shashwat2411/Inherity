@@ -38,6 +38,18 @@ public:
 		Scene->Init();
 
 		Open(Scene->name);
+
+		//for (int i = 0; i < MAX_LAYER; i++)
+		//{
+		//	for (auto obj : Scene->GetGameObjectList((LAYER)i))
+		//	{
+		//		Animator* anim = obj->GetComponent<Animator>();
+		//		if (anim != nullptr)
+		//		{
+		//			anim->BezierCalculate();
+		//		}
+		//	}
+		//}
 	}
 
 	static void ResetScene()
@@ -48,5 +60,16 @@ public:
 		Scene->Init();
 
 		Open(Scene->name);
+		//for (int i = 0; i < MAX_LAYER; i++)
+		//{
+		//	for (auto obj : Scene->GetGameObjectList((LAYER)i))
+		//	{
+		//		Animator* anim = obj->GetComponent<Animator>();
+		//		if (anim != nullptr)
+		//		{
+		//			anim->BezierCalculate();
+		//		}
+		//	}
+		//}
 	}
 };

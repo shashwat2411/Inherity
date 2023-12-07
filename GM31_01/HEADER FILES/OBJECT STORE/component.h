@@ -199,16 +199,6 @@ public:
 		);
 	}
 
-	//void serialize(std::ostream& ar) const override 
-	//{
-	//	cereal::JSONOutputArchive archive(ar);
-	//	archive(cereal::virtual_base_class<Component>(this),
-	//		CEREAL_NVP(Position),
-	//		CEREAL_NVP(Rotation),
-	//		CEREAL_NVP(Scale)
-	//	);
-	//}
-
 };
 class Rigidbody : public Component
 {
@@ -703,6 +693,8 @@ public:
 class Animator : public Component
 {
 private:
+#define BEZIER_NUM 20
+
 	class AnimatorPoint
 	{
 	public:
@@ -740,6 +732,12 @@ private:
 			point.y = y;
 		}
 
+		template<class Archive>
+		void serialize(Archive & archive)
+		{
+			archive(CEREAL_NVP(point));
+		}
+
 	};
 
 private:
@@ -749,7 +747,7 @@ private:
 
 	std::vector<std::vector<std::vector<AnimatorPoint>>> aNode;
 	std::vector<std::vector<std::vector<AnimatorPoint>>> cNode;
-	std::vector<std::vector<std::vector<std::array<ImPlotPoint, 100>>>> B;
+	std::vector<std::vector<std::vector<std::array<ImPlotPoint, BEZIER_NUM>>>> B;
 
 	ImVec4 aNodeColor;
 	ImVec4 cNodeColor;
@@ -821,6 +819,9 @@ public:
 	}//(次のアニメーション, 止めるアニメーション)
 
 	void AnimatorPlotInit();
+	void BezierCalculate();
+	void Save();
+	void Open();
 
 	template<class T>
 	T* AddAnimation(Animation::ANIMATION_STATUS stat = Animation::STANDBY)
@@ -846,6 +847,15 @@ public:
 		AnimatorPlotInit();
 
 		return buff;
+	}
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
+			CEREAL_NVP(aNode),
+			CEREAL_NVP(cNode)
+		);
 	}
 };
 class Shadow : public Component

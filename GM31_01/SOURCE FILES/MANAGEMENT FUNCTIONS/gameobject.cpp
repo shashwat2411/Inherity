@@ -333,6 +333,7 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else if (Camera* caster			= dynamic_cast<Camera*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (Number* caster			= dynamic_cast<Number*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (SphereCollider* caster = dynamic_cast<SphereCollider*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		//else if (Animator* caster		= dynamic_cast<Animator*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 
 		//archive(cereal::make_nvp(commer->name.c_str(),*commer));
 	}
