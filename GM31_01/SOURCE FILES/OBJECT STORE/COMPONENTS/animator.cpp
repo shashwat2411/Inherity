@@ -162,11 +162,43 @@ void Animator::Update()
 
 void Animator::Draw()
 {
-	if (Input::GetKeyPress(VK_CONTROL))
+	if (DebugManager::play == false)
 	{
 		if (Input::GetKeyTrigger('K'))
 		{
 			Save();
+		}
+
+		int frame = animation[animIndex]->data[0].frame;
+		int i = animation[animIndex]->data.size() - 1;
+		for (int n = 0; n < animation[animIndex]->data.size(); n++)
+		{
+			if ((int)animation[animIndex]->timer < animation[animIndex]->data[n].frame)
+			{
+				i = n;
+				if (i == 0)
+				{
+					int a = 0;
+				}
+				break;
+			}
+		}
+		i = (i <= 0 ? 1 : i);
+
+		for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
+		{
+			int t = (int)animation[animIndex]->timer;
+			int t1 = animation[animIndex]->data[i - 1].frame;
+			int t2 = animation[animIndex]->data[i].frame;
+
+			t = (t <= animation[animIndex]->data.back().frame ? t : animation[animIndex]->data.back().frame);
+			t = (t >= 0 ? t : 0);
+
+			int index = (t - t1) * (BEZIER_NUM - 1) / (t2 - t1);
+
+			float angle = (float)B[animIndex][num][i - 1][index].y;
+
+			*animation[animIndex]->data[i - 1].angle[num].pointer = angle;
 		}
 	}
 }
@@ -294,9 +326,10 @@ void Animator::EngineDisplay()
 
 									}
 
-									ImPlotPoint timer[] = { ImPlotPoint(animation[animIndex]->timer, ImPlot::GetPlotLimits().Y.Min), ImPlotPoint(animation[animIndex]->timer, ImPlot::GetPlotLimits().Y.Max) };
-									ImPlot::SetNextLineStyle(ImVec4(1.0f,1.0f,1.0f,1.0f), 1.0f);
-									ImPlot::PlotLine("Time", &timer[0].x, &timer[0].y, 2, 0, 0, sizeof(ImPlotPoint));
+									//ImPlot::SetupAxesLimits(0, 1, 0, 1);
+									double x = animation[animIndex]->timer;
+									ImPlot::DragLineX(2, &x, ImVec4(1, 1, 1, 1), 1, flags);
+									animation[animIndex]->timer = (float)x;
 
 									//Step 4
 									/*
@@ -871,7 +904,7 @@ void Animator::Save()
 {
 	for (int a = 0; a < animation.size(); a++)
 	{
-		std::string fileName = "/animations/" + animation[a]->name + ".txt";
+		std::string fileName = "asset\\animations\\" + animation[a]->name + ".txt";
 		std::ofstream outFile(fileName.c_str());
 
 		if (!outFile.is_open()) { return; }
@@ -887,7 +920,7 @@ void Animator::Open()
 {
 	for (int a = 0; a < animation.size(); a++)
 	{
-		std::string fileName = "/animations/" + animation[a]->name + ".txt";
+		std::string fileName = "asset\\animations\\" + animation[a]->name + ".txt";
 		std::ifstream inFile(fileName.c_str());
 
 		if (!inFile.is_open()) { return; }
