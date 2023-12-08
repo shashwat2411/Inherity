@@ -49,10 +49,7 @@ public:
 	{
 		for (int i = 0; i < READ_SOUND_MAX; i++)
 		{
-			if (&Audios[i] != nullptr)
-			{
-				Audios[i].Unload();
-			}
+			Audios[i].Unload();
 		}
 
 		Audio::UninitMaster();
@@ -62,10 +59,7 @@ public:
 	{
 		for (int i = 0; i < READ_SOUND_MAX; i++)
 		{
-			if (&Audios[i] != nullptr)
-			{
-				Audios[i].Stop();
-			}
+			Audios[i].Stop();
 		}
 	}
 

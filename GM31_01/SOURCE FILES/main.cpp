@@ -8,12 +8,10 @@
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "DX11ゲーム";
 
-#ifdef DEBUG
 int		g_CountFPS;							// FPSカウンタ
 int		g_CountFixedFPS;					// FixedFPSカウンタ
-char	g_DebugStr[2048] = "TRIAL";		// デバッグ文字表示用
+char	g_DebugStr[2048] = "";		// デバッグ文字表示用
 
-#endif
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -107,9 +105,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			//if ((dwCurrentTime - dwExecFixedLastTime) >= (ab) && Time::timeScale > 0.0f)
 			if ((dwCurrentTime - dwExecFixedLastTime) >= (1000 / FRAME_RATE))
 			{
-#ifdef DEBUG
-				wsprintf(g_DebugStr, "ENGINE| FPS : %d | FixedFPS : %d | ", g_CountFPS, g_CountFixedFPS);
-#endif
+				wsprintf(g_DebugStr, "ENGINE| FPS : %d", g_CountFixedFPS);
 
 				Manager::FixedUpdate();
 				Manager::Draw();
@@ -117,9 +113,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				dwExecFixedLastTime = dwCurrentTime;
 				dwFixedFrameCount++;
 
-#ifdef DEBUG
 				SetWindowText(g_Window, g_DebugStr);
-#endif
 			}
 
 			//if ((dwCurrentTime - dwExecLastTime) >= (1000 / FRAME_RATE))
@@ -142,9 +136,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	return (int)msg.wParam;
 }
 
-#ifdef DEBUG
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-#endif
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
@@ -175,9 +167,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	return DefWindowProc(hWnd, uMsg, wParam, lParam);
 }
 
-#ifdef DEBUG
 char* GetDebugStr(void)
 {
 	return g_DebugStr;
 }
-#endif

@@ -170,7 +170,7 @@ void Animator::Draw()
 		}
 
 		int frame = animation[animIndex]->data[0].frame;
-		int i = animation[animIndex]->data.size() - 1;
+		int i = (int)animation[animIndex]->data.size() - 1;
 		for (int n = 0; n < animation[animIndex]->data.size(); n++)
 		{
 			if ((int)animation[animIndex]->timer < animation[animIndex]->data[n].frame)

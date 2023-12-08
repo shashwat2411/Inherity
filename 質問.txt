@@ -73,6 +73,8 @@
     ●就職作品
 72. docking branch in ImGui？　→　docking ImGui をダウンロード
 73. fullscreenにさせる方法？　→　WS_MAXIMIZE	を入れれば出来る
+75. なんでマルチスレッドでロードをやるとm_SoundVoiceが無効になってるか？　→　
+76. なんでSpriteRendererでSpriteSheetのアニメーションは出来ない？　→　
 
     ●ポートフォリオ
 52. GitHubのRepositoryをPrivateにした方がいいかPublicにした方がいいか？　→　フリー素材を外してアップする

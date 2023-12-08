@@ -73,29 +73,8 @@ public:
 		assert(Animations["Dance"]);
 		assert(Animations["Jump"]);
 
+
 		//NAMING
-		//ModelsOBJ[SPHERE_COLLIDER_M]	.name = "SPHERE_COLLIDER";
-		//ModelsOBJ[BOX_COLLIDER_M]		.name = "BOX_COLLIDER";
-		//ModelsOBJ[CYLINDER_M]			.name = "CYLINDER";
-		//ModelsOBJ[CUBE_M]				.name = "CUBE";
-		//ModelsOBJ[TORUS_M]				.name = "TORUS";
-		//ModelsOBJ[SOUND_GIZMO_M]		.name = "SOUND_GIZMO";
-
-		//ModelsOBJ[SKYDOME_M]			.name = "SKYDOME";
-		//ModelsOBJ[ENEMY_M]				.name = "ENEMY";
-
-		//ModelsFBX[THE_BOSS_M]			.name = "THE_BOSS";
-		//ModelsFBX[ROCK_M]				.name = "ROCK";
-
-
-		//for (int i = 0; i < ModelReader::READ_MODEL_OBJ_MAX; i++)
-		//{
-		//	modelNames[i] = ModelsOBJ[i].name.c_str();
-		//}
-		//for (int i = 0; i < ModelReader::READ_MODEL_FBX_MAX; i++)
-		//{
-		//	modelNames[i + ModelReader::READ_MODEL_OBJ_MAX] = ModelsFBX[i].name.c_str();
-		//}
 
 		//OBJ
 		modelNames[SPHERE_COLLIDER_M]	= "SPHERE_COLLIDER";
@@ -118,18 +97,12 @@ public:
 	{
 		for (int i = 0; i < READ_MODEL_OBJ::READ_MODEL_OBJ_MAX; i++)
 		{
-			if (&ModelsOBJ[i] != nullptr)
-			{
-				ModelsOBJ[i].Unload();
-			}
+			ModelsOBJ[i].Unload();
 		}
 
 		for (int i = 0; i < READ_MODEL_FBX::READ_MODEL_FBX_MAX; i++)
 		{
-			if (&ModelsFBX[i] != nullptr)
-			{
-				ModelsFBX[i].Unload();
-			}
+			ModelsFBX[i].Unload();
 		}
 
 		for (std::pair<const std::string, const aiScene*> pair : Animations)

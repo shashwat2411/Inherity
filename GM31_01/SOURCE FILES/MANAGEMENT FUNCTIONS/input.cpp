@@ -1,5 +1,7 @@
 #include "input.h"
 #include "InputController.h"
+#include "debugManager.h"
+#include "functions.h"
 
 BYTE Input::m_OldKeyState[256];
 BYTE Input::m_KeyState[256];

@@ -39,7 +39,7 @@ void Camera::Start()
 	gameObject->transform->Position = D3DXVECTOR3(0.0f, 5.0f, -10.0f);
 
 	point = new EMPTYOBJECT();
-	point->Start();
+	point->Init();
 	point->Parent = gameObject;
 	point->transform->Position.z = 2.0f;
 

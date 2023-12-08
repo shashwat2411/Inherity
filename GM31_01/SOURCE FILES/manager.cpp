@@ -39,18 +39,12 @@ void Manager::Init()
 	Input::Init();
 	DebugManager::Init();
 
+	Load();
 
 	//PostProcess = new POSTPROCESS();
 	//PostProcess->Init();
-
-
+	
 	SetScene<LOAD_SCENE>();
-	//SetScene<WORKSPACE_SCENE>();
-
-	Time::timeScale = 0.0f;
-	Time::fixedTimeScale = 1.0f;
-	Time::deltaTime = 1.0f / FRAME_RATE;
-
 }
 
 void Manager::Load()
@@ -84,13 +78,9 @@ void Manager::Uninit()
 	delete Scene;
 	delete DontDestroyOnLoad;
 
-	Unload();
-	//ModelReader::UnReadModel();
-	//SoundReader::UnloadAudio();
-	//TextureReader::UnReadTexture();
+	Manager::Unload();
 
 	Input::Uninit();
-
 	DebugManager::Uninit();
 	Renderer::Uninit();
 }
@@ -116,14 +106,8 @@ void Manager::FixedUpdate()
 
 		if (Input::GetKeyPress(VK_CONTROL))
 		{
-			if (Input::GetKeyTrigger('S'))
-			{
-				Save(Scene->name);
-			}
-			if (Input::GetKeyTrigger('O'))
-			{
-				Open(Scene->name);
-			}
+			if (Input::GetKeyTrigger('S')) { Save(Scene->name); }
+			if (Input::GetKeyTrigger('O')) { Open(Scene->name); }
 		}
 	}
 	else
@@ -199,7 +183,7 @@ void Manager::Draw()
 
 
 			Scene->Draw();
-			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Draw(); }
+			if (DontDestroyOnLoad != nullptr && Time::timeScale > 0.0f) { DontDestroyOnLoad->Draw(); }
 
 			if (PostProcess) { Renderer::Begin(); PostProcess->Draw(); }
 
@@ -213,7 +197,9 @@ void Manager::Draw()
 	{
 		Renderer::Begin();
 		Renderer::SetDefaultViewPort();
+
 		Scene->Draw();
+
 		DebugManager::Draw();
 		Renderer::End();
 	}
@@ -221,10 +207,7 @@ void Manager::Draw()
 
 void Manager::Update()
 {
-	//Input::Update();
 
-	//if (Input::GetKeyTrigger('V')) { Time::timeScale -= 0.1f; }
-	//if (Input::GetKeyTrigger('B')) { Time::timeScale += 0.1f; }
 }
 
 void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
@@ -245,12 +228,6 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 20.0f);
 
 }
-
-//template<class Archive>
-//void Serialize(Archive& archive, D3DXVECTOR3& vector)
-//{
-//	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), , cereal::make_nvp("z", vector.z));
-//}
 
 void Manager::Save(std::string name)
 {

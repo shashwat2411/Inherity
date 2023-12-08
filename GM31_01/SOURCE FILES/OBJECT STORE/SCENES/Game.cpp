@@ -10,7 +10,6 @@ IMAGE* Buffer;
 CUBE* cube;
 GAMEOBJECT* gameManager;
 AudioSource* audio;
-PARTICLESYSTEM* particleSystem;
 
 void GAME_SCENE::Init()
 {
@@ -23,6 +22,7 @@ void GAME_SCENE::Init()
 	BILLBOARD* tree[300];
 	GAMEOBJECT* torus1;
 	PLANE* Flag;
+	IMAGE* explosion;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>("SkyDome");
@@ -36,7 +36,7 @@ void GAME_SCENE::Init()
 	cube = AddGameObject<CUBE>("Cube");
 	torus = AddGameObject<EMPTYOBJECT>("Torus");
 	torus1 = AddGameObject<EMPTYOBJECT>("Torus1");
-	//particleSystem = AddGameObject<PARTICLESYSTEM>(BILLBOARD_LAYER);
+	explosion = AddGameObject<IMAGE>("Explosion", SPRITE_LAYER);
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -96,8 +96,6 @@ void GAME_SCENE::Init()
 
 	//Ý’è
 	{
-		//particleSystem->particleSystem->SetTexture(TextureReader::GetReadTexture(TextureReader::BUBBLE_T));
-
 		gameManager->AddComponent<GameManager>();
 		//gameManager->GetComponent<GameManager>()->SetEnabled(false);
 
@@ -157,6 +155,11 @@ void GAME_SCENE::Init()
 		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
 		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 		Score->SetDigits(3);
+
+		explosion->GetMaterial()->SetTexture("_Texture", TextureReader::EXPLOSION_T);
+		explosion->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
+		explosion->sprite->SetAnimate(true);
+		explosion->sprite->SetElements(4, 4);
 	}
 
 	//‰¹

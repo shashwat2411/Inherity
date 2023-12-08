@@ -37,6 +37,7 @@ void GAMEOBJECT::Initialize()
 	shadow = nullptr;
 	Parent = nullptr;
 	rigidbody = nullptr;
+	material = nullptr;
 
 	VertexShader = nullptr;
 	PixelShader = nullptr;
@@ -47,7 +48,7 @@ void GAMEOBJECT::Initialize()
 
 void GAMEOBJECT::UnInitialize()
 {
-	delete material;
+	if (material != nullptr) { delete material; }
 
 	for (auto com : components)
 	{
@@ -62,7 +63,7 @@ void GAMEOBJECT::UnInitialize()
 
 void GAMEOBJECT::Draw()
 {
-	cameraDistance = transform->DistanceFrom(Manager::GetScene()->GetCamera());
+	//cameraDistance = transform->DistanceFrom(Manager::GetScene()->GetCamera());
 
 	if (active == true)
 	{

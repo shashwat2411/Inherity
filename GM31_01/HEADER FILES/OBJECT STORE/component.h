@@ -279,6 +279,8 @@ public:
 	D3DXVECTOR2 GetTexCoord() { return TexCoord; }
 	D3DXCOLOR GetColor() { return Color; }
 
+	void SetAnimate(bool value) { animate = value; }
+	void SetElements(int x, int y) { elementsX = x; elementsY = y; }
 	void SetSize(D3DXVECTOR2 value) { Size = value; }
 	void SetTexCoord(D3DXVECTOR2 value) { TexCoord = value; }
 	void SetColor(D3DXCOLOR value) { Color = value; }

@@ -16,8 +16,6 @@ void LOAD_SCENE::BeforeInit()
 
 	name = "Load";
 
-	MainCamera = AddGameObject<CAMERA>("MainCamera", CAMERA_LAYER);
-
 	//テクスチャ読み込み
 	D3DX11CreateShaderResourceViewFromFile(Renderer::GetDevice(),
 		"asset\\texture\\load.png",
@@ -67,8 +65,8 @@ void LOAD_SCENE::Init()
 
 	}
 
-	std::thread th(&Manager::Load);
-	th.detach();
+	//std::thread th(&Manager::Load);
+	//th.detach();
 
 }
 
@@ -79,6 +77,10 @@ void LOAD_SCENE::Update()
 	if (loadOver == true)
 	{
 		logo = false;
-		Manager::SetScene<TITLE_SCENE>();
+
+		texture->Release();
+		backTexture->Release();
+
+		Manager::SetScene<GAME_SCENE>();
 	}
 }

@@ -10,9 +10,9 @@
 
 bool pressedDebug[2] = { false };
 
-bool DebugManager::play = false;
+bool DebugManager::play = true;
 bool DebugManager::paused = false;
-bool DebugManager::gizmo = true;
+bool DebugManager::gizmo = false;
 bool DebugManager::show_demo_window = true;
 bool show_plot_demo_window = true;
 
@@ -37,6 +37,8 @@ EDIT_MODE edit = EDIT_MODE::POSITION;
 
 void DebugManager::Init()
 {
+#ifdef DEBUG
+
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
 	ImPlot::CreateContext();
@@ -54,45 +56,70 @@ void DebugManager::Init()
 
 
 	io.Fonts->AddFontDefault();
+
+	play = false;
+	paused = false;
+	gizmo = true;
+
+	Time::timeScale = 0.0f;
+	Time::fixedTimeScale = 1.0f;
+	Time::deltaTime = 1.0f / FRAME_RATE;
+#else
+	play = true;
+	paused = false;
+	gizmo = false;
+
+	Time::timeScale = 1.0f;
+	Time::fixedTimeScale = 1.0f;
+	Time::deltaTime = 1.0f / FRAME_RATE;
+#endif
 }
 
 void DebugManager::Uninit()
 {
+#ifdef DEBUG
 	ImGui_ImplDX11_Shutdown();
 	ImGui_ImplWin32_Shutdown();
 	ImPlot::DestroyContext();
 	ImGui::DestroyContext();
+#endif
 }
 
 void DebugManager::Update()
 {
+#ifdef DEBUG
 	// フレームの開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame(SCREEN_WIDTH, SCREEN_HEIGHT);//こいつを画面の解像度分にするように改造する
 	ImGui::NewFrame();
+#endif
 }
 
 void DebugManager::Draw()
 {
-	 //1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
-	if (show_demo_window)
-		ImGui::ShowDemoWindow(&show_demo_window);
-
-	if (show_plot_demo_window)
-		ImPlot::ShowDemoWindow(&show_plot_demo_window);
-
+#ifdef DEBUG
 	ImGui::EndFrame();
 	// ImGuiコード
 	//フレームの描画
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+#endif
 }
 
 float s = 30.0f;
 void DebugManager::DebugDraw(SCENE * scene)
 {
-	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
+#ifdef DEBUG
+	//1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
+	if (show_demo_window)
+		ImGui::ShowDemoWindow(&show_demo_window);
 
+	if (show_plot_demo_window)
+		ImPlot::ShowDemoWindow(&show_plot_demo_window);
+	
+
+
+	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
 
 	//Index
 	{
@@ -233,7 +260,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 			}
 
-			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PLAY_BUTTON_T), size))
+			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PLAY_BUTTON_T), size) || Input::GetKeyTrigger(VK_F5))
 			{
 				if (play == false)
 				{
@@ -268,7 +295,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 				ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 			}
 
-			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PAUSE_BUTTON_T), size))
+			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PAUSE_BUTTON_T), size) || Input::GetKeyTrigger(VK_F6))
 			{
 				if (paused == true)
 				{
@@ -296,7 +323,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 			ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
 			ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(0.0f, 0.0f, 0.0f, 1.0f));
 
-			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::NEXT_FRAME_BUTTON_T), size))
+			if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::NEXT_FRAME_BUTTON_T), size) || Input::GetKeyTrigger(VK_F7))
 			{
 				if (play == true)
 				{
@@ -352,6 +379,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		ImGui::End();
 	}
+#endif
 }
 
 bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int index, bool uneditable)

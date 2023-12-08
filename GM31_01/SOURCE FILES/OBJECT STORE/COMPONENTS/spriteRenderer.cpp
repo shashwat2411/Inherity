@@ -23,17 +23,9 @@ void SpriteRenderer::Start()
 	gameObject->SetDepth(false);
 
 	{
-		float x = 0.0f;
-		float y = 0.0f;
-
-		D3DXVECTOR2 offset = D3DXVECTOR2(1.0f, 1.0f);
-
-		if (animate == true)
-		{
-			offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
-			x = (count % elementsX) * offset.x;
-			y = (count / elementsX) * offset.y;
-		}
+		D3DXVECTOR2 offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+		float x = (count % elementsX) * offset.x;
+		float y = (count / elementsX) * offset.y;
 
 
 		VERTEX_3D vertex[4];
@@ -82,7 +74,17 @@ void SpriteRenderer::End()
 
 void SpriteRenderer::Update()
 {
-
+	if (animate == true)
+	{
+		if (count >= elementsX * elementsY)
+		{
+			count = 0;
+		}
+		else
+		{
+			count++;
+		}
+	}
 }
 
 void SpriteRenderer::Draw()
@@ -96,22 +98,10 @@ void SpriteRenderer::Draw()
 	//マトリクス設定
 	Renderer::SetWorldViewProjection2D();
 
-	if (count >= elementsX * elementsY)
-	{
-		count = 0;
-	}
 
-	float x = 0.0f;
-	float y = 0.0f;
-
-	D3DXVECTOR2 offset = D3DXVECTOR2(1.0f, 1.0f);
-
-	if (animate == true)
-	{
-		offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
-		x = (count % elementsX) * offset.x;
-		y = (count / elementsX) * offset.y;
-	}
+	D3DXVECTOR2 offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+	float x = (count % elementsX) * offset.x;
+	float y = (count / elementsX) * offset.y;
 
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);

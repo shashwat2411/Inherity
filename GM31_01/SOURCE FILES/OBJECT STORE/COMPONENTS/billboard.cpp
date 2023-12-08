@@ -61,11 +61,7 @@ void Billboard::Start()
 		bd.ByteWidth = sizeof(VERTEX_3D) * 4;
 		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		if (animate == false)
-		{
-			bd.Usage = D3D11_USAGE_DEFAULT;
-			bd.CPUAccessFlags = 0;
-		}
+
 
 		D3D11_SUBRESOURCE_DATA sd;
 		ZeroMemory(&sd, sizeof(sd));
@@ -82,7 +78,17 @@ void Billboard::End()
 
 void Billboard::Update()
 {
-
+	if (animate == true)
+	{
+		if (Count >= elementsX * elementsY)
+		{
+			Count = 0;
+		}
+		else
+		{
+			Count++;
+		}
+	}
 }
 
 void Billboard::Draw()
@@ -94,13 +100,9 @@ void Billboard::Draw()
 	float x = 0.0f;
 	float y = 0.0f;
 
-	D3DXVECTOR2 offset = D3DXVECTOR2(1.0f, 1.0f);
-	if (animate == true)
-	{
-		offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
-		x = (Count % elementsX) * offset.x;
-		y = (Count / elementsX) * offset.y;
-	}
+	D3DXVECTOR2 offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+	x = (Count % elementsX) * offset.x;
+	y = (Count / elementsX) * offset.y;
 
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);

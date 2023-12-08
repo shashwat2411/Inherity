@@ -149,6 +149,7 @@ void MeshFilter::SetAnimationBlend(const char* name, bool lp, float speed)
 			time = 0.0f;
 			//frame = 0.0f;
 			blendRate = 0.0f;
+			blendSpeed = speed;
 
 			animationName = animationBlendName;
 			animationBlendName = name;
@@ -164,29 +165,6 @@ void MeshFilter::SetFBX(bool value)
 
 	m_Model = nullptr;
 	m_Model_obj = nullptr;
-
-	//if (fbx == true)
-	//{
-	//	if (m_Model_obj != nullptr)
-	//	{
-	//		m_Model_obj = nullptr;
-	//	}
-
-	//	m_Model = nullptr;
-	//	m_Model = new AnimationModel();
-	//	m_Model->over = false;
-
-	//}
-	//else
-	//{
-	//	if (m_Model != nullptr)
-	//	{
-	//		m_Model = nullptr;
-	//	}
-
-	//	m_Model_obj = nullptr;
-	//	m_Model_obj = new Model();
-	//}
 }
 
 void MeshFilter::SetModel(ModelReader::READ_MODEL_FBX index) 

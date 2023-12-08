@@ -18,6 +18,7 @@ void SCENE::BeforeInit()
 
 	reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 
+	Fade->SetAlpha(1.0f);
 	Fade->SetFadeIn();
 
 }
