@@ -87,6 +87,15 @@ void SpriteRenderer::Update()
 
 void SpriteRenderer::Draw()
 {
+	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());
+
+	//シェーダー設定
+	Renderer::GetDeviceContext()->VSSetShader(gameObject->GetVertexShader(), NULL, 0);
+	Renderer::GetDeviceContext()->PSSetShader(gameObject->GetPixelShader(), NULL, 0);
+
+	//マトリクス設定
+	Renderer::SetWorldViewProjection2D();
+
 	if (count >= elementsX * elementsY)
 	{
 		count = 0;
@@ -159,14 +168,7 @@ void SpriteRenderer::Draw()
 	//}
 
 
-	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());
 
-	//シェーダー設定
-	Renderer::GetDeviceContext()->VSSetShader(gameObject->GetVertexShader(), NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(gameObject->GetPixelShader(), NULL, 0);
-
-	//マトリクス設定
-	Renderer::SetWorldViewProjection2D();
 
 	//頂点バッファの設定
 	UINT stride = sizeof(VERTEX_3D);

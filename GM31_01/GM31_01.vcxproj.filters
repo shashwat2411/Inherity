@@ -431,6 +431,9 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation2.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Load.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCENES</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

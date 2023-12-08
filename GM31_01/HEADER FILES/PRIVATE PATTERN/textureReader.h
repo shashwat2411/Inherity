@@ -120,7 +120,10 @@ public:
 	{
 		for (int i = 0; i < READ_TEXTURE::READ_TEXTURE_MAX; i++)
 		{
-			Textures[i]->Release();
+			if (Textures[i] != nullptr) 
+			{ 
+				Textures[i]->Release(); 
+			}
 		}
 	}
 	static ID3D11ShaderResourceView* GetReadTexture(READ_TEXTURE value)

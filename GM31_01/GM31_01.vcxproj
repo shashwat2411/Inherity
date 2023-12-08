@@ -119,6 +119,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Explosion.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Tree.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Game.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Load.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Result.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Title.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\bulletScript.cpp" />

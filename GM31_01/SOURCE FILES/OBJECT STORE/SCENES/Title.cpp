@@ -27,5 +27,5 @@ void TITLE_SCENE::Init()
 void TITLE_SCENE::Update()
 {
 	if (Input::GetKeyTrigger(VK_RETURN)) { end = true; }
-	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<GAME_SCENE>(); } }
+	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<LOAD_SCENE>(); } }
 }

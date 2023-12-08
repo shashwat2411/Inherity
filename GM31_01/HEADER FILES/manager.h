@@ -13,11 +13,13 @@ private:
 
 public:
 	static void Init();
-	static void Load();
 	static void Uninit();
 	static void Update();
 	static void FixedUpdate();
 	static void Draw();
+
+	static void Load();
+	static void Unload();
 
 	static void Save(std::string name);
 	static void Open(std::string name);

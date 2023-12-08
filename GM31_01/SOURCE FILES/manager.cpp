@@ -39,6 +39,18 @@ void Manager::Init()
 	Input::Init();
 	DebugManager::Init();
 
+
+	//PostProcess = new POSTPROCESS();
+	//PostProcess->Init();
+
+
+	SetScene<LOAD_SCENE>();
+	//SetScene<WORKSPACE_SCENE>();
+
+	Time::timeScale = 0.0f;
+	Time::fixedTimeScale = 1.0f;
+	Time::deltaTime = 1.0f / FRAME_RATE;
+
 }
 
 void Manager::Load()
@@ -50,18 +62,16 @@ void Manager::Load()
 	DontDestroyOnLoad = new EMPTY_SCENE();
 	DontDestroyOnLoad->Init();
 
-	//PostProcess = new POSTPROCESS();
-	//PostProcess->Init();
+	LOAD_SCENE::SetLoadOver(true);
+}
 
-	SetScene<GAME_SCENE>();
-	//SetScene<WORKSPACE_SCENE>();
+void Manager::Unload()
+{
+	LOAD_SCENE::SetLoadOver(false);
 
-	Time::timeScale = 0.0f;
-	Time::fixedTimeScale = 1.0f;
-	Time::deltaTime = 1.0f / FRAME_RATE;
-
-	Scene->UpdateBefore();
-	DontDestroyOnLoad->UpdateBefore();
+	ModelReader::UnReadModel();
+	SoundReader::UnloadAudio();
+	TextureReader::UnReadTexture();
 }
 
 void Manager::Uninit()
@@ -69,15 +79,15 @@ void Manager::Uninit()
 	if (PostProcess) { PostProcess->Uninit(); }
 
 	Scene->Uninit();
-	DontDestroyOnLoad->Uninit();
+	if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Uninit(); }
 
 	delete Scene;
 	delete DontDestroyOnLoad;
 
-
-	ModelReader::UnReadModel();
-	SoundReader::UnloadAudio();
-	TextureReader::UnReadTexture();
+	Unload();
+	//ModelReader::UnReadModel();
+	//SoundReader::UnloadAudio();
+	//TextureReader::UnReadTexture();
 
 	Input::Uninit();
 
@@ -87,103 +97,124 @@ void Manager::Uninit()
 
 void Manager::FixedUpdate()
 {
-	Input::Update();
-	DebugManager::Update();
-
-	if (Time::timeScale > 0.0f)
+	if (LOAD_SCENE::GetLogo() == false)
 	{
-		Scene->UpdateBefore();
-		DontDestroyOnLoad->UpdateBefore();
+		Input::Update();
+		DebugManager::Update();
 
-		if (PostProcess) { PostProcess->Update(); }
+		if (Time::timeScale > 0.0f)
+		{
+			Scene->UpdateBefore();
+			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->UpdateBefore(); }
+
+			if (PostProcess) { PostProcess->Update(); }
+		}
+
+		Scene->Update();
+		if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Update(); }
+
+
+		if (Input::GetKeyPress(VK_CONTROL))
+		{
+			if (Input::GetKeyTrigger('S'))
+			{
+				Save(Scene->name);
+			}
+			if (Input::GetKeyTrigger('O'))
+			{
+				Open(Scene->name);
+			}
+		}
 	}
-
-	Scene->Update();
-	DontDestroyOnLoad->Update();
-
-
-	if (Input::GetKeyPress(VK_CONTROL))
+	else
 	{
-		if (Input::GetKeyTrigger('S'))
-		{
-			Save(Scene->name);
-		}
-		if (Input::GetKeyTrigger('O'))
-		{
-			Open(Scene->name);
-		}
+		DebugManager::Update();
+
+		Scene->UpdateBefore();
+		Scene->Update();
 	}
 }
 
 void Manager::Draw()
 {
-	//ライトカメラ構造体の初期化
-	LIGHT light;
-	light.Enable = true;
-
-	//1パス目	シャドーバッファの作成
+	if (LOAD_SCENE::GetLogo() == false)
 	{
-		Renderer::BeginDepth();
-		Renderer::SetDepthViewPort();
+		//ライトカメラ構造体の初期化
+		LIGHT light;
+		light.Enable = true;
 
-		if (GetScene()->GetPlayer() != nullptr)
+		//1パス目	シャドーバッファの作成
 		{
-			LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
+			Renderer::BeginDepth();
+			Renderer::SetDepthViewPort();
+
+			if (GetScene()->GetPlayer() != nullptr)
+			{
+				LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
+			}
+
+			//ライトカメラの行列をセット
+			Renderer::SetLight(light);
+			Renderer::SetProjectionMatrix(&light.projectionMatrix);
+			Renderer::SetViewMatrix(&light.viewMatrix);
+
+			//影を落としたいオブジェクトを描画（一応地面も）
+			Scene->DepthPath();
 		}
 
-		//ライトカメラの行列をセット
-		Renderer::SetLight(light);
-		Renderer::SetProjectionMatrix(&light.projectionMatrix);
-		Renderer::SetViewMatrix(&light.viewMatrix);
-
-		//影を落としたいオブジェクトを描画（一応地面も）
-		Scene->DepthPath();
-	}
-
-	//2パス目　環境マップイング
-	{
-		D3DXMATRIX viewMatrixArray[6];
-		D3DXMATRIX projectionMatrix;
-
-		Scene->ReflectionMap(&viewMatrixArray[0]);
-
-		D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 2, 1.0f, 0.01f, 120.0f);
-		Renderer::SetProjectionMatrix(&projectionMatrix);
-
-		//ビューポート変更
-		Renderer::SetReflectViewPort();
-
-		//6面分描画する
-		for (int i = 0; i < 6; i++)
+		//2パス目　環境マップイング
 		{
-			Renderer::BeginCube();
+			D3DXMATRIX viewMatrixArray[6];
+			D3DXMATRIX projectionMatrix;
 
-			//ビュー変換 Matrix 設定 
-			Renderer::SetViewMatrix(&viewMatrixArray[i]);
+			Scene->ReflectionMap(&viewMatrixArray[0]);
 
-			Scene->EnvironmentMap();
+			D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 2, 1.0f, 0.01f, 120.0f);
+			Renderer::SetProjectionMatrix(&projectionMatrix);
 
-			Renderer::GetDeviceContext()->CopySubresourceRegion(Renderer::GetCubeReflectTexture(), D3D11CalcSubresource(0, i, 1), 0, 0, 0, Renderer::GetReflectTexture(), 0, nullptr);
+			//ビューポート変更
+			Renderer::SetReflectViewPort();
+
+			//6面分描画する
+			for (int i = 0; i < 6; i++)
+			{
+				Renderer::BeginCube();
+
+				//ビュー変換 Matrix 設定 
+				Renderer::SetViewMatrix(&viewMatrixArray[i]);
+
+				Scene->EnvironmentMap();
+
+				Renderer::GetDeviceContext()->CopySubresourceRegion(Renderer::GetCubeReflectTexture(), D3D11CalcSubresource(0, i, 1), 0, 0, 0, Renderer::GetReflectTexture(), 0, nullptr);
+			}
+
 		}
 
+		//3パス目　通常の描画
+		{
+			if (PostProcess) { Renderer::BeginPostProcess(); }
+			else { Renderer::Begin(); }
+
+			Renderer::SetDefaultViewPort();
+
+
+			Scene->Draw();
+			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Draw(); }
+
+			if (PostProcess) { Renderer::Begin(); PostProcess->Draw(); }
+
+			DebugManager::DebugDraw(Scene);
+			DebugManager::Draw();
+
+			Renderer::End();
+		}
 	}
-
-	//3パス目　通常の描画
+	else
 	{
-		if (PostProcess) { Renderer::BeginPostProcess(); }
-		else { Renderer::Begin(); }
-
+		Renderer::Begin();
 		Renderer::SetDefaultViewPort();
-
-
 		Scene->Draw();
-		//DontDestroyOnLoad->Draw();
-
-		if (PostProcess) { Renderer::Begin(); PostProcess->Draw(); }
-
-		DebugManager::DebugDraw(Scene);
 		DebugManager::Draw();
-
 		Renderer::End();
 	}
 }

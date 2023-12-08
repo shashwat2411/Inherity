@@ -72,7 +72,6 @@ public:
 public:
 
 	//Functions
-	void BeforeInit();
 	void Uninit();
 	void UpdateBefore();
 	void Draw();
@@ -82,6 +81,7 @@ public:
 	void ReflectionMap(D3DXMATRIX* view);
 
 	//Virtual Functions
+	virtual void BeforeInit();
 	virtual void Init() {}
 	virtual void Update() {}
 

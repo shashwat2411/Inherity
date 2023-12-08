@@ -53,10 +53,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr);
 	}
 
-
 	Manager::Init();
-	Manager::Load();
-
 
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);

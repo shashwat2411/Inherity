@@ -118,17 +118,26 @@ public:
 	{
 		for (int i = 0; i < READ_MODEL_OBJ::READ_MODEL_OBJ_MAX; i++)
 		{
-			ModelsOBJ[i].Unload();
+			if (&ModelsOBJ[i] != nullptr)
+			{
+				ModelsOBJ[i].Unload();
+			}
 		}
 
 		for (int i = 0; i < READ_MODEL_FBX::READ_MODEL_FBX_MAX; i++)
 		{
-			ModelsFBX[i].Unload();
+			if (&ModelsFBX[i] != nullptr)
+			{
+				ModelsFBX[i].Unload();
+			}
 		}
 
 		for (std::pair<const std::string, const aiScene*> pair : Animations)
 		{
-			aiReleaseImport(pair.second);
+			if (pair.second != nullptr)
+			{
+				aiReleaseImport(pair.second);
+			}
 		}
 	}
 
