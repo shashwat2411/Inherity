@@ -55,6 +55,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 
 	Manager::Init();
+	Manager::Load();
 
 
 	ShowWindow(g_Window, nCmdShow);

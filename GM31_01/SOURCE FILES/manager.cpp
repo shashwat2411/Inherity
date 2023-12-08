@@ -39,6 +39,10 @@ void Manager::Init()
 	Input::Init();
 	DebugManager::Init();
 
+}
+
+void Manager::Load()
+{
 	SoundReader::ReadSound();
 	ModelReader::ReadModel();
 	TextureReader::ReadTexture();
@@ -48,7 +52,7 @@ void Manager::Init()
 
 	//PostProcess = new POSTPROCESS();
 	//PostProcess->Init();
-	
+
 	SetScene<GAME_SCENE>();
 	//SetScene<WORKSPACE_SCENE>();
 
