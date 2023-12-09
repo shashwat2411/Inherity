@@ -1,12 +1,9 @@
 #pragma once
 #include "scene.h"
 
-class POSTPROCESS;
-
 class Manager
 {
 private:
-	static POSTPROCESS* PostProcess;
 	static SCENE* Scene;
 	static SCENE* DontDestroyOnLoad;
 	//static SCENE* NextScene;

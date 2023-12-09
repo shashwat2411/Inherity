@@ -1007,3 +1007,22 @@ public:
 	void SetCollisionSize(D3DXVECTOR3 s) { CollisionSize = s; }
 
 };
+class PostProcess : public Component
+{
+private:
+	ID3D11Buffer* VertexBuffer;
+	ID3D11ShaderResourceView** texture;
+
+public:
+
+	PostProcess() { name = "PostProcess"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	void SetTexture(ID3D11ShaderResourceView** value) { texture = value; }
+};

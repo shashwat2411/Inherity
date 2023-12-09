@@ -4,12 +4,11 @@ void PostProcessMaterial::Start()
 {
 	gameObject->SetDepthShadow(false);
 
-	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\postNoiseVS.cso");
-	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\postNoisePS.cso");
+	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\postMosaicVS.cso");
+	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\postMosaicPS.cso");
 }
 
 void PostProcessMaterial::Draw()
 {
-	ID3D11ShaderResourceView* ppTexture = Renderer::GetPostProcessTexture();
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &ppTexture);
+	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, Renderer::GetPostProcessTexture());
 }

@@ -19,7 +19,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 	Tex.rgb += noise;
 
-	outDiffuse.rgb = saturate(Tex.rgb) * In.Diffuse;
+	outDiffuse.rgb = saturate(Tex.rgb) * In.Diffuse.rgb;
 	outDiffuse.a = Tex.a * In.Diffuse.a;
 
 	//グレースケール変換

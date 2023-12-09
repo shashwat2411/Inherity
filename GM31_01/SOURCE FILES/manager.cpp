@@ -5,12 +5,10 @@
 #include "soundReader.h"
 #include "modelReader.h"
 #include "debugManager.h"
-#include "postProcess.h"
+#include "postProcessManager.h"
 
 #include <fstream>
 
-
-POSTPROCESS* Manager::PostProcess{};
 SCENE* Manager::Scene{};	//staticメンバ変数は再宣言が必要
 SCENE* Manager::DontDestroyOnLoad{};	//staticメンバ変数は再宣言が必要
 
@@ -38,11 +36,9 @@ void Manager::Init()
 	Renderer::Init();
 	Input::Init();
 	DebugManager::Init();
+	PostProcessManager::Init();
 
 	Load();
-
-	//PostProcess = new POSTPROCESS();
-	//PostProcess->Init();
 	
 	SetScene<LOAD_SCENE>();
 }
@@ -70,14 +66,13 @@ void Manager::Unload()
 
 void Manager::Uninit()
 {
-	if (PostProcess) { PostProcess->Uninit(); }
-
 	Scene->Uninit();
 	if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Uninit(); }
 
 	delete Scene;
 	delete DontDestroyOnLoad;
 
+	PostProcessManager::Uninit();
 	Manager::Unload();
 
 	Input::Uninit();
@@ -91,13 +86,12 @@ void Manager::FixedUpdate()
 	{
 		Input::Update();
 		DebugManager::Update();
+		PostProcessManager::Update();
 
 		if (Time::timeScale > 0.0f)
 		{
 			Scene->UpdateBefore();
 			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->UpdateBefore(); }
-
-			if (PostProcess) { PostProcess->Update(); }
 		}
 
 		Scene->Update();
@@ -113,6 +107,7 @@ void Manager::FixedUpdate()
 	else
 	{
 		DebugManager::Update();
+		PostProcessManager::Update();
 
 		Scene->UpdateBefore();
 		Scene->Update();
@@ -193,7 +188,7 @@ void Manager::Draw()
 			up = upOffset;	
 			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
-			D3DXMatrixPerspectiveFovLH(&projectionMatrix, 60.0f, 1.0f, 0.01f, 120.0f);
+			D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 2, 1.0f, 0.01f, 120.0f);
 			Renderer::SetProjectionMatrix(&projectionMatrix);
 
 			Renderer::SetMirrorViewPort();
@@ -207,6 +202,15 @@ void Manager::Draw()
 
 		//4パス目　通常の描画
 		{
+			Renderer::BeginPostProcess();
+			Renderer::SetDefaultViewPort();
+
+			Scene->Draw();
+			if (DontDestroyOnLoad != nullptr && Time::timeScale > 0.0f) { DontDestroyOnLoad->Draw(); }
+
+			PostProcessManager::Draw();
+			//Renderer::Begin(); PostProcess->Draw();
+			/*
 			if (PostProcess) { Renderer::BeginPostProcess(); }
 			else { Renderer::Begin(); }
 
@@ -216,7 +220,11 @@ void Manager::Draw()
 			Scene->Draw();
 			if (DontDestroyOnLoad != nullptr && Time::timeScale > 0.0f) { DontDestroyOnLoad->Draw(); }
 
-			if (PostProcess) { Renderer::Begin(); PostProcess->Draw(); }
+			if (PostProcess) 
+			{ 
+				Renderer::Begin(); PostProcess->Draw();
+			}
+			*/
 
 			DebugManager::DebugDraw(Scene);
 			DebugManager::Draw();

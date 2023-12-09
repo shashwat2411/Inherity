@@ -1,8 +1,13 @@
-#include "postProcess.h"
+#include "component.h"
+#include "material.h"
 
-
-void POSTPROCESS::Init()
+void PostProcess::Start()
 {
+	VertexBuffer = nullptr;
+	texture = nullptr;
+
+	gameObject->SetDepth(false);
+
 	VERTEX_3D vertex[4];
 
 	vertex[0].Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
@@ -38,37 +43,28 @@ void POSTPROCESS::Init()
 	ZeroMemory(&sd, sizeof(sd));
 	sd.pSysMem = vertex;
 
-	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &m_VertexBuffer);
+	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &VertexBuffer);
 
-	//ここにシェーダーファイルのロードを追加
-	Renderer::CreateVertexShader(&m_VertexShader, &m_VertexLayout, "shader\\postNoiseVS.cso");
-	Renderer::CreatePixelShader(&m_PixelShader, "shader\\postNoisePS.cso");
+	gameObject->AddMaterial<PostProcessMaterial>();
 }
 
-
-void POSTPROCESS::Uninit()
+void PostProcess::End()
 {
-	m_VertexBuffer->Release();
-
-	//ここにシェーダーオブジェクトの解放を追加
-	m_VertexLayout->Release();
-	m_VertexShader->Release();
-	m_PixelShader->Release();
+	if (VertexBuffer != nullptr) { VertexBuffer->Release(); }
 }
 
-
-void POSTPROCESS::Update()
+void PostProcess::Update()
 {
 
 }
 
-
-void POSTPROCESS::Draw()
+void PostProcess::Draw()
 {
-	//ここにシェーダー関連の描画準備を追加
-	Renderer::GetDeviceContext()->IASetInputLayout(m_VertexLayout);
-	Renderer::GetDeviceContext()->VSSetShader(m_VertexShader, NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(m_PixelShader, NULL, 0);
+	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());
+
+	//シェーダー設定
+	Renderer::GetDeviceContext()->VSSetShader(gameObject->GetVertexShader(), NULL, 0);
+	Renderer::GetDeviceContext()->PSSetShader(gameObject->GetPixelShader(), NULL, 0);
 
 
 	// マトリクス設定
@@ -78,7 +74,7 @@ void POSTPROCESS::Draw()
 	// 頂点バッファ設定
 	UINT stride = sizeof(VERTEX_3D);
 	UINT offset = 0;
-	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &stride, &offset);
+	Renderer::GetDeviceContext()->IASetVertexBuffers(0, 1, &VertexBuffer, &stride, &offset);
 
 	// マテリアル設定
 	MATERIAL material;
@@ -86,13 +82,20 @@ void POSTPROCESS::Draw()
 	material.Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	Renderer::SetMaterial(material);
 
-	// テクスチャ設定
-	ID3D11ShaderResourceView* ppTexture = Renderer::GetPostProcessTexture();
-	Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &ppTexture);
+	if (texture != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, texture); }
 
 	// プリミティブトポロジ設定
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	// ポリゴン描画
 	Renderer::GetDeviceContext()->Draw(4, 0);
+}
+
+void PostProcess::EngineDisplay()
+{
+	if (ImGui::TreeNode(name.c_str()))
+	{
+		ImGui::TreePop();
+		ImGui::Spacing();
+	}
 }

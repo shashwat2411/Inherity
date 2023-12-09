@@ -1,9 +1,10 @@
 #include "material.h"
+#include "component.h"
 
 void WaterMaterial::Start()
 {
 	SetFloat("_Time", 0.0f);
-	SetFloat("_Speed", 10.0f);
+	SetFloat("_Speed", 1.0f);
 	SetFloat("_Frequency", 10.0f);
 
 	SetTexture("_Texture", TextureReader::WATER_T);
@@ -30,7 +31,8 @@ void WaterMaterial::Draw()
 	param.dissolveThreshold = floats["_Frequency"];
 	param.dissolveRange = floats["_Time"];
 	param.color.r = floats["_Speed"];
-	param.color = gameObject->GetColor();
+	param.color2 = gameObject->GetColor();
+
 
 	Renderer::SetParameter(param);
 }

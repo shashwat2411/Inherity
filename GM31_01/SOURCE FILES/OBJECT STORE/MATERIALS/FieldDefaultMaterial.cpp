@@ -23,11 +23,8 @@ void FieldDefaultMaterial::Update()
 
 void FieldDefaultMaterial::Draw()
 {
-	ID3D11ShaderResourceView* depthShadowTexture;
-	depthShadowTexture = Renderer::GetDepthShadowTexture();
-
 	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
-	if (depthShadowTexture != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &depthShadowTexture); }
+	{ Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, Renderer::GetDepthShadowTexture()); }
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));

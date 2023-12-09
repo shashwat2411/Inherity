@@ -79,6 +79,7 @@ void GAME_SCENE::Init()
 	Buffer = AddGameObject<IMAGE>("Shadow Texture", SPRITE_LAYER);
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
 
+	//POST PROCESS
 
 	//ê⁄ë±èàóù
 	{

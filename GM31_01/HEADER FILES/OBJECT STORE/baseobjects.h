@@ -393,3 +393,19 @@ public:
 	void Amount(float value);
 
 };
+class POSTPROCESS :public GAMEOBJECT
+{
+public:
+	PostProcess* poster;
+
+public:
+
+	void Init() override
+	{
+		Initialize();
+
+		poster = AddComponent<PostProcess>();
+	}
+	void Update() override {}
+
+};

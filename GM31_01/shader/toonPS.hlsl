@@ -32,11 +32,11 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 	float pattern = 0.03125f + 0.0625f * 15.0f;
 	float2 uv = light;
-	float3 col;
+	float4 col;
 
 	uv.x += dissolveRange;
 	uv.y = pattern;
 
 	col = g_TextureToon.Sample(g_SamplerState, uv);
-	outDiffuse.rgb *= saturate(In.Diffuse.rgb * col);
+	outDiffuse.rgb *= saturate(In.Diffuse.rgb * col.rgb);
 }
