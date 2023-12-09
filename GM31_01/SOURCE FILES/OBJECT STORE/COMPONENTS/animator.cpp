@@ -219,7 +219,7 @@ void Animator::EngineDisplay()
 		int stat = (int)animation[animIndex]->status;
 		ImGui::PushItemWidth(-FLT_MIN);
 		ImGui::SliderInt(" ", &stat, 0, Animation::ANIMATION_STATUS_MAX - 1, animationStatus[stat]);
-		ImGui::DragFloat2("size", size);
+		//ImGui::DragFloat2("size", size);
 
 		std::string str = "\n Time : " + std::to_string((int)animation[animIndex]->timer);
 		ImGui::Text(str.c_str());

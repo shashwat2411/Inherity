@@ -256,6 +256,7 @@ private:
 
 public:
 	bool animate;
+	bool loop;
 
 	int count;
 	int elementsX;
@@ -482,6 +483,7 @@ class Billboard : public Component
 private:
 	bool animate;
 	bool atc;
+	bool loop;
 
 	int Count;
 	int elementsX;

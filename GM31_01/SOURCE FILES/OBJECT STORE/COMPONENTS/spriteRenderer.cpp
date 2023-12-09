@@ -5,6 +5,7 @@
 void SpriteRenderer::Start()
 {
 	animate = false;
+	loop = false;
 
 	count = 0;
 
@@ -76,9 +77,10 @@ void SpriteRenderer::Update()
 {
 	if (animate == true)
 	{
-		if (count >= elementsX * elementsY)
+		if (count >= elementsX * elementsY - 1)
 		{
-			count = 0;
+			if (loop == true) { count = 0; }
+			else { count = elementsX * elementsY - 1; }
 		}
 		else
 		{

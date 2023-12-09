@@ -14,6 +14,7 @@ IDXGISwapChain*	Renderer::m_SwapChain{};
 
 ID3D11RenderTargetView*	Renderer::m_RenderTargetView{};
 ID3D11RenderTargetView*	Renderer::m_PostProcessRenderTargetView{};
+ID3D11RenderTargetView*	Renderer::m_MirrorRenderTargetView{};
 ID3D11RenderTargetView*	Renderer::m_ReflectRenderTargetView{};
 
 ID3D11DepthStencilView*	Renderer::m_DepthStencilView{};
@@ -22,6 +23,7 @@ ID3D11DepthStencilView*	Renderer::m_ReflectDepthStencilView{};
 
 ID3D11ShaderResourceView*	Renderer::m_DepthShadowShaderResourceView{};
 ID3D11ShaderResourceView*	Renderer::m_PostProcessShaderResourceView{};
+ID3D11ShaderResourceView*	Renderer::m_MirrorShaderResourceView{};
 ID3D11ShaderResourceView*	Renderer::m_CubeReflectShaderResourceView{};
 
 ID3D11Buffer*	Renderer::m_WorldBuffer{};
@@ -377,8 +379,79 @@ void Renderer::Init()
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
+	//Post Process
+	{
+		swapChainDesc.SampleDesc.Count = 1;
 
-	//Reflect Rendering
+		//テクスチャ作成
+		ID3D11Texture2D* ppTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = swapChainDesc.BufferDesc.Width;
+		td.Height = swapChainDesc.BufferDesc.Height;
+		td.MipLevels = 1;
+		td.ArraySize = 1;
+		td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		td.SampleDesc = swapChainDesc.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		td.CPUAccessFlags = 0;
+		td.MiscFlags = 0;
+		m_Device->CreateTexture2D(&td, NULL, &ppTexture);
+
+		D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+		ZeroMemory(&rtvd, sizeof(rtvd));
+		rtvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		m_Device->CreateRenderTargetView(ppTexture, &rtvd, &m_PostProcessRenderTargetView);
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+		ZeroMemory(&srvd, sizeof(srvd));
+		srvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvd.Texture2D.MipLevels = 1;
+		m_Device->CreateShaderResourceView(ppTexture, &srvd, &m_PostProcessShaderResourceView);
+
+		ppTexture->Release();
+	}
+
+	//Mirror Mapping
+	{
+		swapChainDesc.SampleDesc.Count = 1;
+
+		//テクスチャ作成
+		ID3D11Texture2D* ppTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(td));
+		td.Width = 512;
+		td.Height = 512;
+		td.MipLevels = 1;
+		td.ArraySize = 1;
+		td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		td.SampleDesc = swapChainDesc.SampleDesc;
+		td.Usage = D3D11_USAGE_DEFAULT;
+		td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+		td.CPUAccessFlags = 0;
+		td.MiscFlags = 0;
+		m_Device->CreateTexture2D(&td, NULL, &ppTexture);
+
+		D3D11_RENDER_TARGET_VIEW_DESC rtvd;
+		ZeroMemory(&rtvd, sizeof(rtvd));
+		rtvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
+		m_Device->CreateRenderTargetView(ppTexture, &rtvd, &m_MirrorRenderTargetView);
+
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+		ZeroMemory(&srvd, sizeof(srvd));
+		srvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvd.Texture2D.MipLevels = 1;
+		m_Device->CreateShaderResourceView(ppTexture, &srvd, &m_MirrorShaderResourceView);
+
+		ppTexture->Release();
+	}
+
+	//Environment Rendering
 	{
 		{
 			swapChainDesc.BufferCount = 1;
@@ -435,6 +508,7 @@ void Renderer::Init()
 			dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
 
 			m_Device->CreateDepthStencilView(depthTexture, &dsvd, &m_ReflectDepthStencilView);//深度有効ステート
+
 			depthTexture->Release();
 		}
 
@@ -483,42 +557,6 @@ void Renderer::Init()
 			srvd.TextureCube.MostDetailedMip = 0;
 			m_Device->CreateShaderResourceView(m_CubeReflectTexture, &srvd, &m_CubeReflectShaderResourceView);
 		}
-	}
-
-	//Post Process
-	{
-		swapChainDesc.SampleDesc.Count = 1;
-
-		//テクスチャ作成
-		ID3D11Texture2D* ppTexture = NULL;
-		D3D11_TEXTURE2D_DESC td;
-		ZeroMemory(&td, sizeof(td));
-		td.Width = swapChainDesc.BufferDesc.Width;
-		td.Height = swapChainDesc.BufferDesc.Height;
-		td.MipLevels = 1;
-		td.ArraySize = 1;
-		td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		td.SampleDesc = swapChainDesc.SampleDesc;
-		td.Usage = D3D11_USAGE_DEFAULT;
-		td.BindFlags = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
-		td.CPUAccessFlags = 0;
-		td.MiscFlags = 0;
-		m_Device->CreateTexture2D(&td, NULL, &ppTexture);
-
-		D3D11_RENDER_TARGET_VIEW_DESC rtvd;
-		ZeroMemory(&rtvd, sizeof(rtvd));
-		rtvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		rtvd.ViewDimension = D3D11_RTV_DIMENSION_TEXTURE2D;
-		m_Device->CreateRenderTargetView(ppTexture, &rtvd, &m_PostProcessRenderTargetView);
-
-		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
-		ZeroMemory(&srvd, sizeof(srvd));
-		srvd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		srvd.Texture2D.MipLevels = 1;
-		m_Device->CreateShaderResourceView(ppTexture, &srvd, &m_PostProcessShaderResourceView);
-
-		ppTexture->Release();
 	}
 }
 
@@ -576,6 +614,15 @@ void Renderer::BeginCube()
 	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 	m_DeviceContext->ClearRenderTargetView(m_ReflectRenderTargetView, clearColor);
 	m_DeviceContext->ClearDepthStencilView(m_ReflectDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+}
+
+void Renderer::BeginMirror()
+{
+	m_DeviceContext->OMSetRenderTargets(1, &m_MirrorRenderTargetView, m_DepthStencilView);
+
+	float ClearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	m_DeviceContext->ClearRenderTargetView(m_MirrorRenderTargetView, ClearColor);
+	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 
@@ -809,6 +856,19 @@ void Renderer::SetDepthViewPort(float multiplier)
 }
 
 void Renderer::SetReflectViewPort()
+{
+	// ビューポート設定
+	D3D11_VIEWPORT vp;
+	vp.Width = 512;
+	vp.Height = 512;
+	vp.MinDepth = 0.0f;
+	vp.MaxDepth = 1.0f;
+	vp.TopLeftX = 0.0f;
+	vp.TopLeftY = 0.0f;
+	m_DeviceContext->RSSetViewports(1, &vp);
+}
+
+void Renderer::SetMirrorViewPort()
 {
 	// ビューポート設定
 	D3D11_VIEWPORT vp;

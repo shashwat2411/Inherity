@@ -7,6 +7,7 @@ void Billboard::Start()
 {
 	animate = false;
 	atc = false;
+	loop = false;
 
 	elementsX = 1;
 	elementsY = 1;
@@ -80,9 +81,10 @@ void Billboard::Update()
 {
 	if (animate == true)
 	{
-		if (Count >= elementsX * elementsY)
+		if (Count >= elementsX * elementsY - 1)
 		{
-			Count = 0;
+			if (loop == true) { Count = 0; }
+			else { Count = elementsX * elementsY - 1; }
 		}
 		else
 		{

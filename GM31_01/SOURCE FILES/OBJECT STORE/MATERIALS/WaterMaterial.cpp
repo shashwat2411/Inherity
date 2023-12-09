@@ -23,6 +23,7 @@ void WaterMaterial::Update()
 void WaterMaterial::Draw()
 {
 	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
+	Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, Renderer::GetMirrorShaderResourceView());
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));

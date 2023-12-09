@@ -41,6 +41,7 @@ public:
 		TITLE_BG_T,
 		RESULT_BG_T,
 		BUBBLE_T,
+		LOADING_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -82,6 +83,7 @@ public:
 		LoadTexture(&Textures[TITLE_BG_T], "asset\\texture\\titlegm.png");
 		LoadTexture(&Textures[RESULT_BG_T], "asset\\texture\\resultgm.png");
 		LoadTexture(&Textures[BUBBLE_T], "asset\\texture\\bubble.png");
+		LoadTexture(&Textures[LOADING_T], "asset\\texture\\loading.png");
 
 
 		//NAMES

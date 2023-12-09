@@ -174,7 +174,38 @@ void Manager::Draw()
 
 		}
 
-		//3パス目　通常の描画
+		//3パス目　鏡の環境マッピング
+		{
+			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
+			D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+
+			D3DXVECTOR3 eye;
+			D3DXVECTOR3 lookAt;
+			D3DXVECTOR3 up;
+
+			D3DXMATRIX view;
+			D3DXMATRIX projectionMatrix;
+
+			D3DXVECTOR3 vPlayerPos = GetScene()->GetPlayer()->transform->GlobalPosition;
+
+			eye = vPlayerPos;
+			lookAt = vPlayerPos + lookatOffset;
+			up = upOffset;	
+			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
+
+			D3DXMatrixPerspectiveFovLH(&projectionMatrix, 60.0f, 1.0f, 0.01f, 120.0f);
+			Renderer::SetProjectionMatrix(&projectionMatrix);
+
+			Renderer::SetMirrorViewPort();
+			Renderer::BeginMirror();
+
+			//ビュー変換 Matrix 設定 
+			Renderer::SetViewMatrix(&view);
+
+			Scene->EnvironmentMap();
+		}
+
+		//4パス目　通常の描画
 		{
 			if (PostProcess) { Renderer::BeginPostProcess(); }
 			else { Renderer::Begin(); }

@@ -106,6 +106,7 @@ private:
 
 	static ID3D11RenderTargetView*	m_RenderTargetView;
 	static ID3D11RenderTargetView*	m_PostProcessRenderTargetView;
+	static ID3D11RenderTargetView*	m_MirrorRenderTargetView;
 	static ID3D11RenderTargetView*	m_ReflectRenderTargetView;
 
 	static ID3D11DepthStencilView*	m_DepthStencilView;
@@ -114,6 +115,7 @@ private:
 
 	static ID3D11ShaderResourceView*	m_DepthShadowShaderResourceView;
 	static ID3D11ShaderResourceView*	m_PostProcessShaderResourceView;
+	static ID3D11ShaderResourceView*	m_MirrorShaderResourceView;
 	static ID3D11ShaderResourceView*	m_CubeReflectShaderResourceView;
 
 	static ID3D11Buffer*	m_WorldBuffer;
@@ -166,6 +168,7 @@ public:
 
 	static ID3D11ShaderResourceView*	GetDepthShadowTexture()				{ return m_DepthShadowShaderResourceView; }
 	static ID3D11ShaderResourceView*	GetPostProcessTexture()				{ return m_PostProcessShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetMirrorShaderResourceView()		{ return &m_MirrorShaderResourceView; }
 	static ID3D11ShaderResourceView*	GetCubeReflectShaderResourceView()	{ return m_CubeReflectShaderResourceView; }
 
 	static ID3D11Texture2D*	GetReflectTexture()		{ return m_ReflectTexture; }
@@ -175,6 +178,7 @@ public:
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
 
+	static void BeginMirror();
 	static void BeginCube();
 	static void BeginPostProcess();
 	static void BeginDepth()
@@ -187,5 +191,6 @@ public:
 	static void SetDepthViewPort();
 	static void SetDepthViewPort(float multiplier);
 	static void SetReflectViewPort();
+	static void SetMirrorViewPort();
 
 };
