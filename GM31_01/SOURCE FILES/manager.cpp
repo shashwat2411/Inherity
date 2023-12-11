@@ -92,11 +92,10 @@ void Manager::FixedUpdate()
 		{
 			Scene->UpdateBefore();
 			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->UpdateBefore(); }
+
+			Scene->Update();
+			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Update(); }
 		}
-
-		Scene->Update();
-		if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Update(); }
-
 
 		if (Input::GetKeyPress(VK_CONTROL))
 		{
@@ -181,7 +180,11 @@ void Manager::Draw()
 			D3DXMATRIX view;
 			D3DXMATRIX projectionMatrix;
 
-			D3DXVECTOR3 vPlayerPos = GetScene()->GetPlayer()->transform->GlobalPosition;
+			D3DXVECTOR3 vPlayerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			//if (GetScene()->GetPlayer() != nullptr)
+			{
+				D3DXVECTOR3 vPlayerPos = GetScene()->GetReflector()->transform->GlobalPosition;
+			}
 
 			eye = vPlayerPos;
 			lookAt = vPlayerPos + lookatOffset;

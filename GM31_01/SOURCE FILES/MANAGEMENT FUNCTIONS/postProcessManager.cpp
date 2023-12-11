@@ -1,5 +1,6 @@
 #include "postProcessManager.h"
 
+
 std::vector<POSTPROCESS*> PostProcessManager::posters{};
 
 void PostProcessManager::Init()

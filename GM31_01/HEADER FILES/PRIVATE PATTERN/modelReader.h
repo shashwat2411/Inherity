@@ -17,6 +17,7 @@ public:
 		SOUND_GIZMO_M,
 
 		//PREFAB MODELS
+		TITLE_SKYDOME_M,
 		SKYDOME_M,
 		ENEMY_M,
 
@@ -52,6 +53,7 @@ public:
 		ModelsOBJ[TORUS_M].Load("asset\\model\\torus.obj");
 		ModelsOBJ[SOUND_GIZMO_M].Load("asset\\model\\soundAreaGizmo.obj");
 
+		ModelsOBJ[TITLE_SKYDOME_M].Load("asset\\model\\titleSkydome.obj");
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
 		ModelsOBJ[ENEMY_M].Load("asset\\model\\ExplodeNew.obj");
 
@@ -84,6 +86,7 @@ public:
 		modelNames[TORUS_M]				= "TORUS";
 		modelNames[SOUND_GIZMO_M]		= "SOUND_GIZMO";
 
+		modelNames[TITLE_SKYDOME_M]		= "TITLE SKYDOME";
 		modelNames[SKYDOME_M]			= "SKYDOME";
 		modelNames[ENEMY_M]				= "ENEMY";
 

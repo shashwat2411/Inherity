@@ -331,12 +331,11 @@ void GAMEOBJECT::serialize(Archive & archive)
 	for (auto com : components)
 	{
 		if		(Transform* caster		= dynamic_cast<Transform*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(Rigidbody* caster		= dynamic_cast<Rigidbody*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(SpriteRenderer* caster	= dynamic_cast<SpriteRenderer*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (Camera* caster			= dynamic_cast<Camera*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (Number* caster			= dynamic_cast<Number*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (SphereCollider* caster = dynamic_cast<SphereCollider*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		//else if (Animator* caster		= dynamic_cast<Animator*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-
-		//archive(cereal::make_nvp(commer->name.c_str(),*commer));
 	}
 }
 CEREAL_CLASS_VERSION(GAMEOBJECT, 0);

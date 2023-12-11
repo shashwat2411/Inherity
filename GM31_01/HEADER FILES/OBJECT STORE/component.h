@@ -226,6 +226,16 @@ public:
 	void EngineDisplay() override;
 
 	void SetFollowTarget(GAMEOBJECT* target, float dist) { FollowTarget = target; distance = dist; }
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
+			CEREAL_NVP(mass),
+			CEREAL_NVP(groundLevel),
+			CEREAL_NVP(useGravity)
+		);
+	}
 };
 class Afterimage : public Component
 {
@@ -286,6 +296,15 @@ public:
 	void SetTexCoord(D3DXVECTOR2 value) { TexCoord = value; }
 	void SetColor(D3DXCOLOR value) { Color = value; }
 
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
+			CEREAL_NVP(Size),
+			CEREAL_NVP(TexCoord),
+			CEREAL_NVP(Color)
+		);
+	}
 };
 class MeshFilter :public Component
 {

@@ -27,6 +27,7 @@
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\input.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\InputController.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\saveFunctions.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\scene.h" />
     <ClInclude Include="HEADER FILES\manager.h" />
     <ClInclude Include="HEADER FILES\OBJECT STORE\animations.h" />

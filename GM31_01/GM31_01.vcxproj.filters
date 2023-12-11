@@ -186,6 +186,9 @@
     <ClInclude Include="imGUI\implot.h">
       <Filter>ImGUI\HEADER FILES</Filter>
     </ClInclude>
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\saveFunctions.h">
+      <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp">

@@ -430,8 +430,8 @@ void Renderer::Init()
 		ID3D11Texture2D* ppTexture = NULL;
 		D3D11_TEXTURE2D_DESC td;
 		ZeroMemory(&td, sizeof(td));
-		td.Width = 512;
-		td.Height = 512;
+		td.Width = 4096;
+		td.Height = 4096;
 		td.MipLevels = 1;
 		td.ArraySize = 1;
 		td.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -992,8 +992,8 @@ void Renderer::SetMirrorViewPort()
 {
 	// ビューポート設定
 	D3D11_VIEWPORT vp;
-	vp.Width = 512;
-	vp.Height = 512;
+	vp.Width = 4096;
+	vp.Height = 4096;
 	vp.MinDepth = 0.0f;
 	vp.MaxDepth = 1.0f;
 	vp.TopLeftX = 0.0f;

@@ -43,6 +43,11 @@ public:
 		BUBBLE_T,
 		LOADING_T,
 
+		//SCENE
+		PLAY_TEXT_T,
+		TUTORIAL_TEXT_T,
+		QUIT_TEXT_T,
+
 		READ_TEXTURE_MAX
 	};
 
@@ -85,6 +90,10 @@ public:
 		LoadTexture(&Textures[BUBBLE_T], "asset\\texture\\bubble.png");
 		LoadTexture(&Textures[LOADING_T], "asset\\texture\\loading.png");
 
+		LoadTexture(&Textures[PLAY_TEXT_T], "asset\\texture\\Title\\play.png");
+		LoadTexture(&Textures[TUTORIAL_TEXT_T], "asset\\texture\\Title\\tutorial.png");
+		LoadTexture(&Textures[QUIT_TEXT_T], "asset\\texture\\Title\\quit.png");
+
 
 		//NAMES
 		textureNames[NUMBER_T]				= "NUMBER";
@@ -116,6 +125,11 @@ public:
 		textureNames[TITLE_BG_T]			= "TITLE_BG";
 		textureNames[RESULT_BG_T]			= "RESULT_BG";
 		textureNames[BUBBLE_T]				= "BUBBLE";
+		textureNames[LOADING_T]				= "LOADING";
+
+		textureNames[PLAY_TEXT_T]			= "PLAY TEXT";
+		textureNames[TUTORIAL_TEXT_T]		= "TUTORIAL TEXT";
+		textureNames[QUIT_TEXT_T]			= "QUIT TEXT";
 	}
 
 	static void UnReadTexture()
