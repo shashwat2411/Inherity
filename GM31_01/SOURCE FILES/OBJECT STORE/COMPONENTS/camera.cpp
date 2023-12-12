@@ -43,6 +43,7 @@ void Camera::Start()
 	point->Parent = gameObject;
 	point->transform->Position.z = 2.0f;
 
+	Target = nullptr;
 }
 
 void Camera::End()
@@ -107,7 +108,10 @@ void Camera::EngineDisplay()
 
 
 		std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
+		list.push_back("nullptr");
 
+		if (Target == nullptr) { targetIndex = (int)list.size() - 1; }
+		else { targetIndex = Target->GetID(); }
 		if (ImGui::BeginCombo("##combo", list[targetIndex].c_str()))
 		{
 			for (int i = 0; i < list.size(); i++)
@@ -323,3 +327,27 @@ bool Camera::CheckView(Transform* target)
 
 	return true;
 }
+
+template<class Archive>
+void Camera::serialize(Archive & archive)
+{
+	std::string gameObjectName;
+	if (Archive::is_saving::value)
+	{
+		if (Target != nullptr) { gameObjectName = Target->GetTag(); }
+		else { gameObjectName = "nullptr"; }
+	}
+
+	archive(cereal::virtual_base_class<Component>(this),
+		CEREAL_NVP(fov),
+		cereal::make_nvp("Target", gameObjectName)
+	);
+
+	if (Archive::is_loading::value)
+	{
+		Target = Manager::GetScene()->Find(gameObjectName.c_str());
+	}
+}
+
+template void Camera::serialize<cereal::JSONOutputArchive>(cereal::JSONOutputArchive& archive);
+template void Camera::serialize<cereal::JSONInputArchive>(cereal::JSONInputArchive& archive);

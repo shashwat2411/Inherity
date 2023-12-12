@@ -20,6 +20,9 @@ public:
 		NEXT_FRAME_BUTTON_T,
 		CUBE_T,
 		CYLINDER_T,
+		SPRITE_T,
+		BILLBOARD_T,
+		PARTICLE_SYSTEM_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -52,9 +55,11 @@ public:
 	};
 
 private:
-	static ID3D11ShaderResourceView* Textures[READ_TEXTURE_MAX];
+	static std::array<ID3D11ShaderResourceView*, READ_TEXTURE_MAX> Textures;
+	//static ID3D11ShaderResourceView* Textures[READ_TEXTURE_MAX];
 
-	static const char* textureNames[TextureReader::READ_TEXTURE_MAX];
+	static std::array<const char*, READ_TEXTURE_MAX> textureNames;
+	//static const char* textureNames[TextureReader::READ_TEXTURE_MAX];
 
 public:
 	static void ReadTexture()
@@ -70,6 +75,9 @@ public:
 		LoadTexture(&Textures[NEXT_FRAME_BUTTON_T], "asset\\texture\\imGui\\nextFrameButton.png");
 		LoadTexture(&Textures[CUBE_T], "asset\\texture\\imGui\\cube.png");
 		LoadTexture(&Textures[CYLINDER_T], "asset\\texture\\imGui\\cylinder.png");
+		LoadTexture(&Textures[SPRITE_T], "asset\\texture\\imGui\\sprite.png");
+		LoadTexture(&Textures[BILLBOARD_T], "asset\\texture\\imGui\\billboard.png");
+		LoadTexture(&Textures[PARTICLE_SYSTEM_T], "asset\\texture\\imGui\\particleSystem.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");
@@ -107,6 +115,7 @@ public:
 		textureNames[NEXT_FRAME_BUTTON_T]	= "NEXT_FRAME_BUTTON";
 		textureNames[CUBE_T]				= "CUBE";
 		textureNames[CYLINDER_T]			= "CYLINDER";
+		textureNames[SPRITE_T]				= "SPRITE";
 
 		textureNames[DISSOLVE_T]			= "DISSOLVE";
 		textureNames[WIPE_T]				= "WIPE";
@@ -146,9 +155,15 @@ public:
 	{
 		return Textures[value];
 	}
+	//static const char* const* GetTextureNames()
+	//{
+	//	return textureNames;
+	//}
 	static const char* const* GetTextureNames()
 	{
-		return textureNames;
+		const char** names;
+		names = &textureNames[0];
+		return names;
 	}
 
 	static void LoadTexture(ID3D11ShaderResourceView** texture, const char* path)

@@ -6,24 +6,42 @@
 #include "modelReader.h"
 #include "debugManager.h"
 #include "postProcessManager.h"
+#include "animations.h"
 
 #include <fstream>
+
+#define DEPTH_SHADOW_RENDERING
+#define ENVIRONMENT_MAPPING
+#define MIRROR_MAPPING
 
 SCENE* Manager::Scene{};	//staticメンバ変数は再宣言が必要
 SCENE* Manager::DontDestroyOnLoad{};	//staticメンバ変数は再宣言が必要
 
-Model ModelReader::ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX]{};
-AnimationModel ModelReader::ModelsFBX[ModelReader::READ_MODEL_FBX_MAX]{};
-std::unordered_map<std::string, const aiScene*> ModelReader::Animations{};
+//Model ModelReader::ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX]{};
+//AnimationModel ModelReader::ModelsFBX[ModelReader::READ_MODEL_FBX_MAX]{};
+//std::unordered_map<std::string, const aiScene*> ModelReader::Animations{};
+//
+//Audio SoundReader::Audios[SoundReader::READ_SOUND_MAX]{};
+//
+//ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXTURE_MAX]{};
+//
+////Names
+//const char* ModelReader::modelNames[ModelReader::READ_MODEL_OBJ_MAX + ModelReader::READ_MODEL_FBX_MAX];
+//const char* SoundReader::soundNames[SoundReader::READ_SOUND_MAX];
+//const char* TextureReader::textureNames[TextureReader::READ_TEXTURE_MAX];
 
-Audio SoundReader::Audios[SoundReader::READ_SOUND_MAX]{};
+std::vector<Model> ModelReader::ModelsOBJ;
+std::vector<AnimationModel> ModelReader::ModelsFBX;
+std::unordered_map<std::string, const aiScene*> ModelReader::Animations;
 
-ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXTURE_MAX]{};
+std::array<Audio, SoundReader::READ_SOUND_MAX> SoundReader::Audios;
+
+std::array<ID3D11ShaderResourceView*, TextureReader::READ_TEXTURE_MAX> TextureReader::Textures;
 
 //Names
-const char* ModelReader::modelNames[ModelReader::READ_MODEL_OBJ_MAX + ModelReader::READ_MODEL_FBX_MAX];
-const char* SoundReader::soundNames[SoundReader::READ_SOUND_MAX];
-const char* TextureReader::textureNames[TextureReader::READ_TEXTURE_MAX];
+std::vector<const char*> ModelReader::modelNames;
+std::array<const char*, SoundReader::READ_SOUND_MAX> SoundReader::soundNames;
+std::array<const char*, TextureReader::READ_TEXTURE_MAX> TextureReader::textureNames;
 
 float Time::timeScale = 1.0f;
 float Time::fixedTimeScale = 1.0f;
@@ -38,7 +56,7 @@ void Manager::Init()
 	DebugManager::Init();
 	PostProcessManager::Init();
 
-	Load();
+	//Load();
 	
 	SetScene<LOAD_SCENE>();
 }
@@ -180,18 +198,18 @@ void Manager::Draw()
 			D3DXMATRIX view;
 			D3DXMATRIX projectionMatrix;
 
-			D3DXVECTOR3 vPlayerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			//D3DXVECTOR3 vPlayerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 			//if (GetScene()->GetPlayer() != nullptr)
-			{
+			//{
 				D3DXVECTOR3 vPlayerPos = GetScene()->GetReflector()->transform->GlobalPosition;
-			}
+			//}
 
 			eye = vPlayerPos;
 			lookAt = vPlayerPos + lookatOffset;
 			up = upOffset;	
 			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
-			D3DXMatrixPerspectiveFovLH(&projectionMatrix, D3DX_PI / 2, 1.0f, 0.01f, 120.0f);
+			D3DXMatrixPerspectiveFovLH(&projectionMatrix, 120.0f, 1.0f, 0.01f, 120.0f);
 			Renderer::SetProjectionMatrix(&projectionMatrix);
 
 			Renderer::SetMirrorViewPort();
@@ -281,6 +299,8 @@ void Manager::Save(std::string name)
 	cereal::JSONOutputArchive archive(outFile);
 
 	archive(CEREAL_NVP(GetScene()->objectAdder));
+	archive(CEREAL_NVP(GetScene()->componentAdder));
+	archive(CEREAL_NVP(GetScene()->animationAdder));
 
 	for (int i = 0; i < MAX_LAYER; i++)
 	{
@@ -304,9 +324,35 @@ void Manager::Open(std::string name)
 	archive(adder);
 	for(AddObjectSaveFile add : adder)
 	{
-		if (add.name == "CUBE")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>("Cube(Clone)"); } }
-		if (add.name == "CYLINDER") { for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>("Cylinder(Clone)"); } }
+		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>("Cube(Clone)"); } }
+		if (add.name == "CYLINDER")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>("Cylinder(Clone)"); } }
+		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>("Sprite(Clone)", SPRITE_LAYER); } }
+		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>("Billboard(Clone)", BILLBOARD_LAYER); } }
+		if (add.name == "PARTICLESYSTEM")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>("ParticleSystem(Clone)", BILLBOARD_LAYER); } }
 	}
+	GetScene()->objectAdder = adder;
+
+	std::vector<AddComponentSaveFile> cdder;
+	archive(cdder);
+	for (AddComponentSaveFile cdd : cdder)
+	{
+		if (cdd.name == "Animator")			{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<Animator>(); }
+		if (cdd.name == "AudioListener")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<AudioListener>(); }
+		if (cdd.name == "AudioSource")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<AudioSource>(); }
+		if (cdd.name == "Rigidbody")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<Rigidbody>(); }
+		if (cdd.name == "SphereCollider")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<SphereCollider>(); }
+	}
+	GetScene()->componentAdder = cdder;
+
+	std::vector<AddComponentSaveFile> animadder;
+	archive(animadder);
+	for (AddComponentSaveFile animdd : animadder)
+	{
+		if (animdd.name == "CharacterRetract")	{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<CharacterRetract>(); }
+		if (animdd.name == "TrialAnimation")	{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<TrialAnimation>(); }
+		if (animdd.name == "TrialAnimation2")	{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<TrialAnimation2>(); }
+	}
+	GetScene()->animationAdder = animadder;
 
 	for (int i = 0; i < MAX_LAYER; i++)
 	{

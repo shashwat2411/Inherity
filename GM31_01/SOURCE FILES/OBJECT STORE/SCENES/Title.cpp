@@ -61,7 +61,7 @@ void TITLE_SCENE::Init()
 
 		Water->AddMaterial<WaterMaterial>();
 		Water->GetMaterial()->SetTexture("_Texture", TextureReader::WATER_T);
-		Water->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
+		Water->meshField->TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
 		Water->transform->Scale = D3DXVECTOR3(1.0f, 1.0f, 0.1f);
 		Water->transform->Position = D3DXVECTOR3(0.0f, 0.29f, 0.0f);

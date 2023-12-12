@@ -36,15 +36,22 @@ public:
 
 
 private:
-	static Model ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX];
-	static AnimationModel ModelsFBX[ModelReader::READ_MODEL_FBX_MAX];
+	static std::vector<Model> ModelsOBJ;
+	static std::vector<AnimationModel> ModelsFBX;
+	//static Model ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX];
+	//static AnimationModel ModelsFBX[ModelReader::READ_MODEL_FBX_MAX];
 	static std::unordered_map<std::string, const aiScene*> Animations;
 
-	static const char* modelNames[READ_MODEL_OBJ_MAX + READ_MODEL_FBX_MAX];
+	static std::vector<const char*> modelNames;
+	//static const char* modelNames[READ_MODEL_OBJ_MAX + READ_MODEL_FBX_MAX];
 
 public:
 	static void ReadModel()
 	{
+		for (int i = 0; i < READ_MODEL_OBJ_MAX; i++) { ModelsOBJ.emplace_back(); }
+		for (int i = 0; i < READ_MODEL_FBX_MAX; i++) { ModelsFBX.emplace_back(); }
+		for (int i = 0; i < READ_MODEL_OBJ_MAX + READ_MODEL_FBX_MAX; i++) { modelNames.emplace_back(); }
+
 		//OBJ
 		ModelsOBJ[SPHERE_COLLIDER_M].Load("asset\\model\\SphereCollider.obj");
 		ModelsOBJ[BOX_COLLIDER_M].Load("asset\\model\\BoxCollider.obj");
@@ -129,9 +136,14 @@ public:
 	{
 		return Animations[name];
 	}
+	//static const char* const* GetModelNames()
+	//{
+	//	return modelNames;
+	//}
 	static const char* const* GetModelNames()
 	{
-		return modelNames;
+		const char** names;
+		names = &modelNames[0];
+		return names;
 	}
-
 };

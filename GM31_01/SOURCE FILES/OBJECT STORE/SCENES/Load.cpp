@@ -65,8 +65,8 @@ void LOAD_SCENE::Init()
 
 	}
 
-	//std::thread th(&Manager::Load);
-	//th.detach();
+	std::thread th(&Manager::Load);
+	th.detach();
 
 }
 

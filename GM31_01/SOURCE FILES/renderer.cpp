@@ -547,6 +547,7 @@ void Renderer::Init()
 			srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
 			srvd.Texture2D.MipLevels = 1;
 			m_Device->CreateShaderResourceView(ppTexture, &srvd, &m_BloomShaderResourceView[i]);
+
 			ppTexture->Release();
 		}
 	}
@@ -668,7 +669,30 @@ void Renderer::Uninit()
 	if (g_RasterStateCullCW)	g_RasterStateCullCW->Release();
 	if (g_RasterStateCullCCW)	g_RasterStateCullCCW->Release();
 
+	//Shader Resource View
+	m_DepthShadowShaderResourceView->Release();
+	m_PostProcessShaderResourceView->Release();
+	m_MirrorShaderResourceView->Release();
+	m_CubeReflectShaderResourceView->Release();
+	m_LuminaceShaderResourceView->Release();
+	m_BloomShaderResourceView[0]->Release();
+	m_BloomShaderResourceView[1]->Release();
+	m_BloomShaderResourceView[2]->Release();
+	m_BloomShaderResourceView[3]->Release();
+	m_BloomShaderResourceView[4]->Release();
+	m_BloomShaderResourceView[5]->Release();
+
+	//Texture
+	m_ReflectTexture->Release();
+	m_CubeReflectTexture->Release();
+
+	//Sampler State
+	m_samplerState_W->Release();
+	m_samplerState_C->Release();
+	m_samplerState_M->Release();
+
 	//Buffer
+	m_ParameterBuffer->Release();
 	m_WorldBuffer->Release();
 	m_ViewBuffer->Release();
 	m_ProjectionBuffer->Release();

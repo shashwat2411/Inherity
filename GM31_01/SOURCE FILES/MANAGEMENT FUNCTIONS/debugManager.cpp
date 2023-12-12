@@ -170,20 +170,20 @@ void DebugManager::DebugDraw(SCENE * scene)
 					{
 						if (edit != EDIT_MODE::ROTATION)
 						{
-							if		(Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = scene->GetCamera()->camera->GetForward(); }
+							if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = scene->GetCamera()->camera->GetForward(); }
 							else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -scene->GetCamera()->camera->GetForward(); }
-							if		(Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = scene->GetCamera()->camera->GetUp(); }
+							if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = scene->GetCamera()->camera->GetUp(); }
 							else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -scene->GetCamera()->camera->GetUp(); }
-							if		(Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = scene->GetCamera()->camera->GetRight(); }
+							if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = scene->GetCamera()->camera->GetRight(); }
 							else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = -scene->GetCamera()->camera->GetRight(); }
 						}
 						else
 						{
-							if		(Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = mover->transform->GetRightDirection(); }
+							if (Input::GetKeyPress('W')) { /*mover->transform->Position.z += 0.1f;*/ directionZ = mover->transform->GetRightDirection(); }
 							else if (Input::GetKeyPress('S')) { /*mover->transform->Position.z -= 0.1f;*/ directionZ = -mover->transform->GetRightDirection(); }
-							if		(Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = mover->transform->GetUpDirection(); }
+							if (Input::GetKeyPress('Q')) { /*mover->transform->Position.y += 0.1f;*/ directionY = mover->transform->GetUpDirection(); }
 							else if (Input::GetKeyPress('E')) { /*mover->transform->Position.y -= 0.1f;*/ directionY = -mover->transform->GetUpDirection(); }
-							if		(Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = -mover->transform->GetForwardDirection(); }
+							if (Input::GetKeyPress('D')) { /*mover->transform->Position.x += 0.1f;*/ directionX = -mover->transform->GetForwardDirection(); }
 							else if (Input::GetKeyPress('A')) { /*mover->transform->Position.x -= 0.1f;*/ directionX = mover->transform->GetForwardDirection(); }
 						}
 					}
@@ -219,7 +219,34 @@ void DebugManager::DebugDraw(SCENE * scene)
 					i++;
 
 					ImGui::SameLine();
+					ImGui::PushID(i);
 					component->EngineDisplay();
+					ImGui::PopID();
+					i++;
+				}
+
+				//Add Component
+				static float buttonWidth = 20.0f;
+				float windowWidth = ImGui::GetWindowSize().x;
+				float offset = (windowWidth - buttonWidth) * 0.5f;
+				//ImGui::DragFloat("offset", &buttonWidth);
+				ImGui::SetCursorPosX(offset);
+				if (ImGui::Button("Add")) { ImGui::OpenPopup("Components"); }
+				if (ImGui::BeginPopup("Components"))
+				{
+					bool selected = false;
+
+					ImGui::SeparatorText("Components");
+					if(ImGui::Selectable("Animator"))		{ selected = true; vector[index]->AddComponent<Animator>(); }
+					if(ImGui::Selectable("AudioListener"))	{ selected = true; vector[index]->AddComponent<AudioListener>(); }
+					if(ImGui::Selectable("AudioSource"))	{ selected = true; vector[index]->AddComponent<AudioSource>(); }
+					if(ImGui::Selectable("Rigidbody"))		{ selected = true; vector[index]->AddComponent<Rigidbody>(); }
+					if(ImGui::Selectable("SphereCollider"))	{ selected = true; vector[index]->AddComponent<SphereCollider>(); }
+
+					if (selected == true)
+						Manager::GetScene()->componentAdder.push_back(AddComponentSaveFile(vector[index]->GetComponentList().back()->name.c_str(), vector[index]->GetTag().c_str()));
+
+					ImGui::EndPopup();
 				}
 			}
 		}
@@ -370,9 +397,40 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CYLINDER_T), size))
 		{
-			Manager::GetScene()->AddGameObject<CYLINDER>()->SetTag("Cylinder(Clone)");
+			Manager::GetScene()->AddGameObject<CYLINDER>("Cylinder(Clone)");
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CYLINDER", 1));
 			layer = GAMEOBJECT_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = (int)vector.size() - 1;
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::SPRITE_T), size))
+		{
+			Manager::GetScene()->AddGameObject<IMAGE>("Sprite(Clone)", SPRITE_LAYER);
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("IMAGE", 1));
+			layer = SPRITE_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = (int)vector.size() - 1;
+		}
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::BILLBOARD_T), size))
+		{
+			Manager::GetScene()->AddGameObject<BILLBOARD>("Billboard(Clone)", BILLBOARD_LAYER);
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("BILLBOARD", 1));
+			layer = BILLBOARD_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = (int)vector.size() - 1;
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PARTICLE_SYSTEM_T), size))
+		{
+			Manager::GetScene()->AddGameObject<PARTICLESYSTEM>("ParticleSystem(Clone)", BILLBOARD_LAYER);
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("PARTICLESYSTEM", 1));
+			layer = BILLBOARD_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
 			index = (int)vector.size() - 1;
 		}

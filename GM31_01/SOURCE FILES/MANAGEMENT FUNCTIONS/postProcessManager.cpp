@@ -47,10 +47,11 @@ void PostProcessManager::Draw()
 	//	bloom->Draw();
 	//}
 
-	//Renderer::Begin/*PostProcess*/();
+	//Renderer::BeginPostProcess();
+	//Renderer::SetDefaultViewPort();
+	//GetPoster<MergeMaterial>()->Draw();
 
 	Renderer::Begin();
 	Renderer::SetDefaultViewPort();
 	GetPoster<PostProcessMaterial>()->Draw();
-	//GetPoster<MERGER>()->Draw();
 }

@@ -1,5 +1,25 @@
 {
     "GetScene()->objectAdder": [],
+    "GetScene()->componentAdder": [
+        {
+            "component": "Animator",
+            "gameObject": "Player Model"
+        },
+        {
+            "component": "SphereCollider",
+            "gameObject": "Player"
+        }
+    ],
+    "GetScene()->animationAdder": [
+        {
+            "component": "TrialAnimation",
+            "gameObject": "Player Model"
+        },
+        {
+            "component": "TrialAnimation2",
+            "gameObject": "Player Model"
+        }
+    ],
     "MainCamera": {
         "active": true,
         "Color": {
@@ -13,14 +33,14 @@
                 "enabled": true
             },
             "Position": {
-                "x": 4.239999771118164,
-                "y": -24.8700008392334,
-                "z": -6.380000114440918
+                "x": 7.199999809265137,
+                "y": -25.200000762939454,
+                "z": -9.0
             },
             "Rotation": {
-                "x": -3.549999952316284,
-                "y": 87.9000015258789,
-                "z": -8.079999923706055
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
             },
             "Scale": {
                 "x": 1.0,
@@ -32,7 +52,8 @@
             "value0": {
                 "enabled": true
             },
-            "fov": 60.0
+            "fov": 60.0,
+            "Target": "Player"
         }
     },
     "Reflection": {
@@ -106,13 +127,13 @@
                 "enabled": true
             },
             "Position": {
-                "x": 7.940000057220459,
+                "x": 7.639999866485596,
                 "y": -26.700000762939454,
                 "z": -6.440000057220459
             },
             "Rotation": {
                 "x": 0.0,
-                "y": -291.5,
+                "y": -359.0,
                 "z": 0.0
             },
             "Scale": {
@@ -128,6 +149,15 @@
             "mass": 1.0,
             "groundLevel": -26.700000762939454,
             "useGravity": true
+        },
+        "SphereCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": false,
+            "CollisionSize": 0.21000002324581147,
+            "scaleOffset": 1.0
         }
     },
     "Player Model": {
@@ -144,7 +174,7 @@
             },
             "Position": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 2.0,
                 "z": 0.0
             },
             "Rotation": {
@@ -220,9 +250,9 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 0.10000000149011612
+                "x": 2.5,
+                "y": 2.5,
+                "z": 0.25
             }
         }
     },
@@ -252,6 +282,35 @@
                 "x": 30.000001907348634,
                 "y": 30.000001907348634,
                 "z": 30.000001907348634
+            }
+        }
+    },
+    "Player": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 2.4000000953674318,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.21000002324581147,
+                "y": 0.21000002324581147,
+                "z": 0.21000002324581147
             }
         }
     },

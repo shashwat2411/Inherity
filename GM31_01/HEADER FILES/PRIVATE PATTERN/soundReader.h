@@ -1,5 +1,6 @@
 #pragma once
 #include "audio.h"
+//#include <array>
 
 #define DEFAULT_VOLUME 1.0f
 
@@ -19,9 +20,11 @@ public:
 	};
 
 private:
-	static Audio Audios[SoundReader::READ_SOUND_MAX];
+	static std::array<Audio, READ_SOUND_MAX>Audios;
+	//static Audio Audios[SoundReader::READ_SOUND_MAX];
 
-	static const char* soundNames[SoundReader::READ_SOUND_MAX];
+	static std::array<const char*, READ_SOUND_MAX> soundNames;
+	//static const char* soundNames[SoundReader::READ_SOUND_MAX];
 
 public:
 
@@ -67,9 +70,15 @@ public:
 	{
 		return &Audios[value];
 	}
+	//static const char* const* GetSoundNames()
+	//{
+	//	return soundNames;
+	//}
 	static const char* const* GetSoundNames()
 	{
-		return soundNames;
+		const char** names;
+		names = &soundNames[0];
+		return names;
 	}
 
 };

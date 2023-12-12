@@ -179,6 +179,8 @@ void Billboard::EngineDisplay()
 {
 	if (ImGui::TreeNode("Billboard"))
 	{
+		bool b = gameObject->GetBillboard();
+
 		ImGui::Text("Texture : ");
 		ImGui::SameLine();
 
@@ -191,13 +193,18 @@ void Billboard::EngineDisplay()
 
 		DebugManager::BoolDisplay(&animate, -200.0f, "Animate", 1);
 		ImGui::SameLine();
-		DebugManager::BoolDisplay(&flip, -146.0f, "Flip", 2);
+		DebugManager::BoolDisplay(&b, -106.0f, "Billboard", 2);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&flip, -52.0f, "Flip", 3);
 		
 		ImGui::Text("\n");
 
 		ImGui::DragFloat2("Size", Size, 0.1F);
 		ImGui::DragFloat2("TexCoord", TexCoord, 0.1F);
 		ImGui::DragFloat2("Offset", Offset, 0.1F);
+
+		gameObject->SetBillboard(b);
+		atc = b;
 
 		ImGui::TreePop();
 		ImGui::Spacing();
