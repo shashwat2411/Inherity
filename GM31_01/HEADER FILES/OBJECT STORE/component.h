@@ -340,6 +340,7 @@ public:
 
 	const char* GetCurrentAnimation() { if (m_Model != nullptr) { return animationBlendName.c_str(); } return ""; }
 	bool GetAnimationOver(const char* name);
+	int GetModelIndex() { return modelIndex; }
 
 	void SetAnimationBlend(const char* name, bool lp = false, float speed = 0.05f);
 
@@ -353,6 +354,15 @@ public:
 
 	AnimationModel* GetModel() { return m_Model; }
 	Model* GetModel(int i) { return m_Model_obj; }
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
+			CEREAL_NVP(modelIndex)
+			);
+	}
+
 };
 class SphereCollider : public Component
 {
@@ -695,6 +705,7 @@ public:
 	bool GetPlayOnAwake() { return playOnAwake; }
 	bool GetThreeDimension() { return threeDimension; }
 	float GetVolume() { return volume; }
+	int GetSoundIndex() { return soundIndex; }
 	Audio* GetClip() { return clip; }
 
 	void SetLoop(bool value) { loop = value; }
@@ -707,6 +718,17 @@ public:
 	void PlayOneShot(Audio* audio, float v = 1.0f);
 
 	static SOUND* PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float volume);
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
+			CEREAL_NVP(loop),
+			CEREAL_NVP(threeDimension),
+			CEREAL_NVP(soundIndex),
+			CEREAL_NVP(volume)
+		);
+	}
 
 };
 class Animator : public Component

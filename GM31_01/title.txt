@@ -4,10 +4,6 @@
         {
             "component": "Animator",
             "gameObject": "Player Model"
-        },
-        {
-            "component": "SphereCollider",
-            "gameObject": "Player"
         }
     ],
     "GetScene()->animationAdder": [
@@ -28,6 +24,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -64,6 +61,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -93,12 +91,13 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
             },
             "Position": {
-                "x": 7.940000057220459,
+                "x": 7.639999866485596,
                 "y": -26.799999237060548,
                 "z": -6.440000057220459
             },
@@ -112,6 +111,15 @@
                 "y": 100.0,
                 "z": 100.0
             }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 6
+        },
+        "Material": {
+            "textureIndex": 0
         }
     },
     "Player": {
@@ -122,6 +130,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -149,15 +158,6 @@
             "mass": 1.0,
             "groundLevel": -26.700000762939454,
             "useGravity": true
-        },
-        "SphereCollider": {
-            "value0": {
-                "enabled": true
-            },
-            "isTrigger": false,
-            "isKinematic": false,
-            "CollisionSize": 0.21000002324581147,
-            "scaleOffset": 1.0
         }
     },
     "Player Model": {
@@ -168,14 +168,15 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "Player",
         "Transform": {
             "Component": {
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
-                "y": 2.0,
-                "z": 0.0
+                "x": -0.6930945515632629,
+                "y": 0.781901478767395,
+                "z": 2.0
             },
             "Rotation": {
                 "x": 0.0,
@@ -188,6 +189,12 @@
                 "z": 0.009999999776482582
             }
         },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 9
+        },
         "SphereCollider": {
             "value0": {
                 "enabled": true
@@ -196,6 +203,9 @@
             "isKinematic": false,
             "CollisionSize": 0.30000001192092898,
             "scaleOffset": 100.0
+        },
+        "Material": {
+            "textureIndex": 19
         }
     },
     "Field": {
@@ -206,6 +216,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -225,6 +236,9 @@
                 "y": 1.0,
                 "z": 1.0
             }
+        },
+        "Material": {
+            "textureIndex": 25
         }
     },
     "Water": {
@@ -235,6 +249,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -254,6 +269,9 @@
                 "y": 2.5,
                 "z": 0.25
             }
+        },
+        "Material": {
+            "textureIndex": 5
         }
     },
     "Player Model": {
@@ -264,6 +282,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "Player Model",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -283,35 +302,15 @@
                 "y": 30.000001907348634,
                 "z": 30.000001907348634
             }
-        }
-    },
-    "Player": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
         },
-        "Transform": {
+        "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "Position": {
-                "x": 0.0,
-                "y": 2.4000000953674318,
-                "z": 0.0
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.21000002324581147,
-                "y": 0.21000002324581147,
-                "z": 0.21000002324581147
-            }
+            "modelIndex": 0
+        },
+        "Material": {
+            "textureIndex": 0
         }
     },
     "Play": {
@@ -322,6 +321,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -360,6 +360,9 @@
                 "b": 1.0,
                 "a": 1.0
             }
+        },
+        "Material": {
+            "textureIndex": 32
         }
     },
     "Tutorial": {
@@ -370,6 +373,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -408,6 +412,9 @@
                 "b": 1.0,
                 "a": 1.0
             }
+        },
+        "Material": {
+            "textureIndex": 33
         }
     },
     "Quit": {
@@ -418,6 +425,7 @@
             "b": 1.0,
             "a": 1.0
         },
+        "Parent": "nullptr",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -456,6 +464,9 @@
                 "b": 1.0,
                 "a": 1.0
             }
+        },
+        "Material": {
+            "textureIndex": 34
         }
     }
 }
