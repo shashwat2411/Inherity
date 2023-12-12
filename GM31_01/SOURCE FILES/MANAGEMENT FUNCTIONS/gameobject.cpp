@@ -297,6 +297,7 @@ void GAMEOBJECT::EngineDisplay()
 			list.push_back("nullptr");
 
 			if (Parent == nullptr) { parentIndex = (int)list.size() - 1; }
+			else { parentIndex = Parent->GetID(); }
 			if (ImGui::BeginCombo("##combo", list[parentIndex].c_str()))
 			{
 				for (int i = 0; i < list.size(); i++)
@@ -326,7 +327,15 @@ void GAMEOBJECT::EngineDisplay()
 template<class Archive>
 void GAMEOBJECT::serialize(Archive & archive)
 {
-	archive(CEREAL_NVP(active), CEREAL_NVP(Color));
+	std::string gameObjectName;
+	Material* mat = material;
+	if (Archive::is_saving::value)
+	{
+		if (Parent != nullptr) { gameObjectName = Parent->GetTag(); }
+		else { gameObjectName = "nullptr"; }
+	}
+
+	archive(CEREAL_NVP(active), CEREAL_NVP(Color), cereal::make_nvp("Parent", gameObjectName));
 	
 	for (auto com : components)
 	{
@@ -338,6 +347,43 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else if (Number* caster			= dynamic_cast<Number*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (SphereCollider* caster = dynamic_cast<SphereCollider*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (ParticleSystem* caster = dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (AudioSource* caster	= dynamic_cast<AudioSource*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (MeshFilter* caster		= dynamic_cast<MeshFilter*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+	}
+
+	if (mat != nullptr) { archive(cereal::make_nvp("Material", *mat)); }
+
+	if (Archive::is_loading::value)
+	{
+		Parent = Manager::GetScene()->Find(gameObjectName.c_str());
+
+		if (mat != nullptr)
+		{
+			if (GetMaterial()->GetTexture("_Texture") != nullptr)
+			{
+				GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*GetMaterial()->GetIndex()));
+			}
+		}
+		
+		AudioSource* as = GetComponent<AudioSource>();
+		if (as != nullptr)
+		{
+			as->GetClip()->Stop();
+			as->SetClip((SoundReader::READ_SOUND)as->GetSoundIndex());
+		}
+
+		MeshFilter* mf = GetComponent<MeshFilter>();
+		if (mf != nullptr)
+		{
+			if (mf->GetModelIndex() < ModelReader::READ_MODEL_OBJ_MAX)
+			{
+				mf->SetModel((ModelReader::READ_MODEL_OBJ)mf->GetModelIndex());
+			}
+			else
+			{
+				mf->SetModel((ModelReader::READ_MODEL_FBX)(mf->GetModelIndex() - ModelReader::READ_MODEL_OBJ_MAX));
+			}
+		}
 	}
 }
 CEREAL_CLASS_VERSION(GAMEOBJECT, 0);

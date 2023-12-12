@@ -15,6 +15,8 @@ public:
 		BOX_T,
 		HOME2_T,
 		WATER_T,
+
+		//IMGUI
 		PLAY_BUTTON_T,
 		PAUSE_BUTTON_T,
 		NEXT_FRAME_BUTTON_T,
@@ -23,6 +25,8 @@ public:
 		SPRITE_T,
 		BILLBOARD_T,
 		PARTICLE_SYSTEM_T,
+		PLUS_T,
+		EMPTY_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -78,6 +82,8 @@ public:
 		LoadTexture(&Textures[SPRITE_T], "asset\\texture\\imGui\\sprite.png");
 		LoadTexture(&Textures[BILLBOARD_T], "asset\\texture\\imGui\\billboard.png");
 		LoadTexture(&Textures[PARTICLE_SYSTEM_T], "asset\\texture\\imGui\\particleSystem.png");
+		LoadTexture(&Textures[PLUS_T], "asset\\texture\\imGui\\plus.png");
+		LoadTexture(&Textures[EMPTY_T], "asset\\texture\\imGui\\empty.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");
@@ -116,6 +122,9 @@ public:
 		textureNames[CUBE_T]				= "CUBE";
 		textureNames[CYLINDER_T]			= "CYLINDER";
 		textureNames[SPRITE_T]				= "SPRITE";
+		textureNames[BILLBOARD_T]			= "BILLBOARD";
+		textureNames[PARTICLE_SYSTEM_T]		= "PARTICLE SYSTEM";
+		textureNames[PLUS_T]				= "PLUS";
 
 		textureNames[DISSOLVE_T]			= "DISSOLVE";
 		textureNames[WIPE_T]				= "WIPE";

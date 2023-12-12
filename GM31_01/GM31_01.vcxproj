@@ -27,6 +27,7 @@
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\input.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\InputController.h" />
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\saveFunctions.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\scene.h" />
     <ClInclude Include="HEADER FILES\manager.h" />
@@ -53,7 +54,6 @@
     <ClInclude Include="imGUI\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h" />
     <ClCompile Include="imGUI\imgui.cpp" />
     <ClCompile Include="imGUI\imgui_demo.cpp" />
     <ClCompile Include="imGUI\imgui_draw.cpp" />

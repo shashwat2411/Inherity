@@ -226,12 +226,17 @@ void DebugManager::DebugDraw(SCENE * scene)
 				}
 
 				//Add Component
-				static float buttonWidth = 20.0f;
+				ImGui::SeparatorText("");
+
+				static float buttonWidth = 15.0f;
+				static float size = 15.0f;
 				float windowWidth = ImGui::GetWindowSize().x;
 				float offset = (windowWidth - buttonWidth) * 0.5f;
 				//ImGui::DragFloat("offset", &buttonWidth);
+				//ImGui::DragFloat("size", &size);
 				ImGui::SetCursorPosX(offset);
-				if (ImGui::Button("Add")) { ImGui::OpenPopup("Components"); }
+
+				if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PLUS_T), ImVec2(size, size))) { ImGui::OpenPopup("Components"); }
 				if (ImGui::BeginPopup("Components"))
 				{
 					bool selected = false;
@@ -242,6 +247,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 					if(ImGui::Selectable("AudioSource"))	{ selected = true; vector[index]->AddComponent<AudioSource>(); }
 					if(ImGui::Selectable("Rigidbody"))		{ selected = true; vector[index]->AddComponent<Rigidbody>(); }
 					if(ImGui::Selectable("SphereCollider"))	{ selected = true; vector[index]->AddComponent<SphereCollider>(); }
+					if(ImGui::Selectable("MeshFilter"))		{ selected = true; vector[index]->AddComponent<MeshFilter>(); }
 
 					if (selected == true)
 						Manager::GetScene()->componentAdder.push_back(AddComponentSaveFile(vector[index]->GetComponentList().back()->name.c_str(), vector[index]->GetTag().c_str()));
@@ -431,6 +437,17 @@ void DebugManager::DebugDraw(SCENE * scene)
 			Manager::GetScene()->AddGameObject<PARTICLESYSTEM>("ParticleSystem(Clone)", BILLBOARD_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("PARTICLESYSTEM", 1));
 			layer = BILLBOARD_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = (int)vector.size() - 1;
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::EMPTY_T), size))
+		{
+			Manager::GetScene()->AddGameObject<EMPTYOBJECT>("EmptyObject(Clone)");
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("EMPTYOBJECT", 1));
+			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
 			index = (int)vector.size() - 1;
 		}
