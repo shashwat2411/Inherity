@@ -271,33 +271,35 @@ void AnimationModel::CreateBone(aiNode* node)
 
 void AnimationModel::Unload()
 {
-	for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+	if (m_AiScene != nullptr)
 	{
-		m_VertexBuffer[m]->Release();
-		m_IndexBuffer[m]->Release();
+		for (unsigned int m = 0; m < m_AiScene->mNumMeshes; m++)
+		{
+			m_VertexBuffer[m]->Release();
+			m_IndexBuffer[m]->Release();
+		}
+
+		delete[] m_VertexBuffer;
+		delete[] m_IndexBuffer;
+
+		delete[] m_DeformVertex;
+
+
+		for (std::pair<const std::string, ID3D11ShaderResourceView*> pair : m_Texture)
+		{
+			if (pair.second != nullptr) { pair.second->Release(); }
+		}
+
+
+
+		aiReleaseImport(m_AiScene);
+
+
+		for (std::pair<const std::string, const aiScene*> pair : m_Animation)
+		{
+			pair.second = nullptr;
+		}
 	}
-
-	delete[] m_VertexBuffer;
-	delete[] m_IndexBuffer;
-
-	delete[] m_DeformVertex;
-
-
-	for (std::pair<const std::string, ID3D11ShaderResourceView*> pair : m_Texture)
-	{
-		if (pair.second != nullptr) { pair.second->Release(); }
-	}
-
-
-
-	aiReleaseImport(m_AiScene);
-
-
-	for (std::pair<const std::string, const aiScene*> pair : m_Animation)
-	{
-		pair.second = nullptr;
-	}
-
 }
 
 

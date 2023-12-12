@@ -34,6 +34,24 @@ public:
 	}
 };
 
+class AddComponentSaveFile
+{
+public:
+	std::string name;
+	std::string gameObject;
+
+public:
+
+	AddComponentSaveFile() {}
+	AddComponentSaveFile(std::string n, std::string g) :name(n), gameObject(g) {}
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("component", name), CEREAL_NVP(gameObject));
+	}
+};
+
 enum LAYER
 {
 	CAMERA_LAYER = 0,
@@ -68,11 +86,12 @@ public:
 	GAMEOBJECT* torus;
 
 	std::vector<AddObjectSaveFile> objectAdder;
+	std::vector<AddComponentSaveFile> componentAdder;
+	std::vector<AddComponentSaveFile> animationAdder;
 
 public:
 
 	//Functions
-	void BeforeInit();
 	void Uninit();
 	void UpdateBefore();
 	void Draw();
@@ -82,11 +101,13 @@ public:
 	void ReflectionMap(D3DXMATRIX* view);
 
 	//Virtual Functions
+	virtual void BeforeInit();
 	virtual void Init() {}
 	virtual void Update() {}
 
 	PLAYER* GetPlayer() { return player; }
 	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
+	EMPTYOBJECT* GetReflector() { return reflectionProjector; }
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GetGameObjectList() { return GameObjects; }
 	std::list<GAMEOBJECT*> GetGameObjectList(LAYER layer) { return GameObjects[layer]; }
 	std::vector<std::string> GetGameObjectNames(LAYER layer) { return gameObjectNames[layer]; }
@@ -114,12 +135,13 @@ public:
 		T* gameObject = new T();
 		GameObjects[layer].push_back(gameObject);
 
-		gameObject->SetID((int)GameObjects[layer].size() - 1);
 		if (name != "") { gameObject->SetTag(name); }
 
 		gameObjectNames[layer].push_back(gameObject->GetTag());
 
 		gameObject->Start();
+
+		gameObject->SetID((int)GameObjects[layer].size() - 1);
 
 		return gameObject;
 	}

@@ -24,12 +24,9 @@ void DissolveMaterial::Update()
 
 void DissolveMaterial::Draw()
 {
-	ID3D11ShaderResourceView* depthShadowTexture;
-	depthShadowTexture = Renderer::GetDepthShadowTexture();
-
 	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
 	if (textures["_Dissolve_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Dissolve_Texture"]); }
-	if (depthShadowTexture != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(2, 1, &depthShadowTexture); }
+	{ Renderer::GetDeviceContext()->PSSetShaderResources(2, 1, Renderer::GetDepthShadowTexture()); }
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));

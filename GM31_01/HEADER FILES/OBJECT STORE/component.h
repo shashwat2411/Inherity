@@ -226,6 +226,16 @@ public:
 	void EngineDisplay() override;
 
 	void SetFollowTarget(GAMEOBJECT* target, float dist) { FollowTarget = target; distance = dist; }
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
+			CEREAL_NVP(mass),
+			CEREAL_NVP(groundLevel),
+			CEREAL_NVP(useGravity)
+		);
+	}
 };
 class Afterimage : public Component
 {
@@ -256,6 +266,7 @@ private:
 
 public:
 	bool animate;
+	bool loop;
 
 	int count;
 	int elementsX;
@@ -279,10 +290,21 @@ public:
 	D3DXVECTOR2 GetTexCoord() { return TexCoord; }
 	D3DXCOLOR GetColor() { return Color; }
 
+	void SetAnimate(bool value) { animate = value; }
+	void SetElements(int x, int y) { elementsX = x; elementsY = y; }
 	void SetSize(D3DXVECTOR2 value) { Size = value; }
 	void SetTexCoord(D3DXVECTOR2 value) { TexCoord = value; }
 	void SetColor(D3DXCOLOR value) { Color = value; }
 
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
+			CEREAL_NVP(Size),
+			CEREAL_NVP(TexCoord),
+			CEREAL_NVP(Color)
+		);
+	}
 };
 class MeshFilter :public Component
 {
@@ -440,12 +462,8 @@ public:
 	bool CheckView(Transform* target);
 
 	template<class Archive>
-	void serialize(Archive & archive)
-	{
-		archive(cereal::virtual_base_class<Component>(this),
-			CEREAL_NVP(fov)
-		);
-	}
+	void serialize(Archive & archive);
+
 };
 class Plane : public Component
 {
@@ -480,6 +498,7 @@ class Billboard : public Component
 private:
 	bool animate;
 	bool atc;
+	bool loop;
 
 	int Count;
 	int elementsX;
@@ -784,12 +803,7 @@ public:
 		animation[animIndex]->animationSize = animation[animIndex]->data.back().frame;
 		animation[animIndex]->keyframes = (int)animation[animIndex]->data.size();
 	}
-	//void AddAnimation(Animation* anim, int index, Animation::ANIMATION_STATUS stat = Animation::STANDBY)
-	//{
-	//	animation.push_back(anim);
-	//	animIndex = index;
-	//	InitAnimation(stat);
-	//}
+
 	void PlayAnimation(int index, Animation::ANIMATION_STATUS stat = Animation::PLAYBACK)
 	{
 		if (animation[animIndex]->status != Animation::LOOP)
@@ -820,19 +834,39 @@ public:
 
 	void AnimatorPlotInit();
 	void BezierCalculate();
+	void AnimationAdder();
 	void Save();
 	void Open();
 
 	template<class T>
+	T* GetAnimation()
+	{
+		for (auto anim : animation)
+		{
+			T* buff = dynamic_cast<T*>(anim);
+			if (buff != nullptr)
+			{
+				return buff;
+			}
+		}
+		return nullptr;
+	}
+
+	template<class T>
 	T* AddAnimation(Animation::ANIMATION_STATUS stat = Animation::STANDBY)
 	{
-		T* buff = new T();
+		T* buff = GetAnimation<T>();
+
+		if (buff != nullptr) { return buff; }
+		buff = new T();
+
 		buff->gameObject = gameObject;
 		buff->Start();
 
 		animation.push_back(buff);
 		animIndex = (int)animation.size() - 1;
 		InitAnimation(stat);
+		AnimationAdder();
 
 		for (int i = 0; i < animation[animIndex]->keyName.size(); i++)
 		{
@@ -853,8 +887,7 @@ public:
 	void serialize(Archive & archive)
 	{
 		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
-			CEREAL_NVP(aNode),
-			CEREAL_NVP(cNode)
+			CEREAL_NVP(animIndex)
 		);
 	}
 };
@@ -1002,4 +1035,23 @@ public:
 	void SetIsKinematic(bool value) { isKinematic = value; }
 	void SetCollisionSize(D3DXVECTOR3 s) { CollisionSize = s; }
 
+};
+class PostProcess : public Component
+{
+private:
+	ID3D11Buffer* VertexBuffer;
+	ID3D11ShaderResourceView** texture;
+
+public:
+
+	PostProcess() { name = "PostProcess"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	void SetTexture(ID3D11ShaderResourceView** value) { texture = value; }
 };

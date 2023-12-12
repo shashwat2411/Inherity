@@ -62,6 +62,7 @@ void Rigidbody::EngineDisplay()
 
 
 		DebugManager::FloatDisplay(&Acceleration, -FLT_MIN, "Acceleration", true, D3DXVECTOR2(0.05f, 0.0f), 1);
+		DebugManager::FloatDisplay(&groundLevel, -FLT_MIN, "Ground Level", true, D3DXVECTOR2(0.05f, 0.0f), 2);
 		//ImGui::PushItemWidth(-FLT_MIN);
 		//sprintf_s(str, sizeof(str), "Acceleration : %.2f", Acceleration);
 		//ImGui::DragFloat("", &Acceleration, 0.1F, 0.0F, 0.0F, str);

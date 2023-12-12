@@ -15,7 +15,6 @@ void Number::Start()
 
 		b->GetComponent<SpriteRenderer>()->elementsX = 5;
 		b->GetComponent<SpriteRenderer>()->elementsY = 5;
-		b->GetComponent<SpriteRenderer>()->animate = true;
 		numbers.push_back(b);
 	}
 

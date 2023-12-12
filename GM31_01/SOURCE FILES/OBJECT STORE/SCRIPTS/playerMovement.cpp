@@ -5,6 +5,7 @@
 MeshFilter* model;
 float angle = 0.0f;
 float dangle = 0.0f;
+bool animationShift = false;
 
 D3DXVECTOR3 rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -240,7 +241,9 @@ void PlayerMovement::UpdateGround()
 	}
 
 	if (move == true) { model->SetAnimationBlend("Run", true); }
-	else { model->SetAnimationBlend("Idle", true); }
+	else {
+		model->SetAnimationBlend("Idle", true); 
+	}
 
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
 	if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }

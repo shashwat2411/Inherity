@@ -328,6 +328,8 @@ public:
 	bool GetFadeIn() { return fadeIn; }
 
 	void SetFadeIn(bool value = true) { fadeIn = value; }
+	void SetFadeOut(bool value) { fadeOut = value; }
+	void SetAlpha(float value) { alpha = value; }
 
 	bool FadeOut();
 
@@ -389,5 +391,21 @@ public:
 
 	void SetBarType(BAR_TYPE value = RIGHT);
 	void Amount(float value);
+
+};
+class POSTPROCESS :public GAMEOBJECT
+{
+public:
+	PostProcess* poster;
+
+public:
+
+	void Init() override
+	{
+		Initialize();
+
+		poster = AddComponent<PostProcess>();
+	}
+	void Update() override {}
 
 };

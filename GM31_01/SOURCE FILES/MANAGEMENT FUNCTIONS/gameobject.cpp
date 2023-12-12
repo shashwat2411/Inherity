@@ -37,6 +37,7 @@ void GAMEOBJECT::Initialize()
 	shadow = nullptr;
 	Parent = nullptr;
 	rigidbody = nullptr;
+	material = nullptr;
 
 	VertexShader = nullptr;
 	PixelShader = nullptr;
@@ -47,7 +48,7 @@ void GAMEOBJECT::Initialize()
 
 void GAMEOBJECT::UnInitialize()
 {
-	delete material;
+	if (material != nullptr) { delete material; }
 
 	for (auto com : components)
 	{
@@ -62,7 +63,7 @@ void GAMEOBJECT::UnInitialize()
 
 void GAMEOBJECT::Draw()
 {
-	cameraDistance = transform->DistanceFrom(Manager::GetScene()->GetCamera());
+	//cameraDistance = transform->DistanceFrom(Manager::GetScene()->GetCamera());
 
 	if (active == true)
 	{
@@ -330,12 +331,13 @@ void GAMEOBJECT::serialize(Archive & archive)
 	for (auto com : components)
 	{
 		if		(Transform* caster		= dynamic_cast<Transform*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(Rigidbody* caster		= dynamic_cast<Rigidbody*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(SpriteRenderer* caster	= dynamic_cast<SpriteRenderer*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(Billboard* caster		= dynamic_cast<Billboard*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (Camera* caster			= dynamic_cast<Camera*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (Number* caster			= dynamic_cast<Number*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (SphereCollider* caster = dynamic_cast<SphereCollider*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		//else if (Animator* caster		= dynamic_cast<Animator*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-
-		//archive(cereal::make_nvp(commer->name.c_str(),*commer));
+		else if (ParticleSystem* caster = dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 	}
 }
 CEREAL_CLASS_VERSION(GAMEOBJECT, 0);

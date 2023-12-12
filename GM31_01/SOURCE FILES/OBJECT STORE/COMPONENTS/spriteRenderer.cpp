@@ -5,6 +5,7 @@
 void SpriteRenderer::Start()
 {
 	animate = false;
+	loop = false;
 
 	count = 0;
 
@@ -23,17 +24,9 @@ void SpriteRenderer::Start()
 	gameObject->SetDepth(false);
 
 	{
-		float x = 0.0f;
-		float y = 0.0f;
-
-		D3DXVECTOR2 offset = D3DXVECTOR2(1.0f, 1.0f);
-
-		if (animate == true)
-		{
-			offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
-			x = (count % elementsX) * offset.x;
-			y = (count / elementsX) * offset.y;
-		}
+		D3DXVECTOR2 offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+		float x = (count % elementsX) * offset.x;
+		float y = (count / elementsX) * offset.y;
 
 
 		VERTEX_3D vertex[4];
@@ -82,27 +75,35 @@ void SpriteRenderer::End()
 
 void SpriteRenderer::Update()
 {
-
+	if (animate == true)
+	{
+		if (count >= elementsX * elementsY - 1)
+		{
+			if (loop == true) { count = 0; }
+			else { count = elementsX * elementsY - 1; }
+		}
+		else
+		{
+			count++;
+		}
+	}
 }
 
 void SpriteRenderer::Draw()
 {
-	if (count >= elementsX * elementsY)
-	{
-		count = 0;
-	}
+	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());
 
-	float x = 0.0f;
-	float y = 0.0f;
+	//シェーダー設定
+	Renderer::GetDeviceContext()->VSSetShader(gameObject->GetVertexShader(), NULL, 0);
+	Renderer::GetDeviceContext()->PSSetShader(gameObject->GetPixelShader(), NULL, 0);
 
-	D3DXVECTOR2 offset = D3DXVECTOR2(1.0f, 1.0f);
+	//マトリクス設定
+	Renderer::SetWorldViewProjection2D();
 
-	if (animate == true)
-	{
-		offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
-		x = (count % elementsX) * offset.x;
-		y = (count / elementsX) * offset.y;
-	}
+
+	D3DXVECTOR2 offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+	float x = (count % elementsX) * offset.x;
+	float y = (count / elementsX) * offset.y;
 
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
@@ -159,14 +160,7 @@ void SpriteRenderer::Draw()
 	//}
 
 
-	Renderer::GetDeviceContext()->IASetInputLayout(gameObject->GetVertexLayout());
 
-	//シェーダー設定
-	Renderer::GetDeviceContext()->VSSetShader(gameObject->GetVertexShader(), NULL, 0);
-	Renderer::GetDeviceContext()->PSSetShader(gameObject->GetPixelShader(), NULL, 0);
-
-	//マトリクス設定
-	Renderer::SetWorldViewProjection2D();
 
 	//頂点バッファの設定
 	UINT stride = sizeof(VERTEX_3D);

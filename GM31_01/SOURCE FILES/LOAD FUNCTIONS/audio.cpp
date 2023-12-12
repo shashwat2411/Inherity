@@ -91,8 +91,11 @@ void Audio::Load(const char *FileName)
 
 void Audio::Unload()
 {
-	m_SourceVoice->Stop();
-	m_SourceVoice->DestroyVoice();
+	if (m_SourceVoice != nullptr)
+	{
+		m_SourceVoice->Stop();
+		m_SourceVoice->DestroyVoice();
+	}
 
 	delete[] m_SoundData;
 }

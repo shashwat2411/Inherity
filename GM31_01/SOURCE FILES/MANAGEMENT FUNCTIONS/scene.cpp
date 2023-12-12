@@ -1,9 +1,12 @@
 #include "scene.h"
 #include "manager.h"
 #include "soundReader.h"
+#include "input.h"
 
 void SCENE::BeforeInit()
 {
+	Input::SetControls(true);
+
 	end = false;
 
 	name = "";
@@ -18,6 +21,7 @@ void SCENE::BeforeInit()
 
 	reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 3.0f, 0.0f);
 
+	Fade->SetAlpha(1.0f);
 	Fade->SetFadeIn();
 
 }

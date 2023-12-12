@@ -17,6 +17,7 @@ public:
 		SOUND_GIZMO_M,
 
 		//PREFAB MODELS
+		TITLE_SKYDOME_M,
 		SKYDOME_M,
 		ENEMY_M,
 
@@ -35,15 +36,22 @@ public:
 
 
 private:
-	static Model ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX];
-	static AnimationModel ModelsFBX[ModelReader::READ_MODEL_FBX_MAX];
+	static std::vector<Model> ModelsOBJ;
+	static std::vector<AnimationModel> ModelsFBX;
+	//static Model ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX];
+	//static AnimationModel ModelsFBX[ModelReader::READ_MODEL_FBX_MAX];
 	static std::unordered_map<std::string, const aiScene*> Animations;
 
-	static const char* modelNames[READ_MODEL_OBJ_MAX + READ_MODEL_FBX_MAX];
+	static std::vector<const char*> modelNames;
+	//static const char* modelNames[READ_MODEL_OBJ_MAX + READ_MODEL_FBX_MAX];
 
 public:
 	static void ReadModel()
 	{
+		for (int i = 0; i < READ_MODEL_OBJ_MAX; i++) { ModelsOBJ.emplace_back(); }
+		for (int i = 0; i < READ_MODEL_FBX_MAX; i++) { ModelsFBX.emplace_back(); }
+		for (int i = 0; i < READ_MODEL_OBJ_MAX + READ_MODEL_FBX_MAX; i++) { modelNames.emplace_back(); }
+
 		//OBJ
 		ModelsOBJ[SPHERE_COLLIDER_M].Load("asset\\model\\SphereCollider.obj");
 		ModelsOBJ[BOX_COLLIDER_M].Load("asset\\model\\BoxCollider.obj");
@@ -52,6 +60,7 @@ public:
 		ModelsOBJ[TORUS_M].Load("asset\\model\\torus.obj");
 		ModelsOBJ[SOUND_GIZMO_M].Load("asset\\model\\soundAreaGizmo.obj");
 
+		ModelsOBJ[TITLE_SKYDOME_M].Load("asset\\model\\titleSkydome.obj");
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
 		ModelsOBJ[ENEMY_M].Load("asset\\model\\ExplodeNew.obj");
 
@@ -73,29 +82,8 @@ public:
 		assert(Animations["Dance"]);
 		assert(Animations["Jump"]);
 
+
 		//NAMING
-		//ModelsOBJ[SPHERE_COLLIDER_M]	.name = "SPHERE_COLLIDER";
-		//ModelsOBJ[BOX_COLLIDER_M]		.name = "BOX_COLLIDER";
-		//ModelsOBJ[CYLINDER_M]			.name = "CYLINDER";
-		//ModelsOBJ[CUBE_M]				.name = "CUBE";
-		//ModelsOBJ[TORUS_M]				.name = "TORUS";
-		//ModelsOBJ[SOUND_GIZMO_M]		.name = "SOUND_GIZMO";
-
-		//ModelsOBJ[SKYDOME_M]			.name = "SKYDOME";
-		//ModelsOBJ[ENEMY_M]				.name = "ENEMY";
-
-		//ModelsFBX[THE_BOSS_M]			.name = "THE_BOSS";
-		//ModelsFBX[ROCK_M]				.name = "ROCK";
-
-
-		//for (int i = 0; i < ModelReader::READ_MODEL_OBJ_MAX; i++)
-		//{
-		//	modelNames[i] = ModelsOBJ[i].name.c_str();
-		//}
-		//for (int i = 0; i < ModelReader::READ_MODEL_FBX_MAX; i++)
-		//{
-		//	modelNames[i + ModelReader::READ_MODEL_OBJ_MAX] = ModelsFBX[i].name.c_str();
-		//}
 
 		//OBJ
 		modelNames[SPHERE_COLLIDER_M]	= "SPHERE_COLLIDER";
@@ -105,6 +93,7 @@ public:
 		modelNames[TORUS_M]				= "TORUS";
 		modelNames[SOUND_GIZMO_M]		= "SOUND_GIZMO";
 
+		modelNames[TITLE_SKYDOME_M]		= "TITLE SKYDOME";
 		modelNames[SKYDOME_M]			= "SKYDOME";
 		modelNames[ENEMY_M]				= "ENEMY";
 
@@ -128,7 +117,10 @@ public:
 
 		for (std::pair<const std::string, const aiScene*> pair : Animations)
 		{
-			aiReleaseImport(pair.second);
+			if (pair.second != nullptr)
+			{
+				aiReleaseImport(pair.second);
+			}
 		}
 	}
 
@@ -144,9 +136,14 @@ public:
 	{
 		return Animations[name];
 	}
+	//static const char* const* GetModelNames()
+	//{
+	//	return modelNames;
+	//}
 	static const char* const* GetModelNames()
 	{
-		return modelNames;
+		const char** names;
+		names = &modelNames[0];
+		return names;
 	}
-
 };

@@ -1,9 +1,10 @@
 #include "material.h"
+#include "component.h"
 
 void WaterMaterial::Start()
 {
 	SetFloat("_Time", 0.0f);
-	SetFloat("_Speed", 10.0f);
+	SetFloat("_Speed", 1.0f);
 	SetFloat("_Frequency", 10.0f);
 
 	SetTexture("_Texture", TextureReader::WATER_T);
@@ -23,13 +24,15 @@ void WaterMaterial::Update()
 void WaterMaterial::Draw()
 {
 	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
+	Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, Renderer::GetMirrorShaderResourceView());
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
 	param.dissolveThreshold = floats["_Frequency"];
 	param.dissolveRange = floats["_Time"];
 	param.color.r = floats["_Speed"];
-	param.color = gameObject->GetColor();
+	param.color2 = gameObject->GetColor();
+
 
 	Renderer::SetParameter(param);
 }

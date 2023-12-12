@@ -64,8 +64,11 @@ void SphereCollider::EngineDisplay()
 
 		if (ImGui::TreeNode("Details"))
 		{
-			std::string parent = "Parent : " + colliderObject->Parent->GetTag() + "\n";
+			std::string parent = "GameObject : " + colliderObject->Parent->GetTag() + "\n";
 			ImGui::Text(parent.c_str());
+
+			ImGui::Text("Offset");
+			colliderObject->transform->EngineDisplay();
 
 			ImGui::TreePop();
 			ImGui::Spacing();

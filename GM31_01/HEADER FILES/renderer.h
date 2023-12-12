@@ -106,15 +106,27 @@ private:
 
 	static ID3D11RenderTargetView*	m_RenderTargetView;
 	static ID3D11RenderTargetView*	m_PostProcessRenderTargetView;
+	static ID3D11RenderTargetView*	m_MirrorRenderTargetView;
 	static ID3D11RenderTargetView*	m_ReflectRenderTargetView;
+	static ID3D11RenderTargetView*	m_LuminaceRenderTargetView;
+	static ID3D11RenderTargetView*	m_BloomRenderTargetView[6];
 
 	static ID3D11DepthStencilView*	m_DepthStencilView;
 	static ID3D11DepthStencilView*	m_DepthShadowDepthStencilView;
 	static ID3D11DepthStencilView*	m_ReflectDepthStencilView;
+	static ID3D11DepthStencilView*	m_MirrorDepthStencilView;
+	static ID3D11DepthStencilView*	m_LuminanceDepthStencilView;
+	static ID3D11DepthStencilView*	m_BloomDepthStencilView[6];
 
 	static ID3D11ShaderResourceView*	m_DepthShadowShaderResourceView;
 	static ID3D11ShaderResourceView*	m_PostProcessShaderResourceView;
+	static ID3D11ShaderResourceView*	m_MirrorShaderResourceView;
 	static ID3D11ShaderResourceView*	m_CubeReflectShaderResourceView;
+	static ID3D11ShaderResourceView*	m_LuminaceShaderResourceView;
+	static ID3D11ShaderResourceView*	m_BloomShaderResourceView[6];
+
+
+
 
 	static ID3D11Buffer*	m_WorldBuffer;
 	static ID3D11Buffer*	m_ViewBuffer;
@@ -164,9 +176,12 @@ public:
 
 	static ID3D11RenderTargetView** GetRendererTargetView(void) { return &m_RenderTargetView; }
 
-	static ID3D11ShaderResourceView*	GetDepthShadowTexture()				{ return m_DepthShadowShaderResourceView; }
-	static ID3D11ShaderResourceView*	GetPostProcessTexture()				{ return m_PostProcessShaderResourceView; }
-	static ID3D11ShaderResourceView*	GetCubeReflectShaderResourceView()	{ return m_CubeReflectShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetDepthShadowTexture()				{ return &m_DepthShadowShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetPostProcessTexture()				{ return &m_PostProcessShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetMirrorShaderResourceView()		{ return &m_MirrorShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetCubeReflectShaderResourceView()	{ return &m_CubeReflectShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetLuminanceTexture()				{ return &m_LuminaceShaderResourceView; }
+	static ID3D11ShaderResourceView**	GetBloomTexture(int index)			{ return &m_BloomShaderResourceView[index]; }
 
 	static ID3D11Texture2D*	GetReflectTexture()		{ return m_ReflectTexture; }
 	static ID3D11Texture2D*	GetCubeReflectTexture() { return m_CubeReflectTexture; }
@@ -175,8 +190,11 @@ public:
 	static void CreatePixelShader(ID3D11PixelShader** PixelShader, const char* FileName);
 
 
+	static void BeginMirror();
 	static void BeginCube();
 	static void BeginPostProcess();
+	static void BeginLuminence();
+	static void BeginBloom(int index);
 	static void BeginDepth()
 	{
 		m_DeviceContext->OMSetRenderTargets(0, NULL, m_DepthShadowDepthStencilView);
@@ -187,5 +205,7 @@ public:
 	static void SetDepthViewPort();
 	static void SetDepthViewPort(float multiplier);
 	static void SetReflectViewPort();
+	static void SetMirrorViewPort();
+	static void SetBloomViewport(int index = -1);
 
 };

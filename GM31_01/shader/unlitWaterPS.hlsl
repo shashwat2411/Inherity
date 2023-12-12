@@ -4,24 +4,22 @@
 
 
 Texture2D g_Texture : register(t0);
+Texture2D g_TextureMirror : register(t1);
 SamplerState g_SamplerState : register(s0);
+SamplerState g_SamplerStateClamp : register(s1);
 
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-	float4 normal = normalize(In.Normal);
+	//outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
+	//outDiffuse *= In.Diffuse;
 
-	outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-	outDiffuse *= In.Diffuse;
-	outDiffuse.a *= Material.Diffuse.a;
+	float4 mirror = g_TextureMirror.Sample(g_SamplerStateClamp , In.TexCoord);
+	mirror.a = 1.0f;
 
-	float light = -dot(Light.Direction.xyz, normal.xyz);
-	light = saturate(light);
+	outDiffuse = mirror;
+	outDiffuse *= color2;
 
-	if (outDiffuse.a > 0.01f)
-	{
-		outDiffuse.rgb *= float3(1.0f,1.0f,1.0f)*1.0f;
-	}
-	else { discard; }
+	//outDiffuse.a = 1.0f;
 }
 

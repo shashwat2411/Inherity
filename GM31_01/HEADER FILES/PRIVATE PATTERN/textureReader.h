@@ -20,6 +20,9 @@ public:
 		NEXT_FRAME_BUTTON_T,
 		CUBE_T,
 		CYLINDER_T,
+		SPRITE_T,
+		BILLBOARD_T,
+		PARTICLE_SYSTEM_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -41,14 +44,22 @@ public:
 		TITLE_BG_T,
 		RESULT_BG_T,
 		BUBBLE_T,
+		LOADING_T,
+
+		//SCENE
+		PLAY_TEXT_T,
+		TUTORIAL_TEXT_T,
+		QUIT_TEXT_T,
 
 		READ_TEXTURE_MAX
 	};
 
 private:
-	static ID3D11ShaderResourceView* Textures[READ_TEXTURE_MAX];
+	static std::array<ID3D11ShaderResourceView*, READ_TEXTURE_MAX> Textures;
+	//static ID3D11ShaderResourceView* Textures[READ_TEXTURE_MAX];
 
-	static const char* textureNames[TextureReader::READ_TEXTURE_MAX];
+	static std::array<const char*, READ_TEXTURE_MAX> textureNames;
+	//static const char* textureNames[TextureReader::READ_TEXTURE_MAX];
 
 public:
 	static void ReadTexture()
@@ -64,6 +75,9 @@ public:
 		LoadTexture(&Textures[NEXT_FRAME_BUTTON_T], "asset\\texture\\imGui\\nextFrameButton.png");
 		LoadTexture(&Textures[CUBE_T], "asset\\texture\\imGui\\cube.png");
 		LoadTexture(&Textures[CYLINDER_T], "asset\\texture\\imGui\\cylinder.png");
+		LoadTexture(&Textures[SPRITE_T], "asset\\texture\\imGui\\sprite.png");
+		LoadTexture(&Textures[BILLBOARD_T], "asset\\texture\\imGui\\billboard.png");
+		LoadTexture(&Textures[PARTICLE_SYSTEM_T], "asset\\texture\\imGui\\particleSystem.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");
@@ -82,6 +96,11 @@ public:
 		LoadTexture(&Textures[TITLE_BG_T], "asset\\texture\\titlegm.png");
 		LoadTexture(&Textures[RESULT_BG_T], "asset\\texture\\resultgm.png");
 		LoadTexture(&Textures[BUBBLE_T], "asset\\texture\\bubble.png");
+		LoadTexture(&Textures[LOADING_T], "asset\\texture\\loading.png");
+
+		LoadTexture(&Textures[PLAY_TEXT_T], "asset\\texture\\Title\\play.png");
+		LoadTexture(&Textures[TUTORIAL_TEXT_T], "asset\\texture\\Title\\tutorial.png");
+		LoadTexture(&Textures[QUIT_TEXT_T], "asset\\texture\\Title\\quit.png");
 
 
 		//NAMES
@@ -96,6 +115,7 @@ public:
 		textureNames[NEXT_FRAME_BUTTON_T]	= "NEXT_FRAME_BUTTON";
 		textureNames[CUBE_T]				= "CUBE";
 		textureNames[CYLINDER_T]			= "CYLINDER";
+		textureNames[SPRITE_T]				= "SPRITE";
 
 		textureNames[DISSOLVE_T]			= "DISSOLVE";
 		textureNames[WIPE_T]				= "WIPE";
@@ -114,22 +134,36 @@ public:
 		textureNames[TITLE_BG_T]			= "TITLE_BG";
 		textureNames[RESULT_BG_T]			= "RESULT_BG";
 		textureNames[BUBBLE_T]				= "BUBBLE";
+		textureNames[LOADING_T]				= "LOADING";
+
+		textureNames[PLAY_TEXT_T]			= "PLAY TEXT";
+		textureNames[TUTORIAL_TEXT_T]		= "TUTORIAL TEXT";
+		textureNames[QUIT_TEXT_T]			= "QUIT TEXT";
 	}
 
 	static void UnReadTexture()
 	{
 		for (int i = 0; i < READ_TEXTURE::READ_TEXTURE_MAX; i++)
 		{
-			Textures[i]->Release();
+			if (Textures[i] != nullptr) 
+			{ 
+				Textures[i]->Release(); 
+			}
 		}
 	}
 	static ID3D11ShaderResourceView* GetReadTexture(READ_TEXTURE value)
 	{
 		return Textures[value];
 	}
+	//static const char* const* GetTextureNames()
+	//{
+	//	return textureNames;
+	//}
 	static const char* const* GetTextureNames()
 	{
-		return textureNames;
+		const char** names;
+		names = &textureNames[0];
+		return names;
 	}
 
 	static void LoadTexture(ID3D11ShaderResourceView** texture, const char* path)

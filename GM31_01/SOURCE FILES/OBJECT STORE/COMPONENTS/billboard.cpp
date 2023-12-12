@@ -7,6 +7,7 @@ void Billboard::Start()
 {
 	animate = false;
 	atc = false;
+	loop = false;
 
 	elementsX = 1;
 	elementsY = 1;
@@ -61,11 +62,7 @@ void Billboard::Start()
 		bd.ByteWidth = sizeof(VERTEX_3D) * 4;
 		bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 		bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-		if (animate == false)
-		{
-			bd.Usage = D3D11_USAGE_DEFAULT;
-			bd.CPUAccessFlags = 0;
-		}
+
 
 		D3D11_SUBRESOURCE_DATA sd;
 		ZeroMemory(&sd, sizeof(sd));
@@ -82,7 +79,18 @@ void Billboard::End()
 
 void Billboard::Update()
 {
-
+	if (animate == true)
+	{
+		if (Count >= elementsX * elementsY - 1)
+		{
+			if (loop == true) { Count = 0; }
+			else { Count = elementsX * elementsY - 1; }
+		}
+		else
+		{
+			Count++;
+		}
+	}
 }
 
 void Billboard::Draw()
@@ -94,13 +102,9 @@ void Billboard::Draw()
 	float x = 0.0f;
 	float y = 0.0f;
 
-	D3DXVECTOR2 offset = D3DXVECTOR2(1.0f, 1.0f);
-	if (animate == true)
-	{
-		offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
-		x = (Count % elementsX) * offset.x;
-		y = (Count / elementsX) * offset.y;
-	}
+	D3DXVECTOR2 offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+	x = (Count % elementsX) * offset.x;
+	y = (Count / elementsX) * offset.y;
 
 	D3D11_MAPPED_SUBRESOURCE msr;
 	Renderer::GetDeviceContext()->Map(VertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
@@ -175,6 +179,8 @@ void Billboard::EngineDisplay()
 {
 	if (ImGui::TreeNode("Billboard"))
 	{
+		bool b = gameObject->GetBillboard();
+
 		ImGui::Text("Texture : ");
 		ImGui::SameLine();
 
@@ -187,13 +193,18 @@ void Billboard::EngineDisplay()
 
 		DebugManager::BoolDisplay(&animate, -200.0f, "Animate", 1);
 		ImGui::SameLine();
-		DebugManager::BoolDisplay(&flip, -146.0f, "Flip", 2);
+		DebugManager::BoolDisplay(&b, -106.0f, "Billboard", 2);
+		ImGui::SameLine();
+		DebugManager::BoolDisplay(&flip, -52.0f, "Flip", 3);
 		
 		ImGui::Text("\n");
 
 		ImGui::DragFloat2("Size", Size, 0.1F);
 		ImGui::DragFloat2("TexCoord", TexCoord, 0.1F);
 		ImGui::DragFloat2("Offset", Offset, 0.1F);
+
+		gameObject->SetBillboard(b);
+		atc = b;
 
 		ImGui::TreePop();
 		ImGui::Spacing();

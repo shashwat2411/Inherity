@@ -10,7 +10,6 @@ IMAGE* Buffer;
 CUBE* cube;
 GAMEOBJECT* gameManager;
 AudioSource* audio;
-PARTICLESYSTEM* particleSystem;
 
 void GAME_SCENE::Init()
 {
@@ -36,7 +35,6 @@ void GAME_SCENE::Init()
 	cube = AddGameObject<CUBE>("Cube");
 	torus = AddGameObject<EMPTYOBJECT>("Torus");
 	torus1 = AddGameObject<EMPTYOBJECT>("Torus1");
-	//particleSystem = AddGameObject<PARTICLESYSTEM>(BILLBOARD_LAYER);
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -81,6 +79,7 @@ void GAME_SCENE::Init()
 	Buffer = AddGameObject<IMAGE>("Shadow Texture", SPRITE_LAYER);
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
 
+	//POST PROCESS
 
 	//Ú‘±ˆ—
 	{
@@ -96,8 +95,6 @@ void GAME_SCENE::Init()
 
 	//Ý’è
 	{
-		//particleSystem->particleSystem->SetTexture(TextureReader::GetReadTexture(TextureReader::BUBBLE_T));
-
 		gameManager->AddComponent<GameManager>();
 		//gameManager->GetComponent<GameManager>()->SetEnabled(false);
 
@@ -210,9 +207,9 @@ void GAME_SCENE::Update()
 	cube->SetColor(D3DXCOLOR(r, g, b, 1.0f));
 
 
-	ID3D11ShaderResourceView* depthShadowTexture;
-	depthShadowTexture = Renderer::GetDepthShadowTexture();
-	Buffer->GetMaterial()->SetTexture("_Texture", depthShadowTexture);
+	//ID3D11ShaderResourceView* depthShadowTexture;
+	//depthShadowTexture = Renderer::GetDepthShadowTexture();
+	Buffer->GetMaterial()->SetTexture("_Texture", *Renderer::GetMirrorShaderResourceView());
 
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
 

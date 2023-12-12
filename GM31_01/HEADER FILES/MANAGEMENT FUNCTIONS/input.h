@@ -20,6 +20,8 @@ class Input
 public:
 
 private:
+	static bool controls;
+
 	static BYTE m_OldKeyState[256];
 	static BYTE m_KeyState[256];
 
@@ -39,4 +41,6 @@ public:
 
 	static float Horizontal();
 	static float Vertical();
+
+	static void SetControls(bool value) { controls = value; }
 };

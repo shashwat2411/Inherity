@@ -1,23 +1,22 @@
 #pragma once
 #include "scene.h"
 
-class POSTPROCESS;
-
 class Manager
 {
 private:
-	static POSTPROCESS* PostProcess;
 	static SCENE* Scene;
 	static SCENE* DontDestroyOnLoad;
 	//static SCENE* NextScene;
 
 public:
 	static void Init();
-	static void Load();
 	static void Uninit();
 	static void Update();
 	static void FixedUpdate();
 	static void Draw();
+
+	static void Load();
+	static void Unload();
 
 	static void Save(std::string name);
 	static void Open(std::string name);
@@ -39,18 +38,6 @@ public:
 		Scene->Init();
 
 		Open(Scene->name);
-
-		//for (int i = 0; i < MAX_LAYER; i++)
-		//{
-		//	for (auto obj : Scene->GetGameObjectList((LAYER)i))
-		//	{
-		//		Animator* anim = obj->GetComponent<Animator>();
-		//		if (anim != nullptr)
-		//		{
-		//			anim->BezierCalculate();
-		//		}
-		//	}
-		//}
 	}
 
 	static void ResetScene()
@@ -61,16 +48,5 @@ public:
 		Scene->Init();
 
 		Open(Scene->name);
-		//for (int i = 0; i < MAX_LAYER; i++)
-		//{
-		//	for (auto obj : Scene->GetGameObjectList((LAYER)i))
-		//	{
-		//		Animator* anim = obj->GetComponent<Animator>();
-		//		if (anim != nullptr)
-		//		{
-		//			anim->BezierCalculate();
-		//		}
-		//	}
-		//}
 	}
 };

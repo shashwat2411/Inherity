@@ -1,5 +1,9 @@
 #include "input.h"
 #include "InputController.h"
+#include "debugManager.h"
+#include "functions.h"
+
+bool Input::controls = true;
 
 BYTE Input::m_OldKeyState[256];
 BYTE Input::m_KeyState[256];
@@ -9,6 +13,8 @@ std::vector<WORD> Input::controllerInput[KEYMAPPING_MAX];
 
 void Input::Init()
 {
+	controls = true;
+
 	memset( m_OldKeyState, 0, 256 );
 	memset( m_KeyState, 0, 256 );
 
@@ -45,66 +51,79 @@ void Input::Update()
 {
 	UpdateXinput();
 
-	memcpy( m_OldKeyState, m_KeyState, 256 );
+	memcpy(m_OldKeyState, m_KeyState, 256);
 
-	GetKeyboardState( m_KeyState );
+	GetKeyboardState(m_KeyState);
+
 }
 
 bool Input::GetKeyPress(BYTE KeyCode)
 {
-	return (m_KeyState[KeyCode] & 0x80);
+	if (controls == true) { return (m_KeyState[KeyCode] & 0x80); }
+	else { return false; }
 }
 
 bool Input::GetKeyTrigger(BYTE KeyCode)
 {
-	return ((m_KeyState[KeyCode] & 0x80) && !(m_OldKeyState[KeyCode] & 0x80));
+	if (controls == true) { return ((m_KeyState[KeyCode] & 0x80) && !(m_OldKeyState[KeyCode] & 0x80)); }
+	else { return false; }
 }
 
 bool Input::GetButtonPress(KEYMAPPING value)
 {
 	bool v = false;
 
-	for (int i = 0; i < input[value].size(); i++)
+	if (controls == true)
 	{
-		v = GetKeyPress(input[value][i]);
-		if (v == true) { return v; }
+		for (int i = 0; i < input[value].size(); i++)
+		{
+			v = GetKeyPress(input[value][i]);
+			if (v == true) { return v; }
+		}
+
+		for (int i = 0; i < controllerInput[value].size(); i++)
+		{
+			v = GetControllerButtonPress(controllerInput[value][i]);
+			if (v == true) { return v; }
+		}
 	}
 
-	for (int i = 0; i < controllerInput[value].size(); i++)
-	{
-		v = GetControllerButtonPress(controllerInput[value][i]);
-		if (v == true) { return v; }
-	}
-
-	return false;
+	return v;
 }
 
 bool Input::GetButtonTrigger(KEYMAPPING value)
 {
 	bool v = false;
 
-	for (int i = 0; i < input[value].size(); i++)
+	if (controls == true)
 	{
-		v = GetKeyTrigger(input[value][i]);
-		if (v == true) { return v; }
+		for (int i = 0; i < input[value].size(); i++)
+		{
+			v = GetKeyTrigger(input[value][i]);
+			if (v == true) { return v; }
+		}
+
+		for (int i = 0; i < controllerInput[value].size(); i++)
+		{
+			v = GetControllerButtonTrigger(controllerInput[value][i]);
+			if (v == true) { return v; }
+		}
 	}
 
-	for (int i = 0; i < controllerInput[value].size(); i++)
-	{
-		v = GetControllerButtonTrigger(controllerInput[value][i]);
-		if (v == true) { return v; }
-	}
-	return false;
+	return v;
 }
 
 float Input::Horizontal()
 {
 	float horizontal = 0.0f;
 
-	horizontal = GetLeftJoyStick().x;
+	if (controls == true)
+	{
+		horizontal = GetLeftJoyStick().x;
 
-	if (GetButtonPress(LEFT_KEYMAP)) { horizontal = -1.0f; }
-	else if (GetButtonPress(RIGHT_KEYMAP)) { horizontal = 1.0f; }
+		if (GetButtonPress(LEFT_KEYMAP)) { horizontal = -1.0f; }
+		else if (GetButtonPress(RIGHT_KEYMAP)) { horizontal = 1.0f; }
+	}
 
 	return horizontal;
 }
@@ -113,10 +132,13 @@ float Input::Vertical()
 {
 	float vertical = 0.0f;
 
-	vertical = GetLeftJoyStick().y;
+	if (controls == true)
+	{
+		vertical = GetLeftJoyStick().y;
 
-	if (GetButtonPress(FORWARD_KEYMAP)) { vertical = 1.0f; }
-	else if (GetButtonPress(BACK_KEYMAP)) { vertical = -1.0f; }
+		if (GetButtonPress(FORWARD_KEYMAP)) { vertical = 1.0f; }
+		else if (GetButtonPress(BACK_KEYMAP)) { vertical = -1.0f; }
+	}
 
 	return vertical;
 }
