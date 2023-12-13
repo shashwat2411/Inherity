@@ -187,8 +187,9 @@ void SCENE::ReflectionMap(D3DXMATRIX* view)
 	D3DXVECTOR3 lookAt;
 	D3DXVECTOR3 up;
 
+	D3DXVECTOR3 vPlayerPos(0.0f, 0.0f, 0.0f);
+	if (player) { vPlayerPos = player->transform->GlobalPosition; }
 
-	D3DXVECTOR3 vPlayerPos = reflectionProjector->transform->GlobalPosition;
 	for (int j = 0; j < 6; j++)
 	{
 		eye = vPlayerPos;
