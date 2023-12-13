@@ -3,6 +3,7 @@
 #include "input.h"
 
 EMPTYOBJECT* point;
+bool faced = true;
 
 void Camera::Start()
 {
@@ -44,6 +45,8 @@ void Camera::Start()
 	point->transform->Position.z = 2.0f;
 
 	Target = nullptr;
+
+	faced = false;
 }
 
 void Camera::End()
@@ -59,12 +62,13 @@ void Camera::Update()
 
 void Camera::Draw()
 {
-	if (DebugManager::play == false || DebugManager::paused == true)
+	if (DebugManager::play == false || DebugManager::paused == true || faced == false)
 	{
 		point->Update();
 		point->Draw();
 
 		at = point->transform->GlobalPosition;
+		faced = true;
 	}
 
 	//Camera Shake

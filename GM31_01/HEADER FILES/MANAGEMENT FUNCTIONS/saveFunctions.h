@@ -14,6 +14,7 @@
 #include <cereal/archives/json.hpp>
 #include <cereal/types/vector.hpp>
 #include <cereal/types/list.hpp>
+#include <cereal/types/unordered_map.hpp>
 
 template<class Archive>
 void serialize(Archive & archive, D3DXVECTOR2 & vector)

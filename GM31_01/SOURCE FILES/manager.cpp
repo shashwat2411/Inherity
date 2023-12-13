@@ -329,6 +329,7 @@ void Manager::Open(std::string name)
 		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>("Sprite(Clone)", SPRITE_LAYER); } }
 		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>("Billboard(Clone)", BILLBOARD_LAYER); } }
 		if (add.name == "PARTICLESYSTEM")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>("ParticleSystem(Clone)", BILLBOARD_LAYER); } }
+		if (add.name == "EMPTYOBJECT")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>("EmptyObject(Clone)"); } }
 	}
 	GetScene()->objectAdder = adder;
 
@@ -341,6 +342,7 @@ void Manager::Open(std::string name)
 		if (cdd.name == "AudioSource")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<AudioSource>(); }
 		if (cdd.name == "Rigidbody")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<Rigidbody>(); }
 		if (cdd.name == "SphereCollider")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<SphereCollider>(); }
+		if (cdd.name == "MeshFilter")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MeshFilter>(); }
 	}
 	GetScene()->componentAdder = cdder;
 
@@ -359,6 +361,20 @@ void Manager::Open(std::string name)
 		for (GAMEOBJECT* object : Scene->GetGameObjectList((LAYER)i))
 		{
 			archive(*object);
+		}
+	}
+
+	for (int i = 0; i < MAX_LAYER; i++)
+	{
+		for (GAMEOBJECT* object : GetScene()->GetGameObjectList((LAYER)i))
+		{
+			for (Component* com : object->GetComponentList())
+			{
+				if (SpriteRenderer* caster = dynamic_cast<SpriteRenderer*>(com))
+				{
+					object->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*object->GetMaterial()->GetIndex()));
+				}
+			}
 		}
 	}
 }

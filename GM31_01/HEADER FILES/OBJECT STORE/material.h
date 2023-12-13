@@ -44,6 +44,14 @@ public:
 		textures[Name] = TextureReader::GetReadTexture(index); 
 		textureIndex = index;
 	}
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(
+			CEREAL_NVP(textureIndex)
+		);
+	}
 };
 
 class SpriteMaterial : public Material
