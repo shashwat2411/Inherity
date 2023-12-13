@@ -49,7 +49,7 @@ protected:
 	std::list<Component*> components;
 	Material* material;
 
-	D3DXMATRIX WorldMatrix[MAX_AFTERIMAGES];
+	D3DXMATRIX WorldMatrix;
 	D3DXMATRIX ScaleMatrix;
 	D3DXMATRIX RotationMatrix;
 	D3DXMATRIX TransformMatrix;
@@ -95,7 +95,7 @@ public:
 	D3DXMATRIX GetScaleMatrix()					{ return ScaleMatrix; }
 	D3DXMATRIX GetRotationMatrix()				{ return RotationMatrix; }
 	D3DXMATRIX GetTransformMatrix()				{ return TransformMatrix; }
-	D3DXMATRIX GetWorldMatrix(int index = 0)	{ return WorldMatrix[index]; }
+	D3DXMATRIX GetWorldMatrix()					{ return WorldMatrix; }
 
 	bool		GetActive()			{ return active; }
 	bool		GetBillboard()		{ return billboard; }
@@ -118,7 +118,7 @@ public:
 
 
 	//Setter Functions
-	void SetWorldMatrix(D3DXMATRIX value, int i = 0)	{ WorldMatrix[i] = value; }
+	void SetWorldMatrix(D3DXMATRIX value)				{ WorldMatrix = value; }
 	void SetScaleMatrix(D3DXMATRIX value)				{ ScaleMatrix = value; }
 	void SetRotationMatrix(D3DXMATRIX value)			{ RotationMatrix = value; }
 	void SetTransformMatrix(D3DXMATRIX value)			{ TransformMatrix = value; }

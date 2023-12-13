@@ -124,10 +124,10 @@ void GAMEOBJECT::Draw()
 
 			D3DXMatrixTranslation(&TransformMatrix, Position.x, Position.y, Position.z);
 
-			if (billboard == true) { D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, /*&RotationMatrix*/&invView); }  //World = Scaling * Rotation
-			else { D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, &RotationMatrix); }
+			if (billboard == true) { D3DXMatrixMultiply(&WorldMatrix, &ScaleMatrix, /*&RotationMatrix*/&invView); }  //World = Scaling * Rotation
+			else { D3DXMatrixMultiply(&WorldMatrix, &ScaleMatrix, &RotationMatrix); }
 
-			D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &TransformMatrix); //World = World * Translation
+			D3DXMatrixMultiply(&WorldMatrix, &WorldMatrix, &TransformMatrix); //World = World * Translation
 
 			if (Parent != nullptr)
 			{
@@ -138,52 +138,44 @@ void GAMEOBJECT::Draw()
 					D3DXMatrixMultiply(&temp, &convert, &Parent->GetWorldMatrix());
 
 					D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->Position, &temp); //Global Position
-					D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &temp); //World = World * Parent->World
+					D3DXMatrixMultiply(&WorldMatrix, &WorldMatrix, &temp); //World = World * Parent->World
 				}
 				else
 				{
 					D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->Position, &Parent->GetWorldMatrix()); //Global Position
-					D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &Parent->GetWorldMatrix()); //World = World * Parent->World
+					D3DXMatrixMultiply(&WorldMatrix, &WorldMatrix, &Parent->GetWorldMatrix()); //World = World * Parent->World
 				}
 			}
 			else { transform->GlobalPosition = transform->Position; }
 
-			//if (parentMatrixEnable == true)
-			//{
-			//	D3DXVECTOR3 globalScale;
-			//	D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->GlobalPosition, &parentMatrix); //Global Position
-			//	D3DXVec3TransformCoord(&globalScale, &transform->Scale, &parentMatrix); //Global Position
-			//	D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &parentMatrix); //World = World * Parent->World
-			//}
-			//else if (Parent == nullptr) { transform->GlobalPosition = transform->Position; }
 
 			if (GetComponent<Afterimage>() != nullptr)
 			{
-				for (int i = RingCounter, n = 0; i < RingCounter + GetComponent<Afterimage>()->imageNum; i++, n++)
-				{
-					int index = RingCounter - (n * 16);
-					if (index < 0) { index += MAX_AFTERIMAGES; }
+				//for (int i = RingCounter, n = 0; i < RingCounter + GetComponent<Afterimage>()->imageNum; i++, n++)
+				//{
+				//	int index = RingCounter - (n * 16);
+				//	if (index < 0) { index += MAX_AFTERIMAGES; }
 
-					Renderer::SetWorldMatrix(&WorldMatrix[index]);
-					if (GetComponent<MeshFilter>() != nullptr)
-					{
-						GetComponent<MeshFilter>()->Draw();
-					}
-					//for (auto child : Children)
-					//{
-					//	if (child->GetComponent<MeshFilter>() != nullptr)
-					//	{
-					//		if (child->GetComponent<MeshFilter>()->GetCollider() == false)
-					//		{
-					//			//child->GetComponent<MeshFilter>()->Draw();
-					//		}
-					//	}
-					//}
-				}
+				//	Renderer::SetWorldMatrix(&WorldMatrix[index]);
+				//	if (GetComponent<MeshFilter>() != nullptr)
+				//	{
+				//		GetComponent<MeshFilter>()->Draw();
+				//	}
+				//	//for (auto child : Children)
+				//	//{
+				//	//	if (child->GetComponent<MeshFilter>() != nullptr)
+				//	//	{
+				//	//		if (child->GetComponent<MeshFilter>()->GetCollider() == false)
+				//	//		{
+				//	//			//child->GetComponent<MeshFilter>()->Draw();
+				//	//		}
+				//	//	}
+				//	//}
+				//}
 			}
 			else
 			{
-				Renderer::SetWorldMatrix(&WorldMatrix[0]);
+				Renderer::SetWorldMatrix(&WorldMatrix);
 			}
 
 		}

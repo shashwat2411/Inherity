@@ -136,7 +136,7 @@ void Camera::EngineDisplay()
 		if (ImGui::TreeNode("Details"))
 		{
 			ImGui::Text("Target Transform");
-			Target->transform->EngineDisplay();
+			if (Target) { Target->transform->EngineDisplay(); }
 
 			ImGui::TreePop();
 			ImGui::Spacing();

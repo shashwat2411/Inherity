@@ -1,7 +1,8 @@
 #include <vector>
-#include "baseobjects.h"
+#include "manager.h"
 
-class PostProcessManager
+
+class PosterManager
 {
 private:
 	static std::vector<POSTPROCESS*> posters;

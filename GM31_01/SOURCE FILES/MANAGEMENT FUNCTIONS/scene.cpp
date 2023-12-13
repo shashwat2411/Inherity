@@ -30,7 +30,7 @@ void SCENE::Uninit()
 {
 	for (int i = 0; i < MAX_LAYER; i++)
 	{
-		for (auto var : GameObjects[i])
+		for (GAMEOBJECT* var : GameObjects[i])
 		{
 			var->UnInitialize();
 			delete var;
@@ -109,17 +109,17 @@ void SCENE::FakeDraw(GAMEOBJECT* var)
 
 		D3DXMatrixTranslation(&var->GetTransformMatrix(), Position.x, Position.y, Position.z);
 
-		D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetScaleMatrix(), &var->GetRotationMatrix());
-		D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetWorldMatrix(var->GetRingCounter()), &var->GetTransformMatrix()); //World = World * Translation
+		D3DXMatrixMultiply(&var->GetWorldMatrix(), &var->GetScaleMatrix(), &var->GetRotationMatrix());
+		D3DXMatrixMultiply(&var->GetWorldMatrix(), &var->GetWorldMatrix(), &var->GetTransformMatrix()); //World = World * Translation
 
 		if (var->Parent != nullptr)
 		{
 			D3DXVec3TransformCoord(&var->transform->GlobalPosition, &var->transform->Position, &var->Parent->GetWorldMatrix()); //Global Position
-			D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetWorldMatrix(var->GetRingCounter()), &var->Parent->GetWorldMatrix()); //World = World * Parent->World
+			D3DXMatrixMultiply(&var->GetWorldMatrix(), &var->GetWorldMatrix(), &var->Parent->GetWorldMatrix()); //World = World * Parent->World
 		}
 		else { var->transform->GlobalPosition = var->transform->Position; }
 
-		Renderer::SetWorldMatrix(&var->GetWorldMatrix(0));
+		Renderer::SetWorldMatrix(&var->GetWorldMatrix());
 
 
 		if (var->GetMaterial() != nullptr)
@@ -187,8 +187,9 @@ void SCENE::ReflectionMap(D3DXMATRIX* view)
 	D3DXVECTOR3 lookAt;
 	D3DXVECTOR3 up;
 
+	D3DXVECTOR3 vPlayerPos(0.0f, 0.0f, 0.0f);
+	if (player) { vPlayerPos = player->transform->GlobalPosition; }
 
-	D3DXVECTOR3 vPlayerPos = reflectionProjector->transform->GlobalPosition;
 	for (int j = 0; j < 6; j++)
 	{
 		eye = vPlayerPos;

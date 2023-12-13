@@ -1,9 +1,9 @@
-#include "postProcessManager.h"
+#include "posterManager.h"
 
 
-std::vector<POSTPROCESS*> PostProcessManager::posters{};
+std::vector<POSTPROCESS*> PosterManager::posters;
 
-void PostProcessManager::Init()
+void PosterManager::Init()
 {
 	AddPoster<PostProcessMaterial>();
 	AddPoster<LuminanceMaterial>();
@@ -11,24 +11,24 @@ void PostProcessManager::Init()
 	AddPoster<MergeMaterial>();
 }
 
-void PostProcessManager::Uninit()
+void PosterManager::Uninit()
 {
-	for (GAMEOBJECT* post : posters)
+	for (POSTPROCESS* post : posters)
 	{
 		post->UnInitialize();
 		delete post;
 	}
 }
 
-void PostProcessManager::Update()
+void PosterManager::Update()
 {
-	for (GAMEOBJECT* post : posters)
+	for (POSTPROCESS* post : posters)
 	{
 		post->Update();
 	}
 }
 
-void PostProcessManager::Draw()
+void PosterManager::Draw()
 {
 	//Renderer::BeginLuminence();
 	//Renderer::SetBloomViewport();

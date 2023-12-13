@@ -443,17 +443,17 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\BloomMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
-    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\postProcessManager.cpp">
-      <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
-    </ClCompile>
-    <ClCompile Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h">
-      <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
-    </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MergeMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\postProcess.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="HEADER FILES\MANAGEMENT FUNCTIONS\posterManager.h">
+      <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\posterManager.cpp">
+      <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +470,6 @@
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
     <FxCompile Include="shader\normalMappingPS.hlsl">
-      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\normalMappingVS.hlsl">
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitDefaultPS.hlsl">
@@ -555,6 +552,9 @@
     </FxCompile>
     <FxCompile Include="shader\mergeVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER\Post Process</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\normalMappingVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

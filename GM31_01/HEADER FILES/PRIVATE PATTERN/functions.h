@@ -1,6 +1,7 @@
 #pragma once
 #include "main.h"
 #include "../assimp/matrix4x4.h"
+#include <string>
 
 class Mathf
 {
@@ -71,11 +72,11 @@ public:
 	{
 		*var += deltaTime;
 
-		char str[20];
-		sprintf_s(str, sizeof(str), "Timer : %.2f", *var);
+		float v = *var;
+		std::string str = "Timer : " + std::to_string(v);
 
 		ImGui::Begin("Time"/*, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize*/);
-		ImGui::Text(str);
+		ImGui::Text(str.c_str());
 		ImGui::End();
 
 		if (*var > time) { return true; }

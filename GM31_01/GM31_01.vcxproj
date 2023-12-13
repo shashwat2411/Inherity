@@ -53,7 +53,7 @@
     <ClInclude Include="imGUI\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h" />
+    <ClCompile Include="HEADER FILES\MANAGEMENT FUNCTIONS\posterManager.h" />
     <ClCompile Include="imGUI\imgui.cpp" />
     <ClCompile Include="imGUI\imgui_demo.cpp" />
     <ClCompile Include="imGUI\imgui_draw.cpp" />
@@ -73,7 +73,7 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\gameobject.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\input.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\InputController.cpp" />
-    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\postProcessManager.cpp" />
+    <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\posterManager.cpp" />
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp" />
     <ClCompile Include="SOURCE FILES\manager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />

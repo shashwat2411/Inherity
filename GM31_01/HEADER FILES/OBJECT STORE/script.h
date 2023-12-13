@@ -178,8 +178,10 @@ public:
 	};
 	struct CLOTH {
 		int			status;														// ステータス
-		Particle	particle[TILES + 1][TILES + 1];		// 構成粒子
-		Spring		Spring[SPRING_NUMS];										// 粒子間のバネ
+		//Particle	particle[TILES + 1][TILES + 1];		// 構成粒子
+		//Spring		Spring[SPRING_NUMS];										// 粒子間のバネ
+		std::array<std::array<Particle, TILES + 1>, TILES + 1> particle;
+		std::array<Spring, SPRING_NUMS> Spring;
 	};
 
 public:

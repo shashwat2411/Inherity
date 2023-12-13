@@ -42,7 +42,7 @@ public:
 
 public:
 
-	Data() {}
+	Data() { move = 0.0f; pointer = nullptr; }
 	Data(float m, float* p) { move = m; pointer = p; }
 
 };
@@ -54,7 +54,7 @@ public:
 
 public:
 
-	AnimationData() {}
+	AnimationData() { frame = 0; }
 	AnimationData(int f, Data a) { frame = f; angle.push_back(a); }
 
 	AnimationData operator=(AnimationData const& obj)
@@ -123,7 +123,7 @@ public:
 
 	void SetEnabled(bool value) { enabled = value; }
 
-	Component() { enabled = true; multiple = false; name = ""; }
+	Component() { enabled = true; multiple = false; name = ""; gameObject = nullptr; }
 	virtual ~Component() {}
 
 	virtual void Start() = 0;
@@ -353,6 +353,14 @@ public:
 
 	AnimationModel* GetModel() { return m_Model; }
 	Model* GetModel(int i) { return m_Model_obj; }
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(isTrigger)
+		);
+	}
 };
 class SphereCollider : public Component
 {

@@ -5,7 +5,7 @@
 #include "soundReader.h"
 #include "modelReader.h"
 #include "debugManager.h"
-#include "postProcessManager.h"
+#include "posterManager.h"
 #include "animations.h"
 
 #include <fstream>
@@ -54,7 +54,7 @@ void Manager::Init()
 	Renderer::Init();
 	Input::Init();
 	DebugManager::Init();
-	PostProcessManager::Init();
+	PosterManager::Init();
 
 	//Load();
 	
@@ -90,7 +90,7 @@ void Manager::Uninit()
 	delete Scene;
 	delete DontDestroyOnLoad;
 
-	PostProcessManager::Uninit();
+	PosterManager::Uninit();
 	Manager::Unload();
 
 	Input::Uninit();
@@ -104,7 +104,7 @@ void Manager::FixedUpdate()
 	{
 		Input::Update();
 		DebugManager::Update();
-		PostProcessManager::Update();
+		PosterManager::Update();
 
 		if (Time::timeScale > 0.0f)
 		{
@@ -124,7 +124,7 @@ void Manager::FixedUpdate()
 	else
 	{
 		DebugManager::Update();
-		PostProcessManager::Update();
+		PosterManager::Update();
 
 		Scene->UpdateBefore();
 		Scene->Update();
@@ -209,7 +209,7 @@ void Manager::Draw()
 			up = upOffset;	
 			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
-			D3DXMatrixPerspectiveFovLH(&projectionMatrix, 120.0f, 1.0f, 0.01f, 120.0f);
+			D3DXMatrixPerspectiveFovLH(&projectionMatrix, 360.0f, 1.0f, 0.01f, 120.0f);
 			Renderer::SetProjectionMatrix(&projectionMatrix);
 
 			Renderer::SetMirrorViewPort();
@@ -229,7 +229,7 @@ void Manager::Draw()
 			Scene->Draw();
 			if (DontDestroyOnLoad != nullptr && Time::timeScale > 0.0f) { DontDestroyOnLoad->Draw(); }
 
-			PostProcessManager::Draw();
+			PosterManager::Draw();
 			//Renderer::Begin(); PostProcess->Draw();
 			/*
 			if (PostProcess) { Renderer::BeginPostProcess(); }
