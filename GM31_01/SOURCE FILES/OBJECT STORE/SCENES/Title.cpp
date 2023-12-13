@@ -44,6 +44,7 @@ void TITLE_SCENE::Init()
 	//Ý’è
 	{
 		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::TITLE_SKYDOME_M);
+		skyDome->AddMaterial<MetallicMaterial>();
 
 		playerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
 
