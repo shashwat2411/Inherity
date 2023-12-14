@@ -167,6 +167,7 @@ void GAME_SCENE::Init()
 		audio = enemy->AddComponent<AudioSource>();
 		audio->SetClip(SoundReader::GAME);
 		audio->SetThreeDimension(true);
+		audio->SetPlayOnAwake(false);
 		//audio->Play(true, 0.2f);
 	}
 }

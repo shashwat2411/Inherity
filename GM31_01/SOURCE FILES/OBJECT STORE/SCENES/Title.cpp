@@ -113,7 +113,7 @@ void TITLE_SCENE::Init()
 
 	//‰¹
 	{
-		//SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
+		//SoundReader::GetReadSound(SoundReader::TITLE)->Play(true, 0.2f);
 	}
 
 	startAnimation = false;
@@ -125,8 +125,8 @@ void TITLE_SCENE::Update()
 
 	playerModel->GetComponent<MeshFilter>()->SetAnimationBlend("Idle", true);
 
-	if (Input::GetButtonTrigger(FORWARD_KEYMAP)) { if (choice > 0) { choice--; } else { choice = 2; } SoundReader::GetReadSound(SoundReader::GUARD)->Play(false, 0.2f);}
-	else if (Input::GetButtonTrigger(BACK_KEYMAP)) { if (choice < 2) { choice++; } else { choice = 0; } SoundReader::GetReadSound(SoundReader::GUARD)->Play(false, 0.2f); }
+	if (Input::GetButtonTrigger(FORWARD_KEYMAP)) { if (choice > 0) { choice--; } else { choice = 2; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);}
+	else if (Input::GetButtonTrigger(BACK_KEYMAP)) { if (choice < 2) { choice++; } else { choice = 0; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f); }
 	
 	if (end == false)
 	{
@@ -144,8 +144,15 @@ void TITLE_SCENE::Update()
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) 
 	{ 
 		end = true; 
-		SoundReader::GetReadSound(SoundReader::GUARD)->Play(false, 0.2f);
+		SoundReader::GetReadSound(SoundReader::OPTION_SELECT)->Play(false, 0.2f);
 		ps->particleSystem->Play();
+	}
+
+	if (end == true) 
+	{
+		float v = MainCamera->GetComponent<AudioSource>()->GetVolume();
+		v = Mathf::Lerp(v, v / 4, Time::deltaTime * 3.0f);
+		MainCamera->GetComponent<AudioSource>()->SetVolume(v);
 	}
 
 	if (end == true && Fade->GetFadeIn() == false)

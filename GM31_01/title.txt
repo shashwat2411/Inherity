@@ -13,6 +13,10 @@
         {
             "component": "Animator",
             "gameObject": "Player"
+        },
+        {
+            "component": "AudioSource",
+            "gameObject": "MainCamera"
         }
     ],
     "GetScene()->animationAdder": [
@@ -64,6 +68,16 @@
             },
             "fov": 120.0,
             "Target": "Player"
+        },
+        "AudioSource": {
+            "Component": {
+                "enabled": true
+            },
+            "loop": true,
+            "playOnAwake": true,
+            "threeDimension": false,
+            "soundIndex": 3,
+            "volume": 0.11666666716337204
         }
     },
     "Reflection": {

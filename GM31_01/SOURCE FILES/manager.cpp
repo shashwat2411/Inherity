@@ -365,17 +365,17 @@ void Manager::Open(std::string name)
 		}
 	}
 
-	//for (int i = 0; i < MAX_LAYER; i++)
-	//{
-	//	for (GAMEOBJECT* object : GetScene()->GetGameObjectList((LAYER)i))
-	//	{
-	//		for (Component* com : object->GetComponentList())
-	//		{
-	//			if (SpriteRenderer* caster = dynamic_cast<SpriteRenderer*>(com))
-	//			{
-	//				object->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*object->GetMaterial()->GetIndex()));
-	//			}
-	//		}
-	//	}
-	//}
+	for (int i = 0; i < MAX_LAYER; i++)
+	{
+		for (GAMEOBJECT* object : GetScene()->GetGameObjectList((LAYER)i))
+		{
+			for (Component* com : object->GetComponentList())
+			{
+				if (SpriteRenderer* caster = dynamic_cast<SpriteRenderer*>(com))
+				{
+					object->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*object->GetMaterial()->GetIndex()));
+				}
+			}
+		}
+	}
 }

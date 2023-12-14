@@ -12,8 +12,11 @@ public:
 	{
 		//SE
 		GUARD,
+		OPTION_SELECT,
+		OPTION_CHANGE,
 
 		//BGM
+		TITLE,
 		GAME,
 
 		READ_SOUND_MAX
@@ -34,13 +37,20 @@ public:
 
 		//SE
 		Audios[GUARD].Load					("asset\\sound\\wan.wav");
+		Audios[OPTION_SELECT].Load			("asset\\sound\\optionSelect.wav");
+		Audios[OPTION_CHANGE].Load			("asset\\sound\\optionChange.wav");
 
 		//BGM
+		Audios[TITLE].Load					("asset\\sound\\titleBGM.wav");
 		Audios[GAME].Load					("asset\\sound\\bgm.wav");
 
 		//NAMING
-		soundNames[GUARD] = "GUARD";
-		soundNames[GAME]  = "GAME";
+		soundNames[GUARD]			= "GUARD";
+		soundNames[OPTION_SELECT]	= "OPTION SELECT";
+		soundNames[OPTION_CHANGE]	= "OPTION CHANGE";
+
+		soundNames[TITLE]			= "TITLE";
+		soundNames[GAME]			= "GAME";
 
 		//for (int i = 0; i < SoundReader::READ_SOUND_MAX; i++)
 		//{
