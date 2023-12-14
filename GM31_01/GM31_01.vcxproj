@@ -77,6 +77,7 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp" />
     <ClCompile Include="SOURCE FILES\manager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\titleDomeAnimation.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation2.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\BASIC OBJECTS\Bar.cpp" />

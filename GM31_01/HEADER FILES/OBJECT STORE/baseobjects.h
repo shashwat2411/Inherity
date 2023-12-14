@@ -260,11 +260,9 @@ class PARTICLE : public BILLBOARD
 public:
 	float counter;
 	float life;
-	float setLife;
-	float speed;
 
-	D3DXVECTOR3 rotationDirection;
-	D3DXVECTOR3 velocity;
+	D3DXVECTOR3 rotationVelocity;
+	D3DXVECTOR3 direction;
 
 public:
 
@@ -275,40 +273,16 @@ public:
 		depth = true;
 
 		counter = 0.0f;
-		life = 0.0f;
-		setLife = 0.0f;
-		speed = 0.1f;
+		life = 1.0f;
 
-		rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		rotationVelocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		direction = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		transform->Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
-		transform->Position.y = 0.0f;
 
 		billboard = AddComponent<Billboard>();
 	}
 	void Update() override {}
-
-	void ReInitialize()
-	{
-		transform->Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
-		transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-
-		D3DXVECTOR3 direction;
-		direction.x = (float)(rand() % 10);
-		direction.y = (float)(rand() % 10);
-		direction.z = (float)(rand() % 10);
-		int dirx = rand() % 2;
-		int diry = rand() % 2;
-		int dirz = rand() % 2;
-		if (dirx == 1) { direction.x *= -1.0f; }
-		if (diry == 1) { direction.y *= -1.0f; }
-		if (dirz == 1) { direction.z *= -1.0f; }
-		D3DXVec3Normalize(&direction, &direction);
-
-		velocity = direction * speed;
-		life = (float)(rand() % ((int)FRAME_RATE + 1)) / FRAME_RATE;
-	}
 
 };
 class FADE : public GAMEOBJECT

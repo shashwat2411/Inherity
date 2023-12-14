@@ -29,8 +29,8 @@ private:
 public:
 
 	static void ReadSound()
-	{
-		Audio::InitMaster();
+	{/*
+		Audio::InitMaster();*/
 
 		//SE
 		Audios[GUARD].Load					("asset\\sound\\wan.wav");

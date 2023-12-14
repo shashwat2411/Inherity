@@ -574,22 +574,35 @@ public:
 class ParticleSystem : public Component
 {
 private:
+	bool play;
+	bool show;
+
+	int textureIndex;
 	int numberOfObjects;
 	int numberOfObjectsToAdd;
-	int texture;
 
-	D3DXVECTOR3 direction;
-
-	std::vector<PARTICLE*> objects;
+	std::vector<PARTICLE*> particles;
 
 	SCENE* scene;
 
 public:
 	bool burst;
 	bool loop;
-	bool rotateRandom;
+	bool gravity;
 
-	float rotationSpeed;
+	float counter;
+	float life;
+
+	D3DXBOOL3 randomVelocity;
+	D3DXBOOL3 randomPosition;
+	D3DXBOOL3 randomRotation;
+
+	D3DXVECTOR3 size;
+	D3DXVECTOR3 positionOffset;
+	D3DXVECTOR3 velocityOffset;
+	D3DXVECTOR3 rotationOffset;
+
+	D3DXVECTOR3 speed;
 
 public:
 
@@ -605,12 +618,15 @@ public:
 	int GetNumberOfObjects() { return numberOfObjects; }
 
 	void SetTexture(TextureReader::READ_TEXTURE text);
-	void SetLife(const float value);
-	void SetSpeed(const float value);
 	void SetParticleCount(int value);
 
+	void Reinitialize(PARTICLE* p = nullptr);
+	void Run(PARTICLE* p);
+	void Play();
 
-	void Burst();
+	template<class Archive>
+	void serialize(Archive & archive);
+
 };
 class Number : public Component
 {

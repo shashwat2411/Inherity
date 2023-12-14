@@ -19,3 +19,9 @@ public:
 
 	void Start() override;
 };
+class TitleDomeAnimation : public Animation
+{
+public:
+
+	void Start() override;
+};

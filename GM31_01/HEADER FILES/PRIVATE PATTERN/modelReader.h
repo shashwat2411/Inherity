@@ -20,6 +20,7 @@ public:
 		TITLE_SKYDOME_M,
 		SKYDOME_M,
 		ENEMY_M,
+		TITLE_PLAYER_MODEL_M,
 
 		READ_MODEL_OBJ_MAX
 	};
@@ -63,6 +64,7 @@ public:
 		ModelsOBJ[TITLE_SKYDOME_M].Load("asset\\model\\titleSkydome.obj");
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
 		ModelsOBJ[ENEMY_M].Load("asset\\model\\ExplodeNew.obj");
+		ModelsOBJ[TITLE_PLAYER_MODEL_M].Load("asset\\model\\titlePlayerModel.obj");
 
 
 		//FBX
@@ -93,9 +95,10 @@ public:
 		modelNames[TORUS_M]				= "TORUS";
 		modelNames[SOUND_GIZMO_M]		= "SOUND_GIZMO";
 
-		modelNames[TITLE_SKYDOME_M]		= "TITLE SKYDOME";
-		modelNames[SKYDOME_M]			= "SKYDOME";
-		modelNames[ENEMY_M]				= "ENEMY";
+		modelNames[TITLE_SKYDOME_M]			= "TITLE SKYDOME";
+		modelNames[SKYDOME_M]				= "SKYDOME";
+		modelNames[ENEMY_M]					= "ENEMY";
+		modelNames[TITLE_PLAYER_MODEL_M]	= "TITLE PLAYER MODEL";
 
 		//FBX
 		int i = READ_MODEL_OBJ_MAX;

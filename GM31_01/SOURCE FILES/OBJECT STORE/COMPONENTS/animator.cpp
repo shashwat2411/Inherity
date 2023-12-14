@@ -194,9 +194,10 @@ void Animator::EngineDisplay()
 		if (ImGui::BeginPopup("Animation"))
 		{
 			ImGui::SeparatorText("Animation");
-			if (ImGui::Selectable("CharacterRetract"))	{ AddAnimation<CharacterRetract>(); }
-			if (ImGui::Selectable("TrialAnimation"))	{ AddAnimation<TrialAnimation>(); }
-			if (ImGui::Selectable("TrialAnimation2"))	{ AddAnimation<TrialAnimation2>(); }
+			if (ImGui::Selectable("CharacterRetract"))		{ AddAnimation<CharacterRetract>(); }
+			if (ImGui::Selectable("TrialAnimation"))		{ AddAnimation<TrialAnimation>(); }
+			if (ImGui::Selectable("TrialAnimation2"))		{ AddAnimation<TrialAnimation2>(); }
+			if (ImGui::Selectable("TitleDomeAnimation"))	{ AddAnimation<TitleDomeAnimation>(); }
 			ImGui::EndPopup();
 		}
 

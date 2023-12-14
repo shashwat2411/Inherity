@@ -34,5 +34,5 @@ public:
 
 	static bool BoolDisplay(bool* value, float offset, const char* text, int index = 0, bool uneditable = false);
 	static float FloatDisplay(float* value, float offset, const char* text, bool drag, D3DXVECTOR2 speedLimit, int index = 0, bool uneditable = false);
-	static D3DXVECTOR3 Float3Display(D3DXVECTOR3* value, float offset, const char* text, float speed, int index = 0, bool uneditable = false);
+	static D3DXVECTOR3 Float3Display(D3DXVECTOR3* value, float offset, const char* text, float speed, int index = 0, bool uneditable = false, float min = 0.0f, float max = 0.0f);
 };

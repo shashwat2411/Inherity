@@ -16,6 +16,38 @@
 #include <cereal/types/list.hpp>
 #include <cereal/types/unordered_map.hpp>
 
+class D3DXBOOL3
+{
+public:
+	bool x;
+	bool y;
+	bool z;
+
+public:
+
+	D3DXBOOL3() { x = false; y = false; z = false; }
+	D3DXBOOL3(bool a, bool b, bool c) :x(a), y(b), z(c) {}
+
+	D3DXBOOL3 operator=(const D3DXBOOL3& other)
+	{
+		x = other.x;
+		y = other.y;
+		z = other.z;
+
+		return *this;
+	}
+
+	bool operator==(const bool& other)
+	{
+		if (x == other) { return true; }
+		if (y == other) { return true; }
+		if (z == other) { return true; }
+
+		return false;
+	}
+
+};
+
 template<class Archive>
 void serialize(Archive & archive, D3DXVECTOR2 & vector)
 {
@@ -36,4 +68,10 @@ template<class Archive>
 void serialize(Archive & archive, ImPlotPoint & vector)
 {
 	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y));
+}
+
+template<class Archive>
+void serialize(Archive & archive, D3DXBOOL3 & vector)
+{
+	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), cereal::make_nvp("z", vector.z));
 }

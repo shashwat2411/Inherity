@@ -349,6 +349,7 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else if (ParticleSystem* caster = dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (AudioSource* caster	= dynamic_cast<AudioSource*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (MeshFilter* caster		= dynamic_cast<MeshFilter*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (ParticleSystem* caster	= dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 	}
 
 	if (mat != nullptr) { archive(cereal::make_nvp("Material", *mat)); }
