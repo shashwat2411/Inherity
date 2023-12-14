@@ -740,6 +740,7 @@ public:
 	{
 		archive(cereal::make_nvp("Component", cereal::virtual_base_class<Component>(this)),
 			CEREAL_NVP(loop),
+			CEREAL_NVP(playOnAwake),
 			CEREAL_NVP(threeDimension),
 			CEREAL_NVP(soundIndex),
 			CEREAL_NVP(volume)

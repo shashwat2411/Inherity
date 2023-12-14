@@ -6,7 +6,7 @@
 void AudioSource::Start()
 {
 	loop = false;
-	parentActive = true;
+	parentActive = false;
 	playOnAwake = true;
 	threeDimension = false;
 
@@ -15,7 +15,6 @@ void AudioSource::Start()
 	volume = DEFAULT_VOLUME;
 	volumePercentage = 100.0f;
 
-	parentActive = gameObject->GetActive();
 	clip = SoundReader::GetReadSound(SoundReader::GUARD);
 
 	listeners = Manager::GetScene()->FindGameObjectsOfType<AudioListener>();
@@ -28,18 +27,15 @@ void AudioSource::End()
 
 void AudioSource::Update()
 {
-	
-}
-
-void AudioSource::Draw()
-{
-	if (parentActive != gameObject->GetActive())
+	if (playOnAwake == true && parentActive != gameObject->GetActive())
 	{
 		parentActive = gameObject->GetActive();
 		clip->Play(loop, volume);
 	}
+}
 
-
+void AudioSource::Draw()
+{
 	if (threeDimension == true)
 	{
 		std::vector<float> dist;
