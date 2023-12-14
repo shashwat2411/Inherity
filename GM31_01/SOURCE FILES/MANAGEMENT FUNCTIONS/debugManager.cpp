@@ -248,6 +248,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 					if(ImGui::Selectable("Rigidbody"))		{ selected = true; vector[index]->AddComponent<Rigidbody>(); }
 					if(ImGui::Selectable("SphereCollider"))	{ selected = true; vector[index]->AddComponent<SphereCollider>(); }
 					if(ImGui::Selectable("MeshFilter"))		{ selected = true; vector[index]->AddComponent<MeshFilter>(); }
+					if(ImGui::Selectable("ParticleSystem"))	{ selected = true; vector[index]->AddComponent<ParticleSystem>(); }
 
 					if (selected == true)
 						Manager::GetScene()->componentAdder.push_back(AddComponentSaveFile(vector[index]->GetComponentList().back()->name.c_str(), vector[index]->GetTag().c_str()));
@@ -509,7 +510,7 @@ float DebugManager::FloatDisplay(float* value, float offset, const char* text, b
 	return *value;
 }
 
-D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const char* text, float speed, int index, bool uneditable)
+D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const char* text, float speed, int index, bool uneditable, float min, float max)
 {
 	D3DXVECTOR3 reference = *value;
 
@@ -522,7 +523,7 @@ D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const 
 	ImGui::PushStyleColor(ImGuiCol_SliderGrab, ImVec4(0.0f, 0.0f, 1.0f, 1.0f));
 	ImGui::PushStyleColor(ImGuiCol_SliderGrabActive, ImVec4(0.0f, 0.0f, 0.8f, 1.0f));
 
-	ImGui::DragFloat3("", reference, speed);
+	ImGui::DragFloat3("", reference, speed, min, max);
 
 	if (uneditable == false) { *value = reference; }
 

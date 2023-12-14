@@ -574,28 +574,35 @@ public:
 class ParticleSystem : public Component
 {
 private:
+	bool play;
+	bool show;
+
+	int textureIndex;
 	int numberOfObjects;
 	int numberOfObjectsToAdd;
-	int texture;
 
-	std::vector<PARTICLE*> objects;
+	std::vector<PARTICLE*> particles;
 
 	SCENE* scene;
 
 public:
 	bool burst;
 	bool loop;
-	bool rotateRandom;
 	bool gravity;
 
-	bool randomDirectionX;
-	bool randomDirectionY;
-	bool randomDirectionZ;
+	float counter;
+	float life;
 
-	float rotationSpeed;
+	D3DXBOOL3 randomVelocity;
+	D3DXBOOL3 randomPosition;
+	D3DXBOOL3 randomRotation;
 
-	D3DXVECTOR3 direction;
-	D3DXVECTOR3 velocity;
+	D3DXVECTOR3 size;
+	D3DXVECTOR3 positionOffset;
+	D3DXVECTOR3 velocityOffset;
+	D3DXVECTOR3 rotationOffset;
+
+	D3DXVECTOR3 speed;
 
 public:
 
@@ -611,21 +618,15 @@ public:
 	int GetNumberOfObjects() { return numberOfObjects; }
 
 	void SetTexture(TextureReader::READ_TEXTURE text);
-	void SetLife(const float value);
-	void SetSpeed(const float value);
 	void SetParticleCount(int value);
-	void SetDirection(D3DXVECTOR3 d);
-	void SetRandomDirection(bool x, bool y, bool z);
 
-	void Burst();
+	void Reinitialize(PARTICLE* p = nullptr);
+	void Run(PARTICLE* p);
+	void Play();
 
 	template<class Archive>
-	void serialize(Archive & archive)
-	{
-		archive(cereal::virtual_base_class<Component>(this),
-			CEREAL_NVP(texture)
-		);
-	}
+	void serialize(Archive & archive);
+
 };
 class Number : public Component
 {

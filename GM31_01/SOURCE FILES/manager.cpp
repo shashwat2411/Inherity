@@ -342,6 +342,7 @@ void Manager::Open(std::string name)
 		if (cdd.name == "Rigidbody")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<Rigidbody>(); }
 		if (cdd.name == "SphereCollider")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<SphereCollider>(); }
 		if (cdd.name == "MeshFilter")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MeshFilter>(); }
+		if (cdd.name == "ParticleSystem")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<ParticleSystem>(); }
 	}
 	GetScene()->componentAdder = cdder;
 
@@ -364,17 +365,17 @@ void Manager::Open(std::string name)
 		}
 	}
 
-	for (int i = 0; i < MAX_LAYER; i++)
-	{
-		for (GAMEOBJECT* object : GetScene()->GetGameObjectList((LAYER)i))
-		{
-			for (Component* com : object->GetComponentList())
-			{
-				if (SpriteRenderer* caster = dynamic_cast<SpriteRenderer*>(com))
-				{
-					object->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*object->GetMaterial()->GetIndex()));
-				}
-			}
-		}
-	}
+	//for (int i = 0; i < MAX_LAYER; i++)
+	//{
+	//	for (GAMEOBJECT* object : GetScene()->GetGameObjectList((LAYER)i))
+	//	{
+	//		for (Component* com : object->GetComponentList())
+	//		{
+	//			if (SpriteRenderer* caster = dynamic_cast<SpriteRenderer*>(com))
+	//			{
+	//				object->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)*object->GetMaterial()->GetIndex()));
+	//			}
+	//		}
+	//	}
+	//}
 }

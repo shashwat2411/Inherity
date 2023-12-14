@@ -13,6 +13,18 @@ D3DXVECTOR3 selectedScale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 D3DXCOLOR selectedColor = D3DXCOLOR(1.0f, 1.0f, 1.0, 1.0f);
 PARTICLESYSTEM* ps;
 
+//D3DXVECTOR3 psPosition[3] = {
+//	D3DXVECTOR3( 0.3f,   -9.0f, -101.1f),
+//	D3DXVECTOR3(1.25f,  -10.5f, -101.1f),
+//	D3DXVECTOR3( 0.3f, -11.65f, -101.1f)
+//};
+
+D3DXVECTOR3 psPosition[3] = {
+	D3DXVECTOR3(8.7f, -12.45f, -101.1f),
+	D3DXVECTOR3(8.7f, -13.95f, -101.1f),
+	D3DXVECTOR3(8.7f, -15.65f, -101.1f)
+};
+
 bool Press();
 
 void TITLE_SCENE::Init()
@@ -85,13 +97,18 @@ void TITLE_SCENE::Init()
 		choices[1]->GetMaterial()->SetTexture("_Texture", TextureReader::TUTORIAL_TEXT_T);
 		choices[2]->GetMaterial()->SetTexture("_Texture", TextureReader::QUIT_TEXT_T);
 
-		ps->particleSystem->burst = true;
-		ps->particleSystem->SetDirection(D3DXVECTOR3(0.5f, 0.5f, 0.0f));
-		ps->particleSystem->SetRandomDirection(true, true, false);
-		ps->particleSystem->gravity = true;
+		ps->particleSystem->burst = false;
+		ps->particleSystem->gravity = false;
 		ps->particleSystem->SetTexture(TextureReader::GLASS_SHARD_T);
 		ps->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
 		ps->particleSystem->SetParticleCount(40);
+
+		ps->particleSystem->randomVelocity = D3DXBOOL3(true, true, false);
+		ps->particleSystem->randomPosition = D3DXBOOL3(true, true, false);
+		ps->particleSystem->positionOffset = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+		ps->particleSystem->velocityOffset = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
+
+		ps->particleSystem->Reinitialize();
 	}
 
 	//‰¹
@@ -121,12 +138,14 @@ void TITLE_SCENE::Update()
 
 		choices[choice]->transform->Scale = selectedScale;
 		choices[choice]->SetColor(selectedColor);
+		ps->transform->Position = psPosition[choice];
 	}
 
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) 
 	{ 
 		end = true; 
 		SoundReader::GetReadSound(SoundReader::GUARD)->Play(false, 0.2f);
+		ps->particleSystem->Play();
 	}
 
 	if (end == true && Fade->GetFadeIn() == false)
@@ -145,14 +164,14 @@ void TITLE_SCENE::Update()
 
 bool Press()
 {
-	if (Time::WaitForSeconds(0.07f, &pressTimer) == false) 
+	if (Time::WaitForSeconds(1.2f, &pressTimer) == false) 
 	{
-		choices[choice]->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+		//choices[choice]->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
 		Input::SetControls(false);
 
 		return false; 
 	}
 
-	choices[choice]->transform->Scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
+	//choices[choice]->transform->Scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 	return true;
 }

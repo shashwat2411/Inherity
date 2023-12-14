@@ -41,9 +41,12 @@ void Transform::EngineDisplay()
 {
 	if (ImGui::TreeNode("Transform"))
 	{
-		DebugManager::Float3Display(&gameObject->transform->Position, -1.0f, "Position ", 0.3f, 0);
+		float s = 0.05f;
+		if (gameObject->GetComponent<SpriteRenderer>() != nullptr) { s = 1.0f; }
+
+		DebugManager::Float3Display(&gameObject->transform->Position, -1.0f, "Position ", s, 0);
 		DebugManager::Float3Display(&gameObject->transform->Rotation, -1.0f, "Rotation ", 0.5f, 1);
-		DebugManager::Float3Display(&gameObject->transform->Scale,	  -1.0f, "   Scale ", 0.05f, 2);
+		DebugManager::Float3Display(&gameObject->transform->Scale,	  -1.0f, "   Scale ", 0.01f, 2);
 
 		ImGui::PushItemWidth(0.0f);
 		if (ImGui::TreeNode("Details"))
