@@ -7,13 +7,19 @@ void ParticleSystem::Start()
 	burst = false;
 	loop = true;
 	rotateRandom = false;
+	gravity = false;
+
+	randomDirectionX = true;
+	randomDirectionY = true;
+	randomDirectionZ = true;
 
 	numberOfObjects = 20;
 	numberOfObjectsToAdd = 0;
 
 	rotationSpeed = 0.0f;
 
-	direction = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+	direction = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	scene = Manager::GetScene();
 
@@ -58,7 +64,17 @@ void ParticleSystem::Update()
 		if (rotateRandom == true) { object->SetBillboard(false); object->transform->Rotation += object->velocity * 50.0f * Time::fixedTimeScale; }
 		else { object->SetBillboard(true); }
 
-		object->transform->Position += object->velocity;
+		if (gravity == true)
+		{
+			D3DXVECTOR3 down = D3DXVECTOR3(0.0f, -(GRAVITY_CONSTANT * Time::deltaTime) * GRAVITY_ACCELERATION * 1.0f, 0.0f);
+			D3DXVECTOR3 dir;
+			D3DXVec3Normalize(&dir, &object->velocity);
+			dir += down;
+			D3DXVec3Normalize(&dir, &dir);
+			object->velocity = dir * object->speed;
+		}
+
+		object->transform->Position += object->velocity * Time::fixedTimeScale;
 
 		if (object->counter < object->life) { object->counter += Time::deltaTime; }
 		else { object->counter = object->life; }
@@ -76,44 +92,17 @@ void ParticleSystem::Update()
 			}
 			else
 			{
-				gameObject->SetActive(false);
-				object->ReInitialize();
-				if (burst == true)
-				{
-					object->life = object->setLife;
-					object->counter = 0;
-				}
+				//gameObject->SetActive(false);
+				//object->ReInitialize();
+				//if (burst == true)
+				//{
+				//	object->life = object->setLife;
+				//	object->counter = 0;
+				//}
 				//scene->GetCamera()->GetComponent<Camera>()->Target = nullptr;
 			}
 		}
 	}
-
-	//Necessary Stuff
-	{
-		/*if (Input::GetKeyTrigger('1')) { numberOfObjectsToAdd++; }
-		if (Input::GetKeyTrigger('2')) { numberOfObjectsToAdd--; }
-
-		while (numberOfObjectsToAdd > 0)
-		{
-			auto b = new PARTICLE();
-			b->Start();
-			b->image->SetTextureName(texture);
-			objects.push_back(b);
-
-			numberOfObjectsToAdd--;
-			numberOfObjects++;
-		}
-		while (numberOfObjectsToAdd < 0)
-		{
-			objects.back()->UnInitialize();
-			delete objects.back();
-			objects.pop_back();
-
-			numberOfObjectsToAdd++;
-			numberOfObjects--;
-		}*/
-	}
-
 }
 
 void ParticleSystem::Draw()
@@ -146,6 +135,7 @@ void ParticleSystem::SetTexture(TextureReader::READ_TEXTURE text)
 	{
 		obj->GetMaterial()->SetTexture("_Texture", text);
 	}
+	texture = text;
 }
 
 void ParticleSystem::SetLife(const float value)
@@ -161,6 +151,24 @@ void ParticleSystem::SetSpeed(const float value)
 	for (PARTICLE* obj : objects)
 	{
 		obj->speed = value;
+	}
+}
+
+void ParticleSystem::SetDirection(D3DXVECTOR3 d)
+{
+	for (PARTICLE* obj : objects)
+	{
+		obj->direction = d;
+	}
+}
+
+void ParticleSystem::SetRandomDirection(bool x, bool y, bool z)
+{
+	for (PARTICLE* obj : objects)
+	{
+		obj->randomDirectionX = x;
+		obj->randomDirectionY = y;
+		obj->randomDirectionZ = z;
 	}
 }
 

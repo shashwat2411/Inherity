@@ -455,6 +455,9 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\postProcessManager.cpp">
       <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\titleDomeAnimation.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

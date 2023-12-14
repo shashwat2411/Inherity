@@ -54,6 +54,8 @@ public:
 		PLAY_TEXT_T,
 		TUTORIAL_TEXT_T,
 		QUIT_TEXT_T,
+		GLASS_SHARD_T,
+		CHRONIX_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -107,6 +109,8 @@ public:
 		LoadTexture(&Textures[PLAY_TEXT_T], "asset\\texture\\Title\\play.png");
 		LoadTexture(&Textures[TUTORIAL_TEXT_T], "asset\\texture\\Title\\tutorial.png");
 		LoadTexture(&Textures[QUIT_TEXT_T], "asset\\texture\\Title\\quit.png");
+		LoadTexture(&Textures[GLASS_SHARD_T], "asset\\texture\\Title\\glassShard.png");
+		LoadTexture(&Textures[CHRONIX_T], "asset\\texture\\Title\\chronix.png");
 
 
 		//NAMES
@@ -148,6 +152,8 @@ public:
 		textureNames[PLAY_TEXT_T]			= "PLAY TEXT";
 		textureNames[TUTORIAL_TEXT_T]		= "TUTORIAL TEXT";
 		textureNames[QUIT_TEXT_T]			= "QUIT TEXT";
+		textureNames[GLASS_SHARD_T]			= "GLASS SHARD";
+		textureNames[CHRONIX_T]				= "CHRONIX";
 	}
 
 	static void UnReadTexture()

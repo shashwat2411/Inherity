@@ -1,9 +1,18 @@
 {
-    "GetScene()->objectAdder": [],
+    "GetScene()->objectAdder": [
+        {
+            "class": "IMAGE",
+            "number": 1
+        }
+    ],
     "GetScene()->componentAdder": [
         {
             "component": "Animator",
             "gameObject": "Player Model"
+        },
+        {
+            "component": "Animator",
+            "gameObject": "Player"
         }
     ],
     "GetScene()->animationAdder": [
@@ -14,6 +23,10 @@
         {
             "component": "TrialAnimation2",
             "gameObject": "Player Model"
+        },
+        {
+            "component": "TitleDomeAnimation",
+            "gameObject": "Player"
         }
     ],
     "MainCamera": {
@@ -137,7 +150,7 @@
             },
             "Position": {
                 "x": 7.639999866485596,
-                "y": -3.450000047683716,
+                "y": -0.12008752673864365,
                 "z": -6.440000057220459
             },
             "Rotation": {
@@ -193,7 +206,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 3
+            "modelIndex": 9
         },
         "SphereCollider": {
             "value0": {
@@ -313,7 +326,7 @@
             "textureIndex": 0
         }
     },
-    "Play": {
+    "Glass Shards": {
         "active": true,
         "Color": {
             "r": 1.0,
@@ -327,8 +340,44 @@
                 "enabled": true
             },
             "Position": {
-                "x": 196.82000732421876,
-                "y": 166.1999969482422,
+                "x": 4.800000190734863,
+                "y": -8.399999618530274,
+                "z": -101.0999984741211
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.20000000298023225,
+                "y": 0.20000000298023225,
+                "z": 0.20000000298023225
+            }
+        },
+        "ParticleSystem": {
+            "value0": {
+                "enabled": true
+            },
+            "texture": 3
+        }
+    },
+    "Play": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.6000000238418579
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 78.0199966430664,
+                "y": 212.6999969482422,
                 "z": 0.0
             },
             "Rotation": {
@@ -337,9 +386,9 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 0.30000001192092898,
-                "y": 0.30000001192092898,
-                "z": 0.30000001192092898
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
             }
         },
         "SpriteRenderer": {
@@ -347,8 +396,8 @@
                 "enabled": true
             },
             "Size": {
-                "x": 227.0,
-                "y": 55.0
+                "x": 206.0,
+                "y": 101.0
             },
             "TexCoord": {
                 "x": 1.0,
@@ -379,8 +428,8 @@
                 "enabled": true
             },
             "Position": {
-                "x": 196.1999969482422,
-                "y": 228.0,
+                "x": 119.69999694824219,
+                "y": 265.79998779296877,
                 "z": 0.0
             },
             "Rotation": {
@@ -389,9 +438,9 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 0.4000000059604645,
-                "y": 0.4000000059604645,
-                "z": 0.4000000059604645
+                "x": 0.30000001192092898,
+                "y": 0.30000001192092898,
+                "z": 0.30000001192092898
             }
         },
         "SpriteRenderer": {
@@ -399,8 +448,8 @@
                 "enabled": true
             },
             "Size": {
-                "x": 463.0,
-                "y": 55.0
+                "x": 399.0,
+                "y": 101.0
             },
             "TexCoord": {
                 "x": 1.0,
@@ -423,7 +472,7 @@
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
-            "a": 1.0
+            "a": 0.6000000238418579
         },
         "Parent": "nullptr",
         "Transform": {
@@ -431,8 +480,8 @@
                 "enabled": true
             },
             "Position": {
-                "x": 196.8000030517578,
-                "y": 294.6000061035156,
+                "x": 74.69999694824219,
+                "y": 321.6000061035156,
                 "z": 0.0
             },
             "Rotation": {
@@ -441,9 +490,9 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 0.30000001192092898,
-                "y": 0.30000001192092898,
-                "z": 0.30000001192092898
+                "x": 0.25,
+                "y": 0.25,
+                "z": 0.25
             }
         },
         "SpriteRenderer": {
@@ -451,8 +500,8 @@
                 "enabled": true
             },
             "Size": {
-                "x": 227.0,
-                "y": 55.0
+                "x": 206.0,
+                "y": 101.0
             },
             "TexCoord": {
                 "x": 1.0,
@@ -467,6 +516,58 @@
         },
         "Material": {
             "textureIndex": 34
+        }
+    },
+    "Sprite(Clone)": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 196.8000030517578,
+                "y": 57.599998474121097,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.5,
+                "y": 0.5,
+                "z": 0.5
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 368.0,
+                "y": 81.0
+            },
+            "TexCoord": {
+                "x": 9.0,
+                "y": 3.5999999046325685
+            },
+            "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 36
         }
     }
 }

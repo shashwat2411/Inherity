@@ -15,4 +15,6 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	gray = 0.299 * outDiffuse.r + 0.587 * outDiffuse.g + 0.114 * outDiffuse.b;
 	
 	clip(gray - 1.0f);
+
+	outDiffuse.a = 1.0f;
 }

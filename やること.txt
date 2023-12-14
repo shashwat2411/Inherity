@@ -56,3 +56,6 @@
 	・change the number of polygons in a model based on the distance of the object from the camera
 		(change the model to billboard if too far to tell)
 		Make an LOD Tree component like unity
+
+●Stencil Buffer
+	・整数を持って、プログラマーが自由で使うことが出きる

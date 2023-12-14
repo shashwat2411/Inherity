@@ -1,6 +1,7 @@
 
 #include "main.h"
 #include "renderer.h"
+#include "manager.h"
 #include <io.h>
 
 //#define MULTI_SAMPLE_ANTI_ALIASING 8
@@ -281,48 +282,6 @@ void Renderer::Init()
 	m_DeviceContext->PSSetSamplers(1, 1, &m_samplerState_C);
 	//こいつを3つ分用意して、描画のところに切り替えてる
 
-	//Shadow
-	{
-		swapChainDesc.SampleDesc.Count = 1;
-
-		//シャドーバッファー作成
-		ID3D11Texture2D* depthTexture = NULL;
-		D3D11_TEXTURE2D_DESC td;
-		ZeroMemory(&td, sizeof(&td));
-		td.Width = 4096;
-		td.Height = 4096;
-		td.MipLevels = 1;
-		td.ArraySize = 1;
-		td.Format = DXGI_FORMAT_R32_TYPELESS;	//32bit の自由な形式のデータとする
-		td.SampleDesc = swapChainDesc.SampleDesc;//
-		td.Usage = D3D11_USAGE_DEFAULT;	//	↓デプス＆ステンシルバッファとして作成
-		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
-		td.CPUAccessFlags = 0;
-		td.MiscFlags = 0;
-		m_Device->CreateTexture2D(&td, NULL, &depthTexture);
-
-		//デプスステンシルターゲットビュー作成
-		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
-		ZeroMemory(&dsvd, sizeof(dsvd));
-		dsvd.Format = DXGI_FORMAT_D32_FLOAT;	//ピクセルフォーマットは 32	BitFLOAT型
-		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
-		m_Device->CreateDepthStencilView(depthTexture, &dsvd, &m_DepthShadowDepthStencilView);
-
-		//シェーダーリソースビュー作成
-		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
-		ZeroMemory(&srvd, sizeof(srvd));
-		srvd.Format = DXGI_FORMAT_R32_FLOAT;	//ピクセルフォーマットは 32BitFLOAT型
-		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-		srvd.Texture2D.MipLevels = 1;
-		m_Device->CreateShaderResourceView(depthTexture, &srvd, &m_DepthShadowShaderResourceView);
-
-		depthTexture->Release();
-
-#ifdef MULTI_SAMPLE_ANTI_ALIASING
-		swapChainDesc.SampleDesc.Count = MULTI_SAMPLE_ANTI_ALIASING;
-#endif
-	}
-
 	// 定数バッファ生成
 	D3D11_BUFFER_DESC bufferDesc{};
 	bufferDesc.ByteWidth = sizeof(D3DXMATRIX);
@@ -386,6 +345,47 @@ void Renderer::Init()
 	material.Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 	SetMaterial(material);
 
+	//Shadow
+	{
+		swapChainDesc.SampleDesc.Count = 1;
+
+		//シャドーバッファー作成
+		ID3D11Texture2D* depthTexture = NULL;
+		D3D11_TEXTURE2D_DESC td;
+		ZeroMemory(&td, sizeof(&td));
+		td.Width = 4096;
+		td.Height = 4096;
+		td.MipLevels = 1;
+		td.ArraySize = 1;
+		td.Format = DXGI_FORMAT_R32_TYPELESS;	//32bit の自由な形式のデータとする
+		td.SampleDesc = swapChainDesc.SampleDesc;//
+		td.Usage = D3D11_USAGE_DEFAULT;	//	↓デプス＆ステンシルバッファとして作成
+		td.BindFlags = D3D11_BIND_DEPTH_STENCIL | D3D11_BIND_SHADER_RESOURCE;
+		td.CPUAccessFlags = 0;
+		td.MiscFlags = 0;
+		m_Device->CreateTexture2D(&td, NULL, &depthTexture);
+
+		//デプスステンシルターゲットビュー作成
+		D3D11_DEPTH_STENCIL_VIEW_DESC dsvd;
+		ZeroMemory(&dsvd, sizeof(dsvd));
+		dsvd.Format = DXGI_FORMAT_D32_FLOAT;	//ピクセルフォーマットは 32	BitFLOAT型
+		dsvd.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+		m_Device->CreateDepthStencilView(depthTexture, &dsvd, &m_DepthShadowDepthStencilView);
+
+		//シェーダーリソースビュー作成
+		D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
+		ZeroMemory(&srvd, sizeof(srvd));
+		srvd.Format = DXGI_FORMAT_R32_FLOAT;	//ピクセルフォーマットは 32BitFLOAT型
+		srvd.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+		srvd.Texture2D.MipLevels = 1;
+		m_Device->CreateShaderResourceView(depthTexture, &srvd, &m_DepthShadowShaderResourceView);
+
+		depthTexture->Release();
+
+#ifdef MULTI_SAMPLE_ANTI_ALIASING
+		swapChainDesc.SampleDesc.Count = MULTI_SAMPLE_ANTI_ALIASING;
+#endif
+	}
 	//Post Process
 	{
 		swapChainDesc.SampleDesc.Count = 1;
@@ -735,7 +735,12 @@ void Renderer::BeginCube()
 	m_DeviceContext->OMSetRenderTargets(1, &m_ReflectRenderTargetView, m_ReflectDepthStencilView);
 
 	// バックバッファクリア
+	D3DXCOLOR color = Manager::GetScene()->GetCamera()->GetColor();
 	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	clearColor[0] = color.r;
+	clearColor[1] = color.g;
+	clearColor[2] = color.b;
+	clearColor[3] = color.a;
 	m_DeviceContext->ClearRenderTargetView(m_ReflectRenderTargetView, clearColor);
 	m_DeviceContext->ClearDepthStencilView(m_ReflectDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
@@ -757,7 +762,7 @@ void Renderer::BeginLuminence()
 	//バックバッファクリア
 	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };//赤
 	m_DeviceContext->ClearRenderTargetView(m_LuminaceRenderTargetView, ClearColor);
-	m_DeviceContext->ClearDepthStencilView(m_LuminanceDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//m_DeviceContext->ClearDepthStencilView(m_LuminanceDepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void Renderer::BeginBloom(int index)
@@ -768,7 +773,7 @@ void Renderer::BeginBloom(int index)
 	//バックバッファクリア
 	float ClearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };//赤
 	m_DeviceContext->ClearRenderTargetView(m_BloomRenderTargetView[index], ClearColor);
-	m_DeviceContext->ClearDepthStencilView(m_BloomDepthStencilView[index], D3D11_CLEAR_DEPTH, 1.0f, 0);
+	//m_DeviceContext->ClearDepthStencilView(m_BloomDepthStencilView[index], D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 
 void Renderer::End()

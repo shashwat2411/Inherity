@@ -258,12 +258,17 @@ public:
 class PARTICLE : public BILLBOARD
 {
 public:
+	bool randomDirectionX;
+	bool randomDirectionY;
+	bool randomDirectionZ;
+
 	float counter;
 	float life;
 	float setLife;
 	float speed;
 
 	D3DXVECTOR3 rotationDirection;
+	D3DXVECTOR3 direction;
 	D3DXVECTOR3 velocity;
 
 public:
@@ -274,12 +279,17 @@ public:
 
 		depth = true;
 
+		randomDirectionX = true;
+		randomDirectionY = true;
+		randomDirectionZ = true;
+
 		counter = 0.0f;
 		life = 0.0f;
 		setLife = 0.0f;
 		speed = 0.1f;
 
 		rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		direction = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 		velocity = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 		transform->Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
@@ -294,19 +304,19 @@ public:
 		transform->Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
 		transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-		D3DXVECTOR3 direction;
-		direction.x = (float)(rand() % 10);
-		direction.y = (float)(rand() % 10);
-		direction.z = (float)(rand() % 10);
+		D3DXVECTOR3 d = direction;
+		d.x *= rand() % 10;
+		d.y *= rand() % 10;
+		d.z *= rand() % 10;
 		int dirx = rand() % 2;
 		int diry = rand() % 2;
 		int dirz = rand() % 2;
-		if (dirx == 1) { direction.x *= -1.0f; }
-		if (diry == 1) { direction.y *= -1.0f; }
-		if (dirz == 1) { direction.z *= -1.0f; }
-		D3DXVec3Normalize(&direction, &direction);
+		if (dirx == 1 && randomDirectionX == true) { d.x *= -1.0f; }
+		if (diry == 1 && randomDirectionY == true) { d.y *= -1.0f; }
+		if (dirz == 1 && randomDirectionZ == true) { d.z *= -1.0f; }
+		D3DXVec3Normalize(&d, &d);
 
-		velocity = direction * speed;
+		velocity = d * speed;
 		life = (float)(rand() % ((int)FRAME_RATE + 1)) / FRAME_RATE;
 	}
 

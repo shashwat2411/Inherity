@@ -578,8 +578,6 @@ private:
 	int numberOfObjectsToAdd;
 	int texture;
 
-	D3DXVECTOR3 direction;
-
 	std::vector<PARTICLE*> objects;
 
 	SCENE* scene;
@@ -588,8 +586,16 @@ public:
 	bool burst;
 	bool loop;
 	bool rotateRandom;
+	bool gravity;
+
+	bool randomDirectionX;
+	bool randomDirectionY;
+	bool randomDirectionZ;
 
 	float rotationSpeed;
+
+	D3DXVECTOR3 direction;
+	D3DXVECTOR3 velocity;
 
 public:
 
@@ -608,9 +614,18 @@ public:
 	void SetLife(const float value);
 	void SetSpeed(const float value);
 	void SetParticleCount(int value);
-
+	void SetDirection(D3DXVECTOR3 d);
+	void SetRandomDirection(bool x, bool y, bool z);
 
 	void Burst();
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(texture)
+		);
+	}
 };
 class Number : public Component
 {

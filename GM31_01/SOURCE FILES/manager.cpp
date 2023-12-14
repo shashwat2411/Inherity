@@ -55,8 +55,7 @@ void Manager::Init()
 	Input::Init();
 	DebugManager::Init();
 	PostProcessManager::Init();
-
-	//Load();
+	Audio::InitMaster();
 	
 	SetScene<LOAD_SCENE>();
 }
@@ -186,40 +185,40 @@ void Manager::Draw()
 
 		}
 
-		//3パス目　鏡の環境マッピング
-		{
-			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
-			D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+		////3パス目　鏡の環境マッピング
+		//{
+		//	D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
+		//	D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
-			D3DXVECTOR3 eye;
-			D3DXVECTOR3 lookAt;
-			D3DXVECTOR3 up;
+		//	D3DXVECTOR3 eye;
+		//	D3DXVECTOR3 lookAt;
+		//	D3DXVECTOR3 up;
 
-			D3DXMATRIX view;
-			D3DXMATRIX projectionMatrix;
+		//	D3DXMATRIX view;
+		//	D3DXMATRIX projectionMatrix;
 
-			//D3DXVECTOR3 vPlayerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-			//if (GetScene()->GetPlayer() != nullptr)
-			//{
-				D3DXVECTOR3 vPlayerPos = GetScene()->GetReflector()->transform->GlobalPosition;
-			//}
+		//	//D3DXVECTOR3 vPlayerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+		//	//if (GetScene()->GetPlayer() != nullptr)
+		//	//{
+		//		D3DXVECTOR3 vPlayerPos = GetScene()->GetReflector()->transform->GlobalPosition;
+		//	//}
 
-			eye = vPlayerPos;
-			lookAt = vPlayerPos + lookatOffset;
-			up = upOffset;	
-			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
+		//	eye = vPlayerPos;
+		//	lookAt = vPlayerPos + lookatOffset;
+		//	up = upOffset;	
+		//	D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
-			D3DXMatrixPerspectiveFovLH(&projectionMatrix, 120.0f, 1.0f, 0.01f, 120.0f);
-			Renderer::SetProjectionMatrix(&projectionMatrix);
+		//	D3DXMatrixPerspectiveFovLH(&projectionMatrix, 120.0f, 1.0f, 0.01f, 120.0f);
+		//	Renderer::SetProjectionMatrix(&projectionMatrix);
 
-			Renderer::SetMirrorViewPort();
-			Renderer::BeginMirror();
+		//	Renderer::SetMirrorViewPort();
+		//	Renderer::BeginMirror();
 
-			//ビュー変換 Matrix 設定 
-			Renderer::SetViewMatrix(&view);
+		//	//ビュー変換 Matrix 設定 
+		//	Renderer::SetViewMatrix(&view);
 
-			Scene->EnvironmentMap();
-		}
+		//	Scene->EnvironmentMap();
+		//}
 
 		//4パス目　通常の描画
 		{
@@ -350,9 +349,10 @@ void Manager::Open(std::string name)
 	archive(animadder);
 	for (AddComponentSaveFile animdd : animadder)
 	{
-		if (animdd.name == "CharacterRetract")	{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<CharacterRetract>(); }
-		if (animdd.name == "TrialAnimation")	{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<TrialAnimation>(); }
-		if (animdd.name == "TrialAnimation2")	{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<TrialAnimation2>(); }
+		if (animdd.name == "CharacterRetract")		{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<CharacterRetract>(); }
+		if (animdd.name == "TrialAnimation")		{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<TrialAnimation>(); }
+		if (animdd.name == "TrialAnimation2")		{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<TrialAnimation2>(); }
+		if (animdd.name == "TitleDomeAnimation")	{ GetScene()->Find(animdd.gameObject.c_str())->GetComponent<Animator>()->AddAnimation<TitleDomeAnimation>(); }
 	}
 	GetScene()->animationAdder = animadder;
 

@@ -1,13 +1,17 @@
 #include "customScenes.h"
 #include "input.h"
 
+bool startAnimation = false;
+
 int choice = 0;
 float pressTimer = 0.0f;
 
 IMAGE* choices[3];
 GAMEOBJECT* playerModel;
 
-D3DXVECTOR3 selectedScale = D3DXVECTOR3(0.4f, 0.4f, 0.4f);
+D3DXVECTOR3 selectedScale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
+D3DXCOLOR selectedColor = D3DXCOLOR(1.0f, 1.0f, 1.0, 1.0f);
+PARTICLESYSTEM* ps;
 
 bool Press();
 
@@ -26,6 +30,7 @@ void TITLE_SCENE::Init()
 	playerModel = AddGameObject<PLAYERMODEL>("Player Model");
 	Field = AddGameObject<PLANE>("Field");
 	Water = AddGameObject<PLANE>("Water");
+	ps = AddGameObject<PARTICLESYSTEM>("Glass Shards", BILLBOARD_LAYER);
 
 	//UI
 	choices[0] = AddGameObject<IMAGE>("Play", SPRITE_LAYER);
@@ -79,16 +84,28 @@ void TITLE_SCENE::Init()
 		choices[0]->GetMaterial()->SetTexture("_Texture", TextureReader::PLAY_TEXT_T);
 		choices[1]->GetMaterial()->SetTexture("_Texture", TextureReader::TUTORIAL_TEXT_T);
 		choices[2]->GetMaterial()->SetTexture("_Texture", TextureReader::QUIT_TEXT_T);
+
+		ps->particleSystem->burst = true;
+		ps->particleSystem->SetDirection(D3DXVECTOR3(0.5f, 0.5f, 0.0f));
+		ps->particleSystem->SetRandomDirection(true, true, false);
+		ps->particleSystem->gravity = true;
+		ps->particleSystem->SetTexture(TextureReader::GLASS_SHARD_T);
+		ps->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+		ps->particleSystem->SetParticleCount(40);
 	}
 
 	//‰¹
 	{
 		//SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
 	}
+
+	startAnimation = false;
 }
 
 void TITLE_SCENE::Update()
 {
+	if (Input::GetKeyTrigger('V') || startAnimation == false) { GetPlayer()->GetComponent<Animator>()->PlayAnimation(0, Animation::LOOP); startAnimation = true; }
+
 	playerModel->GetComponent<MeshFilter>()->SetAnimationBlend("Idle", true);
 
 	if (Input::GetButtonTrigger(FORWARD_KEYMAP)) { if (choice > 0) { choice--; } else { choice = 2; } SoundReader::GetReadSound(SoundReader::GUARD)->Play(false, 0.2f);}
@@ -98,10 +115,12 @@ void TITLE_SCENE::Update()
 	{
 		for (int i = 0; i < 3; i++)
 		{
-			choices[i]->transform->Scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
+			choices[i]->transform->Scale = D3DXVECTOR3(0.25f, 0.25f, 0.25f);
+			choices[i]->SetColor(D3DXCOLOR(0.9f, 0.9f, 0.9f, 0.9f));
 		}
 
 		choices[choice]->transform->Scale = selectedScale;
+		choices[choice]->SetColor(selectedColor);
 	}
 
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) 
@@ -134,6 +153,6 @@ bool Press()
 		return false; 
 	}
 
-	choices[choice]->transform->Scale = D3DXVECTOR3(0.4f, 0.4f, 0.4f);
+	choices[choice]->transform->Scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 	return true;
 }
