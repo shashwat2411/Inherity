@@ -189,3 +189,19 @@ public:
 	void Update() override {}
 	void Draw() override;
 };
+class GeometryInstancingMaterial : public Material
+{
+private:
+	ID3D11Buffer* positionBuffer;
+	ID3D11ShaderResourceView* positionSRV;
+
+public:
+
+	void Start() override;
+
+	void Update() override {}
+	void Draw() override;
+
+	void CreatePositionBuffer();
+	void GeometryInstancing();
+};

@@ -458,6 +458,12 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\titleDomeAnimation.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\GeometryInstancing.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCENES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\GeometryInstancingMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -473,9 +479,6 @@
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
     <FxCompile Include="shader\normalMappingPS.hlsl">
-      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
-    </FxCompile>
-    <FxCompile Include="shader\normalMappingVS.hlsl">
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
     <FxCompile Include="shader\unlitDefaultPS.hlsl">
@@ -558,6 +561,12 @@
     </FxCompile>
     <FxCompile Include="shader\mergeVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER\Post Process</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\geometryInstancingVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\normalMappingVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>
