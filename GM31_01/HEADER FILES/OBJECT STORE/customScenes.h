@@ -50,3 +50,10 @@ public:
 
 	static void SetLoadOver(bool value) { loadOver = value; }
 };
+class GEOMETRY_INSTANCING_SCENE : public SCENE
+{
+public:
+
+	void Init() override;
+	void Update() override;
+};

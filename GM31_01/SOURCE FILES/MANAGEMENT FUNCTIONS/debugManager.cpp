@@ -277,7 +277,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 	//Execute Controls
 	{
-		ImGui::Begin("___", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("___", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize/* | ImGuiWindowFlags_NoCollapse*/);
 
 		//ImGui::DragFloat("size", &s, 0.01f);
 

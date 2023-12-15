@@ -22,6 +22,7 @@ protected:
 	bool depth;
 	bool depthShadow;
 	bool reflection;
+	bool geometri;
 
 	bool destroy;
 
@@ -101,6 +102,7 @@ public:
 	bool		GetBillboard()		{ return billboard; }
 	bool		GetDepthShadow()	{ return depthShadow; }
 	bool		GetReflection()		{ return reflection; }
+	bool		GetGeometri()		{ return geometri; }
 
 	bool		GetFaceInDirection() { return faceInDirection; }
 
@@ -130,6 +132,7 @@ public:
 	void SetDepthShadow(bool value)		{ depthShadow = value; }
 	void SetFaceInDirection(bool value)	{ faceInDirection = value; }
 	void SetReflection(bool value)		{ reflection = value; }
+	void SetGeometri(bool value)		{ geometri = value; }
 
 	void SetID(int value)			{ id = value; }
 	void SetRingCounter(int value)	{ RingCounter = value; }

@@ -1,4 +1,6 @@
 
+StructuredBuffer<float3> Position : register(t5);
+
 cbuffer WorldBuffer : register(b0)
 {
 	matrix World;
@@ -22,6 +24,8 @@ struct VS_IN
 	float4 Binormal		: BINORMAL0;
 	float4 Diffuse		: COLOR0;
 	float2 TexCoord		: TEXCOORD0;
+
+	uint InstanceID		: SV_InstanceID;
 };
 
 struct PS_IN

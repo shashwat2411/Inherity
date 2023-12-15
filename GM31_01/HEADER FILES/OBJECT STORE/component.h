@@ -522,6 +522,9 @@ private:
 
 	ID3D11Buffer* VertexBuffer = nullptr;
 
+	ID3D11Buffer* positionBuffer;
+	ID3D11ShaderResourceView* positionSRV;
+
 public:
 	bool flip;
 
@@ -553,6 +556,8 @@ public:
 	void SetOffset(D3DXVECTOR2 offset) { Offset = offset; }
 	void SetOffset(COOD value) { if (value == X) { Offset.x = Size.x; } else { Offset.y = Size.x; } }
 	void SetNormal(D3DXVECTOR3 value) { Normal = value; }
+
+	void CreatePositionBuffer();
 
 };
 class Script :public Component
