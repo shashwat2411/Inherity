@@ -185,40 +185,42 @@ void Manager::Draw()
 
 		}
 
-		////3パス目　鏡の環境マッピング
-		//{
-		//	D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
-		//	D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
+		//3パス目　鏡の環境マッピング
+		/*
+		{
+			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
+			D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
-		//	D3DXVECTOR3 eye;
-		//	D3DXVECTOR3 lookAt;
-		//	D3DXVECTOR3 up;
+			D3DXVECTOR3 eye;
+			D3DXVECTOR3 lookAt;
+			D3DXVECTOR3 up;
 
-		//	D3DXMATRIX view;
-		//	D3DXMATRIX projectionMatrix;
+			D3DXMATRIX view;
+			D3DXMATRIX projectionMatrix;
 
-		//	//D3DXVECTOR3 vPlayerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		//	//if (GetScene()->GetPlayer() != nullptr)
-		//	//{
-		//		D3DXVECTOR3 vPlayerPos = GetScene()->GetReflector()->transform->GlobalPosition;
-		//	//}
+			//D3DXVECTOR3 vPlayerPos = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+			//if (GetScene()->GetPlayer() != nullptr)
+			//{
+				D3DXVECTOR3 vPlayerPos = GetScene()->GetReflector()->transform->GlobalPosition;
+			//}
 
-		//	eye = vPlayerPos;
-		//	lookAt = vPlayerPos + lookatOffset;
-		//	up = upOffset;	
-		//	D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
+			eye = vPlayerPos;
+			lookAt = vPlayerPos + lookatOffset;
+			up = upOffset;	
+			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
-		//	D3DXMatrixPerspectiveFovLH(&projectionMatrix, 120.0f, 1.0f, 0.01f, 120.0f);
-		//	Renderer::SetProjectionMatrix(&projectionMatrix);
+			D3DXMatrixPerspectiveFovLH(&projectionMatrix, 120.0f, 1.0f, 0.01f, 120.0f);
+			Renderer::SetProjectionMatrix(&projectionMatrix);
 
-		//	Renderer::SetMirrorViewPort();
-		//	Renderer::BeginMirror();
+			Renderer::SetMirrorViewPort();
+			Renderer::BeginMirror();
 
-		//	//ビュー変換 Matrix 設定 
-		//	Renderer::SetViewMatrix(&view);
+			//ビュー変換 Matrix 設定 
+			Renderer::SetViewMatrix(&view);
 
-		//	Scene->EnvironmentMap();
-		//}
+			Scene->EnvironmentMap();
+		}
+		*/
 
 		//4パス目　通常の描画
 		{
@@ -229,22 +231,6 @@ void Manager::Draw()
 			if (DontDestroyOnLoad != nullptr && Time::timeScale > 0.0f) { DontDestroyOnLoad->Draw(); }
 
 			PostProcessManager::Draw();
-			//Renderer::Begin(); PostProcess->Draw();
-			/*
-			if (PostProcess) { Renderer::BeginPostProcess(); }
-			else { Renderer::Begin(); }
-
-			Renderer::SetDefaultViewPort();
-
-
-			Scene->Draw();
-			if (DontDestroyOnLoad != nullptr && Time::timeScale > 0.0f) { DontDestroyOnLoad->Draw(); }
-
-			if (PostProcess) 
-			{ 
-				Renderer::Begin(); PostProcess->Draw();
-			}
-			*/
 
 			DebugManager::DebugDraw(Scene);
 			DebugManager::Draw();

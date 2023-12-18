@@ -82,6 +82,6 @@ void LOAD_SCENE::Update()
 		texture->Release();
 		backTexture->Release();
 
-		Manager::SetScene<GEOMETRY_INSTANCING_SCENE>();
+		Manager::SetScene<GAME_SCENE>();
 	}
 }

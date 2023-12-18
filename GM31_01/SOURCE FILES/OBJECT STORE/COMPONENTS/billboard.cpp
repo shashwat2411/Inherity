@@ -71,16 +71,11 @@ void Billboard::Start()
 		Renderer::GetDevice()->CreateBuffer(&bd, &sd, &VertexBuffer);
 	}
 
-	positionBuffer = nullptr;
-	positionSRV = nullptr;
 }
 
 void Billboard::End()
 {
 	if (VertexBuffer != nullptr) { VertexBuffer->Release(); }
-
-	if (positionBuffer != nullptr) { positionBuffer->Release(); }
-	if (positionSRV != nullptr) { positionSRV->Release(); }
 }
 
 void Billboard::Update()
@@ -227,46 +222,4 @@ void Billboard::EngineDisplay()
 		ImGui::TreePop();
 		ImGui::Spacing();
 	}
-}
-
-void Billboard::CreatePositionBuffer()
-{
-	D3DXVECTOR3* pos = new D3DXVECTOR3[10000];
-
-	int i = 0;
-	for (int x = 0; x < 100; x++)
-	{
-		for (int z = 0; z < 100; z++)
-		{
-			pos[i] = D3DXVECTOR3(x, 0.0f, z);
-			i++;
-		}
-	}
-
-	//頂点バッファー生成
-	D3D11_BUFFER_DESC bd;
-	ZeroMemory(&bd, sizeof(bd));
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(D3DXVECTOR3) * 10000;
-	bd.StructureByteStride = sizeof(D3DXVECTOR3);
-	bd.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-	bd.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-
-
-	D3D11_SUBRESOURCE_DATA sd;
-	ZeroMemory(&sd, sizeof(sd));
-	sd.pSysMem = pos;
-
-	Renderer::GetDevice()->CreateBuffer(&bd, &sd, &positionBuffer);
-
-	delete[] pos;	
-
-	//シェーダーリソースビュー生成
-	D3D11_SHADER_RESOURCE_VIEW_DESC srvd;
-	ZeroMemory(&srvd, sizeof(srvd));
-	srvd.Format = DXGI_FORMAT_UNKNOWN;
-	srvd.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
-	srvd.Buffer.FirstElement = 0;
-	srvd.Buffer.NumElements = 10000;
-	Renderer::GetDevice()->CreateShaderResourceView(positionBuffer, &srvd, &positionSRV);
 }

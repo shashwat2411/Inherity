@@ -24,6 +24,7 @@ public:
 	virtual ~Material() {}
 
 	virtual void Start() = 0;
+	virtual void End() {}
 	virtual void Update() = 0;
 	virtual void Draw() = 0;
 
@@ -198,6 +199,7 @@ private:
 public:
 
 	void Start() override;
+	void End() override;
 
 	void Update() override {}
 	void Draw() override;

@@ -49,7 +49,11 @@ void GAMEOBJECT::Initialize()
 
 void GAMEOBJECT::UnInitialize()
 {
-	if (material != nullptr) { delete material; }
+	if (material != nullptr) 
+	{
+		material->End();
+		delete material; 
+	}
 
 	for (auto com : components)
 	{
