@@ -11,24 +11,11 @@
 #include <fstream>
 
 #define DEPTH_SHADOW_RENDERING
-#define ENVIRONMENT_MAPPING
-#define MIRROR_MAPPING
+//#define ENVIRONMENT_MAPPING
+//#define MIRROR_MAPPING
 
 SCENE* Manager::Scene{};	//staticメンバ変数は再宣言が必要
 SCENE* Manager::DontDestroyOnLoad{};	//staticメンバ変数は再宣言が必要
-
-//Model ModelReader::ModelsOBJ[ModelReader::READ_MODEL_OBJ_MAX]{};
-//AnimationModel ModelReader::ModelsFBX[ModelReader::READ_MODEL_FBX_MAX]{};
-//std::unordered_map<std::string, const aiScene*> ModelReader::Animations{};
-//
-//Audio SoundReader::Audios[SoundReader::READ_SOUND_MAX]{};
-//
-//ID3D11ShaderResourceView* TextureReader::Textures[TextureReader::READ_TEXTURE_MAX]{};
-//
-////Names
-//const char* ModelReader::modelNames[ModelReader::READ_MODEL_OBJ_MAX + ModelReader::READ_MODEL_FBX_MAX];
-//const char* SoundReader::soundNames[SoundReader::READ_SOUND_MAX];
-//const char* TextureReader::textureNames[TextureReader::READ_TEXTURE_MAX];
 
 std::vector<Model> ModelReader::ModelsOBJ;
 std::vector<AnimationModel> ModelReader::ModelsFBX;
@@ -134,10 +121,10 @@ void Manager::Draw()
 {
 	if (LOAD_SCENE::GetLogo() == false)
 	{
-		//ライトカメラ構造体の初期化
 		LIGHT light;
 		light.Enable = true;
 
+#ifdef DEPTH_SHADOW_RENDERING
 		//1パス目	シャドーバッファの作成
 		{
 			Renderer::BeginDepth();
@@ -145,7 +132,7 @@ void Manager::Draw()
 
 			if (GetScene()->GetPlayer() != nullptr)
 			{
-				LightInitialize(&light, GetScene()->GetPlayer()->transform->Position/*D3DXVECTOR3(-10.0f, 0.0, 0.0f)*/);
+				LightInitialize(&light, GetScene()->GetPlayer()->transform->Position);
 			}
 
 			//ライトカメラの行列をセット
@@ -153,10 +140,12 @@ void Manager::Draw()
 			Renderer::SetProjectionMatrix(&light.projectionMatrix);
 			Renderer::SetViewMatrix(&light.viewMatrix);
 
-			//影を落としたいオブジェクトを描画（一応地面も）
+			//影を落としたいオブジェクトを描画
 			Scene->DepthPath();
 		}
+#endif
 
+#ifdef ENVIRONMENT_MAPPING
 		//2パス目　環境マップイング
 		{
 			D3DXMATRIX viewMatrixArray[6];
@@ -184,9 +173,10 @@ void Manager::Draw()
 			}
 
 		}
+#endif
 
+#ifdef MIRROR_MAPPING
 		//3パス目　鏡の環境マッピング
-		/*
 		{
 			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
 			D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
@@ -220,7 +210,7 @@ void Manager::Draw()
 
 			Scene->EnvironmentMap();
 		}
-		*/
+#endif
 
 		//4パス目　通常の描画
 		{

@@ -23,33 +23,8 @@ void GeometryInstancingMaterial::End()
 	if (positionBuffer != nullptr) { positionBuffer->Release(); }
 	if (positionSRV != nullptr) { positionSRV->Release(); }
 }
-
-float a = 0.0f;
 void GeometryInstancingMaterial::Draw()
 {
-	D3D11_MAPPED_SUBRESOURCE msr;
-	Renderer::GetDeviceContext()->Map(positionBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
-
-	D3DXVECTOR3* vertex = (D3DXVECTOR3*)msr.pData;
-
-	int i = 0;
-
-	a += 0.01f;
-	
-	for (int x = 0; x < 100; x++)
-	{
-		for (int z = 0; z < 100; z++)
-		{
-			int b = a * z;
-			vertex[i].x = x * 40.0f;
-			vertex[i].y = sinf(b) * 5.0f;
-			vertex[i].z = z * 40.0f;
-			i++;
-		}
-	}
-
-	Renderer::GetDeviceContext()->Unmap(positionBuffer, 0);
-
 	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
 	if (textures["_Normal_Map"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(1, 1, &textures["_Normal_Map"]); }
 
@@ -57,23 +32,18 @@ void GeometryInstancingMaterial::Draw()
 
 void GeometryInstancingMaterial::CreatePositionBuffer()
 {
-	D3DXVECTOR3* pos = new D3DXVECTOR3[10000];
+	D3DXVECTOR3* pos = new D3DXVECTOR3[MAX_PARTICLES];
 
-	int i = 0;
-	for (int x = 0; x < 100; x++)
+	for (int x = 0; x < MAX_PARTICLES; x++)
 	{
-		for (int z = 0; z < 100; z++)
-		{
-			pos[i] = D3DXVECTOR3(x, 0.0f, z);
-			i++;
-		}
+		pos[x] = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	}
 
 	//頂点バッファー生成
 	D3D11_BUFFER_DESC bd;
 	ZeroMemory(&bd, sizeof(bd));
 	bd.Usage = D3D11_USAGE_DYNAMIC;
-	bd.ByteWidth = sizeof(D3DXVECTOR3) * 10000;
+	bd.ByteWidth = sizeof(D3DXVECTOR3) * MAX_PARTICLES;
 	bd.StructureByteStride = sizeof(D3DXVECTOR3);
 	bd.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	bd.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
@@ -94,12 +64,12 @@ void GeometryInstancingMaterial::CreatePositionBuffer()
 	srvd.Format = DXGI_FORMAT_UNKNOWN;
 	srvd.ViewDimension = D3D11_SRV_DIMENSION_BUFFER;
 	srvd.Buffer.FirstElement = 0;
-	srvd.Buffer.NumElements = 10000;
+	srvd.Buffer.NumElements = MAX_PARTICLES;
 	Renderer::GetDevice()->CreateShaderResourceView(positionBuffer, &srvd, &positionSRV);
 }
 
 void GeometryInstancingMaterial::GeometryInstancing()
 {
 	Renderer::GetDeviceContext()->VSSetShaderResources(5, 1, &positionSRV);
-	Renderer::GetDeviceContext()->DrawInstanced(4, 10000, 0, 0);
+	Renderer::GetDeviceContext()->DrawInstanced(4, MAX_PARTICLES, 0, 0);
 }

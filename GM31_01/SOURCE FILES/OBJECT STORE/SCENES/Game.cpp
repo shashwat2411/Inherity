@@ -1,27 +1,18 @@
 #include "customScenes.h"
 
-NUMBER* Score;
-GAMEOBJECT* empty2;
-GAMEOBJECT* empty1;
-GAMEOBJECT* PlayerModel;
-PLANE* Field;
-PLANE* Water;
-IMAGE* Buffer;
-CUBE* cube;
-GAMEOBJECT* gameManager;
-AudioSource* audio;
 
 void GAME_SCENE::Init()
 {
 	name = "game";
 
 	//変数
-	GAMEOBJECT* Cylinder;
+	GAMEOBJECT* PlayerModel;
+	GAMEOBJECT* gameManager;
 	ENEMY* enemy;
-	GAMEOBJECT* rock[20];
-	BILLBOARD* tree[300];
-	GAMEOBJECT* torus1;
-	PLANE* Flag;
+	PLANE* Field;
+	PLANE* Water;
+	NUMBER* Score;
+	AudioSource* audio;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>("SkyDome");
@@ -30,11 +21,7 @@ void GAME_SCENE::Init()
 	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
 	enemy = AddGameObject<ENEMY>("Enemy");
 	Field = AddGameObject<PLANE>("Field");
-	Flag = AddGameObject<PLANE>("Flag");
 	Water = AddGameObject<PLANE>("Water");
-	cube = AddGameObject<CUBE>("Cube");
-	torus = AddGameObject<EMPTYOBJECT>("Torus");
-	torus1 = AddGameObject<EMPTYOBJECT>("Torus1");
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -76,19 +63,14 @@ void GAME_SCENE::Init()
 	*/
 
 	//UI
-	Buffer = AddGameObject<IMAGE>("Shadow Texture", SPRITE_LAYER);
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
-
-	//POST PROCESS
 
 	//接続処理
 	{
 		PlayerModel->SetParent(player);
-		//reflectionProjector->SetParent(player);
 
 		reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 
-		//MainCamera->SetType(CAMERA::REVOLUTION);
 		MainCamera->AddComponent<RevolutionCamera>();
 		MainCamera->camera->SetTarget(player);
 	}
@@ -96,7 +78,6 @@ void GAME_SCENE::Init()
 	//設定
 	{
 		gameManager->AddComponent<GameManager>();
-		//gameManager->GetComponent<GameManager>()->SetEnabled(false);
 
 		PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
 
@@ -105,7 +86,6 @@ void GAME_SCENE::Init()
 		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
 		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		//Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
 		Field->meshField->RecreateField();
 
 		PlayerModel->SetReflection(true);
@@ -124,33 +104,7 @@ void GAME_SCENE::Init()
 		Water->SetDepthShadow(false);
 		Water->meshField->RecreateField();
 
-		Flag->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
-		Flag->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
-		Flag->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
-		Flag->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		Flag->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		Flag->meshField->RecreateField();
-		Flag->SetActive(false);
-		//Flag->AddComponent<ClothSimulator>();
-
-		cube->transform->Position.y = 2.0f;
-		cube->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-		cube->AddMaterial<LitTextureMaterial>();
-		//cube->GetMaterial()->SetTexture("_Texture", TextureReader::RING_T);
-		cube->SetActive(false);
-
-		torus->AddComponent<MeshFilter>()->SetModel(ModelReader::TORUS_M);
-		torus->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-		torus->AddMaterial<MetallicMaterial>();
-
-		torus1->AddComponent<MeshFilter>()->SetModel(ModelReader::TORUS_M);
-		torus1->transform->Position = D3DXVECTOR3(0.0f, 1.0f, 6.0f);
-		torus1->AddMaterial<MetallicMaterial>();
-
 		//UI
-		Buffer->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 7, SCREEN_HEIGHT / 2 - 150.0f, 0.0f);
-		Buffer->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
-
 		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
 		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 		Score->SetDigits(3);
@@ -160,10 +114,6 @@ void GAME_SCENE::Init()
 	{
 		player->AddComponent<AudioListener>();
 
-		//audio = MainCamera->AddComponent<AudioSource>();
-		//audio->clip = SoundReader::GetReadSound(SoundReader::GAME);
-		//audio->Play(true, 0.2f);
-
 		audio = enemy->AddComponent<AudioSource>();
 		audio->SetClip(SoundReader::GAME);
 		audio->SetThreeDimension(true);
@@ -172,56 +122,12 @@ void GAME_SCENE::Init()
 	}
 }
 
-float r = 0.0f;
-float g = 0.0f;
-float b = 0.0f;
-float speed1 = 0.01f;
-float speed2 = 0.02f;
-float speed3 = 0.03f;
-
 void GAME_SCENE::Update()
 {
-	if (r > 1.0f || r < 0.0f) { speed1 *= -1.0f; }
-	r += speed1 * Time::fixedTimeScale;
-
-	if (g > 1.0f || g < 0.0f) { speed2 *= -1.0f; }
-	g += speed2 * Time::fixedTimeScale;
-
-	if (b > 1.0f || b < 0.0f) { speed3 *= -1.0f; }
-	b += speed3 * Time::fixedTimeScale;
-
-	//r = sinf(r);
-	//g = sinf(g);
-	//b = sinf(b);
-
-	if (Input::GetKeyTrigger('Z')) { GetCamera()->camera->CameraShake(D3DXVECTOR3(1.0f, 0.0f, 0.0f)); }
-	if (Input::GetKeyTrigger('Z')) { Score->Increment(10); }
-
-	if (Input::GetKeyTrigger(VK_RETURN)) { end = true; }
-
-	//if (Input::GetKeyPress('Q')) { Water->transform->Position.y += 0.01f; }
-	//if (Input::GetKeyPress('E')) { Water->transform->Position.y -= 0.01f; }
-	//
-	//if (Input::GetKeyPress('R')) { audio->volume += 0.01f; }
-	//if (Input::GetKeyPress('T')) { audio->volume -= 0.01f; }
-
-	cube->SetColor(D3DXCOLOR(r, g, b, 1.0f));
-
-
-	//ID3D11ShaderResourceView* depthShadowTexture;
-	//depthShadowTexture = Renderer::GetDepthShadowTexture();
-	Buffer->GetMaterial()->SetTexture("_Texture", *Renderer::GetMirrorShaderResourceView());
-
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
 
 #ifdef DEBUG	// デバッグ情報を表示する
 	//char* str = GetDebugStr();
-	//sprintf(&str[strlen(str)], " |||  Number : %d, Player_L_Joint1 x : %.2f, y : %.2f, z : %.2f", GameObjects[SHADOW_LAYER].Size(), PlayerModel->L_joint1->transform->Position.x, PlayerModel->L_joint1->transform->Position.y, PlayerModel->L_joint1->transform->Position.z);
-	//sprintf(&str[strlen(str)], " | Player_L_arm1  x : %.2f, y : %.2f, z : %.2f", PlayerModel->L_arm1->transform->Position.x, PlayerModel->L_arm1->transform->Position.y, PlayerModel->L_arm1->transform->Position.z);
-	//sprintf(&str[strlen(str)], " | Water Y : %.2f", Water->transform->Position.y);
-	//sprintf(&str[strlen(str)], " | Water Rot X : %.2f", Water->transform->Rotation.x);
-	//sprintf(&str[strlen(str)], " | Buffer Scale : %.2f", Buffer->transform->Scale.x);
-	//sprintf(&str[strlen(str)], " | Volume : %.2f", audio->volume);
 	//sprintf(&str[strlen(str)], " | Volume Percentage : %.2f", audio->volumePercentage);
 #endif
 }

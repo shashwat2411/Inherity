@@ -83,7 +83,6 @@ public:
 	std::string name;
 
 	PLAYER* player;
-	GAMEOBJECT* torus;
 
 	std::vector<AddObjectSaveFile> objectAdder;
 	std::vector<AddComponentSaveFile> componentAdder;

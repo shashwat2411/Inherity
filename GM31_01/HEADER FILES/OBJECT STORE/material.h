@@ -5,6 +5,8 @@
 #include "textureReader.h"
 #include "functions.h"
 
+#define MAX_PARTICLES 10000
+
 class Material
 {
 protected:
@@ -17,10 +19,13 @@ protected:
 	std::unordered_map<std::string, float> floats;
 	std::unordered_map<std::string, D3DXCOLOR> colors;
 
+	ID3D11Buffer* positionBuffer;
+	ID3D11ShaderResourceView* positionSRV;
+
 public:
 	GAMEOBJECT* gameObject;
 
-	Material() { reflection = false; textureIndex = 0; }
+	Material() { reflection = false; textureIndex = 0; positionBuffer = nullptr; positionSRV = nullptr; }
 	virtual ~Material() {}
 
 	virtual void Start() = 0;
@@ -34,6 +39,8 @@ public:
 	float GetFloat(std::string Name) { return floats[Name]; }
 	D3DXCOLOR GetColor(std::string Name) { return colors[Name]; }
 	ID3D11ShaderResourceView* GetTexture(std::string Name) { return textures[Name]; }
+	ID3D11ShaderResourceView* GetBufferTexture() { return positionSRV; }
+	ID3D11Buffer* GetBuffer() { return positionBuffer; }
 
 	void SetIndex(int value) { textureIndex = value; }
 	void SetInt(std::string Name, int value) { ints[Name] = value; }
@@ -45,6 +52,10 @@ public:
 		textures[Name] = TextureReader::GetReadTexture(index); 
 		textureIndex = index;
 	}
+
+
+	virtual void CreatePositionBuffer() {}
+	virtual void GeometryInstancing() {}
 
 	template<class Archive>
 	void serialize(Archive & archive)
@@ -193,8 +204,6 @@ public:
 class GeometryInstancingMaterial : public Material
 {
 private:
-	ID3D11Buffer* positionBuffer;
-	ID3D11ShaderResourceView* positionSRV;
 
 public:
 
@@ -204,6 +213,6 @@ public:
 	void Update() override {}
 	void Draw() override;
 
-	void CreatePositionBuffer();
-	void GeometryInstancing();
+	void CreatePositionBuffer() override; 
+	void GeometryInstancing() override;
 };
