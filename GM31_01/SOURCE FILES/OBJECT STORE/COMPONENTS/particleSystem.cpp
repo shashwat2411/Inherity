@@ -2,6 +2,8 @@
 #include "manager.h"
 #include "textureReader.h"
 
+BILLBOARD* part;
+
 void ParticleSystem::Start()
 {
 	play = false;
@@ -20,7 +22,7 @@ void ParticleSystem::Start()
 	//randomDirectionY = true;
 	//randomDirectionZ = true;
 
-	numberOfObjects = 20;
+	numberOfObjects = MAX_PARTICLES;
 	numberOfObjectsToAdd = 0;
 
 	size = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
@@ -32,9 +34,13 @@ void ParticleSystem::Start()
 
 	scene = Manager::GetScene();
 
+	part = new BILLBOARD();
+	part->Init();
+	part->SetParent(gameObject);
 
 	//----------------------------------------------------------------
 	textureIndex = TextureReader::BOX_T;
+	part->AddMaterial<GeometryInstancingMaterial>()->SetTexture("_Texture", TextureReader::HOME2_T);
 
 	for (int i = 0; i < numberOfObjects; i++)
 	{
@@ -60,6 +66,8 @@ void ParticleSystem::End()
 		object->UnInitialize();
 		delete object;
 	}
+	part->UnInitialize();
+	delete part;
 }
 
 void ParticleSystem::Update()
@@ -93,6 +101,8 @@ void ParticleSystem::Update()
 			Run(p);
 		}
 	}
+
+	part->Update();
 }
 
 void ParticleSystem::Draw()
@@ -128,8 +138,24 @@ void ParticleSystem::Draw()
 
 			if (DebugManager::play == false) { Run(p); }
 
-			p->Draw();
+			//p->Draw();
 		}
+
+
+		D3D11_MAPPED_SUBRESOURCE msr;
+		Renderer::GetDeviceContext()->Map(part->GetMaterial()->GetBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+
+		D3DXVECTOR3* vertex = (D3DXVECTOR3*)msr.pData;
+
+		for (int x = 0; x < MAX_PARTICLES; x++)
+		{
+			vertex[x] = particles[x]->transform->Position;
+		}
+
+		Renderer::GetDeviceContext()->Unmap(part->GetMaterial()->GetBuffer(), 0);
+
+		part->Draw();
+
 	}
 }
 
