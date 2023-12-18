@@ -683,6 +683,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\cereal-1.3.2\include;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -698,6 +699,7 @@
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\cereal-1.3.2\include;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -715,6 +717,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\cereal-1.3.2\include;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -734,6 +737,7 @@
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\cereal-1.3.2\include;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>false</MultiProcessorCompilation>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

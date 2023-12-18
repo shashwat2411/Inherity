@@ -18,6 +18,12 @@ void GeometryInstancingMaterial::Start()
 	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\unlitTexturePS.cso");
 }
 
+void GeometryInstancingMaterial::End()
+{
+	if (positionBuffer != nullptr) { positionBuffer->Release(); }
+	if (positionSRV != nullptr) { positionSRV->Release(); }
+}
+
 float a = 0.0f;
 void GeometryInstancingMaterial::Draw()
 {
@@ -27,14 +33,16 @@ void GeometryInstancingMaterial::Draw()
 	D3DXVECTOR3* vertex = (D3DXVECTOR3*)msr.pData;
 
 	int i = 0;
+
+	a += 0.01f;
+	
 	for (int x = 0; x < 100; x++)
 	{
 		for (int z = 0; z < 100; z++)
 		{
-			a += 0.00001f;
-
+			int b = a * z;
 			vertex[i].x = x * 40.0f;
-			vertex[i].y = sinf(a) * 5.0f;
+			vertex[i].y = sinf(b) * 5.0f;
 			vertex[i].z = z * 40.0f;
 			i++;
 		}
