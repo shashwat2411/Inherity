@@ -3,7 +3,6 @@
 #include "modelReader.h"
 
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
-
 #define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// ÉXÉvÉäÉìÉOëçêî
 
 class PlayerMovement : public Script
@@ -199,6 +198,49 @@ public:
 
 	void WindForce();
 	void ClothSimulation();
+};
+class ArtificialIntelligence : public Script
+{
+public:
+
+	enum ENEMY_STATE
+	{
+		ROAM,
+		FOLLOW,
+		RETURN,
+
+		ENEMY_STATE_MAX
+	};
+
+private:
+	bool flip;
+
+	int index;
+	int nextIndex;
+
+	float distance;
+
+	D3DXVECTOR3 startPosition;
+	D3DXVECTOR3 returnPosition;
+
+	ENEMY_STATE state;
+
+	Projector* projector;
+
+	std::vector<GAMEOBJECT*> points;
+
+public:
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	void Roam();
+	void Follow();
+	void Return();
 };
 
 //Camera Scripts

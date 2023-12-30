@@ -96,6 +96,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\particleSystem.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\plane.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\postProcess.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\projector.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\rigidbody.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\shadow.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\audioSource.cpp" />
@@ -130,6 +131,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Load.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Result.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Title.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\artificialIntelligence.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\bulletScript.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\clothSimulator.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyScript.cpp" />
