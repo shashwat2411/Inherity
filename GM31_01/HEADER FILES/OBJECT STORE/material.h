@@ -5,7 +5,7 @@
 #include "textureReader.h"
 #include "functions.h"
 
-#define MAX_PARTICLES 10000
+#define MAX_PARTICLES 100
 
 class Material
 {
@@ -26,7 +26,7 @@ public:
 	GAMEOBJECT* gameObject;
 
 	Material() { reflection = false; textureIndex = 0; positionBuffer = nullptr; positionSRV = nullptr; }
-	virtual ~Material() {}
+	~Material() {}
 
 	virtual void Start() = 0;
 	virtual void End() {}
@@ -203,8 +203,6 @@ public:
 };
 class GeometryInstancingMaterial : public Material
 {
-private:
-
 public:
 
 	void Start() override;
@@ -215,4 +213,5 @@ public:
 
 	void CreatePositionBuffer() override; 
 	void GeometryInstancing() override;
+
 };

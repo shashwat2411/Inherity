@@ -13,6 +13,7 @@ void GAME_SCENE::Init()
 	PLANE* Water;
 	NUMBER* Score;
 	AudioSource* audio;
+	EMPTYOBJECT* torus;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>("SkyDome");
@@ -20,6 +21,7 @@ void GAME_SCENE::Init()
 	player = AddGameObject<PLAYER>("Player");
 	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
 	enemy = AddGameObject<ENEMY>("Enemy");
+	torus = AddGameObject<EMPTYOBJECT>("Torus");
 	Field = AddGameObject<PLANE>("Field");
 	Water = AddGameObject<PLANE>("Water");
 
@@ -81,9 +83,10 @@ void GAME_SCENE::Init()
 
 		PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
 
-		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
+		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GRASS_T);
+		//Field->meshField->SetTiles(40);
 		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
-		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
+		Field->meshField->Size = D3DXVECTOR2(50.0f, 50.0f);
 		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		Field->meshField->RecreateField();
@@ -93,7 +96,10 @@ void GAME_SCENE::Init()
 		Field->SetReflection(true);
 		Water->SetReflection(true);
 
-		Water->AddMaterial<WaterMaterial>();
+		torus->AddComponent<MeshFilter>();
+		torus->AddMaterial<MetallicMaterial>();
+
+		//Water->AddMaterial<WaterMaterial>();
 		Water->GetMaterial()->SetTexture("_Texture", TextureReader::WATER_T);
 		Water->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
 		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
@@ -112,12 +118,12 @@ void GAME_SCENE::Init()
 
 	//‰¹
 	{
-		player->AddComponent<AudioListener>();
+		//player->AddComponent<AudioListener>();
 
-		audio = enemy->AddComponent<AudioSource>();
+		/*audio = enemy->AddComponent<AudioSource>();
 		audio->SetClip(SoundReader::GAME);
 		audio->SetThreeDimension(true);
-		audio->SetPlayOnAwake(false);
+		audio->SetPlayOnAwake(false);*/
 		//audio->Play(true, 0.2f);
 	}
 }

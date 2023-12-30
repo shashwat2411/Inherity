@@ -11,7 +11,7 @@
 #include <fstream>
 
 #define DEPTH_SHADOW_RENDERING
-//#define ENVIRONMENT_MAPPING
+#define ENVIRONMENT_MAPPING
 //#define MIRROR_MAPPING
 
 SCENE* Manager::Scene{};	//staticƒƒ“ƒo•Ï”‚ÍÄéŒ¾‚ª•K—v

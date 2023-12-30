@@ -732,6 +732,7 @@ public:
 
 	void Play(bool l = false, float v = 1.0f);
 	void PlayOneShot(Audio* audio, float v = 1.0f);
+	void CollectListeners(AudioListener* al);
 
 	static SOUND* PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float volume);
 
@@ -951,6 +952,8 @@ public:
 class MeshField : public Component
 {
 protected:
+	int tiles;
+
 	D3DXVECTOR3 Normal;
 
 	ID3D11Buffer* VertexBuffer{};
@@ -979,6 +982,7 @@ public:
 	float GetHeight(D3DXVECTOR3 position);
 	ID3D11Buffer* GetVertexBuffer() { return VertexBuffer; }
 
+	void SetTiles(int value) { tiles = value; }
 	void SetNormal(D3DXVECTOR3 value) { Normal = value; }
 
 	void RecreateField();

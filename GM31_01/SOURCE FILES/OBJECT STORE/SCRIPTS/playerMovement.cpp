@@ -124,7 +124,6 @@ void PlayerMovement::Update()
 
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 
-
 	gameObject->rigidbody->Speed.x *= 0.9f;
 	gameObject->rigidbody->Speed.z *= 0.9f;
 

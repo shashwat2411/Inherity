@@ -7,8 +7,8 @@ void GEOMETRY_INSTANCING_SCENE::Init()
 
 	//GAMEOBJECT
 	PLANE* Field = AddGameObject<PLANE>("Field");
-	BILLBOARD* tree = AddGameObject<TREE>("Tree(Clone)", BILLBOARD_LAYER);
-	tree->AddMaterial<GeometryInstancingMaterial>()->SetTexture("_Texture", TextureReader::TREE_T);
+	//BILLBOARD* tree = AddGameObject<TREE>("Tree(Clone)", BILLBOARD_LAYER);
+	//tree->AddMaterial<GeometryInstancingMaterial>()->SetTexture("_Texture", TextureReader::TREE_T);
 
 	//UI
 

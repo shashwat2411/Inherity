@@ -30,22 +30,22 @@ void MeshField::RecreateField()
 	{
 		// 頂点バッファ生成
 		{
-			for (int x = 0; x <= TILES; x++)
+			for (int x = 0; x <= tiles; x++)
 			{
-				for (int z = 0; z <= TILES; z++)
+				for (int z = 0; z <= tiles; z++)
 				{
-					m_Vertex[x][z].Position = D3DXVECTOR3((x - TILES / 2) * Size.x, g_FieldHeight[z][x], (z - TILES / 2) * -Size.y);
+					m_Vertex[x][z].Position = D3DXVECTOR3((x - tiles / 2) * Size.x, g_FieldHeight[z][x], (z - tiles / 2) * -Size.y);
 					m_Vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 					m_Vertex[x][z].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 					//m_Vertex[x][z].TexCoord = D3DXVECTOR2(x * 0.5f, z * 0.5f);
-					m_Vertex[x][z].TexCoord = D3DXVECTOR2(x * (TexCoord.x / (float)TILES), z * (TexCoord.y / (float)TILES));
+					m_Vertex[x][z].TexCoord = D3DXVECTOR2(x * (TexCoord.x / (float)tiles), z * (TexCoord.y / (float)tiles));
 				}
 			}
 
 			//法線ベクトル算出
-			for (int x = 1; x <= (TILES - 1); x++)
+			for (int x = 1; x <= (tiles - 1); x++)
 			{
-				for (int z = 1; z <= (TILES - 1); z++)
+				for (int z = 1; z <= (tiles - 1); z++)
 				{
 					D3DXVECTOR3 vx, vz, vn;
 					vx = m_Vertex[x + 1][z].Position - m_Vertex[x - 1][z].Position;
@@ -61,7 +61,7 @@ void MeshField::RecreateField()
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
 			bd.Usage = D3D11_USAGE_DYNAMIC;
-			bd.ByteWidth = sizeof(VERTEX_3D) * (TILES + 1) * (TILES + 1);
+			bd.ByteWidth = sizeof(VERTEX_3D) * (tiles + 1) * (tiles + 1);
 			bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 			bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
@@ -73,44 +73,44 @@ void MeshField::RecreateField()
 		}
 
 
-
+		
 
 		// インデックスバッファ生成
-		{
-			unsigned int index[((TILES + 2) * 2) * TILES - 2];
+		{	//					 (((TILES + 2) * 2) * TILES - 2);
+			std::vector<int>index(((tiles + 2) * 2) * tiles - 2);
 
 			int i = 0;
-			for (int x = 0; x < TILES; x++)
+			for (int x = 0; x < tiles; x++)
 			{
-				for (int z = 0; z < (TILES + 1); z++)
+				for (int z = 0; z < (tiles + 1); z++)
 				{
-					index[i] = x * (TILES + 1) + z;
+					index[i] = x * (tiles + 1) + z;
 					i++;
 
-					index[i] = (x + 1) * (TILES + 1) + z;
+					index[i] = (x + 1) * (tiles + 1) + z;
 					i++;
 				}
 
-				if (x == (TILES - 1))
+				if (x == (tiles - 1))
 					break;
 
-				index[i] = (x + 1) * (TILES + 1) + TILES;
+				index[i] = (x + 1) * (tiles + 1) + tiles;
 				i++;
 
-				index[i] = (x + 1) * (TILES + 1);
+				index[i] = (x + 1) * (tiles + 1);
 				i++;
 			}
 
 			D3D11_BUFFER_DESC bd;
 			ZeroMemory(&bd, sizeof(bd));
 			bd.Usage = D3D11_USAGE_DEFAULT;
-			bd.ByteWidth = sizeof(unsigned int) * (((TILES + 2) * 2) * TILES - 2);
+			bd.ByteWidth = sizeof(unsigned int) * (((tiles + 2) * 2) * tiles - 2);
 			bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 			bd.CPUAccessFlags = 0;
 
 			D3D11_SUBRESOURCE_DATA sd;
 			ZeroMemory(&sd, sizeof(sd));
-			sd.pSysMem = index;
+			sd.pSysMem = index.data();
 
 			Renderer::GetDevice()->CreateBuffer(&bd, &sd, &IndexBuffer);
 		}
@@ -119,6 +119,7 @@ void MeshField::RecreateField()
 
 void MeshField::Start()
 {
+	tiles = TILES;
 	TexCoord = D3DXVECTOR2(1.0f, 1.0f);
 	Size = D3DXVECTOR2(5.0f, 5.0f);
 
@@ -192,7 +193,7 @@ void MeshField::Draw()
 	Renderer::GetDeviceContext()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLESTRIP);
 
 	// ポリゴン描画
-	Renderer::GetDeviceContext()->DrawIndexed(((TILES + 2) * 2) * TILES - 2, 0, 0);
+	Renderer::GetDeviceContext()->DrawIndexed(((tiles + 2) * 2) * tiles - 2, 0, 0);
 }
 
 void MeshField::EngineDisplay()
@@ -212,8 +213,8 @@ float MeshField::GetHeight(D3DXVECTOR3 position)
 	int x, z;
 
 	//ブロック番号算出
-	x = (int)(position.x / 5.0f + 10.0f);
-	z = (int)(position.z / -5.0f + 10.0f);
+	x = (int)(position.x / Size.x + TILES / 2);
+	z = (int)(position.z / -Size.y + TILES / 2);
 
 	D3DXVECTOR3 pos[4];
 

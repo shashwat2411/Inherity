@@ -218,9 +218,11 @@ D3DXMATRIX Transform::FaceInDirectionXYZ()
 D3DXVECTOR3 Transform::GetForwardDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
-
 	D3DXVECTOR3 returner;
+
+	if (gameObject->GetQuaternion() == false) { D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+	else { D3DXMatrixRotationQuaternion(&rot, &Quaternion); }
+
 	returner.x = rot._31;
 	returner.y = rot._32;
 	returner.z = rot._33;
@@ -231,9 +233,11 @@ D3DXVECTOR3 Transform::GetForwardDirection()
 D3DXVECTOR3 Transform::GetUpDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
-
 	D3DXVECTOR3 returner;
+
+	if (gameObject->GetQuaternion() == false) { D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+	else { D3DXMatrixRotationQuaternion(&rot, &Quaternion); }
+
 	returner.x = rot._21;
 	returner.y = rot._22;
 	returner.z = rot._23;
@@ -244,9 +248,11 @@ D3DXVECTOR3 Transform::GetUpDirection()
 D3DXVECTOR3 Transform::GetRightDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
-
 	D3DXVECTOR3 returner;
+
+	if (gameObject->GetQuaternion() == false) { D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+	else { D3DXMatrixRotationQuaternion(&rot, &Quaternion); }
+
 	returner.x = rot._11;
 	returner.y = rot._12;
 	returner.z = rot._13;
@@ -254,7 +260,7 @@ D3DXVECTOR3 Transform::GetRightDirection()
 	return returner;
 }
 
-//D3DXVECTOR3 Transform::GetForwardDirection()
+//D3DXVECTOR3 Transform::GetForwardDirectionQuaternion()
 //{
 //	D3DXMATRIX rot;
 //	D3DXMatrixRotationQuaternion(&rot, &Quaternion);

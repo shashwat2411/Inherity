@@ -57,18 +57,24 @@ void AudioSource::Draw()
 			});
 		}
 
-		object = listeners[0];
+		if (listeners.empty() == false)
+		{
+			if (listeners[0] != nullptr)
+			{
+				object = listeners[0];
 
-		float start = object->GetStartArea();
-		float end = object->GetEndArea() + start;
+				float start = object->GetStartArea();
+				float end = object->GetEndArea() + start;
 
-		float distance = gameObject->transform->DistanceFrom(object->gameObject);
+				float distance = gameObject->transform->DistanceFrom(object->gameObject);
 
-		volumePercentage = (((end - distance) / (end - start)));
-		if (distance <= start) { volumePercentage = 1.0f; }
-		else if (distance > end) { volumePercentage = 0.0f; }
+				volumePercentage = (((end - distance) / (end - start)));
+				if (distance <= start) { volumePercentage = 1.0f; }
+				else if (distance > end) { volumePercentage = 0.0f; }
 
-		clip->GetSourceVoice()->SetVolume(volumePercentage * volume);
+				clip->GetSourceVoice()->SetVolume(volumePercentage * volume);
+			}
+		}
 	}
 	else
 	{
@@ -146,4 +152,9 @@ SOUND* AudioSource::PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float vol
 	audio->PlayOneShot(audio->clip, volume);
 
 	return sound;
+}
+
+void AudioSource::CollectListeners(AudioListener* al)
+{
+	listeners.push_back(al);
 }

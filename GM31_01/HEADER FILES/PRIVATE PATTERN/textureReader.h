@@ -99,7 +99,7 @@ public:
 		LoadTexture(&Textures[RING_T], "asset\\texture\\ring_c.png");
 		LoadTexture(&Textures[EXPLOSION_T], "asset\\texture\\explosion.png");
 		LoadTexture(&Textures[ROCK_T], "asset\\texture\\field_dds.dds");
-		LoadTexture(&Textures[GRASS_T], "asset\\texture\\grass.png");
+		LoadTexture(&Textures[GRASS_T], "asset\\texture\\green.png");
 		LoadTexture(&Textures[GROUND_T], "asset\\texture\\field004.jpg");
 		LoadTexture(&Textures[TITLE_BG_T], "asset\\texture\\titlegm.png");
 		LoadTexture(&Textures[RESULT_BG_T], "asset\\texture\\resultgm.png");

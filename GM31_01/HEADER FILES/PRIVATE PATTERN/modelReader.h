@@ -29,6 +29,7 @@ public:
 	{
 		//PREFAB MODELS
 		THE_BOSS_M,
+		TOMATO_M,
 		ROCK_M,
 		//ENEM_M,
 
@@ -69,6 +70,7 @@ public:
 
 		//FBX
 		ModelsFBX[THE_BOSS_M].Load("asset\\model\\The Boss.fbx");
+		ModelsFBX[TOMATO_M].Load("asset\\model\\Tomato\\tomato.fbx");
 		ModelsFBX[ROCK_M].Load("asset\\model\\rock.fbx");
 		//ModelsFBX[ENEM_M].Load("asset\\model\\Explode.fbx");
 
@@ -103,6 +105,7 @@ public:
 		//FBX
 		int i = READ_MODEL_OBJ_MAX;
 		modelNames[i + THE_BOSS_M]		= "THE_BOSS";
+		modelNames[i + TOMATO_M]		= "TOMATO";
 		modelNames[i + ROCK_M]			= "ROCK";
 	}
 

@@ -1,0 +1,15 @@
+●当たり判定の標準化 ❌✖
+●Partcile System ❌✖
+●アニメーターの追加 ❌✖
+●ImGUI 適応 ❌✖
+●セーブ機能 ❌✖
+●Oriented Bounding Box Collision ❌✖
+●プライベートパターン ❌✖
+●Post Process ❌✖
+●Key Mapping ❌✖
+●3D Sound ❌✖
+●Unityを基盤したゲームエンジンを作成 ❌✖
+●滑らかなスローモーション ❌✖
+●Shadow Mapping ❌✖
+●環境マッピング ❌✖
+●法線マッピング ❌✖

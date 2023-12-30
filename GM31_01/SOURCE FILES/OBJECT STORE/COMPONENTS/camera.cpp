@@ -137,7 +137,7 @@ void Camera::EngineDisplay()
 
 		DebugManager::FloatDisplay(&fov, -FLT_MIN, "FOV", false, D3DXVECTOR2(1.0f, 120.0f), 1);
 
-		if (ImGui::TreeNode("Details"))
+		if (ImGui::TreeNode("Details") && Target)
 		{
 			ImGui::Text("Target Transform");
 			Target->transform->EngineDisplay();

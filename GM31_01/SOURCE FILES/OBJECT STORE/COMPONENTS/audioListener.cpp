@@ -30,6 +30,12 @@ void AudioListener::Start()
 	area1->GetComponent<MeshFilter>()->SetEnabled(true);
 	area2->GetComponent<MeshFilter>()->SetEnabled(true);
 #endif
+
+	for (auto sources : Manager::GetScene()->FindGameObjectsOfType<AudioSource>())
+	{
+		sources->CollectListeners(this);
+		int a = 0;
+	}
 }
 
 void AudioListener::End()
@@ -54,17 +60,8 @@ void AudioListener::EngineDisplay()
 {
 	if (ImGui::TreeNode("Audio Listener"))
 	{
-		//char str[22];
-
 		DebugManager::FloatDisplay(&startArea, -FLT_MIN, "Start Area", false, D3DXVECTOR2(1.0f, 5.0f));
 		DebugManager::FloatDisplay(&endArea, -FLT_MIN, "End Area", false, D3DXVECTOR2(5.0f, 25.0f), 1);
-		//ImGui::PushItemWidth(-FLT_MIN);
-		//sprintf_s(str, sizeof(str), "Start Area : %.2f", startArea);
-		//ImGui::SliderFloat(" ", &startArea, 1.0f, 5.0f, str);
-
-		//ImGui::PushItemWidth(-FLT_MIN);
-		//sprintf_s(str, sizeof(str), "End Area : %.2f", endArea);
-		//ImGui::SliderFloat("  ", &endArea, 5.0f, 25.0f, str);
 
 		if (ImGui::TreeNode("Details"))
 		{

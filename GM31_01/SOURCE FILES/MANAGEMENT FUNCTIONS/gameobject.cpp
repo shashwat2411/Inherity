@@ -14,7 +14,7 @@ void GAMEOBJECT::Initialize()
 	depth = true;
 	depthShadow = false;
 	reflection = false;
-	geometri = false;
+	geometry = false;
 
 	destroy = false;
 
