@@ -44,9 +44,9 @@ void Transform::EngineDisplay()
 		float s = 0.05f;
 		if (gameObject->GetComponent<SpriteRenderer>() != nullptr) { s = 1.0f; }
 
-		DebugManager::Float3Display(&gameObject->transform->Position, -1.0f, "Position ", s, 0);
-		DebugManager::Float3Display(&gameObject->transform->Rotation, -1.0f, "Rotation ", 0.5f, 1);
-		DebugManager::Float3Display(&gameObject->transform->Scale,	  -1.0f, "   Scale ", 0.01f, 2);
+		DebugManager::Float3Display(&Position, -1.0f, "Position ", s, 0);
+		DebugManager::Float3Display(&Rotation, -1.0f, "Rotation ", 0.5f, 1);
+		DebugManager::Float3Display(&Scale,	  -1.0f, "   Scale ", 0.01f, 2);
 
 		ImGui::PushItemWidth(0.0f);
 		if (ImGui::TreeNode("Details"))
@@ -307,6 +307,16 @@ float Transform::DistanceFrom(GAMEOBJECT* from)
 
 	return  finalDistance;
 }
+
+float Transform::DistanceFrom(D3DXVECTOR3 from)
+{
+	D3DXVECTOR3 distance;
+	distance = Position - from;
+	float finalDistance = D3DXVec3Length(&distance);
+
+	return  finalDistance;
+}
+
 float Transform::DistanceFromWithY0(GAMEOBJECT* from)
 {
 	D3DXVECTOR3 distance;

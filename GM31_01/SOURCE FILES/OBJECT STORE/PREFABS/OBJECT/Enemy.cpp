@@ -1,5 +1,6 @@
 #include "prefab.h"
 #include "animations.h"
+#include "manager.h"
 
 void ENEMY::Start()
 {
@@ -11,13 +12,12 @@ void ENEMY::Start()
 	freezeY = true;
 	reflection = true;
 
-	AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
+	EMPTYOBJECT* model = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Enemy Model");
+	model->SetParent(this);
+	model->AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
 
 	AddComponent<EnemyScript>();
-	
-	AddComponent<Animator>()->AddAnimation<TrialAnimation>();
-	//GetComponent<Animator>()->AddAnimation<TrialAnimation2>();
+	AddComponent<ArtificialIntelligence>();
 
 	AddMaterial<UnlitMaterial>();
-
 }

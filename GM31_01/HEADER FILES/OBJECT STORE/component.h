@@ -19,6 +19,7 @@ class AnimationModel;
 class Model;
 class Audio;
 class SOUND;
+class EMPTYOBJECT;
 
 #define COLLIDERS
 
@@ -187,6 +188,7 @@ public:
 	D3DXVECTOR3 GetUpDirection();
 	D3DXVECTOR3 GetRightDirection();
 	float DistanceFrom(GAMEOBJECT* from);
+	float DistanceFrom(D3DXVECTOR3 from);
 	float DistanceFromWithY0(GAMEOBJECT* from);
 
 	template<class Archive>
@@ -421,11 +423,6 @@ protected:
 	float fov;
 	float len;
 	float rad;
-
-	//float limit;
-	//float shakeCounter;
-	//float shakeValue;
-	//float time;
 
 	D3DXVECTOR3 shakeOffset;
 	float shakeTime;
@@ -1097,4 +1094,48 @@ public:
 	void EngineDisplay() override;
 
 	void SetTexture(ID3D11ShaderResourceView** value) { texture = value; }
+};
+class Projector : public Component
+{
+private:
+	bool faced = true;
+
+	float fov;
+	float fovNear;
+	float fovFar;
+	
+	D3DXVECTOR3 Up;
+	D3DXVECTOR3 rot;
+	D3DXVECTOR3 at;
+	D3DXVECTOR3 direction;
+
+	D3DXMATRIX  mtxView;
+	D3DXMATRIX  mtxProjection;
+
+	GAMEOBJECT* Target;
+
+	EMPTYOBJECT* point;
+	EMPTYOBJECT* parentPoint;
+
+	std::string targetName;
+
+public:
+
+	Projector() { name = "Projector"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	GAMEOBJECT* GetTarget() { return Target; }
+	EMPTYOBJECT* GetPoint() { return point; }
+	std::string GetTargetName() { return targetName; }
+
+	void SetTarget(GAMEOBJECT* value) { Target = value; }
+	void SetTargetName(std::string value) { targetName = value; }
+
+	bool CheckView(Transform* target);
 };
