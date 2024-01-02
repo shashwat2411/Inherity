@@ -27,6 +27,7 @@ public:
 		PARTICLE_SYSTEM_T,
 		PLUS_T,
 		EMPTY_T,
+		ENEMY_SPRITE_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -86,6 +87,7 @@ public:
 		LoadTexture(&Textures[PARTICLE_SYSTEM_T], "asset\\texture\\imGui\\particleSystem.png");
 		LoadTexture(&Textures[PLUS_T], "asset\\texture\\imGui\\plus.png");
 		LoadTexture(&Textures[EMPTY_T], "asset\\texture\\imGui\\empty.png");
+		LoadTexture(&Textures[ENEMY_SPRITE_T], "asset\\texture\\imGui\\enemySprite.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");
@@ -129,6 +131,8 @@ public:
 		textureNames[BILLBOARD_T]			= "BILLBOARD";
 		textureNames[PARTICLE_SYSTEM_T]		= "PARTICLE SYSTEM";
 		textureNames[PLUS_T]				= "PLUS";
+		textureNames[EMPTY_T]				= "EMPTY";
+		textureNames[ENEMY_SPRITE_T]		= "ENEMY SPRITE";
 
 		textureNames[DISSOLVE_T]			= "DISSOLVE";
 		textureNames[WIPE_T]				= "WIPE";

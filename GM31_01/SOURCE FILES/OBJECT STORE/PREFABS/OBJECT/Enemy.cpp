@@ -15,6 +15,7 @@ void ENEMY::Start()
 	EMPTYOBJECT* model = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Enemy Model");
 	model->SetParent(this);
 	model->AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
+	model->transform->Position.y = 1.5;
 
 	AddComponent<EnemyScript>();
 	AddComponent<ArtificialIntelligence>();

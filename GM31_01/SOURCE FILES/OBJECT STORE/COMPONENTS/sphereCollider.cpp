@@ -8,6 +8,7 @@ void SphereCollider::Start()
 	multiple = true;
 	isTrigger = false;
 	isKinematic = false;
+	collision = false;
 
 	CollisionSize = 1.0f;
 	scaleOffset = 1.0f;

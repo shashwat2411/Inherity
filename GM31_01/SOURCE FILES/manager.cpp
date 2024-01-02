@@ -299,12 +299,13 @@ void Manager::Open(std::string name)
 	archive(adder);
 	for(AddObjectSaveFile add : adder)
 	{
-		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>("Cube(Clone)"); } }
-		if (add.name == "CYLINDER")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>("Cylinder(Clone)"); } }
-		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>("Sprite(Clone)", SPRITE_LAYER); } }
-		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>("Billboard(Clone)", BILLBOARD_LAYER); } }
-		if (add.name == "PARTICLESYSTEM")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>("ParticleSystem(Clone)", BILLBOARD_LAYER); } }
-		if (add.name == "EMPTYOBJECT")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>("EmptyObject(Clone)"); } }
+		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)").c_str()); } }
+		if (add.name == "CYLINDER")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)")); } }
+		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER); } }
+		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "PARTICLESYSTEM")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "EMPTYOBJECT")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)")); } }
+		if (add.name == "ENEMY")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)")); } }
 	}
 	GetScene()->objectAdder = adder;
 
@@ -317,6 +318,7 @@ void Manager::Open(std::string name)
 		if (cdd.name == "AudioSource")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<AudioSource>(); }
 		if (cdd.name == "Rigidbody")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<Rigidbody>(); }
 		if (cdd.name == "SphereCollider")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<SphereCollider>(); }
+		if (cdd.name == "BoxCollider")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<BoxCollider>(); }
 		if (cdd.name == "MeshFilter")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MeshFilter>(); }
 		if (cdd.name == "ParticleSystem")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<ParticleSystem>(); }
 	}
@@ -355,3 +357,4 @@ void Manager::Open(std::string name)
 		}
 	}
 }
+

@@ -106,7 +106,7 @@ void PlayerMovement::Update()
 	|}
 	|-----------------------------------------------------------------------
 	*/
-	model = gameObject->Children[0]->GetComponent<MeshFilter>();
+	model = gameObject->GetChildren()[0]->GetComponent<MeshFilter>();
 
 	switch (playerState)
 	{

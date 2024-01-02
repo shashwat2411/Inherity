@@ -116,7 +116,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 	if (show_plot_demo_window)
 		ImPlot::ShowDemoWindow(&show_plot_demo_window);
-	
+
 
 
 	std::vector<GAMEOBJECT*> vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -242,16 +242,24 @@ void DebugManager::DebugDraw(SCENE * scene)
 					bool selected = false;
 
 					ImGui::SeparatorText("Components");
-					if(ImGui::Selectable("Animator"))		{ selected = true; vector[index]->AddComponent<Animator>(); }
-					if(ImGui::Selectable("AudioListener"))	{ selected = true; vector[index]->AddComponent<AudioListener>(); }
-					if(ImGui::Selectable("AudioSource"))	{ selected = true; vector[index]->AddComponent<AudioSource>(); }
-					if(ImGui::Selectable("Rigidbody"))		{ selected = true; vector[index]->AddComponent<Rigidbody>(); }
-					if(ImGui::Selectable("SphereCollider"))	{ selected = true; vector[index]->AddComponent<SphereCollider>(); }
-					if(ImGui::Selectable("MeshFilter"))		{ selected = true; vector[index]->AddComponent<MeshFilter>(); }
-					if(ImGui::Selectable("ParticleSystem"))	{ selected = true; vector[index]->AddComponent<ParticleSystem>(); }
+					if (ImGui::Selectable("Animator"))			{ selected = true; vector[index]->AddComponent<Animator>(); }
+					if (ImGui::Selectable("AudioListener"))		{ selected = true; vector[index]->AddComponent<AudioListener>(); }
+					if (ImGui::Selectable("AudioSource"))		{ selected = true; vector[index]->AddComponent<AudioSource>(); }
+					if (ImGui::Selectable("Rigidbody"))			{ selected = true; vector[index]->AddComponent<Rigidbody>(); }
+					if (ImGui::Selectable("SphereCollider"))	{ selected = true; vector[index]->AddComponent<SphereCollider>(); }
+					if (ImGui::Selectable("BoxCollider"))		{ selected = true; vector[index]->AddComponent<BoxCollider>(); }
+					if (ImGui::Selectable("MeshFilter"))		{ selected = true; vector[index]->AddComponent<MeshFilter>(); }
+					if (ImGui::Selectable("ParticleSystem"))	{ selected = true; vector[index]->AddComponent<ParticleSystem>(); }
 
 					if (selected == true)
-						Manager::GetScene()->componentAdder.push_back(AddComponentSaveFile(vector[index]->GetComponentList().back()->name.c_str(), vector[index]->GetTag().c_str()));
+					{
+						Manager::GetScene()->componentAdder.push_back(
+							AddComponentSaveFile(
+								vector[index]->GetComponentList().back()->name.c_str(), 
+								vector[index]->GetTag().c_str()
+							)
+						);
+					}
 
 					ImGui::EndPopup();
 				}
@@ -393,7 +401,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CUBE_T), size))
 		{
-			Manager::GetScene()->AddGameObject<CUBE>("Cube(Clone)");
+			Manager::GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)").c_str());
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CUBE", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -404,7 +412,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CYLINDER_T), size))
 		{
-			Manager::GetScene()->AddGameObject<CYLINDER>("Cylinder(Clone)");
+			Manager::GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)").c_str());
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CYLINDER", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -415,7 +423,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::SPRITE_T), size))
 		{
-			Manager::GetScene()->AddGameObject<IMAGE>("Sprite(Clone)", SPRITE_LAYER);
+			Manager::GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)").c_str(), SPRITE_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("IMAGE", 1));
 			layer = SPRITE_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -424,7 +432,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::BILLBOARD_T), size))
 		{
-			Manager::GetScene()->AddGameObject<BILLBOARD>("Billboard(Clone)", BILLBOARD_LAYER);
+			Manager::GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)").c_str(), BILLBOARD_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("BILLBOARD", 1));
 			layer = BILLBOARD_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -435,7 +443,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PARTICLE_SYSTEM_T), size))
 		{
-			Manager::GetScene()->AddGameObject<PARTICLESYSTEM>("ParticleSystem(Clone)", BILLBOARD_LAYER);
+			Manager::GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)").c_str(), BILLBOARD_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("PARTICLESYSTEM", 1));
 			layer = BILLBOARD_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -446,8 +454,17 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::EMPTY_T), size))
 		{
-			Manager::GetScene()->AddGameObject<EMPTYOBJECT>("EmptyObject(Clone)");
+			Manager::GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)").c_str());
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("EMPTYOBJECT", 1));
+			layer = GAMEOBJECT_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = (int)vector.size() - 1;
+		}
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::ENEMY_SPRITE_T), size))
+		{
+			Manager::GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)").c_str());
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("ENEMY", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
 			index = (int)vector.size() - 1;

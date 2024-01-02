@@ -351,6 +351,7 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else if (Camera* caster			= dynamic_cast<Camera*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (Number* caster			= dynamic_cast<Number*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (SphereCollider* caster = dynamic_cast<SphereCollider*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (BoxCollider* caster	= dynamic_cast<BoxCollider*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (ParticleSystem* caster = dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (AudioSource* caster	= dynamic_cast<AudioSource*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (MeshFilter* caster		= dynamic_cast<MeshFilter*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
