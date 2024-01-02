@@ -49,4 +49,15 @@ public:
 
 		Open(Scene->name);
 	}
+
 };
+
+std::string ObjectIndex(std::string name)
+{
+	std::string str;
+
+	int num = (int)Manager::GetScene()->FindMultiple(name).size();
+	str = name + (num > 0 ? " " + std::to_string(num) : "");
+
+	return str;
+}

@@ -131,9 +131,11 @@ void COLLISION::Update()
 									{
 										if (com != nullptr)
 										{
-											com->OnTriggerEnter(anotherObject);
+											if (collider->GetCollision() == false) { com->OnTriggerEnter(anotherObject);  }
+											else { com->OnTriggerStay(anotherObject); }
 										}
 									}
+									collider->SetCollision(true);
 								}
 								else
 								{
@@ -164,11 +166,14 @@ void COLLISION::Update()
 									{
 										if (com != nullptr)
 										{
-											com->OnCollisionEnter(anotherObject);
+											if (collider->GetCollision() == false) { com->OnCollisionEnter(anotherObject); }
+											else { com->OnCollisionStay(anotherObject); }
 										}
 									}
+									collider->SetCollision(true);
 
 									//Physics Collision
+									/*
 									////Rigidbody*
 									//D3DXVECTOR3 v1 = object->rigidbody->Speed;
 									//D3DXVECTOR3 v2 = anotherObject->rigidbody->Speed;
@@ -182,12 +187,33 @@ void COLLISION::Update()
 									//object->rigidbody->Speed.z = ((m1 - BOUND_CONST * m2) * v1.z) + (((1 + BOUND_CONST) * m2 * v2.z) / (m1 + m2));
 									//anotherObject->rigidbody->Speed.x = ((m2 - BOUND_CONST * m1) * v2.x) + (((1 + BOUND_CONST) * m1 * v1.x) / (m1 + m2));
 									//anotherObject->rigidbody->Speed.z = ((m2 - BOUND_CONST * m1) * v2.z) + (((1 + BOUND_CONST) * m1 * v1.z) / (m1 + m2));
+									*/
 
 								}
 							}
 							else
 							{
 								collider->GetColliderObject()->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
+
+								if (collider->GetCollision() == true)
+								{
+									for (auto com : object->Parent->GetComponents<Script>())
+									{
+										if (com != nullptr)
+										{
+											if (collider->GetIsTrigger() == true || anotherCollider->GetIsTrigger() == true)
+											{
+												com->OnTriggerExit(anotherObject);
+											}
+											else
+											{
+												com->OnCollisionExit(anotherObject);
+											}
+										}
+									}
+								}
+
+								collider->SetCollision(false);
 							}
 
 						}

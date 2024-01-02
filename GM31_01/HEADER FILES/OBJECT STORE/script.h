@@ -207,6 +207,9 @@ public:
 	{
 		ROAM,
 		FOLLOW,
+		WAIT,
+		ATTACK,
+		FIND,
 		RETURN,
 
 		ENEMY_STATE_MAX
@@ -214,6 +217,7 @@ public:
 
 private:
 	bool flip;
+	bool lock;
 
 	int index;
 	int nextIndex;
@@ -226,7 +230,10 @@ private:
 	ENEMY_STATE state;
 
 	Projector* projector;
+	GAMEOBJECT* target;
+	GAMEOBJECT* seeker;
 
+	std::string targetName;
 	std::vector<GAMEOBJECT*> points;
 
 public:
@@ -237,10 +244,16 @@ public:
 	void Draw() override;
 
 	void EngineDisplay() override;
+	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
 	void Roam();
 	void Follow();
 	void Return();
+	void Wait();
+	void Attack();
+	void Find();
+
+	void Finder();
 };
 
 //Camera Scripts

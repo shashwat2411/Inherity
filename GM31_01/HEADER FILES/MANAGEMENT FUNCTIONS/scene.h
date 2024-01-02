@@ -192,6 +192,22 @@ public:
 		return nullptr;
 	}
 
+	std::vector<GAMEOBJECT*> FindMultiple(std::string name)
+	{
+		std::vector<GAMEOBJECT*> objects;
+		for (int i = 0; i < MAX_LAYER; i++)
+		{
+			for (auto obj : GameObjects[i])
+			{
+				if (obj->GetTag() == name)
+				{
+					objects.push_back(obj);
+				}
+			}
+		}
+		return objects;
+	}
+
 	//FIND MULTIPLE
 	template<typename T>
 	std::vector<T*> FindGameObjects()

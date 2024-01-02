@@ -4,8 +4,8 @@
 
 void EnemyScript::Start()
 {
-	gameObject->AddComponent<Rigidbody>();
-	gameObject->AddComponent<SphereCollider>();
+	gameObject->AddComponent<Rigidbody>()->useGravity = true;
+	gameObject->GetChildren()[0]->AddComponent<SphereCollider>();
 }
 
 void EnemyScript::End()

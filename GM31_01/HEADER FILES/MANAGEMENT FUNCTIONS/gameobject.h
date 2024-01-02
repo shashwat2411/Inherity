@@ -48,6 +48,7 @@ protected:
 	ID3D11InputLayout* VertexLayout;
 
 	std::list<Component*> components;
+	std::vector<GAMEOBJECT*>Children;
 	Material* material;
 
 	D3DXMATRIX WorldMatrix[MAX_AFTERIMAGES];
@@ -62,7 +63,6 @@ public:
 	Rigidbody*	rigidbody;
 	Shadow*		shadow;
 	GAMEOBJECT* Parent;
-	std::vector<GAMEOBJECT*>Children;
 
 	//bool operator<(const GAMEOBJECT* other) const{
 	//	// Compare points based on their Z-coordinates in descending order
@@ -111,13 +111,14 @@ public:
 	bool		GetFreezeY() { return freezeY; }
 	bool		GetFreezeZ() { return freezeZ; }
 
-	int						GetID()				{ return id; }
-	int						GetRingCounter()	{ return RingCounter; }
-	float					GetDefaultY()		{ return defaultY; }
-	D3DXCOLOR				GetColor()			{ return Color; }
-	Material*				GetMaterial()		{ return material; }
-	std::string				GetTag()			{ return tag; }
-	std::list<Component*>	GetComponentList()	{ return components; }
+	int							GetID()				{ return id; }
+	int							GetRingCounter()	{ return RingCounter; }
+	float						GetDefaultY()		{ return defaultY; }
+	D3DXCOLOR					GetColor()			{ return Color; }
+	Material*					GetMaterial()		{ return material; }
+	std::string					GetTag()			{ return tag; }
+	std::list<Component*>		GetComponentList()	{ return components; }
+	std::vector<GAMEOBJECT*>	GetChildren()		{ return Children; }
 
 
 	//Setter Functions

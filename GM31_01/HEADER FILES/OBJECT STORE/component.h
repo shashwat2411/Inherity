@@ -134,8 +134,14 @@ public:
 	virtual void EngineDisplay() = 0;
 
 	virtual void ObjectJointer() {}
-	virtual void OnTriggerEnter(GAMEOBJECT* obj)	{}
-	virtual void OnCollisionEnter(GAMEOBJECT* obj)	{}
+
+	virtual void OnTriggerEnter(GAMEOBJECT* obj) {}
+	virtual void OnTriggerStay(GAMEOBJECT* obj) {}
+	virtual void OnTriggerExit(GAMEOBJECT* obj) {}
+
+	virtual void OnCollisionEnter(GAMEOBJECT* obj) {}
+	virtual void OnCollisionStay(GAMEOBJECT* obj) {}
+	virtual void OnCollisionExit(GAMEOBJECT* obj) {}
 
 	virtual void StrayUpdate() {}
 
@@ -371,6 +377,7 @@ class SphereCollider : public Component
 private:
 	bool isTrigger;
 	bool isKinematic;
+	bool collision;
 
 	float CollisionSize;
 
@@ -394,11 +401,13 @@ public:
 
 	bool GetIsTrigger() { return isTrigger; }
 	bool GetIsKinematic() { return isKinematic; }
+	bool GetCollision() { return collision; }
 	float GetCollisionSize() { return CollisionSize; }
 	GAMEOBJECT* GetColliderObject() { return colliderObject; }
 
 	void SetIsTrigger(bool value) { isTrigger = value; }
 	void SetIsKinematic(bool value) { isKinematic = value; }
+	void SetCollision(bool value) { collision = value; }
 	void SetCollisionSize(float s) { CollisionSize = s; }
 
 	template<class Archive>
@@ -1075,6 +1084,16 @@ public:
 	void SetIsKinematic(bool value) { isKinematic = value; }
 	void SetCollisionSize(D3DXVECTOR3 s) { CollisionSize = s; }
 
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(isTrigger),
+			CEREAL_NVP(isKinematic),
+			CEREAL_NVP(CollisionSize),
+			CEREAL_NVP(scaleOffset)
+		);
+	}
 };
 class PostProcess : public Component
 {

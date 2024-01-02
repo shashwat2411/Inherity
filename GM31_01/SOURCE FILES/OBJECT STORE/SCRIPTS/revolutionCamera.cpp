@@ -12,7 +12,7 @@ void RevolutionCamera::Update()
 	//at = Target->transform->Position;
 
 	D3DXVECTOR3 forward;
-	if ((int)camera->GetTarget()->Children.size() > 0) { forward = camera->GetTarget()->Children[0]->transform->GetForwardDirection(); }
+	if ((int)camera->GetTarget()->GetChildren().size() > 0) { forward = camera->GetTarget()->GetChildren()[0]->transform->GetForwardDirection(); }
 	else { forward = camera->GetTarget()->transform->GetForwardDirection(); }
 
 	D3DXVECTOR3 toBeAt = camera->GetTarget()->transform->GlobalPosition - forward * 8.0f + D3DXVECTOR3(0.0f, 4.0f, 0.0f);

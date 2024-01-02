@@ -302,7 +302,7 @@ D3DXVECTOR3 Transform::GetRightDirection()
 float Transform::DistanceFrom(GAMEOBJECT* from)
 {
 	D3DXVECTOR3 distance;
-	distance = Position - from->transform->Position;
+	distance = GlobalPosition - from->transform->GlobalPosition;
 	float finalDistance = D3DXVec3Length(&distance);
 
 	return  finalDistance;
@@ -311,7 +311,7 @@ float Transform::DistanceFrom(GAMEOBJECT* from)
 float Transform::DistanceFrom(D3DXVECTOR3 from)
 {
 	D3DXVECTOR3 distance;
-	distance = Position - from;
+	distance = GlobalPosition - from;
 	float finalDistance = D3DXVec3Length(&distance);
 
 	return  finalDistance;
@@ -320,7 +320,7 @@ float Transform::DistanceFrom(D3DXVECTOR3 from)
 float Transform::DistanceFromWithY0(GAMEOBJECT* from)
 {
 	D3DXVECTOR3 distance;
-	distance = Position - from->transform->Position;
+	distance = GlobalPosition - from->transform->GlobalPosition;
 	distance.y = 0.0f;
 	float finalDistance = D3DXVec3Length(&distance);
 

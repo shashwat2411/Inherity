@@ -34,7 +34,7 @@ void MeshField::RecreateField()
 			{
 				for (int z = 0; z <= tiles; z++)
 				{
-					m_Vertex[x][z].Position = D3DXVECTOR3((x - tiles / 2) * Size.x, g_FieldHeight[z][x], (z - tiles / 2) * -Size.y);
+					m_Vertex[x][z].Position = D3DXVECTOR3((x - tiles / 2) * Size.x, /*g_FieldHeight[z][x]*/0.0f, (z - tiles / 2) * -Size.y);
 					m_Vertex[x][z].Normal = D3DXVECTOR3(0.0f, 1.0f, 0.0f);//法線ベクトル
 					m_Vertex[x][z].Diffuse = D3DXVECTOR4(1.0f, 1.0f, 1.0f, 1.0f);
 					//m_Vertex[x][z].TexCoord = D3DXVECTOR2(x * 0.5f, z * 0.5f);
