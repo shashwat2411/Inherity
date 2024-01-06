@@ -37,6 +37,9 @@ void Input::Init()
 	input[JUMP_KEYMAP].push_back(VK_SPACE);
 	controllerInput[JUMP_KEYMAP].push_back(XINPUT_GAMEPAD_A);
 
+	input[LIGHT_ATTACK_KEYMAP].push_back('Z');
+	controllerInput[LIGHT_ATTACK_KEYMAP].push_back(XINPUT_GAMEPAD_X);
+
 	input[CHANGE_KEYMAP].push_back(VK_RETURN);
 	controllerInput[CHANGE_KEYMAP].push_back(XINPUT_GAMEPAD_START);
 }

@@ -8,6 +8,7 @@ void GAME_SCENE::Init()
 	//ïœêî
 	GAMEOBJECT* PlayerModel;
 	GAMEOBJECT* gameManager;
+	GAMEOBJECT* map;
 	ENEMY* enemy;
 	PLANE* Field;
 	PLANE* Water;
@@ -24,6 +25,7 @@ void GAME_SCENE::Init()
 	torus = AddGameObject<EMPTYOBJECT>("Torus");
 	Field = AddGameObject<PLANE>("Field");
 	Water = AddGameObject<PLANE>("Water");
+	map = AddGameObject<EMPTYOBJECT>("Map");
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -90,6 +92,7 @@ void GAME_SCENE::Init()
 		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		Field->meshField->RecreateField();
+		Field->SetActive(false);
 
 		PlayerModel->SetReflection(true);
 		enemy->SetReflection(true);
@@ -109,6 +112,10 @@ void GAME_SCENE::Init()
 		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
 		Water->SetDepthShadow(false);
 		Water->meshField->RecreateField();
+		Water->SetActive(false);
+
+		map->AddComponent<MeshFilter>()->SetModel(ModelReader::MAP_FBX_M);
+		map->transform->culling = false;
 
 		//UI
 		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);

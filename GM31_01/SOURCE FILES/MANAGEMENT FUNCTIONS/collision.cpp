@@ -236,9 +236,8 @@ void COLLISION::Update()
 
 						if (anotherCollider != nullptr)
 						{
-							bool hit = false;
-
 							//Collision
+							bool hit = ColOBBs(object, anotherObject, collider->GetCollisionSize(), anotherCollider->GetCollisionSize());
 							{
 								//Normal Box Collision
 								{
@@ -337,7 +336,6 @@ void COLLISION::Update()
 
 								//Divided Axis Oriented Bounding Box Collision
 								{
-									hit = ColOBBs(object, anotherObject, collider->GetCollisionSize(), anotherCollider->GetCollisionSize());
 									//D3DXVECTOR3 NAe1 = object->transform->GetRightDirection();
 									//D3DXVECTOR3 A_e1 = NAe1 * size1.x;
 									//float rA = D3DXVec3Length(&A_e1);

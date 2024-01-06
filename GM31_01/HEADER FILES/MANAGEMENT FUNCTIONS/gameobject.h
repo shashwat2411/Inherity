@@ -231,6 +231,7 @@ public:
 				}
 			}
 		}
+		return nullptr;
 	}
 
 	template<typename T>

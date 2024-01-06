@@ -401,7 +401,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CUBE_T), size))
 		{
-			Manager::GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)").c_str());
+			Manager::GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)"));
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CUBE", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -412,7 +412,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::CYLINDER_T), size))
 		{
-			Manager::GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)").c_str());
+			Manager::GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)"));
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("CYLINDER", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -423,7 +423,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::SPRITE_T), size))
 		{
-			Manager::GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)").c_str(), SPRITE_LAYER);
+			Manager::GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("IMAGE", 1));
 			layer = SPRITE_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -432,7 +432,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::BILLBOARD_T), size))
 		{
-			Manager::GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)").c_str(), BILLBOARD_LAYER);
+			Manager::GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("BILLBOARD", 1));
 			layer = BILLBOARD_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -443,7 +443,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::PARTICLE_SYSTEM_T), size))
 		{
-			Manager::GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)").c_str(), BILLBOARD_LAYER);
+			Manager::GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)"), BILLBOARD_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("PARTICLESYSTEM", 1));
 			layer = BILLBOARD_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -454,7 +454,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::EMPTY_T), size))
 		{
-			Manager::GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)").c_str());
+			Manager::GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)"));
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("EMPTYOBJECT", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
@@ -463,7 +463,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::ENEMY_SPRITE_T), size))
 		{
-			Manager::GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)").c_str());
+			Manager::GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)"));
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("ENEMY", 1));
 			layer = GAMEOBJECT_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);

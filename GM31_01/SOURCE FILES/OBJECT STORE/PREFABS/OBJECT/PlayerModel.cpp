@@ -20,6 +20,11 @@ void PLAYERMODEL::Start()
 	model->GetModel()->LoadAnimation("Dance");
 	model->GetModel()->LoadAnimation("Jump");
 
+	model->GetModel()->LoadAnimation("Punch_Left");
+	model->GetModel()->LoadAnimation("Punch_Right");
+	model->GetModel()->LoadAnimation("Low_Punch_Left");
+	model->GetModel()->LoadAnimation("Low_Punch_Right");
+
 	model->SetDefaultAnimation("Idle");
 
 	transform->Scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);

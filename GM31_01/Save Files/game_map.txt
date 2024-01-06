@@ -1,15 +1,64 @@
 {
     "GetScene()->objectAdder": [
         {
-            "class": "ENEMY",
+            "class": "CUBE",
             "number": 1
         },
         {
-            "class": "ENEMY",
+            "class": "CUBE",
+            "number": 1
+        },
+        {
+            "class": "CUBE",
+            "number": 1
+        },
+        {
+            "class": "CUBE",
+            "number": 1
+        },
+        {
+            "class": "CUBE",
+            "number": 1
+        },
+        {
+            "class": "CUBE",
+            "number": 1
+        },
+        {
+            "class": "EMPTYOBJECT",
             "number": 1
         }
     ],
-    "GetScene()->componentAdder": [],
+    "GetScene()->componentAdder": [
+        {
+            "component": "BoxCollider",
+            "gameObject": "Cube(Clone)"
+        },
+        {
+            "component": "BoxCollider",
+            "gameObject": "Cube(Clone)_1"
+        },
+        {
+            "component": "BoxCollider",
+            "gameObject": "Cube(Clone)_2"
+        },
+        {
+            "component": "BoxCollider",
+            "gameObject": "Cube(Clone)_3"
+        },
+        {
+            "component": "BoxCollider",
+            "gameObject": "Cube(Clone)_4"
+        },
+        {
+            "component": "BoxCollider",
+            "gameObject": "Cube(Clone)_5"
+        },
+        {
+            "component": "BoxCollider",
+            "gameObject": "Player Model"
+        }
+    ],
     "GetScene()->animationAdder": [],
     "MainCamera": {
         "active": true,
@@ -25,12 +74,12 @@
                 "enabled": true
             },
             "Position": {
-                "x": -170.8000030517578,
-                "y": 21.25,
-                "z": -47.5
+                "x": 17.75,
+                "y": 106.3499984741211,
+                "z": 3.5999999046325685
             },
             "Rotation": {
-                "x": 28.5,
+                "x": 89.0,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -79,7 +128,7 @@
         }
     },
     "SkyDome": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -93,7 +142,7 @@
             },
             "Position": {
                 "x": 0.0,
-                "y": -190.4499969482422,
+                "y": -10.0,
                 "z": 0.0
             },
             "Rotation": {
@@ -102,16 +151,16 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 400.0,
-                "y": 400.0,
-                "z": 400.0
+                "x": 100.0,
+                "y": 100.0,
+                "z": 100.0
             }
         },
         "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 6
+            "modelIndex": 7
         },
         "Material": {
             "textureIndex": 0
@@ -209,16 +258,16 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 0.009999999776482582,
-                "y": 0.009999999776482582,
-                "z": 0.009999999776482582
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             }
         },
         "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 11
+            "modelIndex": 12
         },
         "SphereCollider": {
             "value0": {
@@ -227,6 +276,19 @@
             "isTrigger": false,
             "isKinematic": false,
             "CollisionSize": 0.30000001192092898,
+            "scaleOffset": 1.0
+        },
+        "BoxCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": false,
+            "CollisionSize": {
+                "x": 1.350000023841858,
+                "y": 1.350000023841858,
+                "z": 1.350000023841858
+            },
             "scaleOffset": 100.0
         },
         "Material": {
@@ -234,7 +296,7 @@
         }
     },
     "Enemy": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -275,7 +337,7 @@
         }
     },
     "Enemy Model": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -323,7 +385,7 @@
         }
     },
     "Torus": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -362,7 +424,7 @@
         }
     },
     "Field": {
-        "active": false,
+        "active": true,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -385,9 +447,9 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 0.10000000149011612,
+                "y": 0.10000000149011612,
+                "z": 0.10000000149011612
             }
         },
         "Material": {
@@ -427,7 +489,7 @@
             "textureIndex": 5
         }
     },
-    "Map": {
+    "Cube(Clone)": {
         "active": true,
         "Color": {
             "r": 1.0,
@@ -435,15 +497,15 @@
             "b": 1.0,
             "a": 1.0
         },
-        "Parent": "nullptr",
+        "Parent": "EmptyObject(Clone)",
         "Transform": {
             "Component": {
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
+                "x": -10.0,
                 "y": 0.0,
-                "z": 0.0
+                "z": 10.0
             },
             "Rotation": {
                 "x": 0.0,
@@ -451,111 +513,295 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 1.0,
+                "x": 3.0,
                 "y": 1.0,
-                "z": 1.0
+                "z": 3.0
             }
         },
         "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 10
+            "modelIndex": 3
         },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Enemy(Clone)": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -177.5500030517578,
-                "y": 1.0,
-                "z": 13.399999618530274
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.6000000238418579,
-                "y": 0.6000000238418579,
-                "z": 0.6000000238418579
-            }
-        },
-        "Rigidbody": {
-            "Component": {
-                "enabled": true
-            },
-            "mass": 1.0,
-            "groundLevel": 0.0,
-            "useGravity": true
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Enemy Model": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "Enemy(Clone)",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": 0.0,
-                "y": 1.5,
-                "z": 0.0
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 8
-        },
-        "SphereCollider": {
+        "BoxCollider": {
             "value0": {
                 "enabled": true
             },
             "isTrigger": false,
-            "isKinematic": false,
-            "CollisionSize": 1.0,
-            "scaleOffset": 1.0
+            "isKinematic": true,
+            "CollisionSize": {
+                "x": 3.0999999046325685,
+                "y": 3.5999999046325685,
+                "z": 3.0999999046325685
+            },
+            "scaleOffset": 0.3333333432674408
         },
         "Material": {
             "textureIndex": 0
         }
     },
-    "Enemy(Clone)_1": {
+    "Cube(Clone)_1": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "EmptyObject(Clone)",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 10.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 3.0,
+                "y": 1.0,
+                "z": 3.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 3
+        },
+        "BoxCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": true,
+            "CollisionSize": {
+                "x": 3.0999999046325685,
+                "y": 3.5999999046325685,
+                "z": 3.0999999046325685
+            },
+            "scaleOffset": 0.3333333432674408
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_2": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "EmptyObject(Clone)",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 10.0,
+                "y": 0.0,
+                "z": 10.0
+            },
+            "Rotation": {
+                "x": -0.7999999523162842,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 3.0,
+                "y": 1.0,
+                "z": 3.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 3
+        },
+        "BoxCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": true,
+            "CollisionSize": {
+                "x": 3.0999999046325685,
+                "y": 3.5999999046325685,
+                "z": 3.0999999046325685
+            },
+            "scaleOffset": 0.3333333432674408
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_3": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "EmptyObject(Clone)",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": -10.0,
+                "y": 0.0,
+                "z": -15.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 3.0,
+                "y": 1.0,
+                "z": 3.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 3
+        },
+        "BoxCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": true,
+            "CollisionSize": {
+                "x": 3.0999999046325685,
+                "y": 3.5999999046325685,
+                "z": 3.0999999046325685
+            },
+            "scaleOffset": 0.3333333432674408
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_4": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "EmptyObject(Clone)",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": -15.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 3.0,
+                "y": 1.0,
+                "z": 3.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 3
+        },
+        "BoxCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": true,
+            "CollisionSize": {
+                "x": 3.0999999046325685,
+                "y": 3.5999999046325685,
+                "z": 3.0999999046325685
+            },
+            "scaleOffset": 0.3333333432674408
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_5": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "EmptyObject(Clone)",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 10.0,
+                "y": 0.0,
+                "z": -15.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 3.0,
+                "y": 1.0,
+                "z": 3.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 3
+        },
+        "BoxCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": true,
+            "CollisionSize": {
+                "x": 3.0999999046325685,
+                "y": 3.5999999046325685,
+                "z": 3.0999999046325685
+            },
+            "scaleOffset": 0.3333333432674408
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "EmptyObject(Clone)": {
         "active": true,
         "Color": {
             "r": 1.0,
@@ -569,50 +815,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -177.0,
-                "y": 1.0,
-                "z": 3.549999952316284
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 97.5,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.6000000238418579,
-                "y": 0.6000000238418579,
-                "z": 0.6000000238418579
-            }
-        },
-        "Rigidbody": {
-            "Component": {
-                "enabled": true
-            },
-            "mass": 1.0,
-            "groundLevel": 0.0,
-            "useGravity": true
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Enemy Model": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "Enemy(Clone)_1",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": 0.0,
-                "y": 1.5,
-                "z": 0.0
+                "x": -35.0,
+                "y": 1.899999976158142,
+                "z": 35.0
             },
             "Rotation": {
                 "x": 0.0,
@@ -621,27 +826,9 @@
             },
             "Scale": {
                 "x": 1.0,
-                "y": 1.0,
+                "y": 3.2699999809265138,
                 "z": 1.0
             }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 8
-        },
-        "SphereCollider": {
-            "value0": {
-                "enabled": true
-            },
-            "isTrigger": false,
-            "isKinematic": false,
-            "CollisionSize": 1.0,
-            "scaleOffset": 1.0
-        },
-        "Material": {
-            "textureIndex": 0
         }
     },
     "Player Model": {
@@ -684,7 +871,7 @@
         }
     },
     "Enemy Model": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -722,7 +909,7 @@
             "textureIndex": 0
         }
     },
-    "Enemy Model": {
+    "Cube(Clone)": {
         "active": true,
         "Color": {
             "r": 1.0,
@@ -730,7 +917,7 @@
             "b": 1.0,
             "a": 1.0
         },
-        "Parent": "Enemy Model",
+        "Parent": "Cube(Clone)",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -746,22 +933,22 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 1.0333333015441895,
+                "y": 1.2000000476837159,
+                "z": 1.0333333015441895
             }
         },
         "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 0
+            "modelIndex": 1
         },
         "Material": {
             "textureIndex": 0
         }
     },
-    "Enemy Model": {
+    "Cube(Clone)_1": {
         "active": true,
         "Color": {
             "r": 1.0,
@@ -769,7 +956,7 @@
             "b": 1.0,
             "a": 1.0
         },
-        "Parent": "Enemy Model",
+        "Parent": "Cube(Clone)_1",
         "Transform": {
             "Component": {
                 "enabled": true
@@ -785,23 +972,218 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
+                "x": 1.0333333015441895,
+                "y": 1.2000000476837159,
+                "z": 1.0333333015441895
             }
         },
         "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 0
+            "modelIndex": 1
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_2": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Cube(Clone)_2",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0333333015441895,
+                "y": 1.2000000476837159,
+                "z": 1.0333333015441895
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 1
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_3": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Cube(Clone)_3",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0333333015441895,
+                "y": 1.2000000476837159,
+                "z": 1.0333333015441895
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 1
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_4": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Cube(Clone)_4",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0333333015441895,
+                "y": 1.2000000476837159,
+                "z": 1.0333333015441895
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 1
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Cube(Clone)_5": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Cube(Clone)_5",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0333333015441895,
+                "y": 1.2000000476837159,
+                "z": 1.0333333015441895
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 1
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Player Model": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Player Model",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 100.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 135.0,
+                "y": 135.0,
+                "z": 135.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 1
         },
         "Material": {
             "textureIndex": 0
         }
     },
     "Point 1": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -840,7 +1222,7 @@
         }
     },
     "Point 2": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -879,7 +1261,7 @@
         }
     },
     "Point 3": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -918,7 +1300,7 @@
         }
     },
     "Point 4": {
-        "active": true,
+        "active": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -934,318 +1316,6 @@
                 "x": -24.0,
                 "y": 1.0,
                 "z": 0.0
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 1": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -177.5500030517578,
-                "y": 1.0,
-                "z": 13.399999618530274
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 2": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -177.5500030517578,
-                "y": 1.0,
-                "z": 33.400001525878909
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 3": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -197.5500030517578,
-                "y": 1.0,
-                "z": 33.400001525878909
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 4": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -197.5500030517578,
-                "y": 1.0,
-                "z": 13.399999618530274
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 1": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -177.0,
-                "y": 1.0,
-                "z": 3.549999952316284
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 2": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -157.1710968017578,
-                "y": 1.0,
-                "z": 0.9394762516021729
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 3": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -154.56057739257813,
-                "y": 1.0,
-                "z": 20.768373489379884
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.20000000298023225,
-                "y": 0.20000000298023225,
-                "z": 0.20000000298023225
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Point 4": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -174.3894805908203,
-                "y": 1.0,
-                "z": 23.378896713256837
             },
             "Rotation": {
                 "x": 0.0,
