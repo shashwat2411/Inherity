@@ -68,7 +68,7 @@ void ArtificialIntelligence::End()
 
 void ArtificialIntelligence::Update()
 {
-	gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
+	//gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
 
 	switch (state)
 	{

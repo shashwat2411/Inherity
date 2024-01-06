@@ -13,12 +13,18 @@ void PlayerMovement::Start()
 {
 	jump = false;
 	move = false;
+	setAnimation = false;
 
 	idleCounter = 0;
+	punchState = 0;
+
+	timerVector["punchCounter"] = 0.0f;
 
 	rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 	playerState = GROUND_PS;
+
+	punchAnimation = "Punch_Left";
 
 	gameObject->AddComponent<Rigidbody>()->useGravity = true;
 	gameObject->rigidbody->groundLevel = 1.01f;
@@ -118,6 +124,10 @@ void PlayerMovement::Update()
 		UpdateJump();
 		break;
 
+	case LIGHT_ATTACK_PS:
+		LightAttack();
+		break;
+
 	default:
 		break;
 	}
@@ -160,7 +170,7 @@ void PlayerMovement::EngineDisplay()
 
 void PlayerMovement::UpdateGround()
 {
-	gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
+	//gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
 
 	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
@@ -246,6 +256,15 @@ void PlayerMovement::UpdateGround()
 
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
 	if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
+
+	if (Input::GetButtonTrigger(LIGHT_ATTACK_KEYMAP)) 
+	{ 
+		playerState = LIGHT_ATTACK_PS; 
+		timerVector["punchCounter"] = 0.0f;
+
+		setAnimation = false;
+		punchState = 0;
+	}
 }
 
 void PlayerMovement::UpdateJump()
@@ -256,4 +275,30 @@ void PlayerMovement::UpdateJump()
 	//char* str = GetDebugStr();
 	//sprintf(&str[strlen(str)], " | Jump : %d", model->GetAnimationOver("Jump"));
 #endif
+}
+
+void PlayerMovement::LightAttack()
+{
+	if (setAnimation == false)
+	{
+		setAnimation = true;
+
+		switch (punchState)
+		{
+		case 0: punchAnimation = "Punch_Left"; break;
+		case 1: punchAnimation = "Punch_Right"; break;
+		case 2: punchAnimation = "Low_Punch_Left"; break;
+		case 3: punchAnimation = "Low_Punch_Right"; break;
+		default: break;
+		}
+
+		model->SetAnimationBlend(punchAnimation.c_str());
+		punchState++;
+	}
+
+	if (model->GetAnimationOver(punchAnimation.c_str()) == true)
+	{
+		if (punchState < 4) { setAnimation = false; }
+		else { playerState = GROUND_PS; }
+	}
 }

@@ -181,11 +181,11 @@ public:
 	{
 		for (int i = 0; i < MAX_LAYER; i++)
 		{
-			for (auto com : GameObjects[i])
+			for (auto obj : GameObjects[i])
 			{
-				if (com->GetTag() == name)
+				if (obj->GetTag() == name)
 				{
-					return com;
+					return obj;
 				}
 			}
 		}
@@ -199,7 +199,9 @@ public:
 		{
 			for (auto obj : GameObjects[i])
 			{
-				if (obj->GetTag() == name)
+				size_t underscorePos = obj->GetTag().find('_');
+				
+				if ((underscorePos != std::string::npos ? obj->GetTag().substr(0, underscorePos) : obj->GetTag()) == name)
 				{
 					objects.push_back(obj);
 				}

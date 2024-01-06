@@ -299,7 +299,7 @@ void Manager::Open(std::string name)
 	archive(adder);
 	for(AddObjectSaveFile add : adder)
 	{
-		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)").c_str()); } }
+		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)")); } }
 		if (add.name == "CYLINDER")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)")); } }
 		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER); } }
 		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER); } }
@@ -358,3 +358,12 @@ void Manager::Open(std::string name)
 	}
 }
 
+std::string ObjectIndex(std::string name)
+{
+	std::string str;
+
+	int num = (int)Manager::GetScene()->FindMultiple(name).size();
+	str = name + (num > 0 ? "_" + std::to_string(num) : "");
+
+	return str;
+}

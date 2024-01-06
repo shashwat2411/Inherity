@@ -12,6 +12,7 @@ public:
 	{
 		GROUND_PS,
 		JUMP_PS,
+		LIGHT_ATTACK_PS,
 
 		PS_MAX
 	};
@@ -23,6 +24,12 @@ public:
 	D3DXVECTOR3 rotationDirection;
 
 private:
+	bool setAnimation;
+
+	int punchState;
+
+	std::string punchAnimation;
+
 	PLAYER_STATE playerState;
 
 public:
@@ -36,6 +43,7 @@ public:
 
 	void UpdateGround();
 	void UpdateJump();
+	void LightAttack();
 };
 class Ground : public Script
 {
