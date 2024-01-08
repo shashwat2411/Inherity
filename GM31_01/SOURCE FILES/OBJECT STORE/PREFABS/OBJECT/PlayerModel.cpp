@@ -13,7 +13,7 @@ void PLAYERMODEL::Start()
 	//AddMaterial<DissolveMaterial>();
 	//AddMaterial<UnlitMaterial>();
 
-	model->SetModel(ModelReader::THE_BOSS_M);
+	model->SetModel(ModelReader::TOMATO_M);
 
 	model->GetModel()->LoadAnimation("Run");
 	model->GetModel()->LoadAnimation("Idle");

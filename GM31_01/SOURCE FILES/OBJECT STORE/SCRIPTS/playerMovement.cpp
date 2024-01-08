@@ -269,12 +269,10 @@ void PlayerMovement::UpdateGround()
 
 void PlayerMovement::UpdateJump()
 {
-	if (model->GetAnimationOver("Jump") == true) { playerState = GROUND_PS; }
-
-#ifdef DEBUG
-	//char* str = GetDebugStr();
-	//sprintf(&str[strlen(str)], " | Jump : %d", model->GetAnimationOver("Jump"));
-#endif
+	if (model->GetAnimationOver("Jump") == true)
+	{
+		playerState = GROUND_PS;
+	}
 }
 
 void PlayerMovement::LightAttack()
