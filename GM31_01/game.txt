@@ -161,9 +161,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": 1.0,
+                "x": -177.0,
                 "y": 1.0,
-                "z": 1.0
+                "z": -24.399999618530275
             },
             "Rotation": {
                 "x": 0.0,
@@ -218,7 +218,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 11
+            "modelIndex": 12
         },
         "SphereCollider": {
             "value0": {
@@ -247,7 +247,7 @@
                 "enabled": true
             },
             "Position": {
-                "x": -4.0,
+                "x": 0.0,
                 "y": 1.0,
                 "z": 0.0
             },
@@ -814,7 +814,7 @@
                 "enabled": true
             },
             "Position": {
-                "x": -4.0,
+                "x": 0.0,
                 "y": 1.0,
                 "z": 0.0
             },
@@ -853,7 +853,7 @@
                 "enabled": true
             },
             "Position": {
-                "x": -4.0,
+                "x": 0.0,
                 "y": 1.0,
                 "z": 20.0
             },
@@ -892,7 +892,7 @@
                 "enabled": true
             },
             "Position": {
-                "x": -24.0,
+                "x": -20.0,
                 "y": 1.0,
                 "z": 20.0
             },
@@ -931,7 +931,7 @@
                 "enabled": true
             },
             "Position": {
-                "x": -24.0,
+                "x": -20.0,
                 "y": 1.0,
                 "z": 0.0
             },

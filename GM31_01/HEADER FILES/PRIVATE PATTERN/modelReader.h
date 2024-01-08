@@ -2,6 +2,8 @@
 #include "animationModel.h"
 #include "model.h"
 
+#define TOMATO_MODEL
+
 class ModelReader
 {
 public:
@@ -80,20 +82,34 @@ public:
 
 
 		//ANIMATION
-		Animations["Run"] = aiImportFile("asset\\model\\Bot_Run.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Idle"] = aiImportFile("asset\\model\\Bot_Idle.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Jump"] = aiImportFile("asset\\model\\Standing Jump.fbx", aiProcess_ConvertToLeftHanded);
-		//Animations["Run"] = aiImportFile("asset\\model\\Tomato\\Goofy Running.fbx", aiProcess_ConvertToLeftHanded);
-		//Animations["Idle"] = aiImportFile("asset\\model\\Tomato\\Mutant Idle.fbx", aiProcess_ConvertToLeftHanded);
+		//Animations["Run"] = aiImportFile("asset\\model\\Bot_Run.fbx", aiProcess_ConvertToLeftHanded);
+		//Animations["Idle"] = aiImportFile("asset\\model\\Bot_Idle.fbx", aiProcess_ConvertToLeftHanded);
 		//Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
-		//Animations["Jump"] = aiImportFile("asset\\model\\Tomato\\Mutant Walking.fbx", aiProcess_ConvertToLeftHanded);
+		//Animations["Jump"] = aiImportFile("asset\\model\\Standing Jump.fbx", aiProcess_ConvertToLeftHanded);
+#ifndef TOMATO_MODEL
+		Animations["Run"] = aiImportFile("asset\\model\\The_Boss\\Goofy Running.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Idle"] = aiImportFile("asset\\model\\The_Boss\\Mutant Idle.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Jump"] = aiImportFile("asset\\model\\The_Boss\\Mutant Walking.fbx", aiProcess_ConvertToLeftHanded);
+#else
+		Animations["Run"] = aiImportFile("asset\\model\\Tomato\\Goofy Running.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Idle"] = aiImportFile("asset\\model\\Tomato\\Mutant Idle.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Jump"] = aiImportFile("asset\\model\\Tomato\\Mutant Walking.fbx", aiProcess_ConvertToLeftHanded);
+#endif
 
 		//Attacks
+#ifndef TOMATO_MODEL
+		Animations["Punch_Left"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Punch Left.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Punch_Right"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Punch Right.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Low_Punch_Left"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Low Punch Left.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Low_Punch_Right"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Low Punch Right.fbx", aiProcess_ConvertToLeftHanded);
+#else
 		Animations["Punch_Left"] = aiImportFile("asset\\model\\Tomato\\Attack\\Punch Left.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Punch Right.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Low_Punch_Left"] = aiImportFile("asset\\model\\Tomato\\Attack\\Low Punch Left.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Low_Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Low Punch Right.fbx", aiProcess_ConvertToLeftHanded);
+#endif
 
 		assert(Animations["Run"]);
 		assert(Animations["Idle"]);
