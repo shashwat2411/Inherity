@@ -13,6 +13,7 @@ public:
 		GROUND_PS,
 		JUMP_PS,
 		LIGHT_ATTACK_PS,
+		HEAVY_ATTACK_PS,
 
 		PS_MAX
 	};
@@ -44,6 +45,7 @@ public:
 	void UpdateGround();
 	void UpdateJump();
 	void LightAttack();
+	void HeavyAttack();
 };
 class Ground : public Script
 {

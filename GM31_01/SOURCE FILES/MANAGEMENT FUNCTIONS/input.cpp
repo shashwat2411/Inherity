@@ -40,6 +40,9 @@ void Input::Init()
 	input[LIGHT_ATTACK_KEYMAP].push_back('Z');
 	controllerInput[LIGHT_ATTACK_KEYMAP].push_back(XINPUT_GAMEPAD_X);
 
+	input[HEAVY_ATTACK_KEYMAP].push_back('X');
+	controllerInput[HEAVY_ATTACK_KEYMAP].push_back(XINPUT_GAMEPAD_Y);
+
 	input[CHANGE_KEYMAP].push_back(VK_RETURN);
 	controllerInput[CHANGE_KEYMAP].push_back(XINPUT_GAMEPAD_START);
 }

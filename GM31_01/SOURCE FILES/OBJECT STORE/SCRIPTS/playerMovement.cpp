@@ -128,6 +128,10 @@ void PlayerMovement::Update()
 		LightAttack();
 		break;
 
+	case HEAVY_ATTACK_PS:
+		HeavyAttack();
+		break;
+
 	default:
 		break;
 	}
@@ -265,6 +269,15 @@ void PlayerMovement::UpdateGround()
 		setAnimation = false;
 		punchState = 0;
 	}
+
+	if (Input::GetButtonTrigger(HEAVY_ATTACK_KEYMAP))
+	{
+		playerState = HEAVY_ATTACK_PS;
+		timerVector["punchCounter"] = 0.0f;
+
+		setAnimation = false;
+		punchState = 0;
+	}
 }
 
 void PlayerMovement::UpdateJump()
@@ -286,7 +299,33 @@ void PlayerMovement::LightAttack()
 		case 0: punchAnimation = "Punch_Left"; break;
 		case 1: punchAnimation = "Punch_Right"; break;
 		case 2: punchAnimation = "Low_Punch_Left"; break;
-		case 3: punchAnimation = "Low_Punch_Right"; break;
+		case 3: punchAnimation = "Cross_Punch_Right"; break;
+		default: break;
+		}
+
+		model->SetAnimationBlend(punchAnimation.c_str());
+		punchState++;
+	}
+
+	if (model->GetAnimationOver(punchAnimation.c_str()) == true)
+	{
+		if (punchState < 4) { setAnimation = false; }
+		else { playerState = GROUND_PS; }
+	}
+}
+
+void PlayerMovement::HeavyAttack()
+{
+	if (setAnimation == false)
+	{
+		setAnimation = true;
+
+		switch (punchState)
+		{
+		case 0: punchAnimation = "Kick_1"; break;
+		case 1: punchAnimation = "Kick_2"; break;
+		case 2: punchAnimation = "Kick_3"; break;
+		case 3: punchAnimation = "Kick_4"; break;
 		default: break;
 		}
 

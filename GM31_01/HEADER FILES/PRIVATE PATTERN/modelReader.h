@@ -109,6 +109,12 @@ public:
 		Animations["Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Punch Right.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Low_Punch_Left"] = aiImportFile("asset\\model\\Tomato\\Attack\\Low Punch Left.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Low_Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Low Punch Right.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Cross_Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Cross Punch Right.fbx", aiProcess_ConvertToLeftHanded);
+
+		Animations["Kick_1"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\Low Kick Right.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Kick_2"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 2.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Kick_3"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 3.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Kick_4"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 4.fbx", aiProcess_ConvertToLeftHanded);
 #endif
 
 		assert(Animations["Run"]);
@@ -120,6 +126,12 @@ public:
 		assert(Animations["Punch_Right"]);
 		assert(Animations["Low_Punch_Left"]);
 		assert(Animations["Low_Punch_Right"]);
+		assert(Animations["Cross_Punch_Right"]);
+
+		assert(Animations["Kick_1"]);
+		assert(Animations["Kick_2"]);
+		assert(Animations["Kick_3"]);
+		assert(Animations["Kick_4"]);
 
 
 		//NAMING
