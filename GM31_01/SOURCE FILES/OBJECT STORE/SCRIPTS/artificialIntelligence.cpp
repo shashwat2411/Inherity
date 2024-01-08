@@ -37,7 +37,7 @@ void ArtificialIntelligence::Start()
 
 	target = nullptr;
 
-	targetName = "Player Model";
+	targetName = "Damager";
 
 	SCENE* scene = Manager::GetScene();
 
@@ -181,7 +181,7 @@ void ArtificialIntelligence::OnCollisionEnter(GAMEOBJECT* obj)
 {
 	if (seeker != nullptr)
 	{
-		if (obj->GetTag() == seeker->GetTag())
+		if (obj->GetTag() == seeker->GetTag() || obj->GetTag() == "Damager")
 		{
 			target = obj;
 			state = FOLLOW;
@@ -324,7 +324,7 @@ void ArtificialIntelligence::Finder()
 		u = gameObject->transform->GlobalPosition - seeker->transform->GlobalPosition;
 
 		if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"]) { target = seeker; state = FOLLOW; }
-		else if (gameObject->GetComponentInChildren<SphereCollider>()->GetCollision() == false) { target = nullptr; }
+		else if (gameObject->GetComponent<SphereCollider>()->GetCollision() == false) { target = nullptr; }
 
 	}
 	else

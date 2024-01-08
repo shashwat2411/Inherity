@@ -447,7 +447,7 @@ void AnimationModel::Update(const char *AnimationName1, int Frame1, const char* 
 #endif
 
 			//mNumRotationKeys is the maximum number of keys in the animation;
-			if (Frame2 % nodeAnim2->mNumRotationKeys == 0 && BlendRate >= 1.0f) { over = true; }
+			if (Frame2 % nodeAnim2->mNumRotationKeys == 0/* && BlendRate >= 1.0f*/) { over = true; }
 			else { over = false; }
 		}
 

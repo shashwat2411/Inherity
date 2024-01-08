@@ -1,5 +1,6 @@
 #include "customScenes.h"
 
+IMAGE* shadow;
 
 void GAME_SCENE::Init()
 {
@@ -26,6 +27,7 @@ void GAME_SCENE::Init()
 	Field = AddGameObject<PLANE>("Field");
 	Water = AddGameObject<PLANE>("Water");
 	map = AddGameObject<EMPTYOBJECT>("Map");
+
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -68,6 +70,7 @@ void GAME_SCENE::Init()
 
 	//UI
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
+	shadow = AddGameObject<IMAGE>("Shadow Map", SPRITE_LAYER);
 
 	//接続処理
 	{
@@ -83,7 +86,9 @@ void GAME_SCENE::Init()
 	{
 		gameManager->AddComponent<GameManager>();
 
-		PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
+		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::TITLE_SKYDOME_M);
+
+		//PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
 
 		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GRASS_T);
 		//Field->meshField->SetTiles(40);
@@ -114,13 +119,16 @@ void GAME_SCENE::Init()
 		Water->meshField->RecreateField();
 		Water->SetActive(false);
 
-		map->AddComponent<MeshFilter>()->SetModel(ModelReader::MAP_FBX_M);
+		map->AddComponent<MeshFilter>()->SetModel(ModelReader::MAP_M);
+		map->AddMaterial<FieldDefaultMaterial>();
 		map->transform->culling = false;
 
 		//UI
 		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
 		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 		Score->SetDigits(3);
+
+		shadow->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
 	}
 
 	//音
@@ -138,6 +146,8 @@ void GAME_SCENE::Init()
 void GAME_SCENE::Update()
 {
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
+
+	shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
 
 #ifdef DEBUG	// デバッグ情報を表示する
 	//char* str = GetDebugStr();

@@ -11,7 +11,7 @@
 #include <fstream>
 
 #define DEPTH_SHADOW_RENDERING
-#define ENVIRONMENT_MAPPING
+//#define ENVIRONMENT_MAPPING
 //#define MIRROR_MAPPING
 
 SCENE* Manager::Scene{};	//staticメンバ変数は再宣言が必要
@@ -254,13 +254,13 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 	light->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//ライトカメラのビュー行列を作成
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 10.0f, 0.0f) + position;
+	D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 30.0f, 0.0f) + position;
 	D3DXVECTOR3 lightTarget = position;
 	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
 	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 20.0f);
+	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 100.0f);
 
 }
 
