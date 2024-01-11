@@ -34,7 +34,7 @@ public:
 		THE_BOSS_M,
 		TOMATO_M,
 		ROCK_M,
-		//ENEM_M,
+		HUMAN_M,
 		MAP_FBX_M,
 
 		READ_MODEL_FBX_MAX
@@ -77,34 +77,20 @@ public:
 		ModelsFBX[THE_BOSS_M].Load("asset\\model\\The Boss.fbx");
 		ModelsFBX[TOMATO_M].Load("asset\\model\\Tomato\\tomato.fbx");
 		ModelsFBX[ROCK_M].Load("asset\\model\\rock.fbx");
-		//ModelsFBX[ENEM_M].Load("asset\\model\\Explode.fbx");
+		ModelsFBX[HUMAN_M].Load("asset\\model\\Enemy\\Enemy.fbx");
 		ModelsFBX[MAP_FBX_M].Load("asset\\model\\Map\\map.fbx");
 
 
 		//ANIMATION
-		//Animations["Run"] = aiImportFile("asset\\model\\Bot_Run.fbx", aiProcess_ConvertToLeftHanded);
-		//Animations["Idle"] = aiImportFile("asset\\model\\Bot_Idle.fbx", aiProcess_ConvertToLeftHanded);
-		//Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
-		//Animations["Jump"] = aiImportFile("asset\\model\\Standing Jump.fbx", aiProcess_ConvertToLeftHanded);
-#ifndef TOMATO_MODEL
-		Animations["Run"] = aiImportFile("asset\\model\\The_Boss\\Goofy Running.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Idle"] = aiImportFile("asset\\model\\The_Boss\\Mutant Idle.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Jump"] = aiImportFile("asset\\model\\The_Boss\\Mutant Walking.fbx", aiProcess_ConvertToLeftHanded);
-#else
+
+		//PLAYER
+		//Move
 		Animations["Run"] = aiImportFile("asset\\model\\Tomato\\Goofy Running.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Idle"] = aiImportFile("asset\\model\\Tomato\\Mutant Idle.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Dance"] = aiImportFile("asset\\model\\Twist Dance.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Jump"] = aiImportFile("asset\\model\\Tomato\\Mutant Walking.fbx", aiProcess_ConvertToLeftHanded);
-#endif
+		Animations["Walk"] = aiImportFile("asset\\model\\Tomato\\Mutant Walking.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Roll"] = aiImportFile("asset\\model\\Tomato\\Standing Dive Forward.fbx", aiProcess_ConvertToLeftHanded);
 
 		//Attacks
-#ifndef TOMATO_MODEL
-		Animations["Punch_Left"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Punch Left.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Punch_Right"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Punch Right.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Low_Punch_Left"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Low Punch Left.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Low_Punch_Right"] = aiImportFile("asset\\model\\The_Boss\\Attack\\Low Punch Right.fbx", aiProcess_ConvertToLeftHanded);
-#else
 		Animations["Punch_Left"] = aiImportFile("asset\\model\\Tomato\\Attack\\Punch Left.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Punch Right.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Low_Punch_Left"] = aiImportFile("asset\\model\\Tomato\\Attack\\Low Punch Left.fbx", aiProcess_ConvertToLeftHanded);
@@ -115,12 +101,11 @@ public:
 		Animations["Kick_2"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 2.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Kick_3"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 3.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Kick_4"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 4.fbx", aiProcess_ConvertToLeftHanded);
-#endif
 
 		assert(Animations["Run"]);
 		assert(Animations["Idle"]);
-		assert(Animations["Dance"]);
-		assert(Animations["Jump"]);
+		assert(Animations["Walk"]);
+		assert(Animations["Roll"]);
 
 		assert(Animations["Punch_Left"]);
 		assert(Animations["Punch_Right"]);
@@ -133,6 +118,10 @@ public:
 		assert(Animations["Kick_3"]);
 		assert(Animations["Kick_4"]);
 
+		//ENEMY
+		Animations["Enemy_Walk"] = aiImportFile("asset\\model\\Enemy\\Enemy Walk.fbx", aiProcess_ConvertToLeftHanded);
+
+		assert(Animations["Enemy_Walk"]);
 
 		//NAMING
 
@@ -155,6 +144,7 @@ public:
 		modelNames[i + THE_BOSS_M]		= "THE_BOSS";
 		modelNames[i + TOMATO_M]		= "TOMATO";
 		modelNames[i + ROCK_M]			= "ROCK";
+		modelNames[i + HUMAN_M]			= "HUMAN";
 		modelNames[i + MAP_FBX_M]		= "MAPFBX";
 	}
 

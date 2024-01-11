@@ -94,6 +94,8 @@ void Manager::FixedUpdate()
 
 		if (Time::timeScale > 0.0f)
 		{
+			COLLISION::Update();
+
 			Scene->UpdateBefore();
 			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->UpdateBefore(); }
 

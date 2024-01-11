@@ -36,9 +36,17 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		}
 	}
 
+	float multiplier = 1.0f;
+	if ((In.ShadowPosition.x > 4.0f || In.ShadowPosition.x < -1.0f) || (In.ShadowPosition.y > 4.0f || In.ShadowPosition.y < -1.0f))
+	{
+		if (total >= totalTexels)
+		{
+			multiplier = 0.0f;
+		}
+	}
 
 	total /= totalTexels;
-	float lightFactor = 1.0f - total;
+	float lightFactor = 1.0f - total * multiplier;
 
 	outDiffuse.rgb *= max(In.Diffuse.rgb * lightFactor, 0.3f);
 	outDiffuse.a *= In.Diffuse.a;

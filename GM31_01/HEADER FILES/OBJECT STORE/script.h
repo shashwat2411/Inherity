@@ -11,9 +11,9 @@ public:
 	enum PLAYER_STATE
 	{
 		GROUND_PS,
-		JUMP_PS,
 		LIGHT_ATTACK_PS,
 		HEAVY_ATTACK_PS,
+		ROLL_PS,
 
 		PS_MAX
 	};
@@ -23,9 +23,11 @@ public:
 	int idleCounter;
 
 	D3DXVECTOR3 rotationDirection;
+	D3DXVECTOR3 direction;
 
 private:
 	bool setAnimation;
+	bool increment;
 
 	int punchState;
 
@@ -46,6 +48,7 @@ public:
 	void UpdateJump();
 	void LightAttack();
 	void HeavyAttack();
+	void Roll();
 };
 class Ground : public Script
 {

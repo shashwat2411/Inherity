@@ -385,6 +385,7 @@ private:
 
 public:
 	float scaleOffset;
+	float collisionCounter;
 
 public:
 

@@ -16,7 +16,7 @@ void ArtificialIntelligence::Start()
 	timerVector["maxDistance"] = 10.0f;
 	timerVector["timer"] = 0.0f;
 
-	timerVector["followDistance"] = 2.0f;
+	timerVector["followDistance"] = 2.5f;
 	timerVector["waitMaxTime"] = 1.0f;
 
 	timerVector["attackMaxTime"] = 1.5f;
@@ -179,7 +179,7 @@ void ArtificialIntelligence::EngineDisplay()
 
 void ArtificialIntelligence::OnCollisionEnter(GAMEOBJECT* obj)
 {
-	if (seeker != nullptr)
+	if (seeker != nullptr && (state == ROAM || state == RETURN || state == FIND))
 	{
 		if (obj->GetTag() == seeker->GetTag() || obj->GetTag() == "Damager")
 		{

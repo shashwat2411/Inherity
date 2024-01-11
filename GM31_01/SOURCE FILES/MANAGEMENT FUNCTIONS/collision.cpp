@@ -115,7 +115,7 @@ void COLLISION::Update()
 					{
 						SphereCollider* anotherCollider = anotherObject->Parent->GetComponent<SphereCollider>();
 
-						if (anotherCollider != nullptr)
+						if (anotherCollider != nullptr && anotherCollider->gameObject != collider->gameObject)
 						{
 							D3DXVECTOR3 distance;
 							distance = object->transform->GlobalPosition - anotherObject->transform->GlobalPosition;
