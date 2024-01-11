@@ -249,6 +249,8 @@ void ParticleSystem::SetTexture(TextureReader::READ_TEXTURE text)
 	{
 		p->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
 	}
+
+	part->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
 }
 
 void ParticleSystem::SetParticleCount(int value)

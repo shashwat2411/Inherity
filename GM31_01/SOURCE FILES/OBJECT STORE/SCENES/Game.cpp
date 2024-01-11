@@ -8,7 +8,6 @@ void GAME_SCENE::Init()
 
 	//•Ï”
 	GAMEOBJECT* PlayerModel;
-	GAMEOBJECT* gameManager;
 	GAMEOBJECT* map;
 	ENEMY* enemy;
 	PLANE* Field;
@@ -87,6 +86,7 @@ void GAME_SCENE::Init()
 		gameManager->AddComponent<GameManager>();
 
 		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::TITLE_SKYDOME_M);
+		skyDome->transform->Scale = D3DXVECTOR3(300.0f, 300.0f, 300.0f);
 
 		//PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
 

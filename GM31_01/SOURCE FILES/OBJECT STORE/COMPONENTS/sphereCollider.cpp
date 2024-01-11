@@ -11,6 +11,7 @@ void SphereCollider::Start()
 	collision = false;
 
 	CollisionSize = 1.0f;
+	collisionCounter = 0.0f;
 	scaleOffset = 1.0f;
 
 	//----------------------------------------------------------------

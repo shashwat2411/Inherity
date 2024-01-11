@@ -20,6 +20,7 @@ void PLAYERMODEL::Start()
 	model->GetModel()->LoadAnimation("Idle");
 	model->GetModel()->LoadAnimation("Dance");
 	model->GetModel()->LoadAnimation("Jump");
+	model->GetModel()->LoadAnimation("Roll");
 
 	model->GetModel()->LoadAnimation("Punch_Left");
 	model->GetModel()->LoadAnimation("Punch_Right");

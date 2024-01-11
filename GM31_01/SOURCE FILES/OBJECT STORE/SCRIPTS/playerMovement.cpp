@@ -14,11 +14,14 @@ void PlayerMovement::Start()
 	jump = false;
 	move = false;
 	setAnimation = false;
+	increment = false;
 
 	idleCounter = 0;
 	punchState = 0;
 
 	timerVector["punchCounter"] = 0.0f;
+	timerVector["buttonWindow"] = 0.0f;
+	timerVector["rollSpeed"] = 0.4f;
 
 	rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -114,14 +117,43 @@ void PlayerMovement::Update()
 	*/
 	model = gameObject->GetChildren()[0]->GetComponent<MeshFilter>();
 
+	//Direction
+	{
+		D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
+
+		Camera* camera = Manager::GetScene()->GetCamera()->camera;
+
+		float vertical = Input::Vertical();
+		float horizontal = Input::Horizontal();
+
+		directionZ = camera->GetForward() * vertical;
+		directionX = camera->GetRight() * horizontal;
+
+		directionZ.y = 0.0f;
+		directionX.y = 0.0f;
+		D3DXVec3Normalize(&directionZ, &directionZ);
+		D3DXVec3Normalize(&directionX, &directionX);
+
+		direction = directionX + directionZ;
+		D3DXVec3Normalize(&direction, &direction);
+	}
+
+
+
+	if (Input::GetButtonTrigger(ROLL_KEYMAP) && playerState != ROLL_PS)
+	{
+		playerState = ROLL_PS;
+		model->SetAnimationBlend("Roll");
+
+		gameObject->rigidbody->Speed = direction * timerVector["rollSpeed"];
+		rotationDirection = direction;
+	}
+
 	switch (playerState)
 	{
 	case GROUND_PS:
 		UpdateGround();
-		break;
-
-	case JUMP_PS:
-		UpdateJump();
 		break;
 
 	case LIGHT_ATTACK_PS:
@@ -130,6 +162,10 @@ void PlayerMovement::Update()
 
 	case HEAVY_ATTACK_PS:
 		HeavyAttack();
+		break;
+
+	case ROLL_PS:
+		Roll();
 		break;
 
 	default:
@@ -141,6 +177,11 @@ void PlayerMovement::Update()
 	gameObject->rigidbody->Speed.x *= 0.9f;
 	gameObject->rigidbody->Speed.z *= 0.9f;
 
+	angle = atan2f(rotationDirection.x, rotationDirection.z);
+
+	D3DXQUATERNION quat;
+	D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
+	D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
 }
 
 void PlayerMovement::Draw()
@@ -167,6 +208,8 @@ void PlayerMovement::EngineDisplay()
 		ImGui::SameLine();
 		DebugManager::BoolDisplay(&move, -146.0f, "Move", 1, true);
 
+		DebugManager::FloatDisplay(&timerVector["rollSpeed"], -FLT_MIN, "Roll Speed", true, D3DXVECTOR2(0.01f, 0.0f), 2);
+
 		ImGui::TreePop();
 		ImGui::Spacing();
 	}
@@ -176,17 +219,15 @@ void PlayerMovement::UpdateGround()
 {
 	//gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
 
-	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
+	//D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
+	//D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
 
-	Camera* camera = Manager::GetScene()->GetCamera()->camera;
+	//Camera* camera = Manager::GetScene()->GetCamera()->camera;
 
-	float vertical = Input::Vertical();
-	float horizontal = Input::Horizontal();
-	if (fabs(vertical) > 0.0f || fabs(horizontal) > 0.0f)
+	if (fabs(Input::Vertical()) > 0.0f || fabs(Input::Horizontal()) > 0.0f)
 	{
-		directionZ = camera->GetForward() * vertical;
-		directionX = camera->GetRight() * horizontal;
+		//directionZ = camera->GetForward() * vertical;
+		//directionX = camera->GetRight() * horizontal;
 
 		move = true;
 	}
@@ -207,13 +248,13 @@ void PlayerMovement::UpdateGround()
 
 	//if (!Input::GetButtonPress(FORWARD_KEYMAP) && !Input::GetButtonPress(LEFT_KEYMAP) && !Input::GetButtonPress(BACK_KEYMAP) && !Input::GetButtonPress(RIGHT_KEYMAP)) { move = false; }
 
-	directionZ.y = 0.0f;
-	directionX.y = 0.0f;
-	D3DXVec3Normalize(&directionZ, &directionZ);
-	D3DXVec3Normalize(&directionX, &directionX);
+	//directionZ.y = 0.0f;
+	//directionX.y = 0.0f;
+	//D3DXVec3Normalize(&directionZ, &directionZ);
+	//D3DXVec3Normalize(&directionX, &directionX);
 
-	D3DXVECTOR3 direction = directionX + directionZ;
-	D3DXVec3Normalize(&direction, &direction);
+	//D3DXVECTOR3 direction = directionX + directionZ;
+	//D3DXVec3Normalize(&direction, &direction);
 
 	D3DXVECTOR3 finalSpeed;
 	finalSpeed.x = direction.x * SPEED_VALUE * gameObject->rigidbody->Acceleration;
@@ -246,11 +287,11 @@ void PlayerMovement::UpdateGround()
 		//else if (Input::GetButtonPress(BACK_KEYMAP)		&& Input::GetButtonPress(RIGHT_KEYMAP)) { angle = 3.0f * D3DX_PI / 4.0f;	}
 
 
-		angle = atan2f(rotationDirection.x, rotationDirection.z);
+		//angle = atan2f(rotationDirection.x, rotationDirection.z);
 
-		D3DXQUATERNION quat;
-		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
-		D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
+		//D3DXQUATERNION quat;
+		//D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
+		//D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
 	}
 
 	if (move == true) { model->SetAnimationBlend("Run", true); }
@@ -259,14 +300,16 @@ void PlayerMovement::UpdateGround()
 	}
 
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
-	if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
+	//if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
 
 	if (Input::GetButtonTrigger(LIGHT_ATTACK_KEYMAP)) 
 	{ 
 		playerState = LIGHT_ATTACK_PS; 
 		timerVector["punchCounter"] = 0.0f;
+		timerVector["buttonWindow"] = 0.0f;
 
 		setAnimation = false;
+		increment = true;
 		punchState = 0;
 	}
 
@@ -274,22 +317,35 @@ void PlayerMovement::UpdateGround()
 	{
 		playerState = HEAVY_ATTACK_PS;
 		timerVector["punchCounter"] = 0.0f;
-
+		timerVector["buttonWindow"] = 0.0f;
+		
 		setAnimation = false;
+		increment = true;
 		punchState = 0;
+	}
+
+	if (Input::GetKeyTrigger('C'))
+	{
+		model->SetAnimationBlend("Kick_2", false, 1.0f);
 	}
 }
 
 void PlayerMovement::UpdateJump()
 {
-	if (model->GetAnimationOver("Jump") == true)
-	{
-		playerState = GROUND_PS;
-	}
+
 }
 
 void PlayerMovement::LightAttack()
 {
+	timerVector["buttonWindow"] += 1.0f / FRAME_RATE * Time::fixedTimeScale;
+	if (timerVector["buttonWindow"] < 30.0f / FRAME_RATE)
+	{
+		if (Input::GetButtonTrigger(LIGHT_ATTACK_KEYMAP))
+		{
+			increment = true;
+		}
+	}
+
 	if (setAnimation == false)
 	{
 		setAnimation = true;
@@ -297,14 +353,20 @@ void PlayerMovement::LightAttack()
 		switch (punchState)
 		{
 		case 0: punchAnimation = "Punch_Left"; break;
-		case 1: punchAnimation = "Punch_Right"; break;
-		case 2: punchAnimation = "Low_Punch_Left"; break;
+		case 1: punchAnimation = "Low_Punch_Left"; break;
+		case 2: punchAnimation = "Punch_Left"; break;
 		case 3: punchAnimation = "Cross_Punch_Right"; break;
 		default: break;
 		}
 
+		if (increment == true) { punchState++; increment = false; timerVector["buttonWindow"] = 0.0f; }
+		else
+		{
+			playerState = GROUND_PS;
+			return;
+		}
+
 		model->SetAnimationBlend(punchAnimation.c_str());
-		punchState++;
 	}
 
 	if (model->GetAnimationOver(punchAnimation.c_str()) == true)
@@ -316,26 +378,50 @@ void PlayerMovement::LightAttack()
 
 void PlayerMovement::HeavyAttack()
 {
+	timerVector["buttonWindow"] += 1.0f / FRAME_RATE * Time::fixedTimeScale;
+	if (timerVector["buttonWindow"] < 30.0f / FRAME_RATE)
+	{
+		if (Input::GetButtonTrigger(HEAVY_ATTACK_KEYMAP))
+		{
+			increment = true;
+		}
+	}
+
 	if (setAnimation == false)
 	{
 		setAnimation = true;
+		float speed = 0.05f;
 
 		switch (punchState)
 		{
-		case 0: punchAnimation = "Kick_1"; break;
-		case 1: punchAnimation = "Kick_2"; break;
-		case 2: punchAnimation = "Kick_3"; break;
-		case 3: punchAnimation = "Kick_4"; break;
+		case 0: punchAnimation = "Kick_1"; speed = 0.05f; break;
+		case 1: punchAnimation = "Kick_2"; speed = 0.05f; break;
+		case 2: punchAnimation = "Kick_3"; speed = 0.16f; break;
+		case 3: punchAnimation = "Kick_4"; speed = 0.05f; break;
 		default: break;
 		}
 
-		model->SetAnimationBlend(punchAnimation.c_str());
-		punchState++;
+		if (increment == true) { punchState++; increment = false; timerVector["buttonWindow"] = 0.0f; }
+		else
+		{
+			playerState = GROUND_PS;
+			return;
+		}
+
+		model->SetAnimationBlend(punchAnimation.c_str(), false, speed);
 	}
 
 	if (model->GetAnimationOver(punchAnimation.c_str()) == true)
 	{
 		if (punchState < 4) { setAnimation = false; }
 		else { playerState = GROUND_PS; }
+	}
+}
+
+void PlayerMovement::Roll()
+{
+	if (model->GetAnimationOver("Roll") == true)
+	{
+		playerState = GROUND_PS;
 	}
 }
