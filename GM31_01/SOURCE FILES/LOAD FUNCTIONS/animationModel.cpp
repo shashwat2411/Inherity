@@ -1,5 +1,7 @@
+#include "main.h"
+#include "renderer.h"
 #include "animationModel.h"
-
+#include "modelReader.h"
 
 #define INTERPOLATE
 

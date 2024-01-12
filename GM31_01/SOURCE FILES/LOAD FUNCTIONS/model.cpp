@@ -1,3 +1,5 @@
+#include "main.h"
+#include "renderer.h"
 #include "model.h"
 
 #define _CRT_SECURE_NO_WARNINGS
