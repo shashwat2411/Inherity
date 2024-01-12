@@ -1,8 +1,6 @@
 #include "component.h"
 #include "manager.h"
 #include "material.h"
-#include "modelReader.h"
-
 
 void MeshFilter::Start()
 {

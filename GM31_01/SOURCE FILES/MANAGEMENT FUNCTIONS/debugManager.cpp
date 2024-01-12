@@ -1,10 +1,4 @@
 #include "debugManager.h"
-#include "main.h"
-#include "renderer.h"
-#include "../imGUI/imgui.h"
-#include "../imGUI/imgui_impl_win32.h"
-#include "../imGUI/imgui_impl_dx11.h"
-#include "../imGUI/implot.h"
 #include "manager.h"
 #include "input.h"
 

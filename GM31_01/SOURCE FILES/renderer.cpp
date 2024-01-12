@@ -1,6 +1,4 @@
 
-#include "main.h"
-#include "renderer.h"
 #include "manager.h"
 #include <io.h>
 

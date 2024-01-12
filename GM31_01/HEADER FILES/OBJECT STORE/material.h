@@ -1,9 +1,5 @@
 #pragma once
-#include <unordered_map>
-
 #include "gameobject.h"
-#include "textureReader.h"
-#include "functions.h"
 
 #define MAX_PARTICLES 100
 

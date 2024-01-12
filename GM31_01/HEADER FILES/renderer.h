@@ -1,6 +1,4 @@
 #pragma once
-#include "main.h"
-
 
 
 // í∏ì_ç\ë¢ëÃ

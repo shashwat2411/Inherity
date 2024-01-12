@@ -1,5 +1,4 @@
 #include "customScenes.h"
-#include <string>
 
 void GEOMETRY_INSTANCING_SCENE::Init()
 {

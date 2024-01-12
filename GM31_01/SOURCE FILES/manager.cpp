@@ -1,14 +1,8 @@
-#include "main.h"
-#include "renderer.h"
 #include "customScenes.h"
-#include "textureReader.h"
-#include "soundReader.h"
-#include "modelReader.h"
 #include "debugManager.h"
 #include "postProcessManager.h"
 #include "animations.h"
 
-#include <fstream>
 
 #define DEPTH_SHADOW_RENDERING
 //#define ENVIRONMENT_MAPPING

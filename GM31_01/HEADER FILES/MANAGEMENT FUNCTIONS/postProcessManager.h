@@ -1,4 +1,3 @@
-#include <vector>
 #include "baseobjects.h"
 
 class PostProcessManager

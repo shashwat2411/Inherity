@@ -16,6 +16,8 @@
 #include <d3dx9.h>
 #include <d3dx11.h>
 
+#define IMGUI_DEFINE_MATH_OPERATORS
+
 //ImGUI
 #include "../imGUI/imgui.h"
 #include "../imGUI/imgui_impl_win32.h"
