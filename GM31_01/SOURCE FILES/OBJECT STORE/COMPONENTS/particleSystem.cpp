@@ -1,6 +1,5 @@
 #include "baseobjects.h"
 #include "manager.h"
-#include "textureReader.h"
 
 BILLBOARD* part;
 

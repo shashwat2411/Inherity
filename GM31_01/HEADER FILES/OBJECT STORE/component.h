@@ -1,13 +1,7 @@
 #pragma once
-#include <unordered_map>
 
 #include "gameobject.h"
 #include "debugManager.h"
-#include "modelReader.h"
-#include "soundReader.h"
-#include "textureReader.h"
-
-#include <string>
 
 //‘O•ûéŒ¾
 class PARTICLE;

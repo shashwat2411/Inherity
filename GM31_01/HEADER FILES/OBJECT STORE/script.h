@@ -1,6 +1,5 @@
 #pragma once
 #include "component.h"
-#include "modelReader.h"
 
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
 #define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// ÉXÉvÉäÉìÉOëçêî

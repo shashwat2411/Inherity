@@ -186,10 +186,10 @@
     <ClInclude Include="imGUI\implot.h">
       <Filter>ImGUI\HEADER FILES</Filter>
     </ClInclude>
-    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\saveFunctions.h">
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClInclude>
-    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h">
+    <ClInclude Include="saveFunctions.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClInclude>
   </ItemGroup>
@@ -469,6 +469,9 @@
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\artificialIntelligence.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>1🖥️SOURCE FILES</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

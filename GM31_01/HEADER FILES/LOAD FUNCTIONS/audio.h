@@ -1,6 +1,4 @@
 #pragma once
-#include "main.h"
-#include "renderer.h"
 #include <xaudio2.h>
 
 #define DEFAULT_VOLUME 1.0f
