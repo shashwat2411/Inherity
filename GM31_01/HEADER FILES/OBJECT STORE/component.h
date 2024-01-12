@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../saveFunctions.h"
 #include "gameobject.h"
 #include "debugManager.h"
 

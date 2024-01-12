@@ -1,4 +1,5 @@
 #pragma once
+#include "../saveFunctions.h"
 #include "gameobject.h"
 
 #define MAX_PARTICLES 100
