@@ -1,5 +1,5 @@
 #include "script.h"
-#include "input.h"
+#include "../saveFunctions.h"
 
 float rotation = 0.0f;
 
@@ -10,6 +10,12 @@ void RevolutionCamera::Update()
 
 	//gameObject->transform->Position = Target->transform->Position + D3DXVECTOR3(sinf(rotation) * 5.0f, 4.0f, cosf(rotation) * 5.0f);
 	//at = Target->transform->Position;
+
+	targetOffset.x = ImGui::GetMousePos().x - SCREEN_WIDTH / 2;
+	targetOffset.y = -(ImGui::GetMousePos().y - SCREEN_HEIGHT / 2);
+	targetOffset.z = 0.0f;
+
+	D3DXVec3Normalize(&targetOffset, &targetOffset);
 
 	D3DXVECTOR3 forward;
 	if ((int)camera->GetTarget()->GetChildren().size() > 0) { forward = camera->GetTarget()->GetChildren()[0]->transform->GetForwardDirection(); }
@@ -35,7 +41,7 @@ void RevolutionCamera::Update()
 	AtVec *= 0.08f;	//ベクトルスケーリング
 
 	// カメラの注視点をプレイヤーの座標にしてみる
-	at += AtVec * Time::fixedTimeScale;
+	at += (AtVec/* + targetOffset * offsetSpeed*/) * Time::fixedTimeScale;
 
 	camera->SetAt(at);
 	gameObject->transform->Position += PosVec * Time::fixedTimeScale;
@@ -46,6 +52,8 @@ void RevolutionCamera::EngineDisplay()
 {
 	if (ImGui::TreeNode("Revolution Camera"))
 	{
+		DebugManager::FloatDisplay(&offsetSpeed, -FLT_MIN, "Offset Speed", true, D3DXVECTOR2(0.1f, 0.0f), 0);
+		
 		ImGui::TreePop();
 		ImGui::Spacing();
 	}

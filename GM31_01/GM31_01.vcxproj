@@ -28,7 +28,6 @@
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\input.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\InputController.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h" />
-    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\saveFunctions.h" />
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\scene.h" />
     <ClInclude Include="HEADER FILES\manager.h" />
     <ClInclude Include="HEADER FILES\OBJECT STORE\animations.h" />
@@ -52,6 +51,7 @@
     <ClInclude Include="imGUI\imstb_rectpack.h" />
     <ClInclude Include="imGUI\imstb_textedit.h" />
     <ClInclude Include="imGUI\imstb_truetype.h" />
+    <ClInclude Include="saveFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imGUI\imgui.cpp" />
@@ -64,6 +64,14 @@
     <ClCompile Include="imGUI\implot.cpp" />
     <ClCompile Include="imGUI\implot_demo.cpp" />
     <ClCompile Include="imGUI\implot_items.cpp" />
+    <ClCompile Include="pch.cpp">
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">saveFunctions.h</PrecompiledHeaderFile>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">saveFunctions.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">saveFunctions.h</ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">saveFunctions.h</ForcedIncludeFiles>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\animationModel.cpp" />
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\audio.cpp" />
     <ClCompile Include="SOURCE FILES\LOAD FUNCTIONS\model.cpp" />
@@ -116,6 +124,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\PostProcessMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\SpriteMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonPhongMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\UnlitMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WaterMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WipeMaterial.cpp" />
@@ -454,6 +463,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
+    <FxCompile Include="shader\toonPhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
     <FxCompile Include="shader\toonPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">shader\%(Filename).cso</ObjectFileOutput>
@@ -620,13 +637,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -702,6 +719,9 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\cereal-1.3.2\include;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>saveFunctions.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>saveFunctions.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -740,6 +760,9 @@
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\cereal-1.3.2\include;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\imGUI;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\LOAD FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\MANAGEMENT FUNCTIONS;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\OBJECT STORE;C:\Users\sk_kh_r8q2uw\Desktop\SK\Study N Stuff\３年生\後期\GM32\GM31_04\GM31_01\HEADER FILES\PRIVATE PATTERN;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>saveFunctions.h</PrecompiledHeaderFile>
+      <ForcedIncludeFiles>saveFunctions.h</ForcedIncludeFiles>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

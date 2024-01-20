@@ -1,7 +1,4 @@
 #pragma once
-//#include <list>
-//#include <vector>
-#include "saveFunctions.h"
 
 #define MAX_AFTERIMAGES 1
 

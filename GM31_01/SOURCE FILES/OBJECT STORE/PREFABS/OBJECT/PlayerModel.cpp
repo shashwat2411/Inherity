@@ -1,6 +1,5 @@
-#include "prefab.h"
-#include "input.h"
 #include "manager.h"
+#include "../saveFunctions.h"
 
 //BoxCollider* bcollider;
 
@@ -13,6 +12,7 @@ void PLAYERMODEL::Start()
 	model = AddComponent<MeshFilter>();
 	//AddMaterial<DissolveMaterial>();
 	//AddMaterial<UnlitMaterial>();
+	AddMaterial<ToonMaterial>();
 
 	model->SetModel(ModelReader::TOMATO_M);
 

@@ -1,8 +1,5 @@
-#include "gameobject.h"
-#include "component.h"
-#include "material.h"
+#include "../saveFunctions.h"
 #include "manager.h"
-#include "material.h"
 
 
 void GAMEOBJECT::Initialize()

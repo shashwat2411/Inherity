@@ -2,7 +2,6 @@
 #include "input.h"
 #include "animations.h"
 #include "manager.h"
-#include <fstream>
 
 #define INTERPOLATE
 

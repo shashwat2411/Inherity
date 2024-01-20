@@ -1,5 +1,4 @@
 #include "component.h"
-#include "soundReader.h"
 #include "baseobjects.h"
 #include "manager.h"
 

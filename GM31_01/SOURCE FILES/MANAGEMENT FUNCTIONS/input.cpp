@@ -1,7 +1,6 @@
 #include "input.h"
 #include "InputController.h"
 #include "debugManager.h"
-#include "functions.h"
 
 bool Input::controls = true;
 

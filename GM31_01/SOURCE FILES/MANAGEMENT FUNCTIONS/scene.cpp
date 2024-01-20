@@ -1,6 +1,4 @@
-#include "scene.h"
 #include "manager.h"
-#include "soundReader.h"
 #include "input.h"
 
 void SCENE::BeforeInit()

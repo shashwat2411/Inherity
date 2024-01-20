@@ -1,9 +1,4 @@
-#include "main.h"
 #include "manager.h"
-#include "functions.h"
-
-#include <thread>
-
 
 const char* CLASS_NAME = "AppClass";
 const char* WINDOW_NAME = "DX11ÉQÅ[ÉÄ";

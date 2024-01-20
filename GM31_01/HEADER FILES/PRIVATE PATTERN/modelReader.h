@@ -24,6 +24,7 @@ public:
 		ENEMY_M,
 		TITLE_PLAYER_MODEL_M,
 		MAP_M,
+		KNIFE_M,
 
 		READ_MODEL_OBJ_MAX
 	};
@@ -71,6 +72,7 @@ public:
 		ModelsOBJ[ENEMY_M].Load("asset\\model\\ExplodeNew.obj");
 		ModelsOBJ[TITLE_PLAYER_MODEL_M].Load("asset\\model\\titlePlayerModel.obj");
 		ModelsOBJ[MAP_M].Load("asset\\model\\Map\\map.obj");
+		ModelsOBJ[KNIFE_M].Load("asset\\model\\Knife.obj");
 
 
 		//FBX
@@ -120,8 +122,10 @@ public:
 
 		//ENEMY
 		Animations["Enemy_Walk"] = aiImportFile("asset\\model\\Enemy\\Enemy Walk.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Find"] = aiImportFile("asset\\model\\Enemy\\Enemy Find.fbx", aiProcess_ConvertToLeftHanded);
 
 		assert(Animations["Enemy_Walk"]);
+		assert(Animations["Enemy_Find"]);
 
 		//NAMING
 
@@ -138,6 +142,7 @@ public:
 		modelNames[ENEMY_M]					= "ENEMY";
 		modelNames[TITLE_PLAYER_MODEL_M]	= "TITLE PLAYER MODEL";
 		modelNames[MAP_M]					= "MAP";
+		modelNames[KNIFE_M]					= "KNIFE";
 
 		//FBX
 		int i = READ_MODEL_OBJ_MAX;

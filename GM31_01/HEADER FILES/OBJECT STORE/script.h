@@ -1,6 +1,5 @@
 #pragma once
-#include "component.h"
-#include "modelReader.h"
+#include "../saveFunctions.h"
 
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
 #define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// ÉXÉvÉäÉìÉOëçêî
@@ -327,6 +326,8 @@ public:
 class RevolutionCamera : public CameraScript
 {
 private:
+	float offsetSpeed = 1.0f;
+	D3DXVECTOR3 targetOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 public:
 

@@ -1,14 +1,9 @@
-#include "main.h"
-#include "renderer.h"
+#include "../saveFunctions.h"
 #include "customScenes.h"
-#include "textureReader.h"
-#include "soundReader.h"
-#include "modelReader.h"
 #include "debugManager.h"
 #include "postProcessManager.h"
 #include "animations.h"
 
-#include <fstream>
 
 #define DEPTH_SHADOW_RENDERING
 //#define ENVIRONMENT_MAPPING
@@ -262,7 +257,7 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
 	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 100.0f);
+	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 105.0f);
 
 }
 

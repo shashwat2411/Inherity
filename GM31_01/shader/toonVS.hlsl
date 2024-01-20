@@ -28,8 +28,13 @@ void main(in VS_IN In, out PS_IN Out)
 	Out.Tangent = float4(0.0, 0.0, 0.0, 0.0);
 	Out.Binormal = float4(0.0, 0.0, 0.0, 0.0);
 
+	float light = -dot(Light.Direction.xyz, worldNormal.xyz);
+	light = saturate(light);
 	//頂点カラーはそのままコピー
-	Out.Diffuse = In.Diffuse;
+	Out.Diffuse = In.Diffuse * Material.Diffuse * light * Light.Diffuse;
+	Out.Diffuse += In.Diffuse * Material.Ambient * Light.Ambient;
+	Out.Diffuse += Material.Emission;
+	Out.Diffuse.a = In.Diffuse.a * Material.Diffuse.a;
 
 	Out.WorldPosition = mul(In.Position, World);
 	Out.ShadowPosition = float4(0.0f, 0.0f, 0.0f, 0.0f);
