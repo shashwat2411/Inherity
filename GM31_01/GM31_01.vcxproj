@@ -124,6 +124,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\PostProcessMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\SpriteMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonPhongMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\UnlitMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WaterMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\WipeMaterial.cpp" />
@@ -459,6 +460,14 @@
       <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader\toonPhongPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>

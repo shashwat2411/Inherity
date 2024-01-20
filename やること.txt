@@ -62,3 +62,25 @@
 
 ●Geometry Instancing
 	・大量のオブジェクトをフレームレートを落とさず描画する仕組み
+
+●SIMD
+	・SISD (Single Instruction Single Data)
+		一つの命令で一つのデータを処理する
+		float a,b = 1,c = 2;
+		a = b + c;
+
+	・SIMD (Single Instruction Multiple Data)
+		一つの命令で複数の命令を処理する、こっちの方が効率が良い
+		D3DXVECTOR3 position, target(0.0f, 0.0f, 0.0f);
+		position = target + D3DXVECTOR3(4.0f, 2.0f, 3.0f);
+
+		一見SIMDに見えるが		
+		D3DXVECTOR3のoperatorの中に return D3DXVECTOR3(x + v.x, y + v.y, z + v.z);
+		結局別々で動いてるってこと
+
+	・SIMD拡張命令セット
+		・MMX
+		・3DNow
+		・SSD
+		・AVX
+		・NEON

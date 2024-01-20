@@ -10,6 +10,7 @@
 #include "main.h"
 #include "renderer.h"
 #include "functions.h"
+#include "input.h"
 
 #include "modelReader.h"
 #include "textureReader.h"
@@ -89,3 +90,9 @@ void serialize(Archive & archive, D3DXBOOL3 & vector)
 {
 	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), cereal::make_nvp("z", vector.z));
 }
+
+#include "gameobject.h"
+#include "component.h"
+#include "material.h"
+#include "baseobjects.h"
+#include "prefab.h"

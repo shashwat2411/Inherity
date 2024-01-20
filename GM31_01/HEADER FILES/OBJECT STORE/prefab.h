@@ -1,5 +1,4 @@
 	#pragma once
-#include "baseobjects.h"
 #include "script.h"
 
 class PLAYER : public GAMEOBJECT

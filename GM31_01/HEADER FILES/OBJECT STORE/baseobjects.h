@@ -1,5 +1,4 @@
 #pragma once
-#include "component.h"
 #include "material.h"
 
 

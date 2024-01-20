@@ -473,6 +473,9 @@
     <ClCompile Include="pch.cpp">
       <Filter>1🖥️SOURCE FILES</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonPhongMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -576,6 +579,9 @@
     </FxCompile>
     <FxCompile Include="shader\normalMappingVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\toonPhongPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

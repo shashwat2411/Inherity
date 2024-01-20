@@ -1,20 +1,6 @@
 {
-    "GetScene()->objectAdder": [
-        {
-            "class": "CUBE",
-            "number": 1
-        },
-        {
-            "class": "PARTICLESYSTEM",
-            "number": 1
-        }
-    ],
-    "GetScene()->componentAdder": [
-        {
-            "component": "BoxCollider",
-            "gameObject": "Cube(Clone)"
-        }
-    ],
+    "GetScene()->objectAdder": [],
+    "GetScene()->componentAdder": [],
     "GetScene()->animationAdder": [],
     "MainCamera": {
         "active": true,
@@ -30,14 +16,14 @@
                 "enabled": true
             },
             "Position": {
-                "x": -11.949999809265137,
-                "y": 230.10000610351563,
-                "z": -67.94999694824219
+                "x": -78.0359115600586,
+                "y": 3.5000014305114748,
+                "z": 15.062139511108399
             },
             "Rotation": {
-                "x": 65.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": 31.17135238647461,
+                "y": 167.15444946289063,
+                "z": -29.037208557128908
             },
             "Scale": {
                 "x": 1.0,
@@ -204,9 +190,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
+                "x": -4.1757058966140905e-7,
                 "y": -1.0,
-                "z": 0.0
+                "z": -0.09999999403953552
             },
             "Rotation": {
                 "x": 0.0,
@@ -223,7 +209,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 12
+            "modelIndex": 13
         },
         "SphereCollider": {
             "value0": {
@@ -349,9 +335,6 @@
             "isKinematic": false,
             "CollisionSize": 1.0,
             "scaleOffset": 1.6666666269302369
-        },
-        "Material": {
-            "textureIndex": 0
         }
     },
     "Enemy Model": {
@@ -378,16 +361,64 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 0.019999999552965165,
-                "y": 0.019999999552965165,
-                "z": 0.019999999552965165
+                "x": 0.009999999776482582,
+                "y": 0.009999999776482582,
+                "z": 0.009999999776482582
             }
         },
         "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 14
+            "modelIndex": 15
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "Knife": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Enemy Model",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 0.0,
+                "y": 18.899999618530275,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 127.0,
+                "y": -28.5,
+                "z": -69.5
+            },
+            "Scale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 100.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 11
+        },
+        "SphereCollider": {
+            "value0": {
+                "enabled": true
+            },
+            "isTrigger": false,
+            "isKinematic": false,
+            "CollisionSize": 1.0,
+            "scaleOffset": 1.0
         },
         "Material": {
             "textureIndex": 0
@@ -535,58 +566,6 @@
         },
         "Material": {
             "textureIndex": 3
-        }
-    },
-    "Cube(Clone)": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -76.0,
-                "y": 1.0,
-                "z": 22.0
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 3
-        },
-        "BoxCollider": {
-            "value0": {
-                "enabled": true
-            },
-            "isTrigger": false,
-            "isKinematic": true,
-            "CollisionSize": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            },
-            "scaleOffset": 1.0
-        },
-        "Material": {
-            "textureIndex": 0
         }
     },
     "Player Model": {
@@ -823,7 +802,7 @@
             "textureIndex": 0
         }
     },
-    "Cube(Clone)": {
+    "Knife": {
         "active": true,
         "Color": {
             "r": 1.0,
@@ -831,14 +810,14 @@
             "b": 1.0,
             "a": 1.0
         },
-        "Parent": "Cube(Clone)",
+        "Parent": "Knife",
         "Transform": {
             "Component": {
                 "enabled": true
             },
             "Position": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 1.100000023841858,
                 "z": 0.0
             },
             "Rotation": {
@@ -856,7 +835,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 1
+            "modelIndex": 0
         },
         "Material": {
             "textureIndex": 0
@@ -1016,87 +995,6 @@
         },
         "Material": {
             "textureIndex": 0
-        }
-    },
-    "ParticleSystem(Clone)": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -76.0,
-                "y": 86.30000305175781,
-                "z": 0.0
-            },
-            "Rotation": {
-                "x": 62.20000076293945,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 5.0,
-                "y": 5.0,
-                "z": 5.0
-            }
-        },
-        "ParticleSystem": {
-            "value0": {
-                "enabled": true
-            },
-            "textureIndex": 4,
-            "numberOfObjects": 1000,
-            "burst": true,
-            "loop": true,
-            "gravity": true,
-            "life": 2.0,
-            "randomVelocity": {
-                "x": true,
-                "y": true,
-                "z": true
-            },
-            "randomPosition": {
-                "x": true,
-                "y": true,
-                "z": true
-            },
-            "randomRotation": {
-                "x": false,
-                "y": false,
-                "z": false
-            },
-            "size": {
-                "x": 0.10000000149011612,
-                "y": 0.10000000149011612,
-                "z": 0.10000000149011612
-            },
-            "positionOffset": {
-                "x": 3.109999895095825,
-                "y": 2.809999942779541,
-                "z": 2.890000104904175
-            },
-            "velocityOffset": {
-                "x": 1.0,
-                "y": 0.20999999344348908,
-                "z": 1.0
-            },
-            "rotationOffset": {
-                "x": -1.7100000381469727,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "speed": {
-                "x": 6.360000133514404,
-                "y": 6.170000076293945,
-                "z": 3.9100000858306886
-            }
         }
     },
     "Score": {

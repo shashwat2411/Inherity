@@ -1,6 +1,5 @@
 #pragma once
 #include "../saveFunctions.h"
-#include "gameobject.h"
 
 #define MAX_PARTICLES 100
 
@@ -211,4 +210,13 @@ public:
 	void CreatePositionBuffer() override; 
 	void GeometryInstancing() override;
 
+};
+class ToonPhongMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override;
+	void Draw() override;
 };
