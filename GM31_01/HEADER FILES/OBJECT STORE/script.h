@@ -9,15 +9,16 @@ class PlayerMovement : public Script
 public:
 	enum PLAYER_STATE
 	{
-		GROUND_PS,
-		LIGHT_ATTACK_PS,
-		HEAVY_ATTACK_PS,
+		NORMAL_MOVE_PS,
+		AIMING_MOVE_PS,
 		ROLL_PS,
 
 		PS_MAX
 	};
-	bool jump;
 	bool move;
+	bool diagonal;
+	bool aim;
+	bool gunSelection;
 
 	int idleCounter;
 
@@ -26,11 +27,6 @@ public:
 
 private:
 	bool setAnimation;
-	bool increment;
-
-	int punchState;
-
-	std::string punchAnimation;
 
 	PLAYER_STATE playerState;
 
@@ -43,10 +39,8 @@ public:
 
 	void EngineDisplay() override;
 
-	void UpdateGround();
-	void UpdateJump();
-	void LightAttack();
-	void HeavyAttack();
+	void NormalMove();
+	void AimingMove();
 	void Roll();
 };
 class Ground : public Script
@@ -242,6 +236,7 @@ private:
 	ENEMY_STATE state;
 
 	Projector* projector;
+	MeshFilter* model;
 	GAMEOBJECT* target;
 	GAMEOBJECT* seeker;
 
@@ -326,7 +321,7 @@ public:
 class RevolutionCamera : public CameraScript
 {
 private:
-	float offsetSpeed = 1.0f;
+	float offsetSpeed = 0.02f;
 	D3DXVECTOR3 targetOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 public:

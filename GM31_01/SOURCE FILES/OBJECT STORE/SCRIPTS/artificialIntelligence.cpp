@@ -16,10 +16,10 @@ void ArtificialIntelligence::Start()
 	timerVector["maxDistance"] = 10.0f;
 	timerVector["timer"] = 0.0f;
 
-	timerVector["followDistance"] = 2.5f;
+	timerVector["followDistance"] = 3.0f;
 	timerVector["waitMaxTime"] = 1.0f;
 
-	timerVector["attackMaxTime"] = 1.5f;
+	timerVector["attackMaxTime"] = 3.0f;
 	timerVector["attackSpeed"] = 1.0f;
 
 	timerVector["findMaxTime"] = 2.0f;
@@ -59,6 +59,8 @@ void ArtificialIntelligence::Start()
 	points[3]->transform->Position = startPosition - (flip ? -1 : 1) * gameObject->transform->GetRightDirection() * distance;
 
 	seeker = Manager::GetScene()->Find(targetName.c_str());
+
+	model = gameObject->GetChildren()[0]->GetComponent<MeshFilter>();
 }
 
 void ArtificialIntelligence::End()
@@ -73,14 +75,17 @@ void ArtificialIntelligence::Update()
 	switch (state)
 	{
 	case ROAM:
+		model->SetAnimationBlend("Enemy_Walk", true);
 		Roam();
 		break;
 
 	case FOLLOW:
+		model->SetAnimationBlend("Enemy_Run", true);
 		Follow();
 		break;
 
 	case WAIT:
+		model->SetAnimationBlend("Enemy_Wait", true);
 		Wait();
 		break;
 
@@ -89,10 +94,12 @@ void ArtificialIntelligence::Update()
 		break;
 
 	case FIND:
+		model->SetAnimationBlend("Enemy_Find", true);
 		Find();
 		break;
 
 	case RETURN:
+		model->SetAnimationBlend("Enemy_Walk", true);
 		Return();
 		break;
 
@@ -218,9 +225,11 @@ void ArtificialIntelligence::Follow()
 
 	if (target == nullptr)
 	{
-		state = RETURN;
+		state = FIND;
+		model->SetAnimationBlend("Enemy_Find");
 		returnPosition = Vector3::Lerp(points[index]->transform->Position, points[nextIndex]->transform->Position, timerVector["time"]);
 		returnPosition.y = gameObject->transform->Position.y;
+
 		return;
 	}
 
@@ -252,7 +261,10 @@ void ArtificialIntelligence::Return()
 	gameObject->rigidbody->Speed = direction;
 
 	gameObject->transform->Rotation.y = gameObject->transform->FaceInDirection();
-	if (gameObject->transform->DistanceFrom(returnPosition) < timerVector["followSpeed"]) { state = ROAM; }
+	if (gameObject->transform->DistanceFrom(returnPosition) < timerVector["followSpeed"]) 
+	{ 
+		state = ROAM;
+	}
 }
 
 void ArtificialIntelligence::Wait()
@@ -262,20 +274,44 @@ void ArtificialIntelligence::Wait()
 	{
 		timerVector["timer"] = 0.0f;
 		state = ATTACK;
+		model->SetAnimationBlend("Enemy_Attack_1");
 
-		D3DXVECTOR3 direction = target->transform->GlobalPosition - gameObject->transform->GlobalPosition;
-		D3DXVec3Normalize(&direction, &direction);
-		direction *= timerVector["attackSpeed"];
-		direction.y = 0.0f;
-
-		gameObject->rigidbody->Speed = direction;
-		gameObject->transform->Rotation.y = gameObject->transform->FaceInDirection();
+		//D3DXVECTOR3 direction = target->transform->GlobalPosition - gameObject->transform->GlobalPosition;
+		//D3DXVec3Normalize(&direction, &direction);
+		//direction *= timerVector["attackSpeed"];
+		//direction.y = 0.0f;
+		//
+		//gameObject->rigidbody->Speed = direction;
+		//gameObject->transform->Rotation.y = gameObject->transform->FaceInDirection();
 	}
 
 }
 
 void ArtificialIntelligence::Attack()
 {
+	if (model->GetAnimationOver("Enemy_Attack_1") == true)
+	{
+		if (seeker != nullptr)
+		{
+			D3DXVECTOR3 v, u;
+			v = gameObject->transform->GetForwardDirection();
+			u = gameObject->transform->GlobalPosition - seeker->transform->GlobalPosition;
+
+			if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"])
+			{
+				if (gameObject->transform->DistanceFrom(target) < timerVector["followDistance"])
+				{
+					model->SetAnimationBlend("Enemy_Attack_1");
+					return;
+				}
+			}
+
+		}
+
+		state = FOLLOW;
+	}
+
+	/*
 	timerVector["timer"] += (1.0f / FRAME_RATE) * Time::fixedTimeScale;
 	if (timerVector["timer"] >= timerVector["attackMaxTime"])
 	{
@@ -291,28 +327,34 @@ void ArtificialIntelligence::Attack()
 
 		state = FOLLOW;
 	}
+	*/
 }
 
 void ArtificialIntelligence::Find()
 {
 	Finder();
 
-	timerVector["rotationTimer"] += timerVector["rotationSpeed"] * Time::fixedTimeScale;
-
-
-	gameObject->transform->Rotation.y = Mathf::Lerp(gameObject->transform->Rotation.y, timerVector["findRotation"], timerVector["rotationTimer"]);
-	if (timerVector["rotationTimer"] >= 1.0f)
+	if (model->GetAnimationOver("Enemy_Find") == true)
 	{
-		timerVector["power"] *= -1.0f;
-		timerVector["rotationTimer"] = 0.0f;
-		timerVector["findRotation"] = timerVector["rotationStart"] + timerVector["power"] * timerVector["findValue"];
+		state = RETURN;
 	}
 
-	timerVector["timer"] += (1.0f / FRAME_RATE) * Time::fixedTimeScale;
-	if (timerVector["timer"] >= timerVector["findMaxTime"])
-	{
-		state = FOLLOW;
-	}
+	//timerVector["rotationTimer"] += timerVector["rotationSpeed"] * Time::fixedTimeScale;
+
+
+	//gameObject->transform->Rotation.y = Mathf::Lerp(gameObject->transform->Rotation.y, timerVector["findRotation"], timerVector["rotationTimer"]);
+	//if (timerVector["rotationTimer"] >= 1.0f)
+	//{
+	//	timerVector["power"] *= -1.0f;
+	//	timerVector["rotationTimer"] = 0.0f;
+	//	timerVector["findRotation"] = timerVector["rotationStart"] + timerVector["power"] * timerVector["findValue"];
+	//}
+
+	//timerVector["timer"] += (1.0f / FRAME_RATE) * Time::fixedTimeScale;
+	//if (timerVector["timer"] >= timerVector["findMaxTime"])
+	//{
+	//	state = FOLLOW;
+	//}
 }
 
 void ArtificialIntelligence::Finder()
@@ -323,8 +365,15 @@ void ArtificialIntelligence::Finder()
 		v = gameObject->transform->GetForwardDirection();
 		u = gameObject->transform->GlobalPosition - seeker->transform->GlobalPosition;
 
-		if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"]) { target = seeker; state = FOLLOW; }
-		else if (gameObject->GetComponent<SphereCollider>()->GetCollision() == false) { target = nullptr; }
+		if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"]) 
+		{ 
+			target = seeker; 
+			state = FOLLOW; 
+		}
+		else if (gameObject->GetComponent<SphereCollider>()->GetCollision() == false) 
+		{ 
+			target = nullptr; 
+		}
 
 	}
 	else

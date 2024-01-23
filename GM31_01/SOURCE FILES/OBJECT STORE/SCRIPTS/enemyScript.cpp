@@ -6,7 +6,7 @@ void EnemyScript::Start()
 {
 	gameObject->AddComponent<Rigidbody>()->useGravity = true;
 	gameObject->AddComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.5f;
-
+	gameObject->GetComponent<SphereCollider>()->SetCollisionSize(0.28f);
 }
 
 void EnemyScript::End()
