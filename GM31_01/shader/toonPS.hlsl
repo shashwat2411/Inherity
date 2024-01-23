@@ -9,6 +9,10 @@ SamplerState g_SamplerState : register(s0);
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
 	outDiffuse = In.Diffuse;
+	//if (In.Diffuse.g >= 1.0f && In.Diffuse.r <= 0.0f && In.Diffuse.b <= 0.0f)
+	//{
+	//	outDiffuse.rgb = float3(1.0f, 0.0f, 0.0f);
+	//}
 
 	float4 normal = normalize(In.Normal);
 	float light = -dot(normal.xyz, Light.Direction.xyz);
@@ -27,4 +31,5 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 	uv.x += dissolveRange;
 	uv.y = pattern;
+
 }

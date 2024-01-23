@@ -22,19 +22,19 @@ void PLAYERMODEL::Start()
 	model->GetModel()->LoadAnimation("Jump");
 	model->GetModel()->LoadAnimation("Roll");
 
-	model->GetModel()->LoadAnimation("Punch_Left");
-	model->GetModel()->LoadAnimation("Punch_Right");
-	model->GetModel()->LoadAnimation("Low_Punch_Left");
-	model->GetModel()->LoadAnimation("Low_Punch_Right");
-	model->GetModel()->LoadAnimation("Cross_Punch_Right");
+	model->GetModel()->LoadAnimation("Forward_Jog");
+	model->GetModel()->LoadAnimation("Backward_Jog");
+	model->GetModel()->LoadAnimation("Left_Jog");
+	model->GetModel()->LoadAnimation("Right_Jog");
 
-	model->GetModel()->LoadAnimation("Kick_1");
-	model->GetModel()->LoadAnimation("Kick_2");
-	model->GetModel()->LoadAnimation("Kick_3");
-	model->GetModel()->LoadAnimation("Kick_4");
+	model->GetModel()->LoadAnimation("Forward_Left_Jog");
+	model->GetModel()->LoadAnimation("Forward_Right_Jog");
+	model->GetModel()->LoadAnimation("Backward_Left_Jog");
+	model->GetModel()->LoadAnimation("Backward_Right_Jog");
 
 	model->SetDefaultAnimation("Idle");
 
+	transform->culling = false;
 	transform->Scale = D3DXVECTOR3(0.007f, 0.007f, 0.007f);
 	transform->Position.y = -1.0f;
 
@@ -78,6 +78,26 @@ void PLAYERMODEL::Start()
 	//bcollider->SetIsKinematic(false);
 	//bcollider->SetCollisionSize(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 	//bcollider->scaleOffset = 100.0f;
+
+	GAMEOBJECT* gun = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Gun Left");
+	gun->AddComponent<MeshFilter>()->SetModel(ModelReader::TOMATO_GUN_M);
+	gun->SetParent(model->gameObject);
+	gun->transform->boneMatrix = model->GetModel()->GetBoneMatrix("mixamorig:Spine");
+	gun->AddMaterial<ToonPhongMaterial>();
+
+	GAMEOBJECT* spawnPoint = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Spawn Point Left");
+	spawnPoint->SetParent(gun);
+	spawnPoint->transform->Position = D3DXVECTOR3(2.2f, -0.35f, 0.0f);
+
+	gun = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Gun Right");
+	gun->AddComponent<MeshFilter>()->SetModel(ModelReader::TOMATO_GUN_M);
+	gun->SetParent(model->gameObject);
+	gun->transform->boneMatrix = model->GetModel()->GetBoneMatrix("mixamorig:Spine");
+	gun->AddMaterial<ToonPhongMaterial>();
+
+	spawnPoint = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Spawn Point Right");
+	spawnPoint->SetParent(gun);
+	spawnPoint->transform->Position = D3DXVECTOR3(2.2f, -0.35f, 0.0f);
 
 
 	Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);

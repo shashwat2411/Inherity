@@ -2,6 +2,7 @@
 #include "../saveFunctions.h"
 
 float rotation = 0.0f;
+D3DXVECTOR3 direction;
 
 void RevolutionCamera::Update()
 {
@@ -15,14 +16,21 @@ void RevolutionCamera::Update()
 	targetOffset.y = -(ImGui::GetMousePos().y - SCREEN_HEIGHT / 2);
 	targetOffset.z = 0.0f;
 
-	D3DXVec3Normalize(&targetOffset, &targetOffset);
+	if (fabs(targetOffset.x) > 300.0f) { targetOffset.x = targetOffset.x / fabs(targetOffset.x) * 300.0f; }
+	if (targetOffset.y > 180.0f) { targetOffset.y = 180.0f; }
+	else if (targetOffset.y < -40.0f) { targetOffset.y = -40.0f; }
+
+	direction = camera->GetUp() * targetOffset.y + camera->GetRight() * targetOffset.x;
+
 
 	D3DXVECTOR3 forward;
 	if ((int)camera->GetTarget()->GetChildren().size() > 0) { forward = camera->GetTarget()->GetChildren()[0]->transform->GetForwardDirection(); }
 	else { forward = camera->GetTarget()->transform->GetForwardDirection(); }
 
-	D3DXVECTOR3 toBeAt = camera->GetTarget()->transform->GlobalPosition - forward * 8.0f + D3DXVECTOR3(0.0f, 4.0f, 0.0f);
-	D3DXVECTOR3 toLookAt = camera->GetTarget()->transform->GlobalPosition;
+	D3DXVECTOR3 distance = -forward * 8.0f + D3DXVECTOR3(0.0f, 4.0f, 0.0f);
+
+	D3DXVECTOR3 toBeAt = camera->GetTarget()->transform->GlobalPosition + distance;
+	D3DXVECTOR3 toLookAt = camera->GetTarget()->transform->GlobalPosition + direction * offsetSpeed;
 
 
 	D3DXVECTOR3 AtVec;
@@ -53,6 +61,9 @@ void RevolutionCamera::EngineDisplay()
 	if (ImGui::TreeNode("Revolution Camera"))
 	{
 		DebugManager::FloatDisplay(&offsetSpeed, -FLT_MIN, "Offset Speed", true, D3DXVECTOR2(0.1f, 0.0f), 0);
+
+		DebugManager::Float3Display(&direction, -1.0f, "Direction ", 0.05f, 1, true);
+		DebugManager::Float3Display(&targetOffset, -1.0f, "Offset ", 0.05f, 2, true);
 		
 		ImGui::TreePop();
 		ImGui::Spacing();

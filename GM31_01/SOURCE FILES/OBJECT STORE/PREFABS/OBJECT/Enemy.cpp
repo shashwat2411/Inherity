@@ -20,6 +20,10 @@ void ENEMY::Start()
 	MeshFilter* model = child->GetComponent<MeshFilter>();
 	model->GetModel()->LoadAnimation("Enemy_Walk");
 	model->GetModel()->LoadAnimation("Enemy_Find");
+	model->GetModel()->LoadAnimation("Enemy_Attack_1");
+	model->GetModel()->LoadAnimation("Enemy_Run");
+	model->GetModel()->LoadAnimation("Enemy_Damage");
+	model->GetModel()->LoadAnimation("Enemy_Wait");
 
 	model->SetDefaultAnimation("Enemy_Walk");
 
@@ -41,5 +45,6 @@ void ENEMY::Start()
 	knife->AddMaterial<ToonPhongMaterial>();
 	knife->AddComponent<SphereCollider>()->scaleOffset = 1.0f;
 	knife->GetComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.1f;
+	knife->GetComponent<SphereCollider>()->SetCollisionSize(0.26f);
 
 }

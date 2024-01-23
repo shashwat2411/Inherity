@@ -57,7 +57,11 @@ void Camera::End()
 
 void Camera::Update()
 {
-
+	if (DebugManager::play == true && DebugManager::paused == false)
+	{
+		point->Update();
+		point->Draw();
+	}
 }
 
 void Camera::Draw()

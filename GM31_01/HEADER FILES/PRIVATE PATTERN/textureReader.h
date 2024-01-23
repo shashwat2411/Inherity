@@ -56,6 +56,9 @@ public:
 		GLASS_SHARD_T,
 		CHRONIX_T,
 
+		//GAME TEXTURES
+		AIM_T,
+
 		READ_TEXTURE_MAX
 	};
 
@@ -112,6 +115,8 @@ public:
 		LoadTexture(&Textures[GLASS_SHARD_T], "asset\\texture\\Title\\glassShard.png");
 		LoadTexture(&Textures[CHRONIX_T], "asset\\texture\\Title\\chronix.png");
 
+		LoadTexture(&Textures[AIM_T], "asset\\texture\\aim.png");
+
 
 		//NAMES
 		textureNames[NUMBER_T]				= "NUMBER";
@@ -156,6 +161,8 @@ public:
 		textureNames[QUIT_TEXT_T]			= "QUIT TEXT";
 		textureNames[GLASS_SHARD_T]			= "GLASS SHARD";
 		textureNames[CHRONIX_T]				= "CHRONIX";
+
+		textureNames[AIM_T]					= "AIM";
 	}
 
 	static void UnReadTexture()

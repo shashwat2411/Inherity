@@ -25,6 +25,7 @@ public:
 		TITLE_PLAYER_MODEL_M,
 		MAP_M,
 		KNIFE_M,
+		TOMATO_GUN_M,
 
 		READ_MODEL_OBJ_MAX
 	};
@@ -73,6 +74,7 @@ public:
 		ModelsOBJ[TITLE_PLAYER_MODEL_M].Load("asset\\model\\titlePlayerModel.obj");
 		ModelsOBJ[MAP_M].Load("asset\\model\\Map\\map.obj");
 		ModelsOBJ[KNIFE_M].Load("asset\\model\\Knife.obj");
+		ModelsOBJ[TOMATO_GUN_M].Load("asset\\model\\Tomato\\Gun.obj");
 
 
 		//FBX
@@ -92,40 +94,46 @@ public:
 		Animations["Walk"] = aiImportFile("asset\\model\\Tomato\\Mutant Walking.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Roll"] = aiImportFile("asset\\model\\Tomato\\Standing Dive Forward.fbx", aiProcess_ConvertToLeftHanded);
 
-		//Attacks
-		Animations["Punch_Left"] = aiImportFile("asset\\model\\Tomato\\Attack\\Punch Left.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Punch Right.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Low_Punch_Left"] = aiImportFile("asset\\model\\Tomato\\Attack\\Low Punch Left.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Low_Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Low Punch Right.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Cross_Punch_Right"] = aiImportFile("asset\\model\\Tomato\\Attack\\Cross Punch Right.fbx", aiProcess_ConvertToLeftHanded);
+		//Aiming
+		Animations["Forward_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Forward Jog.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Backward_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Backward Jog.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Left_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Left Jog.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Right_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Right Jog.fbx", aiProcess_ConvertToLeftHanded);
 
-		Animations["Kick_1"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\Low Kick Right.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Kick_2"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 2.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Kick_3"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 3.fbx", aiProcess_ConvertToLeftHanded);
-		Animations["Kick_4"] = aiImportFile("asset\\model\\Tomato\\Attack\\Kick\\kick 4.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Forward_Left_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Forward Left Jog.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Forward_Right_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Forward Right Jog.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Backward_Left_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Backward Left Jog.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Backward_Right_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Backward Right Jog.fbx", aiProcess_ConvertToLeftHanded);
 
 		assert(Animations["Run"]);
 		assert(Animations["Idle"]);
 		assert(Animations["Walk"]);
 		assert(Animations["Roll"]);
 
-		assert(Animations["Punch_Left"]);
-		assert(Animations["Punch_Right"]);
-		assert(Animations["Low_Punch_Left"]);
-		assert(Animations["Low_Punch_Right"]);
-		assert(Animations["Cross_Punch_Right"]);
+		assert(Animations["Forward_Jog"]);
+		assert(Animations["Backward_Jog"]);
+		assert(Animations["Left_Jog"]);
+		assert(Animations["Right_Jog"]);
 
-		assert(Animations["Kick_1"]);
-		assert(Animations["Kick_2"]);
-		assert(Animations["Kick_3"]);
-		assert(Animations["Kick_4"]);
+		assert(Animations["Forward_Left_Jog"]);
+		assert(Animations["Forward_Right_Jog"]);
+		assert(Animations["Backward_Left_Jog"]);
+		assert(Animations["Backward_Right_Jog"]);
 
 		//ENEMY
 		Animations["Enemy_Walk"] = aiImportFile("asset\\model\\Enemy\\Enemy Walk.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Enemy_Find"] = aiImportFile("asset\\model\\Enemy\\Enemy Find.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Attack_1"] = aiImportFile("asset\\model\\Enemy\\Enemy Attack 1.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Run"] = aiImportFile("asset\\model\\Enemy\\Enemy Run.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Damage"] = aiImportFile("asset\\model\\Enemy\\Enemy Damage.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Wait"] = aiImportFile("asset\\model\\Enemy\\Enemy Wait.fbx", aiProcess_ConvertToLeftHanded);
 
 		assert(Animations["Enemy_Walk"]);
 		assert(Animations["Enemy_Find"]);
+		assert(Animations["Enemy_Attack_1"]);
+		assert(Animations["Enemy_Run"]);
+		assert(Animations["Enemy_Damage"]);
+		assert(Animations["Enemy_Wait"]);
 
 		//NAMING
 
@@ -143,6 +151,7 @@ public:
 		modelNames[TITLE_PLAYER_MODEL_M]	= "TITLE PLAYER MODEL";
 		modelNames[MAP_M]					= "MAP";
 		modelNames[KNIFE_M]					= "KNIFE";
+		modelNames[TOMATO_GUN_M]			= "TOMATO GUN";
 
 		//FBX
 		int i = READ_MODEL_OBJ_MAX;
