@@ -1,5 +1,10 @@
 {
-    "GetScene()->objectAdder": [],
+    "GetScene()->objectAdder": [
+        {
+            "class": "CUBE",
+            "number": 1
+        }
+    ],
     "GetScene()->componentAdder": [],
     "GetScene()->animationAdder": [],
     "MainCamera": {
@@ -704,6 +709,45 @@
         },
         "Material": {
             "textureIndex": 3
+        }
+    },
+    "Cube(Clone)": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": -76.0,
+                "y": 1.7000000476837159,
+                "z": 8.100000381469727
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 3
+        },
+        "Material": {
+            "textureIndex": 0
         }
     },
     "Player Model": {
