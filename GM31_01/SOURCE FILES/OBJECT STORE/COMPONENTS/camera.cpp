@@ -60,6 +60,9 @@ void Camera::Update()
 	if (DebugManager::play == true && DebugManager::paused == false)
 	{
 		point->Update();
+
+		//point->transform->Position = 
+
 		point->Draw();
 	}
 }
