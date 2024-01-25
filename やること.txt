@@ -77,6 +77,7 @@
 		一見SIMDに見えるが		
 		D3DXVECTOR3のoperatorの中に return D3DXVECTOR3(x + v.x, y + v.y, z + v.z);
 		結局別々で動いてるってこと
+		std::list<>に搭載済み
 
 	・SIMD拡張命令セット
 		・MMX
@@ -84,3 +85,7 @@
 		・SSD
 		・AVX
 		・NEON
+
+●経路探索
+	・ダイクストラ法
+	・A＊法
