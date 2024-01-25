@@ -21,22 +21,21 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 	{
 		float4 normal = normalize(In.Normal);
+
 		float light = -dot(normal.xyz, Light.Direction.xyz);
-		float2 coord = float2(light, 0.5f);
-		float4 lightColor = g_TextureToon.Sample(g_SamplerState, coord);
-		float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
-		eyev = normalize(eyev);
 
-		//outline
-		float d = dot(eyev, normal.xyz);
-		//if (d > -0.3f) { outDiffuse.rgb *= 0.0f; }
+		if (light > 0.7f) { light = 1.0f; }
+		else if (light > 0.4f) { light = 0.7f; }
+		else { light = 0.5f; }
 
-		float pattern = 0.03125f + 0.0625f * 15.0f;
-		float2 uv = light;
-		float4 col;
+		outDiffuse.rgb *= saturate(light);
 
-		uv.x += 0.0f;
-		uv.y = pattern;
+		//float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
+		//eyev = normalize(eyev);
+
+		//float d = dot(eyev, normal.xyz);
+
+		//if (d > -0.3f) { outDiffuse.rgb *= 0.0; }
 	}
 
 
