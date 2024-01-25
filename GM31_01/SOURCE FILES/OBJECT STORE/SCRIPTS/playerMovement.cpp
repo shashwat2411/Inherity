@@ -6,19 +6,24 @@ MeshFilter* model;
 float angle = 0.0f;
 float dangle = 0.0f;
 bool animationShift = false;
+Camera* camera;
 
 D3DXVECTOR3 rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 void PlayerMovement::Start()
 {
-	jump = false;
+	aim = false;
 	move = false;
+	diagonal = false;
+	gunSelection = false;
+	setAnimation = false;
 
 	idleCounter = 0;
+	timerVector["rollSpeed"] = 0.4f;
 
 	rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	playerState = GROUND_PS;
+	playerState = NORMAL_MOVE_PS;
 
 	gameObject->AddComponent<Rigidbody>()->useGravity = true;
 	gameObject->rigidbody->groundLevel = 1.01f;
@@ -106,16 +111,62 @@ void PlayerMovement::Update()
 	|}
 	|-----------------------------------------------------------------------
 	*/
-	model = gameObject->Children[0]->GetComponent<MeshFilter>();
+	model = gameObject->GetChildren()[0]->GetComponent<MeshFilter>();
+
+	//Direction
+	{
+		D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
+		D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
+
+		camera = Manager::GetScene()->GetCamera()->camera;
+
+		float vertical = Input::Vertical();
+		float horizontal = Input::Horizontal();
+
+		directionZ = camera->GetForward() * vertical;
+		directionX = camera->GetRight() * horizontal;
+
+		directionZ.y = 0.0f;
+		directionX.y = 0.0f;
+		D3DXVec3Normalize(&directionZ, &directionZ);
+		D3DXVec3Normalize(&directionX, &directionX);
+
+		direction = directionX + directionZ;
+		D3DXVec3Normalize(&direction, &direction);
+	}
+
+	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false)
+	{
+		aim = true;
+		playerState = AIMING_MOVE_PS;
+	}
+	else if (!ImGui::IsKeyDown((ImGuiKey)656) && aim == true)
+	{
+		aim = false;
+		playerState = NORMAL_MOVE_PS;
+	}
+
+	if (Input::GetButtonTrigger(ROLL_KEYMAP) && playerState != ROLL_PS)
+	{
+		playerState = ROLL_PS;
+		model->SetAnimationBlend("Roll");
+
+		gameObject->rigidbody->Speed = direction * timerVector["rollSpeed"];
+		rotationDirection = direction;
+	}
 
 	switch (playerState)
 	{
-	case GROUND_PS:
-		UpdateGround();
+	case NORMAL_MOVE_PS:
+		NormalMove();
 		break;
 
-	case JUMP_PS:
-		UpdateJump();
+	case AIMING_MOVE_PS:
+		AimingMove();
+		break;
+
+	case ROLL_PS:
+		Roll();
 		break;
 
 	default:
@@ -124,10 +175,16 @@ void PlayerMovement::Update()
 
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 
-
 	gameObject->rigidbody->Speed.x *= 0.9f;
 	gameObject->rigidbody->Speed.z *= 0.9f;
 
+	angle = atan2f(rotationDirection.x, rotationDirection.z);
+
+	D3DXQUATERNION quat;
+	D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
+	D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
+
+	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
 }
 
 void PlayerMovement::Draw()
@@ -137,8 +194,9 @@ void PlayerMovement::Draw()
 
 const char* playerStatus[PlayerMovement::PS_MAX] =
 {
-	"ON GROUND",
-	"IN AIR"
+	"NORMAL_MOVE_PS",
+	"AIMING_MOVE_PS",
+	"ROLL_PS"
 };
 int playerstat = 0;
 
@@ -150,30 +208,28 @@ void PlayerMovement::EngineDisplay()
 		ImGui::PushItemWidth(-FLT_MIN);
 		ImGui::SliderInt(" \n", &playerstat, 0, PS_MAX - 1, playerStatus[playerstat]);
 
-		DebugManager::BoolDisplay(&jump, -200.0f, "Jump", 0, true);
-		ImGui::SameLine();
 		DebugManager::BoolDisplay(&move, -146.0f, "Move", 1, true);
+
+		DebugManager::FloatDisplay(&timerVector["rollSpeed"], -FLT_MIN, "Roll Speed", true, D3DXVECTOR2(0.01f, 0.0f), 2);
 
 		ImGui::TreePop();
 		ImGui::Spacing();
 	}
 }
 
-void PlayerMovement::UpdateGround()
+void PlayerMovement::NormalMove()
 {
-	gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
+	//gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
 
-	D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
-	D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
+	//D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
+	//D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
 
-	Camera* camera = Manager::GetScene()->GetCamera()->camera;
+	//Camera* camera = Manager::GetScene()->GetCamera()->camera;
 
-	float vertical = Input::Vertical();
-	float horizontal = Input::Horizontal();
-	if (fabs(vertical) > 0.0f || fabs(horizontal) > 0.0f)
+	if (fabs(Input::Vertical()) > 0.0f || fabs(Input::Horizontal()) > 0.0f)
 	{
-		directionZ = camera->GetForward() * vertical;
-		directionX = camera->GetRight() * horizontal;
+		//directionZ = camera->GetForward() * vertical;
+		//directionX = camera->GetRight() * horizontal;
 
 		move = true;
 	}
@@ -194,13 +250,13 @@ void PlayerMovement::UpdateGround()
 
 	//if (!Input::GetButtonPress(FORWARD_KEYMAP) && !Input::GetButtonPress(LEFT_KEYMAP) && !Input::GetButtonPress(BACK_KEYMAP) && !Input::GetButtonPress(RIGHT_KEYMAP)) { move = false; }
 
-	directionZ.y = 0.0f;
-	directionX.y = 0.0f;
-	D3DXVec3Normalize(&directionZ, &directionZ);
-	D3DXVec3Normalize(&directionX, &directionX);
+	//directionZ.y = 0.0f;
+	//directionX.y = 0.0f;
+	//D3DXVec3Normalize(&directionZ, &directionZ);
+	//D3DXVec3Normalize(&directionX, &directionX);
 
-	D3DXVECTOR3 direction = directionX + directionZ;
-	D3DXVec3Normalize(&direction, &direction);
+	//D3DXVECTOR3 direction = directionX + directionZ;
+	//D3DXVec3Normalize(&direction, &direction);
 
 	D3DXVECTOR3 finalSpeed;
 	finalSpeed.x = direction.x * SPEED_VALUE * gameObject->rigidbody->Acceleration;
@@ -233,11 +289,11 @@ void PlayerMovement::UpdateGround()
 		//else if (Input::GetButtonPress(BACK_KEYMAP)		&& Input::GetButtonPress(RIGHT_KEYMAP)) { angle = 3.0f * D3DX_PI / 4.0f;	}
 
 
-		angle = atan2f(rotationDirection.x, rotationDirection.z);
+		//angle = atan2f(rotationDirection.x, rotationDirection.z);
 
-		D3DXQUATERNION quat;
-		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
-		D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
+		//D3DXQUATERNION quat;
+		//D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
+		//D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
 	}
 
 	if (move == true) { model->SetAnimationBlend("Run", true); }
@@ -245,16 +301,69 @@ void PlayerMovement::UpdateGround()
 		model->SetAnimationBlend("Idle", true); 
 	}
 
-	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
-	if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
+	//if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
+
 }
 
-void PlayerMovement::UpdateJump()
+void PlayerMovement::AimingMove()
 {
-	if (model->GetAnimationOver("Jump") == true) { playerState = GROUND_PS; }
+	D3DXVECTOR2 joystick = D3DXVECTOR2(Input::Horizontal(), Input::Vertical());
 
-#ifdef DEBUG
-	//char* str = GetDebugStr();
-	//sprintf(&str[strlen(str)], " | Jump : %d", model->GetAnimationOver("Jump"));
-#endif
+	if (fabs(joystick.y) > 0.0f || fabs(joystick.x) > 0.0f) { move = true; }
+	else { move = false; }
+
+	if(fabs(joystick.y) > 0.0f && fabs(joystick.x) > 0.0f) { diagonal = true; }
+	else { diagonal = false; }
+
+	D3DXVECTOR3 finalSpeed;
+	finalSpeed.x = direction.x * SPEED_VALUE * gameObject->rigidbody->Acceleration;
+	finalSpeed.y = 0.0f;
+	finalSpeed.z = direction.z * SPEED_VALUE * gameObject->rigidbody->Acceleration;
+
+	gameObject->rigidbody->Speed += finalSpeed;
+
+	rotationDirection = camera->GetForward();
+
+
+	if (move == true)
+	{
+		if (diagonal == false)
+		{
+			if (joystick.y > 0.0f) { model->SetAnimationBlend("Forward_Jog", true); }
+			else if (joystick.y < 0.0f) { model->SetAnimationBlend("Backward_Jog", true); }
+			if (joystick.x < 0.0f) { model->SetAnimationBlend("Left_Jog", true); }
+			else if (joystick.x > 0.0f) { model->SetAnimationBlend("Right_Jog", true); }
+		}
+		else
+		{
+			if (joystick.y > 0.0f)
+			{
+				if (joystick.x < 0.0f) { model->SetAnimationBlend("Forward_Left_Jog", true); }
+				else if (joystick.x > 0.0f) { model->SetAnimationBlend("Forward_Right_Jog", true); }
+			}
+			else if (joystick.y < 0.0f)
+			{
+				if (joystick.x < 0.0f) { model->SetAnimationBlend("Backward_Left_Jog", true); }
+				else if (joystick.x > 0.0f) { model->SetAnimationBlend("Backward_Right_Jog", true); }
+			}
+		}
+	}
+	else { model->SetAnimationBlend("Idle", true); }
+
+	if (ImGui::IsKeyReleased((ImGuiKey)655))
+	{
+		if (gunSelection == true)
+		{
+			GAMEOBJECT* spawner = Manager::GetScene()->Find("Spawn Point Left");
+			
+		}
+	}
+}
+
+void PlayerMovement::Roll()
+{
+	if (model->GetAnimationOver("Roll") == true)
+	{
+		playerState = NORMAL_MOVE_PS;
+	}
 }

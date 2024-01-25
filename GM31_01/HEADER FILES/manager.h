@@ -49,4 +49,7 @@ public:
 
 		Open(Scene->name);
 	}
+
 };
+
+std::string ObjectIndex(std::string name);

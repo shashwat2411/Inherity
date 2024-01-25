@@ -2,10 +2,19 @@
 #include <list>
 #include <vector>
 #include <array>
+#include <string>
+#include <unordered_map>
+#include <thread>
+#include <fstream>
 
 #include "main.h"
 #include "renderer.h"
 #include "functions.h"
+#include "input.h"
+
+#include "modelReader.h"
+#include "textureReader.h"
+#include "soundReader.h"
 
 //Cereal C++
 #include <cereal/cereal.hpp>
@@ -15,6 +24,12 @@
 #include <cereal/types/vector.hpp>
 #include <cereal/types/list.hpp>
 #include <cereal/types/unordered_map.hpp>
+
+//ImGUI
+#include "../imGUI/imgui.h"
+#include "../imGUI/imgui_impl_win32.h"
+#include "../imGUI/imgui_impl_dx11.h"
+#include "../imGUI/implot.h"
 
 class D3DXBOOL3
 {
@@ -75,3 +90,9 @@ void serialize(Archive & archive, D3DXBOOL3 & vector)
 {
 	archive(cereal::make_nvp("x", vector.x), cereal::make_nvp("y", vector.y), cereal::make_nvp("z", vector.z));
 }
+
+#include "gameobject.h"
+#include "component.h"
+#include "material.h"
+#include "baseobjects.h"
+#include "prefab.h"

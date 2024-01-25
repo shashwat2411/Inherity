@@ -44,9 +44,9 @@ void Transform::EngineDisplay()
 		float s = 0.05f;
 		if (gameObject->GetComponent<SpriteRenderer>() != nullptr) { s = 1.0f; }
 
-		DebugManager::Float3Display(&gameObject->transform->Position, -1.0f, "Position ", s, 0);
-		DebugManager::Float3Display(&gameObject->transform->Rotation, -1.0f, "Rotation ", 0.5f, 1);
-		DebugManager::Float3Display(&gameObject->transform->Scale,	  -1.0f, "   Scale ", 0.01f, 2);
+		DebugManager::Float3Display(&Position, -1.0f, "Position ", s, 0);
+		DebugManager::Float3Display(&Rotation, -1.0f, "Rotation ", 0.5f, 1);
+		DebugManager::Float3Display(&Scale,	  -1.0f, "   Scale ", 0.01f, 2);
 
 		ImGui::PushItemWidth(0.0f);
 		if (ImGui::TreeNode("Details"))
@@ -218,9 +218,11 @@ D3DXMATRIX Transform::FaceInDirectionXYZ()
 D3DXVECTOR3 Transform::GetForwardDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
-
 	D3DXVECTOR3 returner;
+
+	if (gameObject->GetQuaternion() == false) { D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+	else { D3DXMatrixRotationQuaternion(&rot, &Quaternion); }
+
 	returner.x = rot._31;
 	returner.y = rot._32;
 	returner.z = rot._33;
@@ -231,9 +233,11 @@ D3DXVECTOR3 Transform::GetForwardDirection()
 D3DXVECTOR3 Transform::GetUpDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
-
 	D3DXVECTOR3 returner;
+
+	if (gameObject->GetQuaternion() == false) { D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+	else { D3DXMatrixRotationQuaternion(&rot, &Quaternion); }
+
 	returner.x = rot._21;
 	returner.y = rot._22;
 	returner.z = rot._23;
@@ -244,9 +248,11 @@ D3DXVECTOR3 Transform::GetUpDirection()
 D3DXVECTOR3 Transform::GetRightDirection()
 {
 	D3DXMATRIX rot;
-	D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z));
-
 	D3DXVECTOR3 returner;
+
+	if (gameObject->GetQuaternion() == false) { D3DXMatrixRotationYawPitchRoll(&rot, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+	else { D3DXMatrixRotationQuaternion(&rot, &Quaternion); }
+
 	returner.x = rot._11;
 	returner.y = rot._12;
 	returner.z = rot._13;
@@ -254,7 +260,7 @@ D3DXVECTOR3 Transform::GetRightDirection()
 	return returner;
 }
 
-//D3DXVECTOR3 Transform::GetForwardDirection()
+//D3DXVECTOR3 Transform::GetForwardDirectionQuaternion()
 //{
 //	D3DXMATRIX rot;
 //	D3DXMatrixRotationQuaternion(&rot, &Quaternion);
@@ -296,15 +302,25 @@ D3DXVECTOR3 Transform::GetRightDirection()
 float Transform::DistanceFrom(GAMEOBJECT* from)
 {
 	D3DXVECTOR3 distance;
-	distance = Position - from->transform->Position;
+	distance = GlobalPosition - from->transform->GlobalPosition;
 	float finalDistance = D3DXVec3Length(&distance);
 
 	return  finalDistance;
 }
+
+float Transform::DistanceFrom(D3DXVECTOR3 from)
+{
+	D3DXVECTOR3 distance;
+	distance = GlobalPosition - from;
+	float finalDistance = D3DXVec3Length(&distance);
+
+	return  finalDistance;
+}
+
 float Transform::DistanceFromWithY0(GAMEOBJECT* from)
 {
 	D3DXVECTOR3 distance;
-	distance = Position - from->transform->Position;
+	distance = GlobalPosition - from->transform->GlobalPosition;
 	distance.y = 0.0f;
 	float finalDistance = D3DXVec3Length(&distance);
 

@@ -173,7 +173,7 @@ void Billboard::Draw()
 	//ƒ|ƒŠƒSƒ“Ý’è
 	//Renderer::GetDeviceContext()->Draw(4, 0); //Original
 
-	if (gameObject->GetGeometri() == true) 
+	if (gameObject->GetGeometry() == true) 
 	{ 
 		if (GeometryInstancingMaterial* caster = dynamic_cast<GeometryInstancingMaterial*>(gameObject->GetMaterial()))
 		{

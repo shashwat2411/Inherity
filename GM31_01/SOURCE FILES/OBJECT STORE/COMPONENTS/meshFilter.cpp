@@ -1,8 +1,6 @@
 #include "component.h"
 #include "manager.h"
 #include "material.h"
-#include "modelReader.h"
-
 
 void MeshFilter::Start()
 {
@@ -112,8 +110,9 @@ void MeshFilter::EngineDisplay()
 
 
 				DebugManager::FloatDisplay(&time, -FLT_MIN, "Time", true, D3DXVECTOR2(0.01f, 0.0f), 1, true);
+				DebugManager::FloatDisplay(&blendRate, -FLT_MIN, "Blend", true, D3DXVECTOR2(0.01f, 0.0f), 2, true);
 				//ImGui::LabelText("##Label", "	Time : %.2f", time);
-				DebugManager::BoolDisplay(&loop, -200.0f, "Loop", 2, true);
+				DebugManager::BoolDisplay(&loop, -200.0f, "Loop", 3, true);
 			}
 
 			ImGui::TreePop();

@@ -42,7 +42,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		float light = -dot(Light.Direction.xyz, normal.xyz);
 		light = saturate(light);
 
-		outDiffuse.rgb *= light;
+		outDiffuse.rgb *= light + 0.3f;
 		outDiffuse.a *= In.Diffuse.a;
 
 		float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
@@ -52,7 +52,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 		float specular = -dot(halfv, normal.xyz);
 		saturate(specular);
-		specular = pow(abs(specular), 30);
+		specular = pow(abs(specular), 60);
 		outDiffuse.rgb = saturate(outDiffuse.rgb + specular);
 	}
 	else { discard; }

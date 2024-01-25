@@ -1,7 +1,5 @@
 #pragma once
 #include "manager.h"
-#include "soundReader.h"
-#include "input.h"
 
 class EMPTY_SCENE : public SCENE
 {

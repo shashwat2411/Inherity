@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm>
 
-#include "prefab.h"
+#include "../saveFunctions.h"
 
 #define GAME_OBJECT_MAX 64 
 
@@ -75,6 +75,7 @@ protected:
 	FADE* Fade;
 	SKYDOME* skyDome;
 	EMPTYOBJECT* reflectionProjector;
+	EMPTYOBJECT* gameManager;
 
 	std::array<std::vector<std::string>, MAX_LAYER> gameObjectNames;
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GameObjects;
@@ -107,6 +108,8 @@ public:
 	PLAYER* GetPlayer() { return player; }
 	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
 	EMPTYOBJECT* GetReflector() { return reflectionProjector; }
+	EMPTYOBJECT* GetGameManager() { return gameManager; }
+
 	std::array<std::list<GAMEOBJECT*>, MAX_LAYER> GetGameObjectList() { return GameObjects; }
 	std::list<GAMEOBJECT*> GetGameObjectList(LAYER layer) { return GameObjects[layer]; }
 	std::vector<std::string> GetGameObjectNames(LAYER layer) { return gameObjectNames[layer]; }
@@ -181,15 +184,33 @@ public:
 	{
 		for (int i = 0; i < MAX_LAYER; i++)
 		{
-			for (auto com : GameObjects[i])
+			for (auto obj : GameObjects[i])
 			{
-				if (com->GetTag() == name)
+				if (obj->GetTag() == name)
 				{
-					return com;
+					return obj;
 				}
 			}
 		}
 		return nullptr;
+	}
+
+	std::vector<GAMEOBJECT*> FindMultiple(std::string name)
+	{
+		std::vector<GAMEOBJECT*> objects;
+		for (int i = 0; i < MAX_LAYER; i++)
+		{
+			for (auto obj : GameObjects[i])
+			{
+				size_t underscorePos = obj->GetTag().find('_');
+				
+				if ((underscorePos != std::string::npos ? obj->GetTag().substr(0, underscorePos) : obj->GetTag()) == name)
+				{
+					objects.push_back(obj);
+				}
+			}
+		}
+		return objects;
 	}
 
 	//FIND MULTIPLE

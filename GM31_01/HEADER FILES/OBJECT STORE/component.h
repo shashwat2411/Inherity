@@ -1,13 +1,8 @@
 #pragma once
-#include <unordered_map>
 
+#include "../saveFunctions.h"
 #include "gameobject.h"
 #include "debugManager.h"
-#include "modelReader.h"
-#include "soundReader.h"
-#include "textureReader.h"
-
-#include <string>
 
 //ëOï˚êÈåæ
 class PARTICLE;
@@ -19,6 +14,7 @@ class AnimationModel;
 class Model;
 class Audio;
 class SOUND;
+class EMPTYOBJECT;
 
 #define COLLIDERS
 
@@ -133,8 +129,14 @@ public:
 	virtual void EngineDisplay() = 0;
 
 	virtual void ObjectJointer() {}
-	virtual void OnTriggerEnter(GAMEOBJECT* obj)	{}
-	virtual void OnCollisionEnter(GAMEOBJECT* obj)	{}
+
+	virtual void OnTriggerEnter(GAMEOBJECT* obj) {}
+	virtual void OnTriggerStay(GAMEOBJECT* obj) {}
+	virtual void OnTriggerExit(GAMEOBJECT* obj) {}
+
+	virtual void OnCollisionEnter(GAMEOBJECT* obj) {}
+	virtual void OnCollisionStay(GAMEOBJECT* obj) {}
+	virtual void OnCollisionExit(GAMEOBJECT* obj) {}
 
 	virtual void StrayUpdate() {}
 
@@ -187,6 +189,7 @@ public:
 	D3DXVECTOR3 GetUpDirection();
 	D3DXVECTOR3 GetRightDirection();
 	float DistanceFrom(GAMEOBJECT* from);
+	float DistanceFrom(D3DXVECTOR3 from);
 	float DistanceFromWithY0(GAMEOBJECT* from);
 
 	template<class Archive>
@@ -369,6 +372,7 @@ class SphereCollider : public Component
 private:
 	bool isTrigger;
 	bool isKinematic;
+	bool collision;
 
 	float CollisionSize;
 
@@ -376,6 +380,7 @@ private:
 
 public:
 	float scaleOffset;
+	float collisionCounter;
 
 public:
 
@@ -392,11 +397,13 @@ public:
 
 	bool GetIsTrigger() { return isTrigger; }
 	bool GetIsKinematic() { return isKinematic; }
+	bool GetCollision() { return collision; }
 	float GetCollisionSize() { return CollisionSize; }
 	GAMEOBJECT* GetColliderObject() { return colliderObject; }
 
 	void SetIsTrigger(bool value) { isTrigger = value; }
 	void SetIsKinematic(bool value) { isKinematic = value; }
+	void SetCollision(bool value) { collision = value; }
 	void SetCollisionSize(float s) { CollisionSize = s; }
 
 	template<class Archive>
@@ -421,11 +428,6 @@ protected:
 	float fov;
 	float len;
 	float rad;
-
-	//float limit;
-	//float shakeCounter;
-	//float shakeValue;
-	//float time;
 
 	D3DXVECTOR3 shakeOffset;
 	float shakeTime;
@@ -732,6 +734,7 @@ public:
 
 	void Play(bool l = false, float v = 1.0f);
 	void PlayOneShot(Audio* audio, float v = 1.0f);
+	void CollectListeners(AudioListener* al);
 
 	static SOUND* PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float volume);
 
@@ -951,6 +954,8 @@ public:
 class MeshField : public Component
 {
 protected:
+	int tiles;
+
 	D3DXVECTOR3 Normal;
 
 	ID3D11Buffer* VertexBuffer{};
@@ -979,6 +984,7 @@ public:
 	float GetHeight(D3DXVECTOR3 position);
 	ID3D11Buffer* GetVertexBuffer() { return VertexBuffer; }
 
+	void SetTiles(int value) { tiles = value; }
 	void SetNormal(D3DXVECTOR3 value) { Normal = value; }
 
 	void RecreateField();
@@ -1074,6 +1080,16 @@ public:
 	void SetIsKinematic(bool value) { isKinematic = value; }
 	void SetCollisionSize(D3DXVECTOR3 s) { CollisionSize = s; }
 
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(isTrigger),
+			CEREAL_NVP(isKinematic),
+			CEREAL_NVP(CollisionSize),
+			CEREAL_NVP(scaleOffset)
+		);
+	}
 };
 class PostProcess : public Component
 {
@@ -1093,4 +1109,48 @@ public:
 	void EngineDisplay() override;
 
 	void SetTexture(ID3D11ShaderResourceView** value) { texture = value; }
+};
+class Projector : public Component
+{
+private:
+	bool faced = true;
+
+	float fov;
+	float fovNear;
+	float fovFar;
+	
+	D3DXVECTOR3 Up;
+	D3DXVECTOR3 rot;
+	D3DXVECTOR3 at;
+	D3DXVECTOR3 direction;
+
+	D3DXMATRIX  mtxView;
+	D3DXMATRIX  mtxProjection;
+
+	GAMEOBJECT* Target;
+
+	EMPTYOBJECT* point;
+	EMPTYOBJECT* parentPoint;
+
+	std::string targetName;
+
+public:
+
+	Projector() { name = "Projector"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	GAMEOBJECT* GetTarget() { return Target; }
+	EMPTYOBJECT* GetPoint() { return point; }
+	std::string GetTargetName() { return targetName; }
+
+	void SetTarget(GAMEOBJECT* value) { Target = value; }
+	void SetTargetName(std::string value) { targetName = value; }
+
+	bool CheckView(Transform* target);
 };

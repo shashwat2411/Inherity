@@ -1,6 +1,4 @@
-#include "scene.h"
 #include "manager.h"
-#include "soundReader.h"
 #include "input.h"
 
 void SCENE::BeforeInit()
@@ -57,7 +55,6 @@ void SCENE::UpdateBefore()
 			GameObjects[i].remove_if([](GAMEOBJECT* object) {return object->Remove(); });
 		}
 	}
-	COLLISION::Update();
 }
 
 void SCENE::Draw()
@@ -82,56 +79,59 @@ void SCENE::FakeDraw(GAMEOBJECT* var)
 	MeshField* field = var->GetComponent<MeshField>();
 	Plane* plane = var->GetComponent<Plane>();
 	Billboard* billboard = var->GetComponent<Billboard>();
-	if (mesh != nullptr)
+	if (var->GetActive() == true)
 	{
-		//入力レイアウト設定
-		Renderer::GetDeviceContext()->IASetInputLayout(var->GetVertexLayout());
-
-		//シェーダー設定
-		Renderer::GetDeviceContext()->VSSetShader(var->GetVertexShader(), NULL, 0);
-		Renderer::GetDeviceContext()->PSSetShader(var->GetPixelShader(), NULL, 0);
-
-		D3DXVECTOR3 Position = var->transform->Position;
-		D3DXVECTOR3 Rotation = var->transform->Rotation;
-		D3DXVECTOR3 Scale = var->transform->Scale;
-
-		//マトリクス設定
-		D3DXMatrixScaling(&var->GetScaleMatrix(), Scale.x, Scale.y, Scale.z);
-
-		if (var->rigidbody != nullptr)
+		if (mesh != nullptr)
 		{
-			if (var->rigidbody->FollowTarget != nullptr) {}
+			//入力レイアウト設定
+			Renderer::GetDeviceContext()->IASetInputLayout(var->GetVertexLayout());
+
+			//シェーダー設定
+			Renderer::GetDeviceContext()->VSSetShader(var->GetVertexShader(), NULL, 0);
+			Renderer::GetDeviceContext()->PSSetShader(var->GetPixelShader(), NULL, 0);
+
+			D3DXVECTOR3 Position = var->transform->Position;
+			D3DXVECTOR3 Rotation = var->transform->Rotation;
+			D3DXVECTOR3 Scale = var->transform->Scale;
+
+			//マトリクス設定
+			D3DXMatrixScaling(&var->GetScaleMatrix(), Scale.x, Scale.y, Scale.z);
+
+			if (var->rigidbody != nullptr)
+			{
+				if (var->rigidbody->FollowTarget != nullptr) {}
+				else { D3DXMatrixRotationYawPitchRoll(&var->GetRotationMatrix(), D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+			}
+			else if (var->GetFaceInDirection() == true) {}
 			else { D3DXMatrixRotationYawPitchRoll(&var->GetRotationMatrix(), D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
+
+
+			D3DXMatrixTranslation(&var->GetTransformMatrix(), Position.x, Position.y, Position.z);
+
+			D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetScaleMatrix(), &var->GetRotationMatrix());
+			D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetWorldMatrix(var->GetRingCounter()), &var->GetTransformMatrix()); //World = World * Translation
+
+			if (var->Parent != nullptr)
+			{
+				D3DXVec3TransformCoord(&var->transform->GlobalPosition, &var->transform->Position, &var->Parent->GetWorldMatrix()); //Global Position
+				D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetWorldMatrix(var->GetRingCounter()), &var->Parent->GetWorldMatrix()); //World = World * Parent->World
+			}
+			else { var->transform->GlobalPosition = var->transform->Position; }
+
+			Renderer::SetWorldMatrix(&var->GetWorldMatrix(0));
+
+
+			if (var->GetMaterial() != nullptr)
+			{
+				var->GetMaterial()->Draw();
+			}
+
+			mesh->Draw();
 		}
-		else if (var->GetFaceInDirection() == true) {}
-		else { D3DXMatrixRotationYawPitchRoll(&var->GetRotationMatrix(), D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
-
-
-		D3DXMatrixTranslation(&var->GetTransformMatrix(), Position.x, Position.y, Position.z);
-
-		D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetScaleMatrix(), &var->GetRotationMatrix());
-		D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetWorldMatrix(var->GetRingCounter()), &var->GetTransformMatrix()); //World = World * Translation
-
-		if (var->Parent != nullptr)
-		{
-			D3DXVec3TransformCoord(&var->transform->GlobalPosition, &var->transform->Position, &var->Parent->GetWorldMatrix()); //Global Position
-			D3DXMatrixMultiply(&var->GetWorldMatrix(var->GetRingCounter()), &var->GetWorldMatrix(var->GetRingCounter()), &var->Parent->GetWorldMatrix()); //World = World * Parent->World
-		}
-		else { var->transform->GlobalPosition = var->transform->Position; }
-
-		Renderer::SetWorldMatrix(&var->GetWorldMatrix(0));
-
-
-		if (var->GetMaterial() != nullptr)
-		{
-			var->GetMaterial()->Draw();
-		}
-
-		mesh->Draw();
+		else if (field != nullptr) { field->Draw(); }
+		else if (plane != nullptr) { plane->Draw(); }
+		else if (billboard != nullptr) { billboard->Draw(); }
 	}
-	else if (field != nullptr) { field->Draw(); }
-	else if (plane != nullptr) { plane->Draw(); }
-	else if (billboard != nullptr) { billboard->Draw(); }
 }
 
 void SCENE::DepthPath()
@@ -187,8 +187,8 @@ void SCENE::ReflectionMap(D3DXMATRIX* view)
 	D3DXVECTOR3 lookAt;
 	D3DXVECTOR3 up;
 
-	D3DXVECTOR3 vPlayerPos(0.0f, 0.0f, 0.0f);
-	if (player) { vPlayerPos = player->transform->GlobalPosition; }
+	D3DXVECTOR3 vPlayerPos = reflectionProjector->transform->GlobalPosition;
+	//if (player) { vPlayerPos = player->transform->GlobalPosition; }
 
 	for (int j = 0; j < 6; j++)
 	{

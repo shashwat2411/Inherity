@@ -1,6 +1,4 @@
 #pragma once
-#include "component.h"
-#include "modelReader.h"
 #include "material.h"
 
 

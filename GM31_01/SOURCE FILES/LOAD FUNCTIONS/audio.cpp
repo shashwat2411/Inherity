@@ -1,3 +1,4 @@
+#include "main.h"
 #include "audio.h"
 
 IXAudio2*				Audio::m_Xaudio = NULL;

@@ -1,7 +1,6 @@
 #include "input.h"
 #include "InputController.h"
 #include "debugManager.h"
-#include "functions.h"
 
 bool Input::controls = true;
 
@@ -34,8 +33,14 @@ void Input::Init()
 	input[RIGHT_KEYMAP].push_back(VK_RIGHT);
 	controllerInput[RIGHT_KEYMAP].push_back(XINPUT_GAMEPAD_DPAD_RIGHT);
 
-	input[JUMP_KEYMAP].push_back(VK_SPACE);
-	controllerInput[JUMP_KEYMAP].push_back(XINPUT_GAMEPAD_A);
+	input[ROLL_KEYMAP].push_back(VK_SPACE);
+	controllerInput[ROLL_KEYMAP].push_back(XINPUT_GAMEPAD_A);
+
+	input[LIGHT_ATTACK_KEYMAP].push_back('Z');
+	controllerInput[LIGHT_ATTACK_KEYMAP].push_back(XINPUT_GAMEPAD_X);
+
+	input[HEAVY_ATTACK_KEYMAP].push_back('X');
+	controllerInput[HEAVY_ATTACK_KEYMAP].push_back(XINPUT_GAMEPAD_Y);
 
 	input[CHANGE_KEYMAP].push_back(VK_RETURN);
 	controllerInput[CHANGE_KEYMAP].push_back(XINPUT_GAMEPAD_START);

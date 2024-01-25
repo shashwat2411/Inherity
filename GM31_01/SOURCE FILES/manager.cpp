@@ -1,14 +1,9 @@
-#include "main.h"
-#include "renderer.h"
+#include "../saveFunctions.h"
 #include "customScenes.h"
-#include "textureReader.h"
-#include "soundReader.h"
-#include "modelReader.h"
 #include "debugManager.h"
 #include "postProcessManager.h"
 #include "animations.h"
 
-#include <fstream>
 
 #define DEPTH_SHADOW_RENDERING
 //#define ENVIRONMENT_MAPPING
@@ -94,6 +89,8 @@ void Manager::FixedUpdate()
 
 		if (Time::timeScale > 0.0f)
 		{
+			COLLISION::Update();
+
 			Scene->UpdateBefore();
 			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->UpdateBefore(); }
 
@@ -254,13 +251,13 @@ void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
 	light->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
 	//ライトカメラのビュー行列を作成
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 10.0f, 0.0f) + position;
+	D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 30.0f, 0.0f) + position;
 	D3DXVECTOR3 lightTarget = position;
 	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
 	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_HEIGHT), 5.0f, 20.0f);
+	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 105.0f);
 
 }
 
@@ -299,12 +296,13 @@ void Manager::Open(std::string name)
 	archive(adder);
 	for(AddObjectSaveFile add : adder)
 	{
-		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>("Cube(Clone)"); } }
-		if (add.name == "CYLINDER")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>("Cylinder(Clone)"); } }
-		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>("Sprite(Clone)", SPRITE_LAYER); } }
-		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>("Billboard(Clone)", BILLBOARD_LAYER); } }
-		if (add.name == "PARTICLESYSTEM")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>("ParticleSystem(Clone)", BILLBOARD_LAYER); } }
-		if (add.name == "EMPTYOBJECT")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>("EmptyObject(Clone)"); } }
+		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)")); } }
+		if (add.name == "CYLINDER")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)")); } }
+		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER); } }
+		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "PARTICLESYSTEM")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "EMPTYOBJECT")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)")); } }
+		if (add.name == "ENEMY")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)")); } }
 	}
 	GetScene()->objectAdder = adder;
 
@@ -317,6 +315,7 @@ void Manager::Open(std::string name)
 		if (cdd.name == "AudioSource")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<AudioSource>(); }
 		if (cdd.name == "Rigidbody")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<Rigidbody>(); }
 		if (cdd.name == "SphereCollider")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<SphereCollider>(); }
+		if (cdd.name == "BoxCollider")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<BoxCollider>(); }
 		if (cdd.name == "MeshFilter")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MeshFilter>(); }
 		if (cdd.name == "ParticleSystem")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<ParticleSystem>(); }
 	}
@@ -354,4 +353,14 @@ void Manager::Open(std::string name)
 			}
 		}
 	}
+}
+
+std::string ObjectIndex(std::string name)
+{
+	std::string str;
+
+	int num = (int)Manager::GetScene()->FindMultiple(name).size();
+	str = name + (num > 0 ? "_" + std::to_string(num) : "");
+
+	return str;
 }

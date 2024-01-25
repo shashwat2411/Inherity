@@ -1,6 +1,4 @@
 #pragma once
-#include "main.h"
-#include "renderer.h"
 
 class TextureReader
 {
@@ -27,6 +25,7 @@ public:
 		PARTICLE_SYSTEM_T,
 		PLUS_T,
 		EMPTY_T,
+		ENEMY_SPRITE_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -57,6 +56,9 @@ public:
 		GLASS_SHARD_T,
 		CHRONIX_T,
 
+		//GAME TEXTURES
+		AIM_T,
+
 		READ_TEXTURE_MAX
 	};
 
@@ -86,6 +88,7 @@ public:
 		LoadTexture(&Textures[PARTICLE_SYSTEM_T], "asset\\texture\\imGui\\particleSystem.png");
 		LoadTexture(&Textures[PLUS_T], "asset\\texture\\imGui\\plus.png");
 		LoadTexture(&Textures[EMPTY_T], "asset\\texture\\imGui\\empty.png");
+		LoadTexture(&Textures[ENEMY_SPRITE_T], "asset\\texture\\imGui\\enemySprite.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");
@@ -99,7 +102,7 @@ public:
 		LoadTexture(&Textures[RING_T], "asset\\texture\\ring_c.png");
 		LoadTexture(&Textures[EXPLOSION_T], "asset\\texture\\explosion.png");
 		LoadTexture(&Textures[ROCK_T], "asset\\texture\\field_dds.dds");
-		LoadTexture(&Textures[GRASS_T], "asset\\texture\\grass.png");
+		LoadTexture(&Textures[GRASS_T], "asset\\texture\\green.png");
 		LoadTexture(&Textures[GROUND_T], "asset\\texture\\field004.jpg");
 		LoadTexture(&Textures[TITLE_BG_T], "asset\\texture\\titlegm.png");
 		LoadTexture(&Textures[RESULT_BG_T], "asset\\texture\\resultgm.png");
@@ -111,6 +114,8 @@ public:
 		LoadTexture(&Textures[QUIT_TEXT_T], "asset\\texture\\Title\\quit.png");
 		LoadTexture(&Textures[GLASS_SHARD_T], "asset\\texture\\Title\\glassShard.png");
 		LoadTexture(&Textures[CHRONIX_T], "asset\\texture\\Title\\chronix.png");
+
+		LoadTexture(&Textures[AIM_T], "asset\\texture\\aim.png");
 
 
 		//NAMES
@@ -129,6 +134,8 @@ public:
 		textureNames[BILLBOARD_T]			= "BILLBOARD";
 		textureNames[PARTICLE_SYSTEM_T]		= "PARTICLE SYSTEM";
 		textureNames[PLUS_T]				= "PLUS";
+		textureNames[EMPTY_T]				= "EMPTY";
+		textureNames[ENEMY_SPRITE_T]		= "ENEMY SPRITE";
 
 		textureNames[DISSOLVE_T]			= "DISSOLVE";
 		textureNames[WIPE_T]				= "WIPE";
@@ -154,6 +161,8 @@ public:
 		textureNames[QUIT_TEXT_T]			= "QUIT TEXT";
 		textureNames[GLASS_SHARD_T]			= "GLASS SHARD";
 		textureNames[CHRONIX_T]				= "CHRONIX";
+
+		textureNames[AIM_T]					= "AIM";
 	}
 
 	static void UnReadTexture()

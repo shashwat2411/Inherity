@@ -1,5 +1,4 @@
 #pragma once
-#include "main.h"
 #include <vector>
 
 enum KEYMAPPING
@@ -9,7 +8,9 @@ enum KEYMAPPING
 	LEFT_KEYMAP,
 	RIGHT_KEYMAP,
 
-	JUMP_KEYMAP,
+	ROLL_KEYMAP,
+	LIGHT_ATTACK_KEYMAP,
+	HEAVY_ATTACK_KEYMAP,
 	CHANGE_KEYMAP,
 
 	KEYMAPPING_MAX

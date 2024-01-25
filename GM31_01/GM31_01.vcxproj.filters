@@ -186,10 +186,10 @@
     <ClInclude Include="imGUI\implot.h">
       <Filter>ImGUI\HEADER FILES</Filter>
     </ClInclude>
-    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\saveFunctions.h">
+    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClInclude>
-    <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\postProcessManager.h">
+    <ClInclude Include="saveFunctions.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClInclude>
   </ItemGroup>
@@ -464,6 +464,18 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\GeometryInstancingMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\projector.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\artificialIntelligence.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp">
+      <Filter>1🖥️SOURCE FILES</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonPhongMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -567,6 +579,9 @@
     </FxCompile>
     <FxCompile Include="shader\normalMappingVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\toonPhongPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

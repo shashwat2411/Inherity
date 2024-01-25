@@ -1,12 +1,12 @@
 #include "script.h"
 #include "input.h"
+#include "manager.h"
 
 void EnemyScript::Start()
 {
-	gameObject->AddComponent<Rigidbody>();
-	gameObject->AddComponent<SphereCollider>();
-
-	//gameObject->AddMaterial<DefaultMaterial>();
+	gameObject->AddComponent<Rigidbody>()->useGravity = true;
+	gameObject->AddComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.5f;
+	gameObject->GetComponent<SphereCollider>()->SetCollisionSize(0.28f);
 }
 
 void EnemyScript::End()
@@ -16,11 +16,6 @@ void EnemyScript::End()
 
 void EnemyScript::Update()
 {
-	if (Input::GetKeyTrigger('V'))
-	{
-		gameObject->GetComponent<Animator>()->PlayAnimation(0);
-	}
-
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 	gameObject->rigidbody->Speed *= 0.9f;
 }

@@ -7,7 +7,7 @@ void GeometryInstancingMaterial::Start()
 
 	gameObject->SetDepthShadow(false);
 	gameObject->SetBillboard(false);
-	gameObject->SetGeometri(true);
+	gameObject->SetGeometry(true);
 
 	SetTexture("_Texture", nullptr);
 	SetTexture("_Normal_Map", nullptr);

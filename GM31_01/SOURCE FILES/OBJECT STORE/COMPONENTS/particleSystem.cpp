@@ -1,6 +1,5 @@
 #include "baseobjects.h"
 #include "manager.h"
-#include "textureReader.h"
 
 BILLBOARD* part;
 
@@ -249,6 +248,8 @@ void ParticleSystem::SetTexture(TextureReader::READ_TEXTURE text)
 	{
 		p->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
 	}
+
+	part->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
 }
 
 void ParticleSystem::SetParticleCount(int value)
@@ -357,9 +358,17 @@ void ParticleSystem::Reinitialize(PARTICLE* p)
 
 			D3DXVECTOR3 rr = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-			if (randomRotation.x == true) { rr.x = rand() % (int)rotationOffset.x; }
-			if (randomRotation.y == true) { rr.y = rand() % (int)rotationOffset.y; }
-			if (randomRotation.z == true) { rr.z = rand() % (int)rotationOffset.z; }
+			int a = (int)rotationOffset.x;
+			int b = (int)rotationOffset.y;
+			int c = (int)rotationOffset.z;
+
+			a = (a == 0 ? 1 : a);
+			b = (b == 0 ? 1 : b);
+			c = (c == 0 ? 1 : c);
+
+			if (randomRotation.x == true) { rr.x = rand() % a; }
+			if (randomRotation.y == true) { rr.y = rand() % b; }
+			if (randomRotation.z == true) { rr.z = rand() % c; }
 			int dirx = rand() % 2;
 			int diry = rand() % 2;
 			int dirz = rand() % 2;

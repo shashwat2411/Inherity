@@ -1,9 +1,7 @@
 #pragma once
-#include "component.h"
-#include "modelReader.h"
+#include "../saveFunctions.h"
 
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
-
 #define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// ÉXÉvÉäÉìÉOëçêî
 
 class PlayerMovement : public Script
@@ -11,19 +9,25 @@ class PlayerMovement : public Script
 public:
 	enum PLAYER_STATE
 	{
-		GROUND_PS,
-		JUMP_PS,
+		NORMAL_MOVE_PS,
+		AIMING_MOVE_PS,
+		ROLL_PS,
 
 		PS_MAX
 	};
-	bool jump;
 	bool move;
+	bool diagonal;
+	bool aim;
+	bool gunSelection;
 
 	int idleCounter;
 
 	D3DXVECTOR3 rotationDirection;
+	D3DXVECTOR3 direction;
 
 private:
+	bool setAnimation;
+
 	PLAYER_STATE playerState;
 
 public:
@@ -35,8 +39,9 @@ public:
 
 	void EngineDisplay() override;
 
-	void UpdateGround();
-	void UpdateJump();
+	void NormalMove();
+	void AimingMove();
+	void Roll();
 };
 class Ground : public Script
 {
@@ -200,6 +205,63 @@ public:
 	void WindForce();
 	void ClothSimulation();
 };
+class ArtificialIntelligence : public Script
+{
+public:
+
+	enum ENEMY_STATE
+	{
+		ROAM,
+		FOLLOW,
+		WAIT,
+		ATTACK,
+		FIND,
+		RETURN,
+
+		ENEMY_STATE_MAX
+	};
+
+private:
+	bool flip;
+	bool lock;
+
+	int index;
+	int nextIndex;
+
+	float distance;
+
+	D3DXVECTOR3 startPosition;
+	D3DXVECTOR3 returnPosition;
+
+	ENEMY_STATE state;
+
+	Projector* projector;
+	MeshFilter* model;
+	GAMEOBJECT* target;
+	GAMEOBJECT* seeker;
+
+	std::string targetName;
+	std::vector<GAMEOBJECT*> points;
+
+public:
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+	void OnCollisionEnter(GAMEOBJECT* obj) override;
+
+	void Roam();
+	void Follow();
+	void Return();
+	void Wait();
+	void Attack();
+	void Find();
+
+	void Finder();
+};
 
 //Camera Scripts
 class CameraScript : public Script
@@ -259,6 +321,8 @@ public:
 class RevolutionCamera : public CameraScript
 {
 private:
+	float offsetSpeed = 0.02f;
+	D3DXVECTOR3 targetOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 public:
 

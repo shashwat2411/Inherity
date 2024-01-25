@@ -1,5 +1,6 @@
 #include "prefab.h"
 #include "animations.h"
+#include "manager.h"
 
 void ENEMY::Start()
 {
@@ -11,13 +12,39 @@ void ENEMY::Start()
 	freezeY = true;
 	reflection = true;
 
-	AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
+	EMPTYOBJECT* child = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Enemy Model");
+	child->SetParent(this);
+	child->AddComponent<MeshFilter>()->SetModel(ModelReader::HUMAN_M);
+	child->transform->Scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
+
+	MeshFilter* model = child->GetComponent<MeshFilter>();
+	model->GetModel()->LoadAnimation("Enemy_Walk");
+	model->GetModel()->LoadAnimation("Enemy_Find");
+	model->GetModel()->LoadAnimation("Enemy_Attack_1");
+	model->GetModel()->LoadAnimation("Enemy_Run");
+	model->GetModel()->LoadAnimation("Enemy_Damage");
+	model->GetModel()->LoadAnimation("Enemy_Wait");
+
+	model->SetDefaultAnimation("Enemy_Walk");
+
+	model->gameObject->AddMaterial<ToonMaterial>();
 
 	AddComponent<EnemyScript>();
-	
-	AddComponent<Animator>()->AddAnimation<TrialAnimation>();
-	//GetComponent<Animator>()->AddAnimation<TrialAnimation2>();
+	AddComponent<ArtificialIntelligence>();
 
-	AddMaterial<UnlitMaterial>();
+
+	EMPTYOBJECT* knife = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Knife");
+	knife->SetParent(model->gameObject);
+	knife->AddComponent<MeshFilter>()->SetModel(ModelReader::KNIFE_M);
+
+	knife->transform->boneMatrix = model->GetModel()->GetBoneMatrix("mixamorig:RightHand");
+	knife->transform->Position.y = 18.9f;
+	knife->transform->Rotation = D3DXVECTOR3(127.0f, -28.5f, -69.5f);
+	knife->transform->Scale = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
+
+	knife->AddMaterial<ToonPhongMaterial>();
+	knife->AddComponent<SphereCollider>()->scaleOffset = 1.0f;
+	knife->GetComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.1f;
+	knife->GetComponent<SphereCollider>()->SetCollisionSize(0.26f);
 
 }

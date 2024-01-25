@@ -1,5 +1,7 @@
 #include "customScenes.h"
 
+IMAGE* shadow;
+IMAGE* aimer;
 
 void GAME_SCENE::Init()
 {
@@ -7,12 +9,13 @@ void GAME_SCENE::Init()
 
 	//変数
 	GAMEOBJECT* PlayerModel;
-	GAMEOBJECT* gameManager;
+	GAMEOBJECT* map;
 	ENEMY* enemy;
 	PLANE* Field;
 	PLANE* Water;
 	NUMBER* Score;
 	AudioSource* audio;
+	EMPTYOBJECT* torus;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>("SkyDome");
@@ -20,8 +23,11 @@ void GAME_SCENE::Init()
 	player = AddGameObject<PLAYER>("Player");
 	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
 	enemy = AddGameObject<ENEMY>("Enemy");
+	torus = AddGameObject<EMPTYOBJECT>("Torus");
 	Field = AddGameObject<PLANE>("Field");
 	Water = AddGameObject<PLANE>("Water");
+	map = AddGameObject<EMPTYOBJECT>("Map");
+
 
 	srand(0);	//Seed Value for the random numbers
 	//Field Objects
@@ -64,6 +70,8 @@ void GAME_SCENE::Init()
 
 	//UI
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
+	shadow = AddGameObject<IMAGE>("Shadow Map", SPRITE_LAYER);
+	aimer = AddGameObject<IMAGE>("Aimer", SPRITE_LAYER);
 
 	//接続処理
 	{
@@ -79,21 +87,29 @@ void GAME_SCENE::Init()
 	{
 		gameManager->AddComponent<GameManager>();
 
-		PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
+		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::TITLE_SKYDOME_M);
+		skyDome->transform->Scale = D3DXVECTOR3(300.0f, 300.0f, 300.0f);
 
-		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
+		//PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
+
+		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GRASS_T);
+		//Field->meshField->SetTiles(40);
 		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
-		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
+		Field->meshField->Size = D3DXVECTOR2(50.0f, 50.0f);
 		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
 		Field->meshField->RecreateField();
+		Field->SetActive(false);
 
 		PlayerModel->SetReflection(true);
 		enemy->SetReflection(true);
 		Field->SetReflection(true);
 		Water->SetReflection(true);
 
-		Water->AddMaterial<WaterMaterial>();
+		torus->AddComponent<MeshFilter>();
+		torus->AddMaterial<MetallicMaterial>();
+
+		//Water->AddMaterial<WaterMaterial>();
 		Water->GetMaterial()->SetTexture("_Texture", TextureReader::WATER_T);
 		Water->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
 		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
@@ -103,21 +119,30 @@ void GAME_SCENE::Init()
 		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
 		Water->SetDepthShadow(false);
 		Water->meshField->RecreateField();
+		Water->SetActive(false);
+
+		map->AddComponent<MeshFilter>()->SetModel(ModelReader::MAP_M);
+		map->AddMaterial<FieldDefaultMaterial>();
+		map->transform->culling = false;
 
 		//UI
 		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
 		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
 		Score->SetDigits(3);
+
+		shadow->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
+
+		aimer->GetMaterial()->SetTexture("_Texture", TextureReader::AIM_T);
 	}
 
 	//音
 	{
-		player->AddComponent<AudioListener>();
+		//player->AddComponent<AudioListener>();
 
-		audio = enemy->AddComponent<AudioSource>();
+		/*audio = enemy->AddComponent<AudioSource>();
 		audio->SetClip(SoundReader::GAME);
 		audio->SetThreeDimension(true);
-		audio->SetPlayOnAwake(false);
+		audio->SetPlayOnAwake(false);*/
 		//audio->Play(true, 0.2f);
 	}
 }
@@ -125,6 +150,9 @@ void GAME_SCENE::Init()
 void GAME_SCENE::Update()
 {
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
+
+	aimer->transform->Position = D3DXVECTOR3(ImGui::GetMousePos().x, ImGui::GetMousePos().y, 0.0f);
+	shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
 
 #ifdef DEBUG	// デバッグ情報を表示する
 	//char* str = GetDebugStr();

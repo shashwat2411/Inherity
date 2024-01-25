@@ -2,6 +2,7 @@
 
 Texture2D		g_Texture : register(t0);
 Texture2D		g_TextureDepthShadow1 : register(t1);
+Texture2D		g_TextureToon : register(t2);
 SamplerState	g_SamplerState : register(s0);
 SamplerState	g_SamplerStateClamp : register(s1);
 
@@ -17,6 +18,26 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	
 	outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
 	outDiffuse *= In.Diffuse;
+
+	{
+		float4 normal = normalize(In.Normal);
+
+		float light = -dot(normal.xyz, Light.Direction.xyz);
+
+		if (light > 0.7f) { light = 1.0f; }
+		else if (light > 0.4f) { light = 0.7f; }
+		else { light = 0.5f; }
+
+		outDiffuse.rgb *= saturate(light);
+
+		//float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
+		//eyev = normalize(eyev);
+
+		//float d = dot(eyev, normal.xyz);
+
+		//if (d > -0.3f) { outDiffuse.rgb *= 0.0; }
+	}
+
 
 	In.ShadowPosition.xyz /= In.ShadowPosition.w;
 	In.ShadowPosition.x = In.ShadowPosition.x * 0.5f + 0.5f;
@@ -36,9 +57,17 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		}
 	}
 
+	float multiplier = 1.0f;
+	if ((In.ShadowPosition.x > 1.0f || In.ShadowPosition.x < 0.0f) || (In.ShadowPosition.y > 1.0f || In.ShadowPosition.y < 0.0f))
+	{
+		if (total >= totalTexels)
+		{
+			multiplier = 0.0f;
+		}
+	}
 
 	total /= totalTexels;
-	float lightFactor = 1.0f - total;
+	float lightFactor = 1.0f - total * multiplier;
 
 	outDiffuse.rgb *= max(In.Diffuse.rgb * lightFactor, 0.3f);
 	outDiffuse.a *= In.Diffuse.a;
