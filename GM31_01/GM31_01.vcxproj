@@ -152,6 +152,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerMovement.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\revolutionCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\screenToWorld.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\thirdPersonCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\topDownCamera.cpp" />
     <ClCompile Include="SOURCE FILES\renderer.cpp" />
