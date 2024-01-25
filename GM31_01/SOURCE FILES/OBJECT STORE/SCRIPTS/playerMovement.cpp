@@ -322,7 +322,9 @@ void PlayerMovement::AimingMove()
 
 	gameObject->rigidbody->Speed += finalSpeed;
 
-	rotationDirection = camera->GetForward();
+	D3DXVECTOR3 face =  *aimPoint - gameObject->transform->Position;
+	D3DXVec3Normalize(&face, &face);
+	rotationDirection = face;
 
 
 	if (move == true)
@@ -350,13 +352,21 @@ void PlayerMovement::AimingMove()
 	}
 	else { model->SetAnimationBlend("Idle", true); }
 
-	if (ImGui::IsKeyReleased((ImGuiKey)655))
+	if (ImGui::IsKeyPressed((ImGuiKey)655))
 	{
+		GAMEOBJECT* spawner;
 		if (gunSelection == true)
 		{
-			GAMEOBJECT* spawner = Manager::GetScene()->Find("Spawn Point Left");
-			
+			spawner = Manager::GetScene()->Find("Spawn Point Left"); gunSelection = false;
 		}
+		else
+		{
+			spawner = Manager::GetScene()->Find("Spawn Point Right"); gunSelection = true;
+		}
+			
+		BULLET* bullet = Manager::GetScene()->AddGameObject<BULLET>("Bullet(Clone)", GAMEOBJECT_LAYER);
+		bullet->transform->Position = spawner->transform->GlobalPosition;
+		bullet->rigidbody->Speed = face * bullet->speed;
 	}
 }
 

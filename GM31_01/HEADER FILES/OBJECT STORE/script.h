@@ -24,6 +24,8 @@ public:
 
 	D3DXVECTOR3 rotationDirection;
 	D3DXVECTOR3 direction;
+	
+	D3DXVECTOR3* aimPoint;
 
 private:
 	bool setAnimation;
@@ -68,14 +70,7 @@ public:
 };
 class BulletScript : public Script
 {
-public:
-	float maxCounter;
-
-	float velocity;
-
-	D3DXVECTOR3 direction;
-
-	GAMEOBJECT* shooter;
+private:
 
 public:
 
@@ -86,7 +81,6 @@ public:
 
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
-	void Shoot(GAMEOBJECT* st, float life, float speed, D3DXVECTOR3 offset = D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 };
 class HitPoints : public Script
 {
@@ -261,6 +255,44 @@ public:
 	void Find();
 
 	void Finder();
+};
+class ScreenToWorld : public Script
+{
+private:
+	D3DXVECTOR3 worldPosition;
+	GAMEOBJECT* point;
+
+public:
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	D3DXVECTOR3* CalcScreenToWorld(
+		D3DXVECTOR3* pout,
+		int Sx,  // スクリーンX座標
+		int Sy,  // スクリーンY座標
+		float fZ,  // 射影空間でのZ値（0～1）
+		int Screen_w,
+		int Screen_h,
+		D3DXMATRIX* View,
+		D3DXMATRIX* Prj
+	);
+
+	D3DXVECTOR3* CalcScreenToXZ(
+		D3DXVECTOR3* pout,
+		int Sx,
+		int Sy,
+		int Screen_w,
+		int Screen_h,
+		D3DXMATRIX* View,
+		D3DXMATRIX* Prj
+	);
+
+	D3DXVECTOR3* GetPoint() { return &point->transform->Position; }
 };
 
 //Camera Scripts

@@ -476,6 +476,9 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonPhongMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\screenToWorld.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

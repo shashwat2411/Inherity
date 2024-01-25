@@ -3,45 +3,27 @@
 
 void BulletScript::Start()
 {
-	maxCounter = 3.0f;
-	velocity = 0.4f;
-	timerVector["_Counter"] = 0.0f;
-
-	shooter = nullptr;
-
+	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
 	gameObject->AddComponent<Rigidbody>();
-	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::ENEMY_M);
 
+	gameObject->rigidbody->useGravity = false;
+
+	gameObject->transform->Scale = D3DXVECTOR3(0.4f, 0.4, 0.4f);
+
+	timerVector["counter"] = 0.0f;
+	timerVector["max life"] = 4.0f;
 }
 
 
 void BulletScript::Update()
 {
-	if (timerVector["_Counter"] < maxCounter) { timerVector["_Counter"] += Time::deltaTime; }
-	else
+	timerVector["counter"] += Time::deltaTime;
+	if (timerVector["counter"] >= timerVector["max life"])
 	{
-		timerVector["_Counter"] = 0.0f;
-		gameObject->Destroy(true);
-		return;
+		gameObject->Destroy();
 	}
 
-
-	for (auto enemy : Manager::GetScene()->FindGameObjects<ENEMY>())
-	{
-		if (gameObject->transform->DistanceFrom(enemy) < 1.0f)
-		{
-			Manager::GetScene()->AddGameObject<EXPLOSION>("Explosion(Clone)", BILLBOARD_LAYER)->transform->Position = gameObject->transform->Position;
-			gameObject->Destroy(true);
-			//enemy->Destroy(true);
-			return;
-		}
-	}
-
-	if (shooter != nullptr)
-	{
-		gameObject->rigidbody->Speed = direction * velocity;
-		gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
-	}
+	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 }
 
 void BulletScript::EngineDisplay()
@@ -55,23 +37,7 @@ void BulletScript::EngineDisplay()
 
 void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
 {
-	//Manager::GetScene()->AddGameObject<EXPLOSION>(BILLBOARD_LAYER)->transform->Position = transform->Position;
-	//gameObject->Destroy(true);
-	//enemy->Destroy(true);
+	gameObject->Destroy();
+
 	return;
-}
-
-void BulletScript::Shoot(GAMEOBJECT* st, float life, float speed, D3DXVECTOR3 offset)
-{
-	if (st == nullptr) { return; }
-
-	timerVector["_Counter"] = 0.0f;
-	maxCounter = life;
-
-	velocity = speed;
-
-	gameObject->transform->Position = offset;
-	direction = shooter->transform->GetForwardDirection();
-
-	shooter = st;
 }
