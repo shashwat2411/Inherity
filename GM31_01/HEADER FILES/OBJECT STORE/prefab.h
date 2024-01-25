@@ -9,7 +9,6 @@ public:
 	void Update() override {}
 
 };
-
 class PLAYERMODEL : public GAMEOBJECT
 {
 private:
@@ -33,6 +32,9 @@ public:
 };
 class BULLET : public GAMEOBJECT
 {
+public:
+	float speed;
+
 private:
 
 public:

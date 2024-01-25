@@ -132,7 +132,10 @@ void GAME_SCENE::Init()
 
 		shadow->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
 
+		aimer->AddComponent<ScreenToWorld>();
 		aimer->GetMaterial()->SetTexture("_Texture", TextureReader::AIM_T);
+
+		player->GetComponent<PlayerMovement>()->aimPoint = aimer->GetComponent<ScreenToWorld>()->GetPoint();
 	}
 
 	//‰¹

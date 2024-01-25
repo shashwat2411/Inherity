@@ -3,9 +3,18 @@
         {
             "class": "CUBE",
             "number": 1
+        },
+        {
+            "class": "EMPTYOBJECT",
+            "number": 1
         }
     ],
-    "GetScene()->componentAdder": [],
+    "GetScene()->componentAdder": [
+        {
+            "component": "MeshFilter",
+            "gameObject": "EmptyObject(Clone)"
+        }
+    ],
     "GetScene()->animationAdder": [],
     "MainCamera": {
         "active": true,
@@ -21,9 +30,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -77.2047119140625,
-                "y": 30.969833374023439,
-                "z": -36.23436737060547
+                "x": -47.241390228271487,
+                "y": 60.144168853759769,
+                "z": -60.931663513183597
             },
             "Rotation": {
                 "x": 47.16488265991211,
@@ -750,6 +759,45 @@
             "textureIndex": 0
         }
     },
+    "EmptyObject(Clone)": {
+        "active": false,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": -76.0,
+                "y": 2.0,
+                "z": -1.350000023841858
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 6.0,
+                "y": 6.0,
+                "z": 6.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 0
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
     "Player Model": {
         "active": true,
         "Color": {
@@ -1167,6 +1215,45 @@
                 "x": 0.20000000298023225,
                 "y": 0.20000000298023225,
                 "z": 0.20000000298023225
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 0
+        },
+        "Material": {
+            "textureIndex": 0
+        }
+    },
+    "3D Point": {
+        "active": true,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Player Model",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 5.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
             }
         },
         "MeshFilter": {
