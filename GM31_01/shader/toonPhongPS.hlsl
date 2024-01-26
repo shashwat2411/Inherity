@@ -8,25 +8,24 @@ SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
+	float4 normal = normalize(In.Normal);
+
 	outDiffuse = In.Diffuse;
 
-	float4 normal = normalize(In.Normal);
 	float light = -dot(normal.xyz, Light.Direction.xyz);
+
+	if (light > 0.7f) { light = 1.0f; }
+	else if (light > 0.4f) { light = 0.7f; }
+	else { light = 0.5f; }
+
+	outDiffuse.rgb *= saturate(light);
+
 	float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
 	eyev = normalize(eyev);
-	float2 coord = float2(light, 0.5f);
-	float4 lightColor = g_TextureToon.Sample(g_SamplerState, coord);
 
-	//outline
 	float d = dot(eyev, normal.xyz);
-	if (d > -0.3f) { outDiffuse.rgb *= 0.0f; }
 
-	float pattern = 0.03125f + 0.0625f * 15.0f;
-	float2 uv = light;
-	float4 col;
-
-	uv.x += dissolveRange;
-	uv.y = pattern;
+	if (d > -0.3f) { outDiffuse.rgb *= 0.0; }
 
 	//Phong
 	light = -dot(Light.Direction.xyz, normal.xyz);

@@ -135,19 +135,28 @@ void PlayerMovement::Update()
 		D3DXVec3Normalize(&direction, &direction);
 	}
 
-	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false)
+	RevolutionCamera* cameraController = camera->gameObject->GetComponent<RevolutionCamera>();
+
+	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false && playerState != ROLL_PS)
 	{
 		aim = true;
 		playerState = AIMING_MOVE_PS;
+		cameraController->SetBackUpDistance(D3DXVECTOR3(0.0f, 2.4f, 3.9f));
+		//cameraController->SetFollowSpeed(D3DXVECTOR3(0.6f, 0.1f, 0.0f));
+		cameraController->SetScreenLimit(D3DXVECTOR3(180.0f, 180.0f, -40.0f));
 	}
 	else if (!ImGui::IsKeyDown((ImGuiKey)656) && aim == true)
 	{
 		aim = false;
 		playerState = NORMAL_MOVE_PS;
+		cameraController->SetBackUpDistance(D3DXVECTOR3(0.0f, 4.0f, 8.0f));
+		//cameraController->SetFollowSpeed(D3DXVECTOR3(0.012f, 0.08f, 0.0f));
+		cameraController->SetScreenLimit(D3DXVECTOR3(300.0f, 180.0f, -40.0f));
 	}
 
 	if (Input::GetButtonTrigger(ROLL_KEYMAP) && playerState != ROLL_PS)
 	{
+		aim = false;
 		playerState = ROLL_PS;
 		model->SetAnimationBlend("Roll");
 
@@ -349,6 +358,17 @@ void PlayerMovement::AimingMove()
 				else if (joystick.x > 0.0f) { model->SetAnimationBlend("Backward_Right_Jog", true); }
 			}
 		}
+
+		D3DXVECTOR3 forward = camera->GetForward();
+		float product = D3DXVec3Dot(&direction, &forward);
+		float absProduct = fabs(product);
+		float power = product / absProduct;
+		if (product >= 0.92f) { model->SetAnimationBlend("Forward_Jog", true); }
+		else if (product < 0.92f && product >= 0.38f) { model->SetAnimationBlend("Forward_Right_Jog", true); }
+		else if (product < 0.38f && product >= -0.38f) { model->SetAnimationBlend("Right_Jog", true); }
+		else if (product < -0.38f && product >= -0.92f) { model->SetAnimationBlend("Backward_Right_Jog", true); }
+		else if (product < -0.92f) { model->SetAnimationBlend("Backward_Jog", true); }
+
 	}
 	else { model->SetAnimationBlend("Idle", true); }
 
@@ -363,7 +383,11 @@ void PlayerMovement::AimingMove()
 		{
 			spawner = Manager::GetScene()->Find("Spawn Point Right"); gunSelection = true;
 		}
-			
+
+		face = *aimPoint - spawner->transform->GlobalPosition;
+		D3DXVec3Normalize(&face, &face);
+		rotationDirection = face;
+
 		BULLET* bullet = Manager::GetScene()->AddGameObject<BULLET>("Bullet(Clone)", GAMEOBJECT_LAYER);
 		bullet->transform->Position = spawner->transform->GlobalPosition;
 		bullet->rigidbody->Speed = face * bullet->speed;
