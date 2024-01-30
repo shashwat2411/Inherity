@@ -2,44 +2,54 @@
 #include "common.hlsl"
 
 Texture2D g_Texture : register(t0);
-Texture2D g_TextureToon : register(t1);
+Texture2D g_DissolveTexture : register(t1);
 SamplerState g_SamplerState : register(s0);
 
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
+	float4 normal = normalize(In.Normal);
+
 	outDiffuse = In.Diffuse;
 
-	float4 normal = normalize(In.Normal);
-	float light = -dot(normal.xyz, Light.Direction.xyz);
-	float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
-	eyev = normalize(eyev);
-	float2 coord = float2(light, 0.5f);
-	float4 lightColor = g_TextureToon.Sample(g_SamplerState, coord);
+	if (outDiffuse.a > 0.01f)
+	{
+		//Phong
+		float light = -dot(Light.Direction.xyz, normal.xyz);
+		light = saturate(light);
 
-	//outline
-	float d = dot(eyev, normal.xyz);
-	if (d > -0.3f) { outDiffuse.rgb *= 0.0f; }
+		outDiffuse.rgb *= light + 0.3f;
+		outDiffuse.a *= In.Diffuse.a;
 
-	float pattern = 0.03125f + 0.0625f * 15.0f;
-	float2 uv = light;
-	float4 col;
+		float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
+		eyev = normalize(eyev);
+		float3 halfv = eyev + Light.Direction.xyz;
+		halfv = normalize(halfv);
 
-	uv.x += dissolveRange;
-	uv.y = pattern;
+		float specular = -dot(halfv, normal.xyz);
+		saturate(specular);
+		specular = pow(abs(specular), 60);
+		outDiffuse.rgb = saturate(outDiffuse.rgb + specular);
 
-	//Phong
-	light = -dot(Light.Direction.xyz, normal.xyz);
-	light = saturate(light);
+		light = -dot(normal.xyz, Light.Direction.xyz);
 
-	outDiffuse.rgb *= light + 0.3f;
-	outDiffuse.a *= In.Diffuse.a;
+		if (light > 0.7f) { light = 1.0f; }
+		else if (light > 0.4f) { light = 0.7f; }
+		else { light = 0.5f; }
 
-	float3 halfv = eyev + Light.Direction.xyz;
-	halfv = normalize(halfv);
+		outDiffuse.rgb *= saturate(light);
 
-	float specular = -dot(halfv, normal.xyz);
-	saturate(specular);
-	specular = pow(abs(specular), 60);
-	outDiffuse.rgb = saturate(outDiffuse.rgb + specular);
+		float d = dot(eyev, normal.xyz);
+
+		if (d > -0.3f) { outDiffuse.rgb *= 0.0; }
+	}
+
+	//r ‚ÌF‚¾‚¯‚ğ‹‚ß‚é
+	float dissolveValue = g_DissolveTexture.Sample(g_SamplerState, In.TexCoord);
+	float threshold = dissolveThreshold * (1.0f + dissolveRange) - dissolveRange;
+	float rate = saturate((dissolveValue - threshold) / dissolveRange);
+
+	outDiffuse.a = rate;
+
+	outDiffuse.rgb = lerp(outDiffuse.rgb, color.rgb, 1.0f - pow(rate, 12));
 }

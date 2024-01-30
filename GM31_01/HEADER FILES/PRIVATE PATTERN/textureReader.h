@@ -58,6 +58,7 @@ public:
 
 		//GAME TEXTURES
 		AIM_T,
+		GUN_WIPE_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -116,6 +117,7 @@ public:
 		LoadTexture(&Textures[CHRONIX_T], "asset\\texture\\Title\\chronix.png");
 
 		LoadTexture(&Textures[AIM_T], "asset\\texture\\aim.png");
+		LoadTexture(&Textures[GUN_WIPE_T], "asset\\texture\\Material_Textures\\wipe2.png");
 
 
 		//NAMES
@@ -163,6 +165,7 @@ public:
 		textureNames[CHRONIX_T]				= "CHRONIX";
 
 		textureNames[AIM_T]					= "AIM";
+		textureNames[GUN_WIPE_T]			= "GUN WIPE";
 	}
 
 	static void UnReadTexture()

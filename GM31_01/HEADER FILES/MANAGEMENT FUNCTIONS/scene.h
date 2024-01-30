@@ -56,6 +56,7 @@ enum LAYER
 {
 	CAMERA_LAYER = 0,
 	GAMEOBJECT_LAYER,
+	LATEOBJECT_LAYER,
 	COLLIDER_LAYER,
 	GIZMO_LAYER,
 	BILLBOARD_LAYER,
@@ -190,6 +191,18 @@ public:
 				{
 					return obj;
 				}
+			}
+		}
+		return nullptr;
+	}
+
+	GAMEOBJECT* Find(std::string name, LAYER layer)
+	{
+		for (auto obj : GameObjects[int(layer)])
+		{
+			if (obj->GetTag() == name)
+			{
+				return obj;
 			}
 		}
 		return nullptr;

@@ -37,7 +37,10 @@ void BulletScript::EngineDisplay()
 
 void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
 {
-	gameObject->Destroy();
+	if (obj->GetComponent<EnemyScript>())
+	{
+		gameObject->Destroy();
+	}
 
 	return;
 }

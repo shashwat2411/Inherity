@@ -175,7 +175,7 @@ void Manager::Draw()
 #ifdef MIRROR_MAPPING
 		//3パス目　鏡の環境マッピング
 		{
-			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
+			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 2.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
 			D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 			D3DXVECTOR3 eye;
@@ -192,7 +192,7 @@ void Manager::Draw()
 			//}
 
 			eye = vPlayerPos;
-			lookAt = vPlayerPos + lookatOffset;
+			lookAt = vPlayerPos + GetScene()->GetReflector()->transform->GetForwardDirection() * 2.0f;
 			up = upOffset;	
 			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
@@ -318,6 +318,7 @@ void Manager::Open(std::string name)
 		if (cdd.name == "BoxCollider")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<BoxCollider>(); }
 		if (cdd.name == "MeshFilter")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MeshFilter>(); }
 		if (cdd.name == "ParticleSystem")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<ParticleSystem>(); }
+		if (cdd.name == "MapCollision")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MapCollision>(); }
 	}
 	GetScene()->componentAdder = cdder;
 

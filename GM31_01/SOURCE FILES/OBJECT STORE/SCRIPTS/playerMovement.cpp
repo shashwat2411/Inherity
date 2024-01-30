@@ -7,6 +7,10 @@ float angle = 0.0f;
 float dangle = 0.0f;
 bool animationShift = false;
 Camera* camera;
+RevolutionCamera* cameraController;
+
+GAMEOBJECT* gun1 = nullptr;
+GAMEOBJECT* gun2 = nullptr;
 
 D3DXVECTOR3 rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -20,6 +24,7 @@ void PlayerMovement::Start()
 
 	idleCounter = 0;
 	timerVector["rollSpeed"] = 0.4f;
+	timerVector["dissolveSpeed"] = 0.1f;
 
 	rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -38,6 +43,9 @@ void PlayerMovement::End()
 
 void PlayerMovement::Update()
 {
+	/*if (gun1 == nullptr)*/ { gun1 = Manager::GetScene()->Find("Gun Left", LATEOBJECT_LAYER); }
+	/*if (gun2 == nullptr)*/ { gun2 = Manager::GetScene()->Find("Gun Right", LATEOBJECT_LAYER); }
+
 	//Trash
 	/*
 	|----------------------------------TRASH--------------------------------
@@ -135,19 +143,28 @@ void PlayerMovement::Update()
 		D3DXVec3Normalize(&direction, &direction);
 	}
 
-	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false)
+	cameraController = camera->gameObject->GetComponent<RevolutionCamera>();
+
+	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false && playerState != ROLL_PS)
 	{
 		aim = true;
 		playerState = AIMING_MOVE_PS;
+		cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 2.8f, 3.9f));
+		//cameraController->SetFollowSpeed(D3DXVECTOR3(0.6f, 0.1f, 0.0f));
+		cameraController->SetScreenLimit(D3DXVECTOR3(180.0f, 180.0f, -40.0f));
 	}
 	else if (!ImGui::IsKeyDown((ImGuiKey)656) && aim == true)
 	{
 		aim = false;
 		playerState = NORMAL_MOVE_PS;
+		cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 4.0f, 8.0f));
+		//cameraController->SetFollowSpeed(D3DXVECTOR3(0.012f, 0.08f, 0.0f));
+		cameraController->SetScreenLimit(D3DXVECTOR3(300.0f, 180.0f, -40.0f));
 	}
 
 	if (Input::GetButtonTrigger(ROLL_KEYMAP) && playerState != ROLL_PS)
 	{
+		aim = false;
 		playerState = ROLL_PS;
 		model->SetAnimationBlend("Roll");
 
@@ -211,6 +228,7 @@ void PlayerMovement::EngineDisplay()
 		DebugManager::BoolDisplay(&move, -146.0f, "Move", 1, true);
 
 		DebugManager::FloatDisplay(&timerVector["rollSpeed"], -FLT_MIN, "Roll Speed", true, D3DXVECTOR2(0.01f, 0.0f), 2);
+		DebugManager::FloatDisplay(&timerVector["dissolveSpeed"], -FLT_MIN, "Dissolve Speed", true, D3DXVECTOR2(0.01f, 0.0f), 3);
 
 		ImGui::TreePop();
 		ImGui::Spacing();
@@ -219,7 +237,18 @@ void PlayerMovement::EngineDisplay()
 
 void PlayerMovement::NormalMove()
 {
+	float lerper = Mathf::Lerp(cameraController->GetFollowSpeed().x, 0.012f, 0.3f);
+	cameraController->SetFollowSpeed(D3DXVECTOR3(lerper, cameraController->GetFollowSpeed().y, cameraController->GetFollowSpeed().z));
 	//gameObject->rigidbody->groundLevel = Manager::GetScene()->FindGameObject<PLANE>()->GetComponent<MeshField>()->GetHeight(gameObject->transform->Position);
+
+	float thres;
+	thres = gun1->GetMaterial()->GetFloat("_Threshold");
+	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"]);
+	gun1->GetMaterial()->SetFloat("_Threshold", thres);
+
+	thres = gun2->GetMaterial()->GetFloat("_Threshold");
+	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"]);
+	gun2->GetMaterial()->SetFloat("_Threshold", thres);
 
 	//D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 	//D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
@@ -307,6 +336,19 @@ void PlayerMovement::NormalMove()
 
 void PlayerMovement::AimingMove()
 {
+	float lerper = Mathf::Lerp(cameraController->GetFollowSpeed().x, 0.08f, 0.1f);
+	cameraController->SetFollowSpeed(D3DXVECTOR3(lerper, cameraController->GetFollowSpeed().y, cameraController->GetFollowSpeed().z));
+
+	float thres;
+	thres = gun1->GetMaterial()->GetFloat("_Threshold");
+	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"]);
+	gun1->GetMaterial()->SetFloat("_Threshold", thres);
+
+	thres = gun2->GetMaterial()->GetFloat("_Threshold");
+	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"]);
+	gun2->GetMaterial()->SetFloat("_Threshold", thres);
+	
+
 	D3DXVECTOR2 joystick = D3DXVECTOR2(Input::Horizontal(), Input::Vertical());
 
 	if (fabs(joystick.y) > 0.0f || fabs(joystick.x) > 0.0f) { move = true; }
@@ -329,26 +371,60 @@ void PlayerMovement::AimingMove()
 
 	if (move == true)
 	{
-		if (diagonal == false)
-		{
-			if (joystick.y > 0.0f) { model->SetAnimationBlend("Forward_Jog", true); }
-			else if (joystick.y < 0.0f) { model->SetAnimationBlend("Backward_Jog", true); }
-			if (joystick.x < 0.0f) { model->SetAnimationBlend("Left_Jog", true); }
-			else if (joystick.x > 0.0f) { model->SetAnimationBlend("Right_Jog", true); }
-		}
+		//if (diagonal == false)
+		//{
+		//	if (joystick.y > 0.0f) { model->SetAnimationBlend("Forward_Jog", true); }
+		//	else if (joystick.y < 0.0f) { model->SetAnimationBlend("Backward_Jog", true); }
+		//	if (joystick.x < 0.0f) { model->SetAnimationBlend("Left_Jog", true); }
+		//	else if (joystick.x > 0.0f) { model->SetAnimationBlend("Right_Jog", true); }
+		//}
+		//else
+		//{
+		//	if (joystick.y > 0.0f)
+		//	{
+		//		if (joystick.x < 0.0f) { model->SetAnimationBlend("Forward_Left_Jog", true); }
+		//		else if (joystick.x > 0.0f) { model->SetAnimationBlend("Forward_Right_Jog", true); }
+		//	}
+		//	else if (joystick.y < 0.0f)
+		//	{
+		//		if (joystick.x < 0.0f) { model->SetAnimationBlend("Backward_Left_Jog", true); }
+		//		else if (joystick.x > 0.0f) { model->SetAnimationBlend("Backward_Right_Jog", true); }
+		//	}
+		//}
+
+		D3DXVECTOR3 forward = camera->GetForward();
+		D3DXVECTOR3 right = camera->GetRight();
+		D3DXVec3Normalize(&face, &face);
+
+		//D3DXVECTOR3 forward = gameObject->transform->GetForwardDirection();
+		//D3DXVECTOR3 right = gameObject->transform->GetRightDirection();
+		float forwardProduct = D3DXVec3Dot(&direction, &forward);
+		float rightProduct = D3DXVec3Dot(&direction, &right);
+
+		if (forwardProduct >= 0.92f) { model->SetAnimationBlend("Forward_Jog", true); }
+		//else if (forwardProduct < 0.92f && forwardProduct >= 0.38f) { model->SetAnimationBlend("Forward_Right_Jog", true); }
+		//else if (forwardProduct < 0.38f && forwardProduct >= -0.38f) { model->SetAnimationBlend("Right_Jog", true); }
+		//else if (forwardProduct < -0.38f && forwardProduct >= -0.92f) { model->SetAnimationBlend("Backward_Right_Jog", true); }
+		else if (forwardProduct < -0.92f) { model->SetAnimationBlend("Backward_Jog", true); }
 		else
 		{
-			if (joystick.y > 0.0f)
-			{
-				if (joystick.x < 0.0f) { model->SetAnimationBlend("Forward_Left_Jog", true); }
-				else if (joystick.x > 0.0f) { model->SetAnimationBlend("Forward_Right_Jog", true); }
-			}
-			else if (joystick.y < 0.0f)
-			{
-				if (joystick.x < 0.0f) { model->SetAnimationBlend("Backward_Left_Jog", true); }
-				else if (joystick.x > 0.0f) { model->SetAnimationBlend("Backward_Right_Jog", true); }
-			}
+		     if (forwardProduct < 0.92f && forwardProduct >= 0.38f) 
+			 {
+				 if (rightProduct < 0.92f && rightProduct >= 0.38f) { model->SetAnimationBlend("Forward_Right_Jog", true); }
+				 else if (rightProduct < -0.38f && rightProduct >= -0.92f) { model->SetAnimationBlend("Forward_Left_Jog", true); }
+			 }
+			 else if (forwardProduct < 0.38f && forwardProduct >= -0.38f)
+			 {
+				 if (rightProduct >= 0.92f) { model->SetAnimationBlend("Right_Jog", true); }
+				 else if (rightProduct < 0.92f) { model->SetAnimationBlend("Left_Jog", true); }
+			 }
+			 else if (forwardProduct < -0.38f && forwardProduct >= -0.92f)
+			 {
+				 if (rightProduct < 0.92f && rightProduct >= 0.38f) { model->SetAnimationBlend("Backward_Right_Jog", true); }
+				 else if (rightProduct < -0.38f && rightProduct >= -0.92f) { model->SetAnimationBlend("Backward_Left_Jog", true); }
+			 }
 		}
+
 	}
 	else { model->SetAnimationBlend("Idle", true); }
 
@@ -363,7 +439,11 @@ void PlayerMovement::AimingMove()
 		{
 			spawner = Manager::GetScene()->Find("Spawn Point Right"); gunSelection = true;
 		}
-			
+
+		face = *aimPoint - spawner->transform->GlobalPosition;
+		D3DXVec3Normalize(&face, &face);
+		rotationDirection = face;
+
 		BULLET* bullet = Manager::GetScene()->AddGameObject<BULLET>("Bullet(Clone)", GAMEOBJECT_LAYER);
 		bullet->transform->Position = spawner->transform->GlobalPosition;
 		bullet->rigidbody->Speed = face * bullet->speed;
@@ -372,6 +452,9 @@ void PlayerMovement::AimingMove()
 
 void PlayerMovement::Roll()
 {
+	float lerper = Mathf::Lerp(cameraController->GetFollowSpeed().x, 0.012f, 0.5f);
+	cameraController->SetFollowSpeed(D3DXVECTOR3(lerper, cameraController->GetFollowSpeed().y, cameraController->GetFollowSpeed().z));
+
 	if (model->GetAnimationOver("Roll") == true)
 	{
 		playerState = NORMAL_MOVE_PS;

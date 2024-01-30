@@ -103,8 +103,10 @@ void GAME_SCENE::Init()
 
 		PlayerModel->SetReflection(true);
 		enemy->SetReflection(true);
+		enemy->GetChildren()[0]->SetReflection(true);
 		Field->SetReflection(true);
 		Water->SetReflection(true);
+		map->SetReflection(true);
 
 		torus->AddComponent<MeshFilter>();
 		torus->AddMaterial<MetallicMaterial>();
@@ -153,9 +155,11 @@ void GAME_SCENE::Init()
 void GAME_SCENE::Update()
 {
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
-
-	aimer->transform->Position = D3DXVECTOR3(ImGui::GetMousePos().x, ImGui::GetMousePos().y, 0.0f);
-	shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
+	if (end == false)
+	{
+		aimer->transform->Position = D3DXVECTOR3(ImGui::GetMousePos().x, ImGui::GetMousePos().y, 0.0f);
+		shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
+	}
 
 #ifdef DEBUG	// デバッグ情報を表示する
 	//char* str = GetDebugStr();

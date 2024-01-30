@@ -337,7 +337,7 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else { gameObjectName = "nullptr"; }
 	}
 
-	archive(CEREAL_NVP(active), CEREAL_NVP(Color), cereal::make_nvp("Parent", gameObjectName));
+	archive(CEREAL_NVP(active), cereal::make_nvp("shadow", depthShadow), CEREAL_NVP(Color), cereal::make_nvp("Parent", gameObjectName));
 	
 	for (auto com : components)
 	{
@@ -353,6 +353,7 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else if (AudioSource* caster	= dynamic_cast<AudioSource*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (MeshFilter* caster		= dynamic_cast<MeshFilter*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (ParticleSystem* caster	= dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (MapCollision* caster	= dynamic_cast<MapCollision*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 	}
 
 	if (mat != nullptr) { archive(cereal::make_nvp("Material", *mat)); }

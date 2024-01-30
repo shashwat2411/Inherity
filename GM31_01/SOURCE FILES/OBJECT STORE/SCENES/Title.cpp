@@ -121,7 +121,13 @@ void TITLE_SCENE::Init()
 
 void TITLE_SCENE::Update()
 {
-	if (Input::GetKeyTrigger('V') || startAnimation == false) { GetPlayer()->GetComponent<Animator>()->PlayAnimation(0, Animation::LOOP); startAnimation = true; }
+	if (GetPlayer()->GetComponent<Animator>())
+	{
+		if (GetPlayer()->GetComponent<Animator>()->GetCurrentIndex() != 0)
+		{
+			if (Input::GetKeyTrigger('V') || startAnimation == false) { GetPlayer()->GetComponent<Animator>()->PlayAnimation(0, Animation::LOOP); startAnimation = true; }
+		}
+	}
 
 	playerModel->GetComponent<MeshFilter>()->SetAnimationBlend("Idle", true);
 
