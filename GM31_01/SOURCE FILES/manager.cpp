@@ -94,9 +94,10 @@ void Manager::FixedUpdate()
 			Scene->UpdateBefore();
 			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->UpdateBefore(); }
 
-			Scene->Update();
-			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Update(); }
 		}
+
+		Scene->Update();
+		if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Update(); }
 
 		if (Input::GetKeyPress(VK_CONTROL))
 		{

@@ -34,7 +34,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		light = -dot(normal.xyz, Light.Direction.xyz);
 
 		if (light > 0.7f) { light = 1.0f; }
-		else if (light > 0.4f) { light = 0.7f; }
+		else if (light > 0.2f) { light = 0.7f; }
 		else { light = 0.5f; }
 
 		outDiffuse.rgb *= saturate(light);

@@ -8,6 +8,7 @@
 void Animator::Start()
 {
 	multiple = true;
+	untimed = false;
 
 	animIndex = 0;
 
@@ -58,7 +59,7 @@ void Animator::Update()
 				*animation[animIndex]->data[i].angle[num].pointer = angle1 + (dt * dangle);
 			}
 
-			animation[animIndex]->timer += Time::fixedTimeScale;
+			animation[animIndex]->timer += (untimed == false ? Time::fixedTimeScale : 1.0f);
 
 			for (int num = 0; num < animation[animIndex]->keyName.size(); num++)
 			{
@@ -132,6 +133,11 @@ void Animator::Update()
 
 void Animator::Draw()
 {
+	if (Time::timeScale <= 0.0f && untimed == true)
+	{
+		Update();
+	}
+
 	if (animation.size() > 0)
 	{
 		if (DebugManager::play == false)
@@ -209,6 +215,8 @@ void Animator::EngineDisplay()
 
 			std::string str = "\n Time : " + std::to_string((int)animation[animIndex]->timer);
 			ImGui::Text(str.c_str());
+
+			ImGui::SliderInt("Anim Index", &animIndex, 0, animation.size() - 1);
 
 			ImGui::Begin("Animator", nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar);
 			{

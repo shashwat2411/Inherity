@@ -67,13 +67,13 @@
                 "enabled": true
             },
             "Position": {
-                "x": -79.52587890625,
-                "y": 5.009440898895264,
-                "z": -14.83838176727295
+                "x": -3.1005547046661379,
+                "y": 35.0820426940918,
+                "z": 37.198486328125
             },
             "Rotation": {
                 "x": 14.5,
-                "y": -0.5,
+                "y": 41.89997863769531,
                 "z": -56.643104553222659
             },
             "Scale": {
@@ -207,9 +207,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -79.09027862548828,
+                "x": 94.80999755859375,
                 "y": 1.0099999904632569,
-                "z": -7.336595058441162
+                "z": 104.55999755859375
             },
             "Rotation": {
                 "x": 0.0,
@@ -265,7 +265,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 14
+            "modelIndex": 15
         },
         "SphereCollider": {
             "value0": {
@@ -429,7 +429,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 16
+            "modelIndex": 17
         },
         "Material": {
             "textureIndex": 0
@@ -841,7 +841,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 15
+            "modelIndex": 16
         },
         "Material": {
             "textureIndex": 0
@@ -881,7 +881,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 15
+            "modelIndex": 16
         },
         "Material": {
             "textureIndex": 0
@@ -921,7 +921,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 15
+            "modelIndex": 16
         },
         "Material": {
             "textureIndex": 0
@@ -1586,6 +1586,112 @@
             "textureIndex": 2
         }
     },
+    "Player HP Red": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 20.0,
+                "y": 29.0,
+                "z": -0.39998477697372439
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.14000000059604646,
+                "y": 0.12600000202655793,
+                "z": 0.14000000059604646
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 100.0,
+                "y": 100.0
+            },
+            "TexCoord": {
+                "x": 9.800000190734864,
+                "y": 10.600000381469727
+            },
+            "Color": {
+                "r": 0.0,
+                "g": 1.0,
+                "b": 0.0780487060546875,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 2
+        }
+    },
+    "Player HP": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 0.29230761528015139,
+            "g": 1.0,
+            "b": 0.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 20.0,
+                "y": 29.0,
+                "z": -0.39998477697372439
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.14000000059604646,
+                "y": 0.12600000202655793,
+                "z": 0.14000000059604646
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 100.0,
+                "y": 100.0
+            },
+            "TexCoord": {
+                "x": 9.800000190734864,
+                "y": 10.600000381469727
+            },
+            "Color": {
+                "r": 0.0,
+                "g": 1.0,
+                "b": 0.0780487060546875,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 2
+        }
+    },
     "Score": {
         "active": true,
         "shadow": false,
@@ -1692,8 +1798,8 @@
                 "enabled": true
             },
             "Position": {
-                "x": 452.0,
-                "y": 159.0,
+                "x": 517.0,
+                "y": 125.0,
                 "z": 0.0
             },
             "Rotation": {
@@ -1728,6 +1834,59 @@
         },
         "Material": {
             "textureIndex": 38
+        }
+    },
+    "Pause Menu": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 480.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.0,
+                "y": 0.05000000074505806,
+                "z": 1.0
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 100.0,
+                "y": 100.0
+            },
+            "TexCoord": {
+                "x": 1.0,
+                "y": 1.0
+            },
+            "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 2
         }
     }
 }
