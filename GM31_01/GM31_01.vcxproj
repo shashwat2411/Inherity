@@ -85,6 +85,8 @@
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\scene.cpp" />
     <ClCompile Include="SOURCE FILES\manager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\characterRetract.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\pauseMenu.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\pauseMenuReturn.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\titleDomeAnimation.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\trialAnimation2.cpp" />
@@ -152,6 +154,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\mapCollision.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\openWorldCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerHealth.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerMovement.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\revolutionCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\screenToWorld.cpp" />

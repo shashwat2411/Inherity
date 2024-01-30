@@ -3,8 +3,10 @@
 
 void BulletScript::Start()
 {
-	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
+	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::BULLET_M);
 	gameObject->AddComponent<Rigidbody>();
+
+	gameObject->AddMaterial<ToonPhongMaterial>()->SetFloat("_Threshold", 2.0f);
 
 	gameObject->rigidbody->useGravity = false;
 

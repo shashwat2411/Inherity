@@ -1,7 +1,12 @@
 #include "customScenes.h"
+#include "animations.h"
 
 IMAGE* shadow;
 IMAGE* aimer;
+IMAGE* pause;
+
+bool paused = false;
+bool pauseReturn = false;
 
 void GAME_SCENE::Init()
 {
@@ -72,6 +77,7 @@ void GAME_SCENE::Init()
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
 	shadow = AddGameObject<IMAGE>("Shadow Map", SPRITE_LAYER);
 	aimer = AddGameObject<IMAGE>("Aimer", SPRITE_LAYER);
+	pause = AddGameObject<IMAGE>("Pause Menu", SPRITE_LAYER);
 
 	//接続処理
 	{
@@ -137,6 +143,11 @@ void GAME_SCENE::Init()
 		aimer->AddComponent<ScreenToWorld>();
 		aimer->GetMaterial()->SetTexture("_Texture", TextureReader::AIM_T);
 
+		pause->AddComponent<Animator>()->AddAnimation<PauseMenu>();
+		pause->GetComponent<Animator>()->AddAnimation<PauseMenuReturn>();
+		pause->GetComponent<Animator>()->SetUntimed(true);
+		pause->GetComponent<Animator>()->SetCurrentIndex(0);
+
 		player->GetComponent<PlayerMovement>()->aimPoint = aimer->GetComponent<ScreenToWorld>()->GetPoint();
 	}
 
@@ -150,6 +161,9 @@ void GAME_SCENE::Init()
 		audio->SetPlayOnAwake(false);*/
 		//audio->Play(true, 0.2f);
 	}
+
+	paused = false;
+	pauseReturn = false;
 }
 
 void GAME_SCENE::Update()
@@ -161,8 +175,30 @@ void GAME_SCENE::Update()
 		shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
 	}
 
-#ifdef DEBUG	// デバッグ情報を表示する
-	//char* str = GetDebugStr();
-	//sprintf(&str[strlen(str)], " | Volume Percentage : %.2f", audio->volumePercentage);
-#endif
+	Animator* pauser = pause->GetComponent<Animator>();
+	if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
+	{
+		if (paused == false)
+		{
+			Time::timeScale = 0.0f;
+			pauser->PlayAnimation(0, Animation::PLAYBACK);
+			paused = true;
+		}
+		else
+		{
+			pauser->PlayAnimation(1, Animation::PLAYBACK);
+			pauseReturn = true;
+		}
+	}
+
+	if (pauseReturn == true)
+	{
+		if (pauser->GetAnimationState(1) == Animation::END)
+		{
+			pauseReturn = false;
+			paused = false;
+			Time::timeScale = 1.0f;
+		}
+	}
+
 }

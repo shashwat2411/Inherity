@@ -26,6 +26,7 @@ public:
 		MAP_M,
 		KNIFE_M,
 		TOMATO_GUN_M,
+		BULLET_M,
 
 		READ_MODEL_OBJ_MAX
 	};
@@ -75,6 +76,7 @@ public:
 		ModelsOBJ[MAP_M].Load("asset\\model\\Map\\map.obj");
 		ModelsOBJ[KNIFE_M].Load("asset\\model\\Knife.obj");
 		ModelsOBJ[TOMATO_GUN_M].Load("asset\\model\\Tomato\\Gun.obj");
+		ModelsOBJ[BULLET_M].Load("asset\\model\\Bullet.obj");
 
 
 		//FBX
@@ -152,6 +154,7 @@ public:
 		modelNames[MAP_M]					= "MAP";
 		modelNames[KNIFE_M]					= "KNIFE";
 		modelNames[TOMATO_GUN_M]			= "TOMATO GUN";
+		modelNames[BULLET_M]				= "BULLET";
 
 		//FBX
 		int i = READ_MODEL_OBJ_MAX;

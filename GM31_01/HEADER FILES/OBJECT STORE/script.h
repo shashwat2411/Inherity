@@ -334,6 +334,33 @@ public:
 	void EngineDisplay() override;
 
 };
+class PlayerHealth : public Script
+{
+private:
+	bool invincible;
+
+	float hp;
+	float redHp;
+	float maxHp;
+
+	BAR* health1;
+	BAR* health2;
+
+public:
+
+	PlayerHealth() { name = "PlayerHealth"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	bool Damage(float damage);
+	void Heal(float heal);
+
+};
 
 //Camera Scripts
 class CameraScript : public Script

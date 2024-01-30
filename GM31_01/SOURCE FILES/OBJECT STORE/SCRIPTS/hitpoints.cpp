@@ -55,6 +55,8 @@ void HitPoints::EngineDisplay()
 {
 	if (ImGui::TreeNode("Hit Points"))
 	{
+		DebugManager::FloatDisplay(&hp, -FLT_MIN, "HP", true, D3DXVECTOR2(0.01f, 0.0f), 0);
+
 		ImGui::TreePop();
 		ImGui::Spacing();
 	}

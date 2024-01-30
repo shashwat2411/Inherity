@@ -27,7 +27,7 @@ class EMPTYOBJECT;
 #define GRAVITY_CONSTANT 1.0f
 #define GRAVITY_ACCELERATION 1.1f
 
-#define TILES 20
+#define TILES 40
 
 //Animation Based Classes
 class Data
@@ -802,6 +802,8 @@ private:
 	};
 
 private:
+	bool untimed;
+
 	int animIndex;
 
 	std::vector<Animation*> animation;
@@ -824,6 +826,10 @@ public:
 
 	void EngineDisplay() override;
 
+	void SetUntimed(bool value) { untimed = value; }
+	void SetCurrentIndex(int value) { animIndex = value; }
+
+	bool GetUntimed() { return untimed; }
 	int GetCurrentIndex() { return animIndex; }
 	Animation::ANIMATION_STATUS GetAnimationState(int index)
 	{

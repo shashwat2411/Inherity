@@ -296,6 +296,10 @@ void GAMEOBJECT::EngineDisplay()
 			ImGui::SameLine();
 
 			std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
+
+			std::vector<std::string> list2 = Manager::GetScene()->GetGameObjectNames(SPRITE_LAYER);
+			list.insert(list.end(), list2.begin(), list2.end());
+
 			list.push_back("nullptr");
 
 			if (Parent == nullptr) { parentIndex = (int)list.size() - 1; }

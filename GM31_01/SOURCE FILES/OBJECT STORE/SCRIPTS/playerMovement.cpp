@@ -243,11 +243,11 @@ void PlayerMovement::NormalMove()
 
 	float thres;
 	thres = gun1->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"]);
+	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
 	gun1->GetMaterial()->SetFloat("_Threshold", thres);
 
 	thres = gun2->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"]);
+	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
 	gun2->GetMaterial()->SetFloat("_Threshold", thres);
 
 	//D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
@@ -341,11 +341,11 @@ void PlayerMovement::AimingMove()
 
 	float thres;
 	thres = gun1->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"]);
+	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
 	gun1->GetMaterial()->SetFloat("_Threshold", thres);
 
 	thres = gun2->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"]);
+	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
 	gun2->GetMaterial()->SetFloat("_Threshold", thres);
 	
 

@@ -485,6 +485,15 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gunDissolve.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerHealth.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\pauseMenu.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\ANIMATIONS\pauseMenuReturn.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\ANIMATIONS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
