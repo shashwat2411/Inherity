@@ -1,6 +1,8 @@
 #include "debugManager.h"
 #include "manager.h"
 #include "input.h"
+#include "customScenes.h"
+#include "../saveFunctions.h"
 
 bool pressedDebug[2] = { false };
 
@@ -9,6 +11,8 @@ bool DebugManager::paused = false;
 bool DebugManager::gizmo = false;
 bool DebugManager::show_demo_window = true;
 bool show_plot_demo_window = true;
+
+bool starter = false;
 
 int DebugManager::index = 0;
 int DebugManager::layer = 0;
@@ -19,6 +23,7 @@ const char* str[MAX_LAYER] =
 {
 	"CAMERA_LAYER",
 	"GAMEOBJECT_LAYER",
+	"LATEOBJECT_LAYER",
 	"COLLIDER_LAYER",
 	"GIZMO_LAYER",
 	"BILLBOARD_LAYER",
@@ -51,11 +56,12 @@ void DebugManager::Init()
 
 	io.Fonts->AddFontDefault();
 
-	play = false;
+	starter = false;
+	play = true;
 	paused = false;
 	gizmo = true;
 
-	Time::timeScale = 0.0f;
+	Time::timeScale = 1.0f;
 	Time::fixedTimeScale = 1.0f;
 	Time::deltaTime = 1.0f / FRAME_RATE;
 #else
@@ -82,6 +88,7 @@ void DebugManager::Uninit()
 void DebugManager::Update()
 {
 #ifdef DEBUG
+
 	// フレームの開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame(SCREEN_WIDTH, SCREEN_HEIGHT);//こいつを画面の解像度分にするように改造する
@@ -97,6 +104,13 @@ void DebugManager::Draw()
 	//フレームの描画
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	//if (starter == false && LOAD_SCENE::GetLogo() == false)
+	//{ 
+	//	play = false; 
+	//	starter = true;
+	//	Time::timeScale = 0.0f;
+	//}
 #endif
 }
 
@@ -244,6 +258,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 					if (ImGui::Selectable("BoxCollider"))		{ selected = true; vector[index]->AddComponent<BoxCollider>(); }
 					if (ImGui::Selectable("MeshFilter"))		{ selected = true; vector[index]->AddComponent<MeshFilter>(); }
 					if (ImGui::Selectable("ParticleSystem"))	{ selected = true; vector[index]->AddComponent<ParticleSystem>(); }
+					if (ImGui::Selectable("MapCollision"))		{ selected = true; vector[index]->AddComponent<MapCollision>(); }
 
 					if (selected == true)
 					{

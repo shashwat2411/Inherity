@@ -49,6 +49,7 @@ void ArtificialIntelligence::Start()
 
 #ifdef DEBUG
 		point->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
+		point->shadow = false;
 #endif
 		points.push_back(point);
 	}

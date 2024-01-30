@@ -161,6 +161,31 @@ public:
 	void Update() override {}
 	void Draw() override;
 };
+class GeometryInstancingMaterial : public Material
+{
+public:
+
+	void Start() override;
+	void End() override;
+
+	void Update() override {}
+	void Draw() override;
+
+	void CreatePositionBuffer() override; 
+	void GeometryInstancing() override;
+
+};
+class ToonPhongMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override;
+	void Draw() override;
+};
+
+//Post Process
 class PostProcessMaterial : public Material
 {
 public:
@@ -195,28 +220,5 @@ public:
 	void Start() override;
 
 	void Update() override {}
-	void Draw() override;
-};
-class GeometryInstancingMaterial : public Material
-{
-public:
-
-	void Start() override;
-	void End() override;
-
-	void Update() override {}
-	void Draw() override;
-
-	void CreatePositionBuffer() override; 
-	void GeometryInstancing() override;
-
-};
-class ToonPhongMaterial : public Material
-{
-public:
-
-	void Start() override;
-
-	void Update() override;
 	void Draw() override;
 };

@@ -23,11 +23,19 @@ void RevolutionCamera::Update()
 	direction = camera->GetUp() * targetOffset.y + camera->GetRight() * targetOffset.x;
 
 
-	D3DXVECTOR3 forward;
-	if ((int)camera->GetTarget()->GetChildren().size() > 0) { forward = camera->GetTarget()->GetChildren()[0]->transform->GetForwardDirection(); }
-	else { forward = camera->GetTarget()->transform->GetForwardDirection(); }
+	D3DXVECTOR3 forward, right;
+	if ((int)camera->GetTarget()->GetChildren().size() > 0) 
+	{
+		forward = camera->GetTarget()->GetChildren()[0]->transform->GetForwardDirection(); 
+		right = camera->GetTarget()->GetChildren()[0]->transform->GetRightDirection(); 
+	}
+	else 
+	{ 
+		forward = camera->GetTarget()->transform->GetForwardDirection(); 
+		right = camera->GetTarget()->transform->GetRightDirection();
+	}
 
-	D3DXVECTOR3 distance = -forward * backUpDistance.z + D3DXVECTOR3(backUpDistance.x, backUpDistance.y, 0.0f);
+	D3DXVECTOR3 distance = -forward * backUpDistance.z + right * backUpDistance.x + D3DXVECTOR3(0.0f, backUpDistance.y, 0.0f);
 
 	D3DXVECTOR3 toBeAt = camera->GetTarget()->transform->GlobalPosition + distance;
 	D3DXVECTOR3 toLookAt = camera->GetTarget()->transform->GlobalPosition + direction * offsetSpeed;
@@ -45,11 +53,11 @@ void RevolutionCamera::Update()
 	AtVec = toLookAt - at;	//注視点の変化ベクトル
 	PosVec = PosVec - gameObject->transform->Position;	//一座標の変化
 
-	PosVec *= followSpeed.x;	//ベクトルスケーリング
+	PosVec *= followSpeed.x * (gameObject->transform->DistanceFrom(camera->GetTarget()) < 2.0f ? 5.0f : 1.0f);	//ベクトルスケーリング
 	AtVec *= followSpeed.y;	//ベクトルスケーリング
 
 	// カメラの注視点をプレイヤーの座標にしてみる
-	at += (AtVec/* + targetOffset * offsetSpeed*/) * Time::fixedTimeScale;
+	at += (AtVec + right * backUpDistance.x) * Time::fixedTimeScale;
 
 	camera->SetAt(at);
 	gameObject->transform->Position += PosVec * Time::fixedTimeScale;

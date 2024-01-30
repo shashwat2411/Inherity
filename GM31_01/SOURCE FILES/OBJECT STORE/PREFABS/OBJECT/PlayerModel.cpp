@@ -79,23 +79,23 @@ void PLAYERMODEL::Start()
 	//bcollider->SetCollisionSize(D3DXVECTOR3(0.3f, 0.3f, 0.3f));
 	//bcollider->scaleOffset = 100.0f;
 
-	GAMEOBJECT* gun = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Gun Left");
+	GAMEOBJECT* gun = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Gun Left", LATEOBJECT_LAYER);
 	gun->AddComponent<MeshFilter>()->SetModel(ModelReader::TOMATO_GUN_M);
 	gun->SetParent(model->gameObject);
 	gun->transform->boneMatrix = model->GetModel()->GetBoneMatrix("mixamorig:Spine");
 	gun->AddMaterial<ToonPhongMaterial>();
 
-	GAMEOBJECT* spawnPoint = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Spawn Point Left");
+	GAMEOBJECT* spawnPoint = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Spawn Point Left", LATEOBJECT_LAYER);
 	spawnPoint->SetParent(gun);
 	spawnPoint->transform->Position = D3DXVECTOR3(2.2f, -0.35f, 0.0f);
 
-	gun = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Gun Right");
+	gun = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Gun Right", LATEOBJECT_LAYER);
 	gun->AddComponent<MeshFilter>()->SetModel(ModelReader::TOMATO_GUN_M);
 	gun->SetParent(model->gameObject);
 	gun->transform->boneMatrix = model->GetModel()->GetBoneMatrix("mixamorig:Spine");
 	gun->AddMaterial<ToonPhongMaterial>();
 
-	spawnPoint = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Spawn Point Right");
+	spawnPoint = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Spawn Point Right", LATEOBJECT_LAYER);
 	spawnPoint->SetParent(gun);
 	spawnPoint->transform->Position = D3DXVECTOR3(2.2f, -0.35f, 0.0f);
 

@@ -294,6 +294,46 @@ public:
 
 	D3DXVECTOR3* GetPoint() { return &point->transform->Position; }
 };
+class MapCollision : public Script
+{
+private:
+
+public:
+
+	MapCollision() { name = "MapCollision"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(
+			cereal::virtual_base_class<Component>(this)
+		);
+	}
+};
+class GunDissolve : public Script
+{
+private:
+	D3DXCOLOR dissolveColor;
+
+public:
+
+	GunDissolve() { name = "GunDissolve"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+};
 
 //Camera Scripts
 class CameraScript : public Script

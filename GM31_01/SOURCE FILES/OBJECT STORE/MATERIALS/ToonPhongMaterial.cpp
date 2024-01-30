@@ -2,9 +2,13 @@
 
 void ToonPhongMaterial::Start()
 {
-	SetFloat("_Offset", 0.0f);
+	SetFloat("_Threshold", 0.0f);
+	SetFloat("_Dissolve_Range", 0.4f);
 
-	SetTexture("_Texture", TextureReader::TOON_T);
+	SetColor("_Dissolve_Color", D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+
+	textures["_Texture"] = nullptr;
+	SetTexture("_Texture", TextureReader::WIPE_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\toonVS.cso");
 	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\toonPhongPS.cso");
@@ -12,7 +16,7 @@ void ToonPhongMaterial::Start()
 
 void ToonPhongMaterial::Update()
 {
-	//floats["_Offset"] += 0.01f;
+
 }
 
 void ToonPhongMaterial::Draw()
@@ -21,7 +25,9 @@ void ToonPhongMaterial::Draw()
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
-	param.dissolveRange = floats["_Offset"];
+	param.dissolveThreshold = (1.0f - floats["_Threshold"]);
+	param.dissolveRange = floats["_Dissolve_Range"];
+	param.color = colors["_Dissolve_Color"];
 
 	Renderer::SetParameter(param);
 }

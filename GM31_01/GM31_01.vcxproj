@@ -147,7 +147,9 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\firstPersonCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gameManager.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\ground.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gunDissolve.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\hitpoints.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\mapCollision.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\openWorldCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerMovement.cpp" />
