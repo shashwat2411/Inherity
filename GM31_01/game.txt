@@ -1,23 +1,15 @@
 {
     "GetScene()->objectAdder": [
         {
-            "class": "CUBE",
-            "number": 1
-        },
-        {
-            "class": "EMPTYOBJECT",
+            "class": "PARTICLESYSTEM",
             "number": 1
         }
     ],
-    "GetScene()->componentAdder": [
-        {
-            "component": "MeshFilter",
-            "gameObject": "EmptyObject(Clone)"
-        }
-    ],
+    "GetScene()->componentAdder": [],
     "GetScene()->animationAdder": [],
     "MainCamera": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -30,31 +22,32 @@
                 "enabled": true
             },
             "Position": {
-                "x": -47.241390228271487,
-                "y": 60.144168853759769,
-                "z": -60.931663513183597
+                "x": 50.85806655883789,
+                "y": 32.40476989746094,
+                "z": 47.819252014160159
             },
             "Rotation": {
-                "x": 47.16488265991211,
-                "y": -713.9879150390625,
-                "z": -236.22801208496095
+                "x": 14.5,
+                "y": 41.89997863769531,
+                "z": -56.643104553222659
             },
             "Scale": {
-                "x": 1.6818695068359376,
+                "x": 1.0,
                 "y": 1.0,
-                "z": 1.1202250719070435
+                "z": 1.0
             }
         },
         "Camera": {
             "value0": {
                 "enabled": true
             },
-            "fov": 60.0,
+            "fov": 60.00416564941406,
             "Target": "Player"
         }
     },
     "Reflection": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -85,6 +78,7 @@
     },
     "SkyDome": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -97,9 +91,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -73.9000015258789,
+                "x": 94.81007385253906,
                 "y": -10.0,
-                "z": 0.0
+                "z": 104.55999755859375
             },
             "Rotation": {
                 "x": 0.0,
@@ -107,9 +101,9 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 300.0,
-                "y": 300.0,
-                "z": 300.0
+                "x": 400.0,
+                "y": 400.0,
+                "z": 400.0
             }
         },
         "MeshFilter": {
@@ -124,6 +118,7 @@
     },
     "GameManager": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -154,6 +149,7 @@
     },
     "Player": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -166,9 +162,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -76.55000305175781,
-                "y": 1.0,
-                "z": 1.0
+                "x": 94.81010437011719,
+                "y": 1.0099999904632569,
+                "z": 104.55999755859375
             },
             "Rotation": {
                 "x": 0.0,
@@ -192,6 +188,7 @@
     },
     "Player Model": {
         "active": true,
+        "shadow": true,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -223,7 +220,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 14
+            "modelIndex": 15
         },
         "SphereCollider": {
             "value0": {
@@ -267,6 +264,7 @@
     },
     "Damager": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -304,146 +302,9 @@
             "scaleOffset": 100.0
         }
     },
-    "Gun Left": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "Player Model",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": 34.29999923706055,
-                "y": 80.80000305175781,
-                "z": 104.0
-            },
-            "Rotation": {
-                "x": 10.5,
-                "y": 84.5,
-                "z": 47.5
-            },
-            "Scale": {
-                "x": 100.0,
-                "y": 100.0,
-                "z": 100.0
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 12
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Spawn Point Left": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "Gun Left",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": 2.0,
-                "y": -0.6499999761581421,
-                "z": -1.25
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.10000000149011612,
-                "y": 0.10000000149011612,
-                "z": 0.10000000149011612
-            }
-        }
-    },
-    "Gun Right": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "Player Model",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -52.340328216552737,
-                "y": 80.80000305175781,
-                "z": 104.09953308105469
-            },
-            "Rotation": {
-                "x": -14.5,
-                "y": 84.5,
-                "z": 45.5
-            },
-            "Scale": {
-                "x": 100.0,
-                "y": 100.0,
-                "z": 100.0
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 12
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Spawn Point Right": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "Gun Left",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": 2.0,
-                "y": -0.6499999761581421,
-                "z": -1.25
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 0.10000000149011612,
-                "y": 0.10000000149011612,
-                "z": 0.10000000149011612
-            }
-        }
-    },
     "Enemy": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -456,13 +317,13 @@
                 "enabled": true
             },
             "Position": {
-                "x": -77.75,
-                "y": 1.0,
-                "z": 12.100000381469727
+                "x": -109.73566436767578,
+                "y": 0.0,
+                "z": 32.93695831298828
             },
             "Rotation": {
                 "x": 0.0,
-                "y": 0.0,
+                "y": 225.2000732421875,
                 "z": 0.0
             },
             "Scale": {
@@ -491,6 +352,7 @@
     },
     "Enemy Model": {
         "active": true,
+        "shadow": true,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -522,7 +384,7 @@
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 16
+            "modelIndex": 17
         },
         "Material": {
             "textureIndex": 0
@@ -530,6 +392,7 @@
     },
     "Knife": {
         "active": true,
+        "shadow": true,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -577,7 +440,8 @@
         }
     },
     "Torus": {
-        "active": true,
+        "active": false,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -590,9 +454,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
+                "x": -75.99928283691406,
                 "y": 0.0,
-                "z": 0.0
+                "z": 0.09999744594097138
             },
             "Rotation": {
                 "x": 0.0,
@@ -617,6 +481,7 @@
     },
     "Field": {
         "active": false,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -650,6 +515,7 @@
     },
     "Water": {
         "active": false,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -683,6 +549,7 @@
     },
     "Map": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -720,86 +587,9 @@
             "textureIndex": 3
         }
     },
-    "Cube(Clone)": {
+    "Gun Left": {
         "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -76.0,
-                "y": 1.7000000476837159,
-                "z": 8.100000381469727
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 3
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "EmptyObject(Clone)": {
-        "active": false,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": -76.0,
-                "y": 2.0,
-                "z": -1.350000023841858
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 6.0,
-                "y": 6.0,
-                "z": 6.0
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Player Model": {
-        "active": true,
+        "shadow": true,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -812,8 +602,48 @@
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
-                "y": 0.0,
+                "x": 34.29999923706055,
+                "y": 80.80000305175781,
+                "z": 104.0
+            },
+            "Rotation": {
+                "x": 10.5,
+                "y": 84.5,
+                "z": 47.5
+            },
+            "Scale": {
+                "x": 100.0,
+                "y": 100.0,
+                "z": 100.0
+            }
+        },
+        "MeshFilter": {
+            "Component": {
+                "enabled": true
+            },
+            "modelIndex": 12
+        },
+        "Material": {
+            "textureIndex": 39
+        }
+    },
+    "Spawn Point Left": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "Gun Left",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 2.200000047683716,
+                "y": -0.3499999940395355,
                 "z": 0.0
             },
             "Rotation": {
@@ -822,23 +652,15 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 42.857139587402347,
-                "y": 42.857139587402347,
-                "z": 42.857139587402347
+                "x": 0.10000000149011612,
+                "y": 0.10000000149011612,
+                "z": 0.10000000149011612
             }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
         }
     },
-    "Player Model": {
+    "Gun Right": {
         "active": true,
+        "shadow": true,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -851,47 +673,48 @@
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": -52.340328216552737,
+                "y": 80.80000305175781,
+                "z": 104.09953308105469
             },
             "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
+                "x": -14.5,
+                "y": 84.5,
+                "z": 45.5
             },
             "Scale": {
-                "x": 42.857139587402347,
-                "y": 42.857139587402347,
-                "z": 42.857139587402347
+                "x": 100.0,
+                "y": 100.0,
+                "z": 100.0
             }
         },
         "MeshFilter": {
             "Component": {
                 "enabled": true
             },
-            "modelIndex": 0
+            "modelIndex": 12
         },
         "Material": {
-            "textureIndex": 0
+            "textureIndex": 39
         }
     },
-    "Player Model": {
+    "Spawn Point Right": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
             "b": 1.0,
             "a": 1.0
         },
-        "Parent": "Player Model",
+        "Parent": "Gun Right",
         "Transform": {
             "Component": {
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
-                "y": 0.0,
+                "x": 2.200000047683716,
+                "y": -0.3499999940395355,
                 "z": 0.0
             },
             "Rotation": {
@@ -900,62 +723,15 @@
                 "z": 0.0
             },
             "Scale": {
-                "x": 42.857139587402347,
-                "y": 42.857139587402347,
-                "z": 42.857139587402347
+                "x": 0.10000000149011612,
+                "y": 0.10000000149011612,
+                "z": 0.10000000149011612
             }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
-        }
-    },
-    "Player Model": {
-        "active": true,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "Player Model",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 42.857139587402347,
-                "y": 42.857139587402347,
-                "z": 42.857139587402347
-            }
-        },
-        "MeshFilter": {
-            "Component": {
-                "enabled": true
-            },
-            "modelIndex": 0
-        },
-        "Material": {
-            "textureIndex": 0
         }
     },
     "Damager": {
-        "active": false,
+        "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -985,7 +761,7 @@
         },
         "MeshFilter": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "modelIndex": 0
         },
@@ -995,6 +771,7 @@
     },
     "Enemy": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1024,7 +801,7 @@
         },
         "MeshFilter": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "modelIndex": 0
         },
@@ -1034,6 +811,7 @@
     },
     "Knife": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1063,7 +841,7 @@
         },
         "MeshFilter": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "modelIndex": 0
         },
@@ -1073,6 +851,7 @@
     },
     "Point 1": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1085,9 +864,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -77.75,
-                "y": 1.0,
-                "z": 12.100000381469727
+                "x": -109.73566436767578,
+                "y": 0.0,
+                "z": 32.93695831298828
             },
             "Rotation": {
                 "x": 0.0,
@@ -1112,6 +891,7 @@
     },
     "Point 2": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1124,9 +904,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -77.75,
-                "y": 1.0,
-                "z": 32.099998474121097
+                "x": -123.92709350585938,
+                "y": 0.0,
+                "z": 18.844287872314454
             },
             "Rotation": {
                 "x": 0.0,
@@ -1151,6 +931,7 @@
     },
     "Point 3": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1163,9 +944,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -97.75,
-                "y": 1.0,
-                "z": 32.099998474121097
+                "x": -109.83442687988281,
+                "y": 0.0,
+                "z": 4.652856826782227
             },
             "Rotation": {
                 "x": 0.0,
@@ -1190,6 +971,7 @@
     },
     "Point 4": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1202,9 +984,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -97.75,
-                "y": 1.0,
-                "z": 12.100000381469727
+                "x": -95.64299774169922,
+                "y": 0.0,
+                "z": 18.745527267456056
             },
             "Rotation": {
                 "x": 0.0,
@@ -1229,6 +1011,7 @@
     },
     "3D Point": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1241,9 +1024,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": 5.0,
+                "x": 172.77603149414063,
                 "y": 0.0,
-                "z": 0.0
+                "z": 192.26443481445313
             },
             "Rotation": {
                 "x": 0.0,
@@ -1266,8 +1049,197 @@
             "textureIndex": 0
         }
     },
-    "Score": {
+    "ParticleSystem(Clone)": {
         "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 96.1500015258789,
+                "y": 11.800000190734864,
+                "z": 107.25
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": -1.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            }
+        },
+        "ParticleSystem": {
+            "value0": {
+                "enabled": true
+            },
+            "textureIndex": 4,
+            "numberOfObjects": 30,
+            "burst": true,
+            "loop": true,
+            "gravity": true,
+            "life": 2.0,
+            "randomVelocity": {
+                "x": true,
+                "y": true,
+                "z": true
+            },
+            "randomPosition": {
+                "x": false,
+                "y": false,
+                "z": false
+            },
+            "randomRotation": {
+                "x": false,
+                "y": false,
+                "z": false
+            },
+            "size": {
+                "x": 0.009999999776482582,
+                "y": 0.009999999776482582,
+                "z": 0.009999999776482582
+            },
+            "positionOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "velocityOffset": {
+                "x": 1.0,
+                "y": 1.0,
+                "z": 1.0
+            },
+            "rotationOffset": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "speed": {
+                "x": 4.0,
+                "y": 4.0,
+                "z": 4.0
+            }
+        }
+    },
+    "Player HP Red": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 0.0,
+            "b": 0.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 20.0,
+                "y": 29.0,
+                "z": -0.39998477697372439
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.14000000059604646,
+                "y": 0.12600000202655793,
+                "z": 0.14000000059604646
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 100.0,
+                "y": 100.0
+            },
+            "TexCoord": {
+                "x": 9.800000190734864,
+                "y": 10.600000381469727
+            },
+            "Color": {
+                "r": 0.0,
+                "g": 1.0,
+                "b": 0.0780487060546875,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 2
+        }
+    },
+    "Player HP": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 0.29230761528015139,
+            "g": 1.0,
+            "b": 0.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 20.0,
+                "y": 29.0,
+                "z": -0.39998477697372439
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.14000000059604646,
+                "y": 0.12600000202655793,
+                "z": 0.14000000059604646
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 100.0,
+                "y": 100.0
+            },
+            "TexCoord": {
+                "x": 9.800000190734864,
+                "y": 10.600000381469727
+            },
+            "Color": {
+                "r": 0.0,
+                "g": 1.0,
+                "b": 0.0780487060546875,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 2
+        }
+    },
+    "Score": {
+        "active": false,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1304,7 +1276,8 @@
         }
     },
     "Shadow Map": {
-        "active": true,
+        "active": false,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1357,6 +1330,7 @@
     },
     "Aimer": {
         "active": true,
+        "shadow": false,
         "Color": {
             "r": 1.0,
             "g": 1.0,
@@ -1369,8 +1343,8 @@
                 "enabled": true
             },
             "Position": {
-                "x": 0.0,
-                "y": 0.0,
+                "x": 415.0,
+                "y": 186.0,
                 "z": 0.0
             },
             "Rotation": {
@@ -1405,6 +1379,59 @@
         },
         "Material": {
             "textureIndex": 38
+        }
+    },
+    "Pause Menu": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 480.0,
+                "y": 270.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.0,
+                "y": 0.05000000074505806,
+                "z": 1.0
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 100.0,
+                "y": 100.0
+            },
+            "TexCoord": {
+                "x": 1.0,
+                "y": 1.0
+            },
+            "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 2
         }
     }
 }

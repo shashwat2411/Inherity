@@ -26,6 +26,7 @@ public:
 		PLUS_T,
 		EMPTY_T,
 		ENEMY_SPRITE_T,
+		COLLISION_OBJECT_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -58,6 +59,7 @@ public:
 
 		//GAME TEXTURES
 		AIM_T,
+		GUN_WIPE_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -89,6 +91,7 @@ public:
 		LoadTexture(&Textures[PLUS_T], "asset\\texture\\imGui\\plus.png");
 		LoadTexture(&Textures[EMPTY_T], "asset\\texture\\imGui\\empty.png");
 		LoadTexture(&Textures[ENEMY_SPRITE_T], "asset\\texture\\imGui\\enemySprite.png");
+		LoadTexture(&Textures[COLLISION_OBJECT_T], "asset\\texture\\imGui\\collisionCube.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");
@@ -116,6 +119,7 @@ public:
 		LoadTexture(&Textures[CHRONIX_T], "asset\\texture\\Title\\chronix.png");
 
 		LoadTexture(&Textures[AIM_T], "asset\\texture\\aim.png");
+		LoadTexture(&Textures[GUN_WIPE_T], "asset\\texture\\Material_Textures\\wipe2.png");
 
 
 		//NAMES
@@ -163,6 +167,7 @@ public:
 		textureNames[CHRONIX_T]				= "CHRONIX";
 
 		textureNames[AIM_T]					= "AIM";
+		textureNames[GUN_WIPE_T]			= "GUN WIPE";
 	}
 
 	static void UnReadTexture()

@@ -227,8 +227,11 @@ GAMEOBJECT* GAMEOBJECT::SetParent(GAMEOBJECT* parent)
 void GAMEOBJECT::Destroy(bool value)
 {
 	destroy = value;
-	for (auto child : Children) { child->Destroy(value); }
-	if (shadow != nullptr) { shadow->shadow->Destroy(); }
+	for (auto child : Children) 
+	{ 
+		child->Destroy(value); 
+	}
+	//if (shadow != nullptr) { shadow->shadow->Destroy(); }
 }
 
 bool GAMEOBJECT::Remove()
@@ -296,6 +299,10 @@ void GAMEOBJECT::EngineDisplay()
 			ImGui::SameLine();
 
 			std::vector<std::string> list = Manager::GetScene()->GetGameObjectNames(GAMEOBJECT_LAYER);
+
+			std::vector<std::string> list2 = Manager::GetScene()->GetGameObjectNames(SPRITE_LAYER);
+			list.insert(list.end(), list2.begin(), list2.end());
+
 			list.push_back("nullptr");
 
 			if (Parent == nullptr) { parentIndex = (int)list.size() - 1; }
@@ -337,7 +344,7 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else { gameObjectName = "nullptr"; }
 	}
 
-	archive(CEREAL_NVP(active), CEREAL_NVP(Color), cereal::make_nvp("Parent", gameObjectName));
+	archive(CEREAL_NVP(active), cereal::make_nvp("shadow", depthShadow), CEREAL_NVP(Color), cereal::make_nvp("Parent", gameObjectName));
 	
 	for (auto com : components)
 	{
@@ -353,6 +360,7 @@ void GAMEOBJECT::serialize(Archive & archive)
 		else if (AudioSource* caster	= dynamic_cast<AudioSource*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (MeshFilter* caster		= dynamic_cast<MeshFilter*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 		else if (ParticleSystem* caster	= dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (MapCollision* caster	= dynamic_cast<MapCollision*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 	}
 
 	if (mat != nullptr) { archive(cereal::make_nvp("Material", *mat)); }

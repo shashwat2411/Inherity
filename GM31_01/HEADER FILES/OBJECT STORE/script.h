@@ -27,6 +27,9 @@ public:
 	
 	D3DXVECTOR3* aimPoint;
 
+	GAMEOBJECT* gun1;
+	GAMEOBJECT* gun2;
+
 private:
 	bool setAnimation;
 
@@ -80,6 +83,8 @@ public:
 	void EngineDisplay() override;
 
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
+
+	void OnDestruction();
 
 };
 class HitPoints : public Script
@@ -294,6 +299,73 @@ public:
 
 	D3DXVECTOR3* GetPoint() { return &point->transform->Position; }
 };
+class MapCollision : public Script
+{
+private:
+
+public:
+
+	MapCollision() { name = "MapCollision"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(
+			cereal::virtual_base_class<Component>(this)
+		);
+	}
+};
+class GunDissolve : public Script
+{
+private:
+	D3DXCOLOR dissolveColor;
+
+public:
+
+	GunDissolve() { name = "GunDissolve"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+};
+class PlayerHealth : public Script
+{
+private:
+	bool invincible;
+
+	float hp;
+	float redHp;
+	float maxHp;
+
+	BAR* health1;
+	BAR* health2;
+
+public:
+
+	PlayerHealth() { name = "PlayerHealth"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	bool Damage(float damage);
+	void Heal(float heal);
+
+};
 
 //Camera Scripts
 class CameraScript : public Script
@@ -354,12 +426,25 @@ class RevolutionCamera : public CameraScript
 {
 private:
 	float offsetSpeed = 0.02f;
+	
+	D3DXVECTOR3 screenLimit = D3DXVECTOR3(300.0f, 180.0f, -40.0f);
+
+	D3DXVECTOR3 followSpeed = D3DXVECTOR3(0.012f, 0.08f, 0.0f);
 	D3DXVECTOR3 targetOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	D3DXVECTOR3 backUpDistance = D3DXVECTOR3(0.0f, 4.0f, 8.0f);
 
 public:
 
 	void Update() override;
 
 	void EngineDisplay() override;
+
+	void SetBackUpDistance(D3DXVECTOR3 value) { backUpDistance = value; }
+	void SetFollowSpeed(D3DXVECTOR3 value) { followSpeed = value; }
+	void SetScreenLimit(D3DXVECTOR3 value) { screenLimit = value; }
+
+	D3DXVECTOR3 GetBackUpDistance() { return backUpDistance; }
+	D3DXVECTOR3 GetFollowSpeed() { return followSpeed; }
+	D3DXVECTOR3 GetScreenLimit() { return screenLimit; }
 
 };

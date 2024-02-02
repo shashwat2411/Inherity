@@ -56,6 +56,7 @@ enum LAYER
 {
 	CAMERA_LAYER = 0,
 	GAMEOBJECT_LAYER,
+	LATEOBJECT_LAYER,
 	COLLIDER_LAYER,
 	GIZMO_LAYER,
 	BILLBOARD_LAYER,
@@ -103,6 +104,7 @@ public:
 	//Virtual Functions
 	virtual void BeforeInit();
 	virtual void Init() {}
+	virtual void LateInit() {}
 	virtual void Update() {}
 
 	PLAYER* GetPlayer() { return player; }
@@ -190,6 +192,18 @@ public:
 				{
 					return obj;
 				}
+			}
+		}
+		return nullptr;
+	}
+
+	GAMEOBJECT* Find(std::string name, LAYER layer)
+	{
+		for (auto obj : GameObjects[int(layer)])
+		{
+			if (obj->GetTag() == name)
+			{
+				return obj;
 			}
 		}
 		return nullptr;

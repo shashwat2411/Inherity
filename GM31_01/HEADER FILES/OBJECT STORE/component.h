@@ -15,6 +15,7 @@ class Model;
 class Audio;
 class SOUND;
 class EMPTYOBJECT;
+class BILLBOARD;
 
 #define COLLIDERS
 
@@ -27,7 +28,7 @@ class EMPTYOBJECT;
 #define GRAVITY_CONSTANT 1.0f
 #define GRAVITY_ACCELERATION 1.1f
 
-#define TILES 20
+#define TILES 40
 
 //Animation Based Classes
 class Data
@@ -585,6 +586,7 @@ private:
 
 	std::vector<PARTICLE*> particles;
 
+	BILLBOARD* part;
 	SCENE* scene;
 
 public:
@@ -617,8 +619,10 @@ public:
 
 	void EngineDisplay() override;
 
+	bool GetPlay() { return play; }
 	int GetNumberOfObjects() { return numberOfObjects; }
 
+	void SetPlay(bool value) { play = value; }
 	void SetTexture(TextureReader::READ_TEXTURE text);
 	void SetParticleCount(int value);
 
@@ -802,6 +806,8 @@ private:
 	};
 
 private:
+	bool untimed;
+
 	int animIndex;
 
 	std::vector<Animation*> animation;
@@ -824,6 +830,10 @@ public:
 
 	void EngineDisplay() override;
 
+	void SetUntimed(bool value) { untimed = value; }
+	void SetCurrentIndex(int value) { animIndex = value; }
+
+	bool GetUntimed() { return untimed; }
 	int GetCurrentIndex() { return animIndex; }
 	Animation::ANIMATION_STATUS GetAnimationState(int index)
 	{

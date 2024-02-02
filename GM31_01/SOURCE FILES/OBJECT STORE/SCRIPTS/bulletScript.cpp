@@ -1,10 +1,13 @@
 #include "script.h"
 #include "manager.h"
+#include "customScenes.h"
 
 void BulletScript::Start()
 {
-	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
+	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::BULLET_M);
 	gameObject->AddComponent<Rigidbody>();
+
+	gameObject->AddMaterial<ToonMaterial>();
 
 	gameObject->rigidbody->useGravity = false;
 
@@ -20,7 +23,12 @@ void BulletScript::Update()
 	timerVector["counter"] += Time::deltaTime;
 	if (timerVector["counter"] >= timerVector["max life"])
 	{
-		gameObject->Destroy();
+		OnDestruction();
+	}
+
+	if (gameObject->transform->GlobalPosition.y < gameObject->transform->Scale.y / 2.0f)
+	{
+		OnDestruction();
 	}
 
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
@@ -37,7 +45,22 @@ void BulletScript::EngineDisplay()
 
 void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
 {
-	gameObject->Destroy();
+
 
 	return;
+}
+
+void BulletScript::OnDestruction()
+{
+	GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
+	BULLETDESTRUCTION* effect = game->GetBulletDestroyEffect();
+
+	if (effect)
+	{
+		effect->SetActive(true);
+		effect->particleSystem->Play();
+		effect->transform->Position = gameObject->transform->GlobalPosition;
+	}
+
+	gameObject->Destroy(true);
 }

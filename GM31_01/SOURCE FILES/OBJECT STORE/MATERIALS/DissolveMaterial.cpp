@@ -8,7 +8,6 @@ void DissolveMaterial::Start()
 	SetFloat("_Delta", 0.0075f);
 	SetFloat("_Dissolve_Range", 0.3f);
 
-	SetTexture("_Texture", TextureReader::BOX_T);
 	SetTexture("_Dissolve_Texture", TextureReader::DISSOLVE_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\DepthShadowMappingVS.cso");
@@ -18,8 +17,8 @@ void DissolveMaterial::Start()
 
 void DissolveMaterial::Update()
 {
-	if (floats["_Threshold"] > 1.1f || floats["_Threshold"] < 0.0f) { floats["_Delta"] *= -1.0f; }
-	floats["_Threshold"] += floats["_Delta"] * Time::fixedTimeScale;
+	//if (floats["_Threshold"] > 1.1f || floats["_Threshold"] < 0.0f) { floats["_Delta"] *= -1.0f; }
+	//floats["_Threshold"] += floats["_Delta"] * Time::fixedTimeScale;
 }
 
 void DissolveMaterial::Draw()

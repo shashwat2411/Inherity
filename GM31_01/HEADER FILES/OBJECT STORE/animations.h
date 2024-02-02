@@ -25,3 +25,15 @@ public:
 
 	void Start() override;
 };
+class PauseMenu : public Animation
+{
+public:
+
+	void Start() override;
+};
+class PauseMenuReturn : public Animation
+{
+public:
+
+	void Start() override;
+};

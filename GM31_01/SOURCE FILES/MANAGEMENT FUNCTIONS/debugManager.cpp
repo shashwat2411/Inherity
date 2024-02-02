@@ -1,6 +1,8 @@
 #include "debugManager.h"
 #include "manager.h"
 #include "input.h"
+#include "customScenes.h"
+#include "../saveFunctions.h"
 
 bool pressedDebug[2] = { false };
 
@@ -9,6 +11,8 @@ bool DebugManager::paused = false;
 bool DebugManager::gizmo = false;
 bool DebugManager::show_demo_window = true;
 bool show_plot_demo_window = true;
+
+bool starter = false;
 
 int DebugManager::index = 0;
 int DebugManager::layer = 0;
@@ -19,6 +23,7 @@ const char* str[MAX_LAYER] =
 {
 	"CAMERA_LAYER",
 	"GAMEOBJECT_LAYER",
+	"LATEOBJECT_LAYER",
 	"COLLIDER_LAYER",
 	"GIZMO_LAYER",
 	"BILLBOARD_LAYER",
@@ -51,11 +56,12 @@ void DebugManager::Init()
 
 	io.Fonts->AddFontDefault();
 
+	starter = false;
 	play = false;
 	paused = false;
 	gizmo = true;
 
-	Time::timeScale = 0.0f;
+	Time::timeScale = 1.0f;
 	Time::fixedTimeScale = 1.0f;
 	Time::deltaTime = 1.0f / FRAME_RATE;
 #else
@@ -82,6 +88,7 @@ void DebugManager::Uninit()
 void DebugManager::Update()
 {
 #ifdef DEBUG
+
 	// フレームの開始
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame(SCREEN_WIDTH, SCREEN_HEIGHT);//こいつを画面の解像度分にするように改造する
@@ -97,6 +104,13 @@ void DebugManager::Draw()
 	//フレームの描画
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+
+	if (starter == false && LOAD_SCENE::GetLogo() == false)
+	{ 
+		play = false; 
+		starter = true;
+		Time::timeScale = 0.0f;
+	}
 #endif
 }
 
@@ -199,7 +213,10 @@ void DebugManager::DebugDraw(SCENE * scene)
 					default: break;
 					}
 				}
+
 				vector[index]->EngineDisplay();
+#endif
+#ifdef DEBUG
 
 				int i = 0;
 				for (auto component : vector[index]->GetComponentList())
@@ -244,6 +261,7 @@ void DebugManager::DebugDraw(SCENE * scene)
 					if (ImGui::Selectable("BoxCollider"))		{ selected = true; vector[index]->AddComponent<BoxCollider>(); }
 					if (ImGui::Selectable("MeshFilter"))		{ selected = true; vector[index]->AddComponent<MeshFilter>(); }
 					if (ImGui::Selectable("ParticleSystem"))	{ selected = true; vector[index]->AddComponent<ParticleSystem>(); }
+					if (ImGui::Selectable("MapCollision"))		{ selected = true; vector[index]->AddComponent<MapCollision>(); }
 
 					if (selected == true)
 					{
@@ -464,6 +482,17 @@ void DebugManager::DebugDraw(SCENE * scene)
 			index = (int)vector.size() - 1;
 		}
 
+		ImGui::SameLine();
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::COLLISION_OBJECT_T), size))
+		{
+			Manager::GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), COLLIDER_LAYER);
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("MAPCOLLISIONOBJECT", 1));
+			layer = COLLIDER_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = (int)vector.size() - 1;
+		}
+
 		ImGui::End();
 	}
 #endif
@@ -471,6 +500,8 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int index, bool uneditable)
 {
+#ifdef DEBUG
+
 	int reference = (*value ? 1 : 0);
 
 	ImGui::PushItemWidth(offset);
@@ -495,10 +526,14 @@ bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int 
 	ImGui::PopID();
 
 	return *value;
+
+#endif
 }
 
 float DebugManager::FloatDisplay(float* value, float offset, const char* text, bool drag, D3DXVECTOR2 speedLimit, int index, bool uneditable)
 {
+#ifdef DEBUG
+
 	char str[40];
 	sprintf_s(str, sizeof(str), "%s : %.2f", text, *value);
 
@@ -519,10 +554,14 @@ float DebugManager::FloatDisplay(float* value, float offset, const char* text, b
 	ImGui::PopID();
 
 	return *value;
+
+#endif
 }
 
 D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const char* text, float speed, int index, bool uneditable, float min, float max)
 {
+#ifdef DEBUG
+
 	D3DXVECTOR3 reference = *value;
 
 	ImGui::PushItemWidth(offset);
@@ -542,4 +581,6 @@ D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const 
 	ImGui::PopID();
 
 	return *value;
+
+#endif
 }

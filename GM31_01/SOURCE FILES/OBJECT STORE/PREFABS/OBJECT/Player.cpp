@@ -7,6 +7,7 @@ void PLAYER::Start()
 	//AddComponent<SphereCollider>();
 	AddComponent<PlayerMovement>();
 	AddComponent<PlayerControl>();
+	AddComponent<PlayerHealth>();
 	//AddComponent<Ground>();
 
 	freezeY = true;

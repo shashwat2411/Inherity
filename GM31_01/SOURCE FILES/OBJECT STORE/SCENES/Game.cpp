@@ -1,7 +1,12 @@
 #include "customScenes.h"
+#include "animations.h"
 
 IMAGE* shadow;
 IMAGE* aimer;
+IMAGE* pause;
+
+bool paused = false;
+bool pauseReturn = false;
 
 void GAME_SCENE::Init()
 {
@@ -68,14 +73,18 @@ void GAME_SCENE::Init()
 	}
 	*/
 
+
 	//UI
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
 	shadow = AddGameObject<IMAGE>("Shadow Map", SPRITE_LAYER);
 	aimer = AddGameObject<IMAGE>("Aimer", SPRITE_LAYER);
+	pause = AddGameObject<IMAGE>("Pause Menu", SPRITE_LAYER);
 
 	//接続処理
 	{
 		PlayerModel->SetParent(player);
+		player->GetComponent<PlayerMovement>()->gun1 = Manager::GetScene()->Find("Gun Left", LATEOBJECT_LAYER); 
+		player->GetComponent<PlayerMovement>()->gun2 = Manager::GetScene()->Find("Gun Right", LATEOBJECT_LAYER); 
 
 		reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 
@@ -103,8 +112,18 @@ void GAME_SCENE::Init()
 
 		PlayerModel->SetReflection(true);
 		enemy->SetReflection(true);
+		enemy->GetChildren()[0]->SetReflection(true);
 		Field->SetReflection(true);
 		Water->SetReflection(true);
+		map->SetReflection(true);
+
+		GetCamera()->SetDepthShadow(false);
+		skyDome->SetDepthShadow(false);
+		player->SetDepthShadow(false);
+		Field->SetDepthShadow(false);
+		Water->SetDepthShadow(false);
+		map->SetDepthShadow(false);
+
 
 		torus->AddComponent<MeshFilter>();
 		torus->AddMaterial<MetallicMaterial>();
@@ -135,6 +154,11 @@ void GAME_SCENE::Init()
 		aimer->AddComponent<ScreenToWorld>();
 		aimer->GetMaterial()->SetTexture("_Texture", TextureReader::AIM_T);
 
+		pause->AddComponent<Animator>()->AddAnimation<PauseMenu>();
+		pause->GetComponent<Animator>()->AddAnimation<PauseMenuReturn>();
+		pause->GetComponent<Animator>()->SetUntimed(true);
+		pause->GetComponent<Animator>()->SetCurrentIndex(0);
+
 		player->GetComponent<PlayerMovement>()->aimPoint = aimer->GetComponent<ScreenToWorld>()->GetPoint();
 	}
 
@@ -148,17 +172,57 @@ void GAME_SCENE::Init()
 		audio->SetPlayOnAwake(false);*/
 		//audio->Play(true, 0.2f);
 	}
+
+	paused = false;
+	pauseReturn = false;
+}
+
+void GAME_SCENE::LateInit()
+{
+	//Particle Systems
+	{
+		for (int i = 0; i < 30; i++) 
+		{
+			std::string name = "effect" + std::to_string(i);
+			bulletDestruction.push_back(AddGameObject<BULLETDESTRUCTION>(name, BILLBOARD_LAYER)); 
+
+		}
+	}
 }
 
 void GAME_SCENE::Update()
 {
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
+	if (end == false)
+	{
+		aimer->transform->Position = D3DXVECTOR3(ImGui::GetMousePos().x, ImGui::GetMousePos().y, 0.0f);
+		shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
+	}
 
-	aimer->transform->Position = D3DXVECTOR3(ImGui::GetMousePos().x, ImGui::GetMousePos().y, 0.0f);
-	shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
+	Animator* pauser = pause->GetComponent<Animator>();
+	if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
+	{
+		if (paused == false)
+		{
+			Time::timeScale = 0.0f;
+			pauser->PlayAnimation(0, Animation::PLAYBACK);
+			paused = true;
+		}
+		else
+		{
+			pauser->PlayAnimation(1, Animation::PLAYBACK);
+			pauseReturn = true;
+		}
+	}
 
-#ifdef DEBUG	// デバッグ情報を表示する
-	//char* str = GetDebugStr();
-	//sprintf(&str[strlen(str)], " | Volume Percentage : %.2f", audio->volumePercentage);
-#endif
+	if (pauseReturn == true)
+	{
+		if (pauser->GetAnimationState(1) == Animation::END)
+		{
+			pauseReturn = false;
+			paused = false;
+			Time::timeScale = 1.0f;
+		}
+	}
+
 }

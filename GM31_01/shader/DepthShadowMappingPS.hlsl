@@ -16,27 +16,10 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	float total = 0.0f;
 	//日向での色　＝　普通のテクスチャ　＊　頂点色を作成しておく
 	
-	outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
-	outDiffuse *= In.Diffuse;
+	//outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
+	outDiffuse = In.Diffuse;
 
-	{
-		float4 normal = normalize(In.Normal);
 
-		float light = -dot(normal.xyz, Light.Direction.xyz);
-
-		if (light > 0.7f) { light = 1.0f; }
-		else if (light > 0.4f) { light = 0.7f; }
-		else { light = 0.5f; }
-
-		outDiffuse.rgb *= saturate(light);
-
-		//float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
-		//eyev = normalize(eyev);
-
-		//float d = dot(eyev, normal.xyz);
-
-		//if (d > -0.3f) { outDiffuse.rgb *= 0.0; }
-	}
 
 
 	In.ShadowPosition.xyz /= In.ShadowPosition.w;
@@ -64,17 +47,24 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		{
 			multiplier = 0.0f;
 		}
+
 	}
 
 	total /= totalTexels;
 	float lightFactor = 1.0f - total * multiplier;
 
-	outDiffuse.rgb *= max(In.Diffuse.rgb * lightFactor, 0.3f);
-	outDiffuse.a *= In.Diffuse.a;
+	{
+		float4 normal = normalize(In.Normal);
 
-	outDiffuse *= color;
+		float light = -dot(normal.xyz, Light.Direction.xyz);
 
+		if (light > 0.7f) { light = 1.0f; }
+		else if (light > 0.4f) { light = 0.7f; }
+		else { light = 0.5f; }
 
-	//outDiffuse.rgb *= 0.5f;
+		outDiffuse.rgb *= saturate(light *lightFactor);
 
+	}
+
+	outDiffuse.a = In.Diffuse.a;
 }

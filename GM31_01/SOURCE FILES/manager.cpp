@@ -94,9 +94,10 @@ void Manager::FixedUpdate()
 			Scene->UpdateBefore();
 			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->UpdateBefore(); }
 
-			Scene->Update();
-			if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Update(); }
 		}
+
+		Scene->Update();
+		if (DontDestroyOnLoad != nullptr) { DontDestroyOnLoad->Update(); }
 
 		if (Input::GetKeyPress(VK_CONTROL))
 		{
@@ -175,7 +176,7 @@ void Manager::Draw()
 #ifdef MIRROR_MAPPING
 		//3パス目　鏡の環境マッピング
 		{
-			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 1.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
+			D3DXVECTOR3 lookatOffset = D3DXVECTOR3(0.0f, 2.0f, 0.0f);	//+Y D3D11_TEXTURECUBE_FACE_POSITIVE_Y
 			D3DXVECTOR3 upOffset = D3DXVECTOR3(0.0f, 0.0f, -1.0f);
 
 			D3DXVECTOR3 eye;
@@ -192,7 +193,7 @@ void Manager::Draw()
 			//}
 
 			eye = vPlayerPos;
-			lookAt = vPlayerPos + lookatOffset;
+			lookAt = vPlayerPos + GetScene()->GetReflector()->transform->GetForwardDirection() * 2.0f;
 			up = upOffset;	
 			D3DXMatrixLookAtLH(&view, &eye, &lookAt, &up);
 
@@ -296,13 +297,14 @@ void Manager::Open(std::string name)
 	archive(adder);
 	for(AddObjectSaveFile add : adder)
 	{
-		if (add.name == "CUBE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)")); } }
-		if (add.name == "CYLINDER")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)")); } }
-		if (add.name == "IMAGE")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER); } }
-		if (add.name == "BILLBOARD")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER); } }
-		if (add.name == "PARTICLESYSTEM")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)"), BILLBOARD_LAYER); } }
-		if (add.name == "EMPTYOBJECT")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)")); } }
-		if (add.name == "ENEMY")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)")); } }
+		if (add.name == "CUBE")						{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)")); } }
+		if (add.name == "CYLINDER")					{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)")); } }
+		if (add.name == "IMAGE")					{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER); } }
+		if (add.name == "BILLBOARD")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "PARTICLESYSTEM")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "EMPTYOBJECT")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)")); } }
+		if (add.name == "ENEMY")					{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)")); } }
+		if (add.name == "ENMAPCOLLISIONOBJECTEMY")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), COLLIDER_LAYER); } }
 	}
 	GetScene()->objectAdder = adder;
 
@@ -318,6 +320,7 @@ void Manager::Open(std::string name)
 		if (cdd.name == "BoxCollider")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<BoxCollider>(); }
 		if (cdd.name == "MeshFilter")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MeshFilter>(); }
 		if (cdd.name == "ParticleSystem")	{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<ParticleSystem>(); }
+		if (cdd.name == "MapCollision")		{ GetScene()->Find(cdd.gameObject.c_str())->AddComponent<MapCollision>(); }
 	}
 	GetScene()->componentAdder = cdder;
 
