@@ -63,6 +63,30 @@ public:
 
 };
 
+class GEOMETRYMATRIX
+{
+public:
+	D3DXVECTOR3 Position;
+	D3DXVECTOR3 Rotation;
+	D3DXVECTOR3 Scale;
+
+public:
+
+	GEOMETRYMATRIX() {}
+	GEOMETRYMATRIX(float a, float b, float c)
+	{
+		Position = D3DXVECTOR3(a, a, a);
+		Rotation = D3DXVECTOR3(b, b, b);
+		Scale = D3DXVECTOR3(c, c, c);
+	}
+	GEOMETRYMATRIX(D3DXVECTOR3 a, D3DXVECTOR3 b, D3DXVECTOR3 c)
+	{
+		Position = a;
+		Rotation = b;
+		Scale = c;
+	}
+};
+
 template<class Archive>
 void serialize(Archive & archive, D3DXVECTOR2 & vector)
 {

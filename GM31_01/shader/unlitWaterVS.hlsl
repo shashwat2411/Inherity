@@ -29,8 +29,6 @@ void main(in VS_IN In, out PS_IN Out)
 	worldNormal = normalize(worldNormal);
 	Out.Normal = worldNormal;
 
-	float light = -dot(Light.Direction.xyz, worldNormal.xyz);
-	light = saturate(light);
 	Out.Diffuse.rgb = In.Diffuse.rgb;
 	Out.Diffuse.a = In.Diffuse.a;
 

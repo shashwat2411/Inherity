@@ -15,6 +15,7 @@ class Model;
 class Audio;
 class SOUND;
 class EMPTYOBJECT;
+class BILLBOARD;
 
 #define COLLIDERS
 
@@ -585,6 +586,7 @@ private:
 
 	std::vector<PARTICLE*> particles;
 
+	BILLBOARD* part;
 	SCENE* scene;
 
 public:
@@ -617,8 +619,10 @@ public:
 
 	void EngineDisplay() override;
 
+	bool GetPlay() { return play; }
 	int GetNumberOfObjects() { return numberOfObjects; }
 
+	void SetPlay(bool value) { play = value; }
 	void SetTexture(TextureReader::READ_TEXTURE text);
 	void SetParticleCount(int value);
 

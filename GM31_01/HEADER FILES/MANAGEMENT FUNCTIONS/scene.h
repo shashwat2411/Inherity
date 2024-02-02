@@ -104,6 +104,7 @@ public:
 	//Virtual Functions
 	virtual void BeforeInit();
 	virtual void Init() {}
+	virtual void LateInit() {}
 	virtual void Update() {}
 
 	PLAYER* GetPlayer() { return player; }

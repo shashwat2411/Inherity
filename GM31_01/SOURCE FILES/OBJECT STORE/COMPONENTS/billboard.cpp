@@ -31,6 +31,7 @@ void Billboard::Start()
 
 	gameObject->AddMaterial<SpriteMaterial>();
 	gameObject->SetBillboard(true);
+	gameObject->SetDepthShadow(false);
 
 	{
 		VERTEX_3D vertex[4];
@@ -177,7 +178,7 @@ void Billboard::Draw()
 	{ 
 		if (GeometryInstancingMaterial* caster = dynamic_cast<GeometryInstancingMaterial*>(gameObject->GetMaterial()))
 		{
-			caster->GeometryInstancing();
+			caster->GeometryInstancing(gameObject->Parent->GetComponent<ParticleSystem>()->GetNumberOfObjects());
 		}
 	}	//Geometry Instancing
 	else 

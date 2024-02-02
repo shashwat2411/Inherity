@@ -73,6 +73,7 @@ void GAME_SCENE::Init()
 	}
 	*/
 
+
 	//UI
 	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
 	shadow = AddGameObject<IMAGE>("Shadow Map", SPRITE_LAYER);
@@ -82,6 +83,8 @@ void GAME_SCENE::Init()
 	//Ú‘±ˆ—
 	{
 		PlayerModel->SetParent(player);
+		player->GetComponent<PlayerMovement>()->gun1 = Manager::GetScene()->Find("Gun Left", LATEOBJECT_LAYER); 
+		player->GetComponent<PlayerMovement>()->gun2 = Manager::GetScene()->Find("Gun Right", LATEOBJECT_LAYER); 
 
 		reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
 
@@ -113,6 +116,14 @@ void GAME_SCENE::Init()
 		Field->SetReflection(true);
 		Water->SetReflection(true);
 		map->SetReflection(true);
+
+		GetCamera()->SetDepthShadow(false);
+		skyDome->SetDepthShadow(false);
+		player->SetDepthShadow(false);
+		Field->SetDepthShadow(false);
+		Water->SetDepthShadow(false);
+		map->SetDepthShadow(false);
+
 
 		torus->AddComponent<MeshFilter>();
 		torus->AddMaterial<MetallicMaterial>();
@@ -164,6 +175,19 @@ void GAME_SCENE::Init()
 
 	paused = false;
 	pauseReturn = false;
+}
+
+void GAME_SCENE::LateInit()
+{
+	//Particle Systems
+	{
+		for (int i = 0; i < 30; i++) 
+		{
+			std::string name = "effect" + std::to_string(i);
+			bulletDestruction.push_back(AddGameObject<BULLETDESTRUCTION>(name, BILLBOARD_LAYER)); 
+
+		}
+	}
 }
 
 void GAME_SCENE::Update()

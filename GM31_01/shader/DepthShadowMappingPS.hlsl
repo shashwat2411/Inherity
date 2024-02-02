@@ -19,18 +19,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	//outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
 	outDiffuse = In.Diffuse;
 
-	{
-		float4 normal = normalize(In.Normal);
 
-		float light = -dot(normal.xyz, Light.Direction.xyz);
-
-		if (light > 0.7f) { light = 1.0f; }
-		else if (light > 0.4f) { light = 0.7f; }
-		else { light = 0.5f; }
-
-		outDiffuse.rgb *= saturate(light);
-
-	}
 
 
 	In.ShadowPosition.xyz /= In.ShadowPosition.w;
@@ -58,12 +47,24 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		{
 			multiplier = 0.0f;
 		}
+
 	}
 
 	total /= totalTexels;
 	float lightFactor = 1.0f - total * multiplier;
 
-	outDiffuse.rgb *= max(outDiffuse.rgb * lightFactor, 0.3f);
-	outDiffuse.a = In.Diffuse.a;
+	{
+		float4 normal = normalize(In.Normal);
 
+		float light = -dot(normal.xyz, Light.Direction.xyz);
+
+		if (light > 0.7f) { light = 1.0f; }
+		else if (light > 0.4f) { light = 0.7f; }
+		else { light = 0.5f; }
+
+		outDiffuse.rgb *= saturate(light *lightFactor);
+
+	}
+
+	outDiffuse.a = In.Diffuse.a;
 }

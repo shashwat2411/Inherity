@@ -18,9 +18,25 @@ public:
 class GAME_SCENE : public SCENE
 {
 public:
+	std::vector<BULLETDESTRUCTION*> bulletDestruction;
+
+public:
 
 	void Init() override;
+	void LateInit() override;
 	void Update() override;
+
+	BULLETDESTRUCTION* GetBulletDestroyEffect()
+	{
+		for (auto bulletDestroy : bulletDestruction)
+		{
+			if (bulletDestroy->GetActive() == false)
+			{
+				return bulletDestroy;
+			}
+		}
+		return nullptr;
+	}
 };
 class RESULT_SCENE : public SCENE
 {

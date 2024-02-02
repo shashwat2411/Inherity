@@ -73,7 +73,7 @@ public:
 		ModelsOBJ[SKYDOME_M].Load("asset\\model\\skyDome.obj");
 		ModelsOBJ[ENEMY_M].Load("asset\\model\\ExplodeNew.obj");
 		ModelsOBJ[TITLE_PLAYER_MODEL_M].Load("asset\\model\\titlePlayerModel.obj");
-		ModelsOBJ[MAP_M].Load("asset\\model\\Map\\map.obj");
+		ModelsOBJ[MAP_M].Load("asset\\model\\Map\\map2.obj");
 		ModelsOBJ[KNIFE_M].Load("asset\\model\\Knife.obj");
 		ModelsOBJ[TOMATO_GUN_M].Load("asset\\model\\Tomato\\Gun.obj");
 		ModelsOBJ[BULLET_M].Load("asset\\model\\Bullet.obj");

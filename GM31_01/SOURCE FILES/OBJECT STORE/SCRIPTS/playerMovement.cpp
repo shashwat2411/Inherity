@@ -9,9 +9,6 @@ bool animationShift = false;
 Camera* camera;
 RevolutionCamera* cameraController;
 
-GAMEOBJECT* gun1 = nullptr;
-GAMEOBJECT* gun2 = nullptr;
-
 D3DXVECTOR3 rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
 void PlayerMovement::Start()
@@ -24,7 +21,8 @@ void PlayerMovement::Start()
 
 	idleCounter = 0;
 	timerVector["rollSpeed"] = 0.4f;
-	timerVector["dissolveSpeed"] = 0.1f;
+	timerVector["dissolveSpeedAppear"] = 0.05f;
+	timerVector["dissolveSpeedDissappear"] = 0.1f;
 
 	rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -43,8 +41,6 @@ void PlayerMovement::End()
 
 void PlayerMovement::Update()
 {
-	/*if (gun1 == nullptr)*/ { gun1 = Manager::GetScene()->Find("Gun Left", LATEOBJECT_LAYER); }
-	/*if (gun2 == nullptr)*/ { gun2 = Manager::GetScene()->Find("Gun Right", LATEOBJECT_LAYER); }
 
 	//Trash
 	/*
@@ -228,7 +224,8 @@ void PlayerMovement::EngineDisplay()
 		DebugManager::BoolDisplay(&move, -146.0f, "Move", 1, true);
 
 		DebugManager::FloatDisplay(&timerVector["rollSpeed"], -FLT_MIN, "Roll Speed", true, D3DXVECTOR2(0.01f, 0.0f), 2);
-		DebugManager::FloatDisplay(&timerVector["dissolveSpeed"], -FLT_MIN, "Dissolve Speed", true, D3DXVECTOR2(0.01f, 0.0f), 3);
+		DebugManager::FloatDisplay(&timerVector["dissolveSpeedAppear"], -FLT_MIN, "Dissolve Speed Appear", true, D3DXVECTOR2(0.01f, 0.0f), 3);
+		DebugManager::FloatDisplay(&timerVector["dissolveSpeedDissappear"], -FLT_MIN, "Dissolve Speed Dissappear", true, D3DXVECTOR2(0.01f, 0.0f), 3);
 
 		ImGui::TreePop();
 		ImGui::Spacing();
@@ -243,11 +240,11 @@ void PlayerMovement::NormalMove()
 
 	float thres;
 	thres = gun1->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
+	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeedDissappear"] * Time::fixedTimeScale);
 	gun1->GetMaterial()->SetFloat("_Threshold", thres);
 
 	thres = gun2->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
+	thres = Mathf::Lerp(thres, 0.0f, timerVector["dissolveSpeedDissappear"] * Time::fixedTimeScale);
 	gun2->GetMaterial()->SetFloat("_Threshold", thres);
 
 	//D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
@@ -341,11 +338,11 @@ void PlayerMovement::AimingMove()
 
 	float thres;
 	thres = gun1->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
+	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeedAppear"] * Time::fixedTimeScale);
 	gun1->GetMaterial()->SetFloat("_Threshold", thres);
 
 	thres = gun2->GetMaterial()->GetFloat("_Threshold");
-	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeed"] * Time::fixedTimeScale);
+	thres = Mathf::Lerp(thres, 2.0f, timerVector["dissolveSpeedAppear"] * Time::fixedTimeScale);
 	gun2->GetMaterial()->SetFloat("_Threshold", thres);
 	
 
@@ -433,11 +430,11 @@ void PlayerMovement::AimingMove()
 		GAMEOBJECT* spawner;
 		if (gunSelection == true)
 		{
-			spawner = Manager::GetScene()->Find("Spawn Point Left"); gunSelection = false;
+			spawner = gun1->GetChildren()[0]; gunSelection = false;
 		}
 		else
 		{
-			spawner = Manager::GetScene()->Find("Spawn Point Right"); gunSelection = true;
+			spawner = gun2->GetChildren()[0]; gunSelection = true;
 		}
 
 		face = *aimPoint - spawner->transform->GlobalPosition;

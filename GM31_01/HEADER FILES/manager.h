@@ -38,6 +38,8 @@ public:
 		Scene->Init();
 
 		Open(Scene->name);
+
+		Scene->LateInit();
 	}
 
 	static void ResetScene()

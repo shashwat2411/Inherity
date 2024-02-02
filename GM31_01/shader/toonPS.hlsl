@@ -25,5 +25,5 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 	float d = dot(eyev, normal.xyz);
 
-	if (d > -0.3f) { outDiffuse.rgb *= 0.0; }
+	if (d > -0.4f) { outDiffuse.rgb *= 0.0; }
 }

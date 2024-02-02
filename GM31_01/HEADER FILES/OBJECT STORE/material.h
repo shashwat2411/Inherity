@@ -1,7 +1,7 @@
 #pragma once
 #include "../saveFunctions.h"
 
-#define MAX_PARTICLES 100
+#define MAX_PARTICLES 1000
 
 class Material
 {
@@ -15,13 +15,13 @@ protected:
 	std::unordered_map<std::string, float> floats;
 	std::unordered_map<std::string, D3DXCOLOR> colors;
 
-	ID3D11Buffer* positionBuffer;
-	ID3D11ShaderResourceView* positionSRV;
+	//ID3D11Buffer* positionBuffer;
+	//ID3D11ShaderResourceView* positionSRV;
 
 public:
 	GAMEOBJECT* gameObject;
 
-	Material() { reflection = false; textureIndex = 0; positionBuffer = nullptr; positionSRV = nullptr; }
+	Material() { reflection = false; textureIndex = 0; /*positionBuffer = nullptr; positionSRV = nullptr;*/ }
 	~Material() {}
 
 	virtual void Start() = 0;
@@ -35,8 +35,8 @@ public:
 	float GetFloat(std::string Name) { return floats[Name]; }
 	D3DXCOLOR GetColor(std::string Name) { return colors[Name]; }
 	ID3D11ShaderResourceView* GetTexture(std::string Name) { return textures[Name]; }
-	ID3D11ShaderResourceView* GetBufferTexture() { return positionSRV; }
-	ID3D11Buffer* GetBuffer() { return positionBuffer; }
+	//ID3D11ShaderResourceView* GetBufferTexture() { return positionSRV; }
+	//ID3D11Buffer* GetBuffer() { return positionBuffer; }
 
 	void SetIndex(int value) { textureIndex = value; }
 	void SetInt(std::string Name, int value) { ints[Name] = value; }
@@ -50,8 +50,8 @@ public:
 	}
 
 
-	virtual void CreatePositionBuffer() {}
-	virtual void GeometryInstancing() {}
+	//virtual void CreatePositionBuffer() {}
+	//virtual void GeometryInstancing(int num) {}
 
 	template<class Archive>
 	void serialize(Archive & archive)
@@ -163,7 +163,24 @@ public:
 };
 class GeometryInstancingMaterial : public Material
 {
+private:
+	ID3D11Buffer* scaleBuffer;
+	ID3D11Buffer* rotationBuffer;
+	ID3D11Buffer* positionBuffer;
+	ID3D11ShaderResourceView* scaleSRV;
+	ID3D11ShaderResourceView* rotationSRV;
+	ID3D11ShaderResourceView* positionSRV;
 public:
+
+	GeometryInstancingMaterial()
+	{
+		scaleBuffer = nullptr;
+		rotationBuffer = nullptr;
+		positionBuffer = nullptr;
+		scaleSRV = nullptr;
+		rotationSRV = nullptr;
+		positionSRV = nullptr;
+	}
 
 	void Start() override;
 	void End() override;
@@ -171,8 +188,12 @@ public:
 	void Update() override {}
 	void Draw() override;
 
-	void CreatePositionBuffer() override; 
-	void GeometryInstancing() override;
+	void CreateVertexBuffer(ID3D11Buffer** buffer, ID3D11ShaderResourceView** srv);
+	void GeometryInstancing(int num);
+
+	ID3D11Buffer* GetScaleBuffer() { return scaleBuffer; }
+	ID3D11Buffer* GetRotationBuffer() { return rotationBuffer; }
+	ID3D11Buffer* GetPositionBuffer() { return positionBuffer; }
 
 };
 class ToonPhongMaterial : public Material

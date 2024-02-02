@@ -55,6 +55,21 @@ public:
 	void Update() override;
 
 };
+class MAPCOLLISIONOBJECT : public EMPTYOBJECT
+{
+public:
+
+	void Start() override;
+	void Update() override {}
+};
+
+class BULLETDESTRUCTION : public PARTICLESYSTEM
+{
+public:
+
+	void Start() override;
+	void Update() override;
+};
 
 class EXPLOSION : public BILLBOARD
 {
@@ -70,3 +85,4 @@ public:
 	void Start() override;
 	void Update() override {}
 };
+
