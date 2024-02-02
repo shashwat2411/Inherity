@@ -1,7 +1,6 @@
 #include "baseobjects.h"
 #include "manager.h"
-
-BILLBOARD* part;
+#include "material.h"
 
 void ParticleSystem::Start()
 {
@@ -33,9 +32,12 @@ void ParticleSystem::Start()
 
 	scene = Manager::GetScene();
 
+	gameObject->SetDepthShadow(false);
+
 	part = new BILLBOARD();
 	part->Init();
 	part->SetParent(gameObject);
+	//part->SetFaceInDirection(true);
 
 	//----------------------------------------------------------------
 	textureIndex = TextureReader::BOX_T;
@@ -46,7 +48,7 @@ void ParticleSystem::Start()
 		auto b = new PARTICLE();
 		b->Init();
 
-		b->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
+		b->RemoveComponent<Billboard>();
 		particles.push_back(b);
 	}
 
@@ -141,17 +143,30 @@ void ParticleSystem::Draw()
 		}
 
 
-		D3D11_MAPPED_SUBRESOURCE msr;
-		Renderer::GetDeviceContext()->Map(part->GetMaterial()->GetBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msr);
+		D3D11_MAPPED_SUBRESOURCE msr1, msr2, msr3;
+		GeometryInstancingMaterial* material = dynamic_cast<GeometryInstancingMaterial*>(part->GetMaterial());
 
-		D3DXVECTOR3* vertex = (D3DXVECTOR3*)msr.pData;
-
-		for (int x = 0; x < MAX_PARTICLES; x++)
+		if (material)
 		{
-			vertex[x] = particles[x]->transform->Position;
-		}
+			Renderer::GetDeviceContext()->Map(material->GetScaleBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msr1);
+			Renderer::GetDeviceContext()->Map(material->GetRotationBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msr2);
+			Renderer::GetDeviceContext()->Map(material->GetPositionBuffer(), 0, D3D11_MAP_WRITE_DISCARD, 0, &msr3);
 
-		Renderer::GetDeviceContext()->Unmap(part->GetMaterial()->GetBuffer(), 0);
+			D3DXVECTOR3* scale = (D3DXVECTOR3*)msr1.pData;
+			D3DXVECTOR3* rotation = (D3DXVECTOR3*)msr2.pData;
+			D3DXVECTOR3* position = (D3DXVECTOR3*)msr3.pData;
+
+			for (int x = 0; x < /*MAX_PARTICLES*/particles.size(); x++)
+			{
+				scale[x] = particles[x]->transform->Scale;
+				rotation[x] = particles[x]->transform->Rotation;
+				position[x] = particles[x]->transform->Position;
+			}
+
+			Renderer::GetDeviceContext()->Unmap(material->GetScaleBuffer(), 0);
+			Renderer::GetDeviceContext()->Unmap(material->GetRotationBuffer(), 0);
+			Renderer::GetDeviceContext()->Unmap(material->GetPositionBuffer(), 0);
+		}
 
 		part->Draw();
 
@@ -244,10 +259,10 @@ void ParticleSystem::EngineDisplay()
 void ParticleSystem::SetTexture(TextureReader::READ_TEXTURE text)
 {
 	textureIndex = text;
-	for (PARTICLE* p : particles)
-	{
-		p->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
-	}
+	//for (PARTICLE* p : particles)
+	//{
+	//	p->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
+	//}
 
 	part->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
 }
@@ -261,7 +276,8 @@ void ParticleSystem::SetParticleCount(int value)
 		auto b = new PARTICLE();
 		b->Init();
 
-		b->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
+		//b->GetMaterial()->SetTexture("_Texture", (TextureReader::READ_TEXTURE)textureIndex);
+		b->RemoveComponent<Billboard>();
 		particles.push_back(b);
 
 		numberOfObjectsToAdd--;
@@ -476,9 +492,10 @@ void ParticleSystem::serialize(Archive & archive)
 		SetParticleCount(particleNumber);
 		for(PARTICLE* p : particles)
 		{
-			p->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)textureIndex));
+			//p->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)textureIndex));
 			Reinitialize(p);
 		}
+		part->GetMaterial()->SetTexture("_Texture", ((TextureReader::READ_TEXTURE)textureIndex));
 	}
 }
 

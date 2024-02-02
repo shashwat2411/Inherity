@@ -227,8 +227,11 @@ GAMEOBJECT* GAMEOBJECT::SetParent(GAMEOBJECT* parent)
 void GAMEOBJECT::Destroy(bool value)
 {
 	destroy = value;
-	for (auto child : Children) { child->Destroy(value); }
-	if (shadow != nullptr) { shadow->shadow->Destroy(); }
+	for (auto child : Children) 
+	{ 
+		child->Destroy(value); 
+	}
+	//if (shadow != nullptr) { shadow->shadow->Destroy(); }
 }
 
 bool GAMEOBJECT::Remove()

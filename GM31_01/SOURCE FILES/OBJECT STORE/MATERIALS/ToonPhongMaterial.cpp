@@ -2,6 +2,8 @@
 
 void ToonPhongMaterial::Start()
 {
+	SetFloat("_Dissolve", -1.0f);
+
 	SetFloat("_Threshold", 0.0f);
 	SetFloat("_Dissolve_Range", 0.4f);
 
@@ -28,6 +30,7 @@ void ToonPhongMaterial::Draw()
 	param.dissolveThreshold = (1.0f - floats["_Threshold"]);
 	param.dissolveRange = floats["_Dissolve_Range"];
 	param.color = colors["_Dissolve_Color"];
+	param.color2.r = floats["_Dissolve"];
 
 	Renderer::SetParameter(param);
 }

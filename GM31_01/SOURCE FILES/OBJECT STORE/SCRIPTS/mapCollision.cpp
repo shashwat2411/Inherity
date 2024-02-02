@@ -45,7 +45,12 @@ void MapCollision::Update()
 			// オーバーラップが発生した場合
 			if (overlapX > 0.0f && overlapZ > 0.0f)
 			{
-				if (object->GetComponent<BulletScript>()) { object->Destroy(); continue; }
+				BulletScript* script = object->GetComponent<BulletScript>();
+				if (script)
+				{
+					script->OnDestruction();
+					continue; 
+				}
 
 				D3DXVECTOR3 pushDirection(0.0f, 0.0f, 0.0f);
 				if (overlapX < overlapZ)

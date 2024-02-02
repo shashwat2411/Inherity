@@ -26,6 +26,7 @@ public:
 		PLUS_T,
 		EMPTY_T,
 		ENEMY_SPRITE_T,
+		COLLISION_OBJECT_T,
 
 		//MATERIAL TEXTURES
 		DISSOLVE_T,
@@ -90,6 +91,7 @@ public:
 		LoadTexture(&Textures[PLUS_T], "asset\\texture\\imGui\\plus.png");
 		LoadTexture(&Textures[EMPTY_T], "asset\\texture\\imGui\\empty.png");
 		LoadTexture(&Textures[ENEMY_SPRITE_T], "asset\\texture\\imGui\\enemySprite.png");
+		LoadTexture(&Textures[COLLISION_OBJECT_T], "asset\\texture\\imGui\\collisionCube.png");
 
 		LoadTexture(&Textures[DISSOLVE_T], "asset\\texture\\dissolve.png");
 		LoadTexture(&Textures[WIPE_T], "asset\\texture\\pipo-tr005.png");

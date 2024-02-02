@@ -27,6 +27,9 @@ public:
 	
 	D3DXVECTOR3* aimPoint;
 
+	GAMEOBJECT* gun1;
+	GAMEOBJECT* gun2;
+
 private:
 	bool setAnimation;
 
@@ -80,6 +83,8 @@ public:
 	void EngineDisplay() override;
 
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
+
+	void OnDestruction();
 
 };
 class HitPoints : public Script

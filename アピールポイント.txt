@@ -1,3 +1,4 @@
+α版
 ●当たり判定の標準化 ❌✖
 ●Partcile System ❌✖
 ●アニメーターの追加 ❌✖
@@ -13,3 +14,13 @@
 ●Shadow Mapping ❌✖
 ●環境マッピング ❌✖
 ●法線マッピング ❌✖
+
+β版
+●GPUで動くParticle System
+●カメラの操作感
+●滑らかな移動
+●スクリーン座標を空間座標に変換
+●Enemy　AI
+●Open World Map
+●Toon Shading
+●プリコンパイル済みヘッダー

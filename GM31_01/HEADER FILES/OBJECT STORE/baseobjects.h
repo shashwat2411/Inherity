@@ -143,6 +143,7 @@ public:
 		Initialize();
 
 		depth = true;
+		depthShadow = false;
 
 		transform->Scale = D3DXVECTOR3(0.1f, 0.1f, 0.1f);
 		transform->Position.y = 1.0f;
@@ -180,6 +181,8 @@ public:
 	void Init() override
 	{
 		Initialize();
+
+		depthShadow = false;
 
 		sprite = AddComponent<SpriteRenderer>();
 	}

@@ -57,7 +57,7 @@ void DebugManager::Init()
 	io.Fonts->AddFontDefault();
 
 	starter = false;
-	play = true;
+	play = false;
 	paused = false;
 	gizmo = true;
 
@@ -105,12 +105,12 @@ void DebugManager::Draw()
 	ImGui::Render();
 	ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
-	//if (starter == false && LOAD_SCENE::GetLogo() == false)
-	//{ 
-	//	play = false; 
-	//	starter = true;
-	//	Time::timeScale = 0.0f;
-	//}
+	if (starter == false && LOAD_SCENE::GetLogo() == false)
+	{ 
+		play = false; 
+		starter = true;
+		Time::timeScale = 0.0f;
+	}
 #endif
 }
 
@@ -213,7 +213,10 @@ void DebugManager::DebugDraw(SCENE * scene)
 					default: break;
 					}
 				}
+
 				vector[index]->EngineDisplay();
+#endif
+#ifdef DEBUG
 
 				int i = 0;
 				for (auto component : vector[index]->GetComponentList())
@@ -479,6 +482,17 @@ void DebugManager::DebugDraw(SCENE * scene)
 			index = (int)vector.size() - 1;
 		}
 
+		ImGui::SameLine();
+
+		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::COLLISION_OBJECT_T), size))
+		{
+			Manager::GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), COLLIDER_LAYER);
+			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("MAPCOLLISIONOBJECT", 1));
+			layer = COLLIDER_LAYER;
+			vector = scene->GetGameObjectListVector((LAYER)layer);
+			index = (int)vector.size() - 1;
+		}
+
 		ImGui::End();
 	}
 #endif
@@ -486,6 +500,8 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int index, bool uneditable)
 {
+#ifdef DEBUG
+
 	int reference = (*value ? 1 : 0);
 
 	ImGui::PushItemWidth(offset);
@@ -510,10 +526,14 @@ bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int 
 	ImGui::PopID();
 
 	return *value;
+
+#endif
 }
 
 float DebugManager::FloatDisplay(float* value, float offset, const char* text, bool drag, D3DXVECTOR2 speedLimit, int index, bool uneditable)
 {
+#ifdef DEBUG
+
 	char str[40];
 	sprintf_s(str, sizeof(str), "%s : %.2f", text, *value);
 
@@ -534,10 +554,14 @@ float DebugManager::FloatDisplay(float* value, float offset, const char* text, b
 	ImGui::PopID();
 
 	return *value;
+
+#endif
 }
 
 D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const char* text, float speed, int index, bool uneditable, float min, float max)
 {
+#ifdef DEBUG
+
 	D3DXVECTOR3 reference = *value;
 
 	ImGui::PushItemWidth(offset);
@@ -557,4 +581,6 @@ D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const 
 	ImGui::PopID();
 
 	return *value;
+
+#endif
 }
