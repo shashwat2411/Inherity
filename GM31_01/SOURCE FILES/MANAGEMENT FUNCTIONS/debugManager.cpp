@@ -25,6 +25,7 @@ const char* str[MAX_LAYER] =
 	"GAMEOBJECT_LAYER",
 	"LATEOBJECT_LAYER",
 	"COLLIDER_LAYER",
+	"MAP_LAYER",
 	"GIZMO_LAYER",
 	"BILLBOARD_LAYER",
 	"SHADOW_LAYER",
@@ -486,9 +487,9 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::COLLISION_OBJECT_T), size))
 		{
-			Manager::GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), COLLIDER_LAYER);
+			Manager::GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), MAP_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("MAPCOLLISIONOBJECT", 1));
-			layer = COLLIDER_LAYER;
+			layer = MAP_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
 			index = (int)vector.size() - 1;
 		}

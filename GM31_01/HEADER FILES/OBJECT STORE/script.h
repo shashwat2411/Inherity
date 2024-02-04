@@ -74,6 +74,7 @@ public:
 class BulletScript : public Script
 {
 private:
+	bool destruction;
 
 public:
 

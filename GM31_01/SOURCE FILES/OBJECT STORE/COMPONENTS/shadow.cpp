@@ -5,7 +5,7 @@ void Shadow::Start()
 {
 	shadowHeight = 0.01f;
 
-	shadow = Manager::GetScene()->AddGameObject<SHADOW>("", SHADOW_LAYER);
+	shadow = Manager::GetScene()->AddGameObject<SHADOW>("", BILLBOARD_LAYER);
 }
 
 void Shadow::Update()

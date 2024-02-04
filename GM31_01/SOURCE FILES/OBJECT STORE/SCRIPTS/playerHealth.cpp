@@ -10,7 +10,7 @@ void PlayerHealth::Start()
 	maxHp = 1000.0f;
 
 	timerVector["Invincibility Counter"] = 0.0f;
-	timerVector["Bar Offset Multiplier"] = 200.0f;
+	timerVector["Bar Offset Multiplier"] = 300.0f;
 	timerVector["Red HP Speed"] = 0.2f;
 
 	health2 = Manager::GetScene()->AddGameObject<BAR>("Player HP Red", SPRITE_LAYER);
