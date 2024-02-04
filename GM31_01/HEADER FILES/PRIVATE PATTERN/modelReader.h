@@ -129,6 +129,7 @@ public:
 		Animations["Enemy_Run"] = aiImportFile("asset\\model\\Enemy\\Enemy Run.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Enemy_Damage"] = aiImportFile("asset\\model\\Enemy\\Enemy Damage.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Enemy_Wait"] = aiImportFile("asset\\model\\Enemy\\Enemy Wait.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Death"] = aiImportFile("asset\\model\\Enemy\\Enemy Death.fbx", aiProcess_ConvertToLeftHanded);
 
 		assert(Animations["Enemy_Walk"]);
 		assert(Animations["Enemy_Find"]);
@@ -136,6 +137,7 @@ public:
 		assert(Animations["Enemy_Run"]);
 		assert(Animations["Enemy_Damage"]);
 		assert(Animations["Enemy_Wait"]);
+		assert(Animations["Enemy_Death"]);
 
 		//NAMING
 

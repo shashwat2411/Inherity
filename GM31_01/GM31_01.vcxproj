@@ -147,6 +147,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\artificialIntelligence.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\bulletScript.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\clothSimulator.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyHealth.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyScript.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\firstPersonCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gameManager.cpp" />

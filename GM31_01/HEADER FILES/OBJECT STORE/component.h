@@ -314,6 +314,7 @@ class MeshFilter :public Component
 {
 private:
 	bool fbx;
+	bool stop;
 
 	int modelIndex;
 
@@ -358,6 +359,9 @@ public:
 
 	AnimationModel* GetModel() { return m_Model; }
 	Model* GetModel(int i) { return m_Model_obj; }
+
+	void Play() { stop = false; }
+	void Stop() { stop = true; }
 
 	template<class Archive>
 	void serialize(Archive & archive)

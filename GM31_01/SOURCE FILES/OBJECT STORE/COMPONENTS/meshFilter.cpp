@@ -5,6 +5,7 @@
 void MeshFilter::Start()
 {
 	fbx = false;
+	stop = false;
 
 	modelIndex = 0;
 
@@ -47,8 +48,11 @@ void MeshFilter::Update()
 			int t = (int)time;
 			m_Model->Update(animationName.c_str(), t, animationBlendName.c_str(), (t + 1), blendRate, time);
 
-			frame += Time::fixedTimeScale;
-			time += Time::fixedTimeScale;
+			if (stop == false)
+			{
+				frame += Time::fixedTimeScale;
+				time += Time::fixedTimeScale;
+			}
 		}
 	}
 }

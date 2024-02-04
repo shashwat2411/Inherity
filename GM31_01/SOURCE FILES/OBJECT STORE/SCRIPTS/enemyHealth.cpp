@@ -1,44 +1,41 @@
 #include "script.h"
 #include "manager.h"
+#include "prefab.h"
 
-void PlayerHealth::Start()
+void EnemyHealth::Start()
 {
-	invincible = false;
-
 	hp = 1000.0f;
 	redHp = 1000.0f;
 	maxHp = 1000.0f;
 	thicknessX = 0.02f;
-	thicknessY = 0.16f;
+	thicknessY = 0.1f;
 
-	timerVector["Invincibility Counter"] = 0.0f;
-	timerVector["Bar Offset Multiplier"] = 300.0f;
+	offset = D3DXVECTOR3(0.0f, 2.85f, 0.0f);
+
 	timerVector["Red HP Speed"] = 0.06f;
 
-	health = Manager::GetScene()->AddGameObject<BAR>("Player HP", SPRITE_LAYER);
-
-	health->sprite->barOffsetLeft = 27.75f;
+	health = Manager::GetScene()->AddGameObject<BILLBOARD>("Enemy HP", BILLBOARD_LAYER);
 
 	health->AddMaterial<GaugeMaterial>();
+	health->billboard->SetSize(D3DXVECTOR2(5.0f, 1.0f));
+	health->SetBillboard(true);
+
+	health->GetMaterial()->SetColor("_Base_Color", D3DXCOLOR(1.0f, 0.81f, 0.58f, 1.0f));
 }
 
-void PlayerHealth::End()
+void EnemyHealth::End()
+{
+	health->Destroy();
+}
+
+void EnemyHealth::Update()
 {
 
 }
 
-void PlayerHealth::Update()
+void EnemyHealth::Draw()
 {
-	if (invincible == true)
-	{
-		if (timerVector["_Invincibility_Counter"] < COLLIDE_COUNTDOWN) { timerVector["_Invincibility_Counter"] += Time::deltaTime; }
-		else { timerVector["_Invincibility_Counter"] = 0.0f; invincible = false; }
-	}
-}
-
-void PlayerHealth::Draw()
-{
-	health->sprite->barOffsetRight = /*hp / maxHp * */timerVector["Bar Offset Multiplier"];
+	health->transform->Position = gameObject->transform->GlobalPosition + offset;
 
 	redHp = Mathf::Lerp(redHp, hp, timerVector["Red HP Speed"] * Time::fixedTimeScale);
 
@@ -47,19 +44,18 @@ void PlayerHealth::Draw()
 	health->GetMaterial()->SetFloat("_Thickness_Y", thicknessY);
 }
 
-void PlayerHealth::EngineDisplay()
+void EnemyHealth::EngineDisplay()
 {
-	if (ImGui::TreeNode("Player Health"))
+	if (ImGui::TreeNode("Enemy Health"))
 	{
 		DebugManager::FloatDisplay(&hp, -FLT_MIN, "HP", false, D3DXVECTOR2(0.0f, maxHp), 0);
 		DebugManager::FloatDisplay(&maxHp, -FLT_MIN, "Max HP", true, D3DXVECTOR2(0.01f, 0.0f), 1);
 		DebugManager::FloatDisplay(&thicknessX, -FLT_MIN, "ThicknessX", true, D3DXVECTOR2(0.01f, 0.0f), 2);
 		DebugManager::FloatDisplay(&thicknessY, -FLT_MIN, "ThicknessY", true, D3DXVECTOR2(0.01f, 0.0f), 3);
 
-		DebugManager::BoolDisplay(&invincible, -180.0f, "Invincible", 4);
+		DebugManager::FloatDisplay(&timerVector["Red HP Speed"], -FLT_MIN, "Red HP Speed", true, D3DXVECTOR2(0.01f, 0.0f), 4);
 
-		DebugManager::FloatDisplay(&timerVector["Bar Offset Multiplier"], -FLT_MIN, "Bar Offset Multiplier", true, D3DXVECTOR2(0.01f, 0.0f), 5);
-		DebugManager::FloatDisplay(&timerVector["Red HP Speed"], -FLT_MIN, "Red HP Speed", true, D3DXVECTOR2(0.01f, 0.0f), 6);
+		DebugManager::Float3Display(&offset, -1.0f, "Offset ", 0.05f, 5);
 
 		D3DXCOLOR c1 = health->GetMaterial()->GetColor("_Base_Color");
 		D3DXCOLOR c2 = health->GetMaterial()->GetColor("_Lost_Color");
@@ -78,22 +74,17 @@ void PlayerHealth::EngineDisplay()
 	}
 }
 
-bool PlayerHealth::Damage(float damage)
+void EnemyHealth::Damage(float damage)
 {
-	if (invincible == false)
+	if ((hp - damage) > 0.0f) { hp -= damage; }
+	else
 	{
-		if ((hp - damage) > 0.0f) { hp -= damage; }
-		else { hp = 0.0f; }
-
-		invincible = true;
-
-		return true;
+		hp = 0.0f;
+		gameObject->GetComponent<EnemyScript>()->Death();
 	}
-
-	return false;
 }
 
-void PlayerHealth::Heal(float value)
+void EnemyHealth::Heal(float value)
 {
 	if ((hp + value) < maxHp) { hp += value; }
 	else { hp = maxHp; }

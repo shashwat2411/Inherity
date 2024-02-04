@@ -1,10 +1,8 @@
 
 #include "common.hlsl"
 
-static const float pi = 3.1415926535f;
-
-//#define SQUARE
-#define CIRCLE
+Texture2D g_Texture : register(t0);
+SamplerState g_SamplerState : register(s0);
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
@@ -14,31 +12,21 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	color.z = Difference HP
 	*/
 
-#ifdef SQUARE
 	outDiffuse = float4(0.0f, 0.0f, 0.0f, 1.0f);
+
+	if (In.TexCoord.x < dummy.x || In.TexCoord.x > (1.0f - dummy.x) || In.TexCoord.y < dummy.y || In.TexCoord.y > (1.0f - dummy.y))
+	{
+		return;
+	}
+
+	float4 text = g_Texture.Sample(g_SamplerState, In.TexCoord);
 
 	//Square Gauge
 	float gauge = In.TexCoord * color.y;
-	outDiffuse.rgb += color2.rgb * step(color.z, gauge);
-	outDiffuse.rgb += color.rgb * (1.0f - step(color.x, gauge));
-	outDiffuse.rgb += color4.rgb * (1.0f - step(color.z, gauge)) * step(color.x, gauge);
-#endif
+	outDiffuse.rgb += text * color3.rgb * step(color.z, gauge);
+	outDiffuse.rgb += text * color2.rgb * (1.0f - step(color.x, gauge));
+	outDiffuse.rgb += text * color4.rgb * (1.0f - step(color.z, gauge)) * step(color.x, gauge);
 
-#ifdef CIRCLE
-	outDiffuse = float4(0.0f, 0.0f, 0.0f, 1.0f);
-	float2 uv = In.TexCoord - 0.5f;
-
-	float angle = atan2(uv.x, uv.y);
-	angle += pi;
-
-	float gauge = frac(angle * 0.5f / pi) * color.y;
-	outDiffuse.rgb += color2.rgb * step(color.z, gauge);
-	outDiffuse.rgb += color.rgb * (1.0f - step(color.x, gauge));
-	outDiffuse.rgb += color4.rgb * (1.0f - step(color.z, gauge)) * step(color.x, gauge);
-
-	float dist = length(uv) / 0.5f;
-	outDiffuse.a = (1.0f - step(1.0, dist)) * step(1.0f / color.w, dist);
-#endif
 }
 
 int step(float a, float b)

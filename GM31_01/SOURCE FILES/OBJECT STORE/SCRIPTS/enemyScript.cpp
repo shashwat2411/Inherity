@@ -4,9 +4,13 @@
 
 void EnemyScript::Start()
 {
+	death = false;
+
+	gameObject->transform->drawRadius = 5.0f;
+
 	gameObject->AddComponent<Rigidbody>()->useGravity = true;
 	gameObject->AddComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.5f;
-	gameObject->GetComponent<SphereCollider>()->SetCollisionSize(0.28f);
+	gameObject->GetComponent<SphereCollider>()->SetCollisionSize(0.41f);
 }
 
 void EnemyScript::End()
@@ -19,21 +23,26 @@ void EnemyScript::Update()
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 	gameObject->rigidbody->Speed *= 0.9f;
 
-
-	std::vector<BULLET*> bullets = Manager::GetScene()->FindGameObjects<BULLET>();
-
-	for (GAMEOBJECT* bullet : bullets)
+	if (death == false)
 	{
-		D3DXVECTOR3 distance;
-		distance = bullet->transform->Position - gameObject->transform->Position;
-		float length = D3DXVec3Length(&distance);
+		std::vector<BULLET*> bullets = Manager::GetScene()->FindGameObjects<BULLET>();
+		SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
 
-		if (length < gameObject->transform->Scale.x)
+		for (GAMEOBJECT* bullet : bullets)
 		{
-			BulletScript* script = bullet->GetComponent<BulletScript>();
-			if (script)
+			D3DXVECTOR3 distance;
+			distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
+			float length = D3DXVec3Length(&distance);
+
+			if (length < collider->GetCollisionSize() + bullet->transform->Scale.x)
 			{
-				script->OnDestruction();
+				BulletScript* script = bullet->GetComponent<BulletScript>();
+				if (script)
+				{
+					script->OnDestruction();
+				}
+
+				gameObject->GetComponent<EnemyHealth>()->Damage(50.0f);
 			}
 		}
 	}
@@ -50,5 +59,18 @@ void EnemyScript::EngineDisplay()
 	{
 		ImGui::TreePop();
 		ImGui::Spacing();
+	}
+}
+
+void EnemyScript::Death()
+{
+	if (death == false)
+	{
+		death = true;
+		gameObject->GetComponent<ArtificialIntelligence>()->SetState(ArtificialIntelligence::DEATH);
+
+		gameObject->RemoveComponent<EnemyHealth>();
+		gameObject->RemoveComponent<SphereCollider>();
+		gameObject->GetChildren()[0]->GetChildren()[0]->RemoveComponent<SphereCollider>();
 	}
 }
