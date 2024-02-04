@@ -7,6 +7,7 @@ void BULLETDESTRUCTION::Start()
 
 	depthShadow = false;
 	active = false;
+	save = false;
 
 	particleSystem->SetParticleCount(25);
 	particleSystem->burst = true;

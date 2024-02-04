@@ -20,6 +20,7 @@ protected:
 	bool depthShadow;
 	bool reflection;
 	bool geometry;
+	bool save;
 
 	bool destroy;
 
@@ -101,6 +102,7 @@ public:
 	bool		GetReflection()		{ return reflection; }
 	bool		GetGeometry()		{ return geometry; }
 	bool		GetQuaternion()		{ return quaternion; }
+	bool		GetSave()			{ return save; }
 
 	bool		GetFaceInDirection() { return faceInDirection; }
 

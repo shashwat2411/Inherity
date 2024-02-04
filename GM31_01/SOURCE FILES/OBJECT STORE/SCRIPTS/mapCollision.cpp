@@ -39,8 +39,8 @@ void MapCollision::Update()
 			float obbx = D3DXVec3Dot(&direction, &right);    //X分離軸方向プレイヤー距離
 			float obbz = D3DXVec3Dot(&direction, &forward);    //Z分離軸方向プレイヤー距離
 
-			float overlapX = scale.x - fabs(obbx);
-			float overlapZ = scale.z - fabs(obbz);
+			float overlapX = scale.x - fabs(obbx) + object->transform->Scale.x;
+			float overlapZ = scale.z - fabs(obbz) + object->transform->Scale.x;
 
 			// オーバーラップが発生した場合
 			if (overlapX > 0.0f && overlapZ > 0.0f)
@@ -56,13 +56,13 @@ void MapCollision::Update()
 				if (overlapX < overlapZ)
 				{
 					pushDirection = obbx / fabs(obbx) * -right;
-					object->transform->Position += pushDirection * overlapX;
+					object->transform->Position += pushDirection * (overlapX);
 
 				}
 				else
 				{
 					pushDirection = obbz / fabs(obbz) * -forward;
-					object->transform->Position += pushDirection * overlapZ;
+					object->transform->Position += pushDirection * (overlapZ);
 				}
 			}
 		}

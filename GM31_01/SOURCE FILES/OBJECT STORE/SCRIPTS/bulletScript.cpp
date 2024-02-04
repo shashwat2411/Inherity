@@ -4,6 +4,8 @@
 
 void BulletScript::Start()
 {
+	destruction = false;
+
 	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::BULLET_M);
 	gameObject->AddComponent<Rigidbody>();
 
@@ -26,10 +28,10 @@ void BulletScript::Update()
 		OnDestruction();
 	}
 
-	if (gameObject->transform->GlobalPosition.y < gameObject->transform->Scale.y / 2.0f)
-	{
-		OnDestruction();
-	}
+	//if (gameObject->transform->GlobalPosition.y < gameObject->transform->Scale.y / 2.0f)
+	//{
+	//	OnDestruction();
+	//}
 
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 }
@@ -52,15 +54,20 @@ void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
 
 void BulletScript::OnDestruction()
 {
-	GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
-	BULLETDESTRUCTION* effect = game->GetBulletDestroyEffect();
-
-	if (effect)
+	if (destruction == false)
 	{
-		effect->SetActive(true);
-		effect->particleSystem->Play();
-		effect->transform->Position = gameObject->transform->GlobalPosition;
-	}
+		destruction = true;
 
-	gameObject->Destroy(true);
+		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
+		BULLETDESTRUCTION* effect = game->GetBulletDestroyEffect();
+
+		if (effect != nullptr && effect->particleSystem != nullptr)
+		{
+			effect->SetActive(true);
+			effect->particleSystem->Play();
+			effect->transform->Position = gameObject->transform->GlobalPosition;
+		}
+
+		gameObject->Destroy(true);
+	}
 }

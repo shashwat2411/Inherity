@@ -103,6 +103,7 @@
 
 93. 視錐台カリングを使った方がいい、それともGeometryInstancingがいい？　→　GeometryInstancingと一緒に視錐台カリングを使用すれば効果は出る
 98. strcturedBuffer で9つのフロートを一期に渡したいです？　→　
+99. 弾がマップに当たったらアクセス違反は起こる？　→　
 
     ●ポートフォリオ
 52. GitHubのRepositoryをPrivateにした方がいいかPublicにした方がいいか？　→　フリー素材を外してアップする
