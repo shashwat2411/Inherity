@@ -118,16 +118,19 @@ void GAMEOBJECT::Draw()
 				else { D3DXMatrixRotationYawPitchRoll(&RotationMatrix, D3DXToRadian(Rotation.y), D3DXToRadian(Rotation.x), D3DXToRadian(Rotation.z)); }
 			}
 
-			D3DXMATRIX view = Manager::GetScene()->GetCamera()->GetComponent<Camera>()->GetViewMatrix();
-			D3DXMATRIX invView;
-			D3DXMatrixInverse(&invView, NULL, &view);
-			invView._41 = 0.0f;
-			invView._42 = 0.0f;
-			invView._43 = 0.0f;
-
 			D3DXMatrixTranslation(&TransformMatrix, Position.x, Position.y, Position.z);
 
-			if (billboard == true) { D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, /*&RotationMatrix*/&invView); }  //World = Scaling * Rotation
+			if (billboard == true) 
+			{
+				D3DXMATRIX view = Manager::GetScene()->GetCamera()->GetComponent<Camera>()->GetViewMatrix();
+				D3DXMATRIX invView;
+				D3DXMatrixInverse(&invView, NULL, &view);
+				invView._41 = 0.0f;
+				invView._42 = 0.0f;
+				invView._43 = 0.0f;
+
+				D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, /*&RotationMatrix*/&invView); 
+			}  //World = Scaling * Rotation
 			else { D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, &RotationMatrix); }
 
 			D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &TransformMatrix); //World = World * Translation

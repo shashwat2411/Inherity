@@ -22,6 +22,8 @@ void ArtificialIntelligence::Start()
 	timerVector["attackMaxTime"] = 3.0f;
 	timerVector["attackSpeed"] = 1.0f;
 
+	timerVector["deathTimer"] = 0.0f;
+
 	timerVector["findMaxTime"] = 2.0f;
 	timerVector["rotationSpeed"] = 0.03f;
 	timerVector["rotationTimer"] = 0.0f;
@@ -104,6 +106,10 @@ void ArtificialIntelligence::Update()
 		Return();
 		break;
 
+	case DEATH:
+		Death();
+		break;
+
 	default:
 		break;
 	}
@@ -134,7 +140,8 @@ const char* enemyStatus[ArtificialIntelligence::ENEMY_STATE_MAX] =
 	"WAIT",
 	"ATTACK",
 	"FIND",
-	"RETURN"
+	"RETURN",
+	"DEATH"
 };
 
 void ArtificialIntelligence::EngineDisplay()
@@ -356,6 +363,18 @@ void ArtificialIntelligence::Find()
 	//{
 	//	state = FOLLOW;
 	//}
+}
+
+void ArtificialIntelligence::Death()
+{
+	model->SetAnimationBlend("Enemy_Death", false, 0.4f);
+
+	timerVector["deathTimer"] += Time::deltaTime;
+
+	if (timerVector["deathTimer"] >= 1.81f)
+	{
+		model->Stop();
+	}
 }
 
 void ArtificialIntelligence::Finder()

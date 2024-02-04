@@ -24,6 +24,7 @@ void ENEMY::Start()
 	model->GetModel()->LoadAnimation("Enemy_Run");
 	model->GetModel()->LoadAnimation("Enemy_Damage");
 	model->GetModel()->LoadAnimation("Enemy_Wait");
+	model->GetModel()->LoadAnimation("Enemy_Death");
 
 	model->SetDefaultAnimation("Enemy_Walk");
 
@@ -47,4 +48,5 @@ void ENEMY::Start()
 	knife->GetComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.1f;
 	knife->GetComponent<SphereCollider>()->SetCollisionSize(0.26f);
 
+	AddComponent<EnemyHealth>();
 }

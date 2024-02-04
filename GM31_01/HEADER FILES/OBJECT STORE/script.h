@@ -61,6 +61,7 @@ public:
 class EnemyScript : public Script
 {
 private:
+	bool death;
 
 public:
 
@@ -70,6 +71,8 @@ public:
 	void Draw() override;
 
 	void EngineDisplay() override;
+
+	void Death();
 };
 class BulletScript : public Script
 {
@@ -217,6 +220,7 @@ public:
 		ATTACK,
 		FIND,
 		RETURN,
+		DEATH,
 
 		ENEMY_STATE_MAX
 	};
@@ -253,12 +257,15 @@ public:
 	void EngineDisplay() override;
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
+	void SetState(ENEMY_STATE value) { state = value; }
+
 	void Roam();
 	void Follow();
 	void Return();
 	void Wait();
 	void Attack();
 	void Find();
+	void Death();
 
 	void Finder();
 };
@@ -348,9 +355,10 @@ private:
 	float hp;
 	float redHp;
 	float maxHp;
+	float thicknessX;
+	float thicknessY;
 
-	BAR* health1;
-	BAR* health2;
+	BAR* health;
 
 public:
 
@@ -366,6 +374,33 @@ public:
 	bool Damage(float damage);
 	void Heal(float heal);
 
+};
+class EnemyHealth : public Script
+{
+private:
+	float hp;
+	float redHp;
+	float maxHp;
+	float thicknessX;
+	float thicknessY;
+
+	D3DXVECTOR3 offset;
+
+	BILLBOARD* health;
+
+public:
+
+	EnemyHealth() { name = "EnemyHealth"; }
+
+	void Start() override;
+	void End() override;
+	void Update() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
+	void Damage(float damage);
+	void Heal(float heal);
 };
 
 //Camera Scripts

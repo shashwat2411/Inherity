@@ -23,15 +23,10 @@ void BulletScript::Start()
 void BulletScript::Update()
 {
 	timerVector["counter"] += Time::deltaTime;
-	if (timerVector["counter"] >= timerVector["max life"])
+	if (timerVector["counter"] >= timerVector["max life"] || gameObject->transform->Position.y < 0.0f)
 	{
 		OnDestruction();
 	}
-
-	//if (gameObject->transform->GlobalPosition.y < gameObject->transform->Scale.y / 2.0f)
-	//{
-	//	OnDestruction();
-	//}
 
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 }
