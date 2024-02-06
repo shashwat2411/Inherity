@@ -503,6 +503,12 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\enemyHealth.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\knifeCollision.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MiniMapMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">
@@ -580,9 +586,6 @@
     <FxCompile Include="shader\postMosaicPS.hlsl">
       <Filter>☯️SHADER\🎨PIXEL SHADER\Post Process</Filter>
     </FxCompile>
-    <FxCompile Include="shader\postNoisePS.hlsl">
-      <Filter>☯️SHADER\🎨PIXEL SHADER\Post Process</Filter>
-    </FxCompile>
     <FxCompile Include="shader\bloomVS.hlsl">
       <Filter>☯️SHADER\🎡VERTEX SHADER\Post Process</Filter>
     </FxCompile>
@@ -609,6 +612,12 @@
     </FxCompile>
     <FxCompile Include="shader\toonPhongPS.hlsl">
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\miniMapPS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\postNoisePS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER\Post Process</Filter>
     </FxCompile>
   </ItemGroup>
 </Project>

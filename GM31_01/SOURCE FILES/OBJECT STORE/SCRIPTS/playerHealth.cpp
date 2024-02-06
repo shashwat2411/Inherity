@@ -31,7 +31,7 @@ void PlayerHealth::Update()
 {
 	if (invincible == true)
 	{
-		if (timerVector["_Invincibility_Counter"] < COLLIDE_COUNTDOWN) { timerVector["_Invincibility_Counter"] += Time::deltaTime; }
+		if (timerVector["_Invincibility_Counter"] < (30.0f / FRAME_RATE)) { timerVector["_Invincibility_Counter"] += Time::deltaTime; }
 		else { timerVector["_Invincibility_Counter"] = 0.0f; invincible = false; }
 	}
 }
@@ -83,7 +83,17 @@ bool PlayerHealth::Damage(float damage)
 	if (invincible == false)
 	{
 		if ((hp - damage) > 0.0f) { hp -= damage; }
-		else { hp = 0.0f; }
+		else
+		{
+			hp = 0.0f;
+			gameObject->GetComponent<PlayerMovement>()->SetState(PlayerMovement::DEATH_PS);
+
+			std::vector<ENEMY*> enemies = Manager::GetScene()->FindGameObjects<ENEMY>();
+			for (ENEMY* enemy : enemies)
+			{
+				enemy->GetComponent<ArtificialIntelligence>()->Dancing();
+			}
+		}
 
 		invincible = true;
 

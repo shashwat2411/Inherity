@@ -1,0 +1,36 @@
+#include "material.h"
+#include "manager.h"
+
+GAMEOBJECT* player;
+GAMEOBJECT* map;
+
+void MiniMapMaterial::Start()
+{
+	SetTexture("_Texture", TextureReader::MINIMAP_T);
+
+	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitTextureVS.cso");
+	Renderer::CreatePixelShader(gameObject->GetPixelShaderPointer(), "shader\\miniMapPS.cso");
+
+	player = Manager::GetScene()->GetPlayer();
+	map = Manager::GetScene()->Find("Map");
+}
+
+void MiniMapMaterial::Update()
+{
+
+}
+
+void MiniMapMaterial::Draw()
+{
+	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
+
+	D3DXVECTOR3 coordinates;
+	D3DXVec3TransformCoord(&coordinates, &player->transform->Position, &map->GetWorldMatrix());
+	D3DXVec3Normalize(&coordinates, &coordinates);
+
+	PARAMETER param;
+	ZeroMemory(&param, sizeof(param));
+	param.color = D3DXCOLOR(coordinates.x, coordinates.y, coordinates.z, 0.0f);
+
+	Renderer::SetParameter(param);
+}

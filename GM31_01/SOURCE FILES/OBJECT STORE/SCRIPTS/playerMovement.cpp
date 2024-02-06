@@ -20,6 +20,7 @@ void PlayerMovement::Start()
 	setAnimation = false;
 
 	idleCounter = 0;
+	timerVector["deathTimer"] = 0.0f;
 	timerVector["rollSpeed"] = 0.4f;
 	timerVector["dissolveSpeedAppear"] = 0.05f;
 	timerVector["dissolveSpeedDissappear"] = 0.1f;
@@ -141,7 +142,7 @@ void PlayerMovement::Update()
 
 	cameraController = camera->gameObject->GetComponent<RevolutionCamera>();
 
-	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false && playerState != ROLL_PS)
+	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false && (playerState != ROLL_PS && playerState != DEATH_PS))
 	{
 		aim = true;
 		playerState = AIMING_MOVE_PS;
@@ -158,7 +159,7 @@ void PlayerMovement::Update()
 		cameraController->SetScreenLimit(D3DXVECTOR3(300.0f, 180.0f, -40.0f));
 	}
 
-	if (Input::GetButtonTrigger(ROLL_KEYMAP) && playerState != ROLL_PS)
+	if (Input::GetButtonTrigger(ROLL_KEYMAP) && (playerState != ROLL_PS && playerState != DEATH_PS))
 	{
 		aim = false;
 		playerState = ROLL_PS;
@@ -182,22 +183,31 @@ void PlayerMovement::Update()
 		Roll();
 		break;
 
+	case DEATH_PS:
+		Death();
+		break;
+
 	default:
 		break;
 	}
 
-	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
+	if (playerState != DEATH_PS)
+	{
+		gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 
-	gameObject->rigidbody->Speed.x *= 0.9f;
-	gameObject->rigidbody->Speed.z *= 0.9f;
+		gameObject->rigidbody->Speed.x *= 0.9f;
+		gameObject->rigidbody->Speed.z *= 0.9f;
 
-	angle = atan2f(rotationDirection.x, rotationDirection.z);
+		angle = atan2f(rotationDirection.x, rotationDirection.z);
 
-	D3DXQUATERNION quat;
-	D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
-	D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
+		D3DXQUATERNION quat;
+		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
+		D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
+	}
 
+#ifdef DEBUG
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
+#endif
 }
 
 void PlayerMovement::Draw()
@@ -209,7 +219,8 @@ const char* playerStatus[PlayerMovement::PS_MAX] =
 {
 	"NORMAL_MOVE_PS",
 	"AIMING_MOVE_PS",
-	"ROLL_PS"
+	"ROLL_PS",
+	"DEATH_PS"
 };
 int playerstat = 0;
 
@@ -455,5 +466,21 @@ void PlayerMovement::Roll()
 	if (model->GetAnimationOver("Roll") == true)
 	{
 		playerState = NORMAL_MOVE_PS;
+	}
+}
+
+void PlayerMovement::Death()
+{
+	model->SetAnimationBlend("Death", false, 0.4f);
+
+	timerVector["deathTimer"] += Time::deltaTime;
+
+	if (timerVector["deathTimer"] >= 3.58f)
+	{
+		if (model->GetStop() == false)
+		{
+			model->SetStop(true);
+			model->gameObject->GetMaterial()->SetFloat("_Dissolve", 1.0f);
+		}
 	}
 }

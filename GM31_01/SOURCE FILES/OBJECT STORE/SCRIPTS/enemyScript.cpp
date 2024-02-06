@@ -30,19 +30,22 @@ void EnemyScript::Update()
 
 		for (GAMEOBJECT* bullet : bullets)
 		{
-			D3DXVECTOR3 distance;
-			distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
-			float length = D3DXVec3Length(&distance);
-
-			if (length < collider->GetCollisionSize() + bullet->transform->Scale.x)
+			if (collider->GetColliderObject())
 			{
-				BulletScript* script = bullet->GetComponent<BulletScript>();
-				if (script)
-				{
-					script->OnDestruction();
-				}
+				D3DXVECTOR3 distance;
+				distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
+				float length = D3DXVec3Length(&distance);
 
-				gameObject->GetComponent<EnemyHealth>()->Damage(50.0f);
+				if (length < collider->GetCollisionSize() + bullet->transform->Scale.x)
+				{
+					BulletScript* script = bullet->GetComponent<BulletScript>();
+					if (script)
+					{
+						script->OnDestruction();
+					}
+
+					gameObject->GetComponent<EnemyHealth>()->Damage(50.0f);
+				}
 			}
 		}
 	}
@@ -71,6 +74,6 @@ void EnemyScript::Death()
 
 		gameObject->RemoveComponent<EnemyHealth>();
 		gameObject->RemoveComponent<SphereCollider>();
-		gameObject->GetChildren()[0]->GetChildren()[0]->RemoveComponent<SphereCollider>();
+		gameObject->GetChildren()[0]->GetChildren()[0]->Destroy();
 	}
 }

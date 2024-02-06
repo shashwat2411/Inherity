@@ -60,6 +60,7 @@ public:
 		//GAME TEXTURES
 		AIM_T,
 		GUN_WIPE_T,
+		MINIMAP_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -120,6 +121,7 @@ public:
 
 		LoadTexture(&Textures[AIM_T], "asset\\texture\\aim.png");
 		LoadTexture(&Textures[GUN_WIPE_T], "asset\\texture\\Material_Textures\\wipe2.png");
+		LoadTexture(&Textures[MINIMAP_T], "asset\\texture\\minimap.png");
 
 
 		//NAMES
@@ -140,6 +142,7 @@ public:
 		textureNames[PLUS_T]				= "PLUS";
 		textureNames[EMPTY_T]				= "EMPTY";
 		textureNames[ENEMY_SPRITE_T]		= "ENEMY SPRITE";
+		textureNames[COLLISION_OBJECT_T]	= "COLLISION OBJECT";
 
 		textureNames[DISSOLVE_T]			= "DISSOLVE";
 		textureNames[WIPE_T]				= "WIPE";
@@ -168,6 +171,7 @@ public:
 
 		textureNames[AIM_T]					= "AIM";
 		textureNames[GUN_WIPE_T]			= "GUN WIPE";
+		textureNames[MINIMAP_T]				= "MINIMAP";
 	}
 
 	static void UnReadTexture()

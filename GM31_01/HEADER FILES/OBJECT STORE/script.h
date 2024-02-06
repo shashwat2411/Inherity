@@ -12,6 +12,7 @@ public:
 		NORMAL_MOVE_PS,
 		AIMING_MOVE_PS,
 		ROLL_PS,
+		DEATH_PS,
 
 		PS_MAX
 	};
@@ -44,9 +45,15 @@ public:
 
 	void EngineDisplay() override;
 
+	void SetState(PLAYER_STATE value) { playerState = value; }
+
+	PlayerMovement::PLAYER_STATE GetState() { return playerState; }
+
 	void NormalMove();
 	void AimingMove();
 	void Roll();
+	void Death();
+
 };
 class Ground : public Script
 {
@@ -221,6 +228,7 @@ public:
 		FIND,
 		RETURN,
 		DEATH,
+		VICTORY,
 
 		ENEMY_STATE_MAX
 	};
@@ -231,6 +239,7 @@ private:
 
 	int index;
 	int nextIndex;
+	int danceIndex;
 
 	float distance;
 
@@ -259,6 +268,8 @@ public:
 
 	void SetState(ENEMY_STATE value) { state = value; }
 
+	ArtificialIntelligence::ENEMY_STATE GetState() { return state; }
+
 	void Roam();
 	void Follow();
 	void Return();
@@ -266,8 +277,12 @@ public:
 	void Attack();
 	void Find();
 	void Death();
+	void Victory();
 
 	void Finder();
+	void Dancing();
+
+	void SetStateToReturn();
 };
 class ScreenToWorld : public Script
 {
@@ -310,6 +325,8 @@ public:
 class MapCollision : public Script
 {
 private:
+	bool ignore;
+	float ignoreSize;
 
 public:
 
@@ -326,7 +343,8 @@ public:
 	void serialize(Archive & archive)
 	{
 		archive(
-			cereal::virtual_base_class<Component>(this)
+			cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(ignore)
 		);
 	}
 };
@@ -401,6 +419,20 @@ public:
 
 	void Damage(float damage);
 	void Heal(float heal);
+};
+class KnifeCollision : public Script
+{
+private:
+
+public:
+
+	void Start() override;
+	void Update() override;
+
+	void EngineDisplay() override;
+
+	void OnCollisionEnter(GAMEOBJECT* obj) override;
+
 };
 
 //Camera Scripts

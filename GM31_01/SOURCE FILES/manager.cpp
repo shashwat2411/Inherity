@@ -29,7 +29,7 @@ float Time::timeScale = 1.0f;
 float Time::fixedTimeScale = 1.0f;
 float Time::deltaTime = 1.0f / FRAME_RATE;
 
-void LightInitialize(LIGHT* light, D3DXVECTOR3 position);
+void LightInitialize(LIGHT* light, GAMEOBJECT* object);
 
 void Manager::Init()
 {
@@ -130,7 +130,7 @@ void Manager::Draw()
 
 			if (GetScene()->GetPlayer() != nullptr)
 			{
-				LightInitialize(&light, GetScene()->GetPlayer()->transform->Position);
+				LightInitialize(&light, GetScene()->GetPlayer());
 			}
 
 			//ライトカメラの行列をセット
@@ -243,23 +243,30 @@ void Manager::Update()
 
 }
 
-void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
+void LightInitialize(LIGHT* light, GAMEOBJECT* object)
 {
-	//Spot Light
-	light->Direction = D3DXVECTOR4(1.0f, -1.0f, 0.0f, 0.0f);
-	D3DXVec4Normalize(&light->Direction, &light->Direction);
-	light->Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	light->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	if (object != nullptr)
+	{
+		//Spot Light
+		//if (object->GetChildren()[0] != nullptr)
+		{
+			D3DXVECTOR3 temp = Manager::GetScene()->GetCamera()->camera->GetLightDirection();
+			light->Direction = D3DXVECTOR4(temp.x, temp.y, temp.z, 0.0f);
+		}
 
-	//ライトカメラのビュー行列を作成
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 30.0f, 0.0f) + position;
-	D3DXVECTOR3 lightTarget = position;
-	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
+		D3DXVec4Normalize(&light->Direction, &light->Direction);
+		light->Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		light->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 105.0f);
+		//ライトカメラのビュー行列を作成
+		D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 30.0f, 0.0f) + object->transform->GlobalPosition;
+		D3DXVECTOR3 lightTarget = object->transform->GlobalPosition;
+		D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
+		//ライトカメラのプロジェクション行列を作成
+		D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 105.0f);
+	}
 }
 
 void Manager::Save(std::string name)

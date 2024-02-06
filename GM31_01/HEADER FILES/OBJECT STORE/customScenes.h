@@ -28,7 +28,7 @@ public:
 
 	BULLETDESTRUCTION* GetBulletDestroyEffect()
 	{
-		for (auto bulletDestroy : bulletDestruction)
+		for (BULLETDESTRUCTION* bulletDestroy : bulletDestruction)
 		{
 			if (bulletDestroy->GetActive() == false)
 			{

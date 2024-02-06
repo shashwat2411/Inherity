@@ -113,7 +113,7 @@ void MeshFilter::EngineDisplay()
 				ImGui::Text(name.c_str());
 
 
-				DebugManager::FloatDisplay(&time, -FLT_MIN, "Time", true, D3DXVECTOR2(0.01f, 0.0f), 1, true);
+				DebugManager::FloatDisplay(&time, -FLT_MIN, "Time", true, D3DXVECTOR2(0.01f, 0.0f), 1, false);
 				DebugManager::FloatDisplay(&blendRate, -FLT_MIN, "Blend", true, D3DXVECTOR2(0.01f, 0.0f), 2, true);
 				//ImGui::LabelText("##Label", "	Time : %.2f", time);
 				DebugManager::BoolDisplay(&loop, -200.0f, "Loop", 3, true);

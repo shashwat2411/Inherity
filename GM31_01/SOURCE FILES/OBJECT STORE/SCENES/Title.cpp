@@ -7,11 +7,11 @@ int choice = 0;
 float pressTimer = 0.0f;
 
 IMAGE* choices[3];
-GAMEOBJECT* playerModel;
+IMAGE* title;
+GAMEOBJECT* PlayerModel;
 
 D3DXVECTOR3 selectedScale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 D3DXCOLOR selectedColor = D3DXCOLOR(1.0f, 1.0f, 1.0, 1.0f);
-PARTICLESYSTEM* ps;
 
 //D3DXVECTOR3 psPosition[3] = {
 //	D3DXVECTOR3( 0.3f,   -9.0f, -101.1f),
@@ -31,20 +31,18 @@ void TITLE_SCENE::Init()
 {
 	pressTimer = 0.0f;
 
-	PLANE* Field;
-	PLANE* Water;
-
 	name = "title";
+
+	//ïœêî
+
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>("SkyDome");
 	player = AddGameObject<PLAYER>("Player");
-	playerModel = AddGameObject<PLAYERMODEL>("Player Model");
-	Field = AddGameObject<PLANE>("Field");
-	Water = AddGameObject<PLANE>("Water");
-	ps = AddGameObject<PARTICLESYSTEM>("Glass Shards", BILLBOARD_LAYER);
+	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
 
 	//UI
+	title = AddGameObject<IMAGE>("Title", SPRITE_LAYER);
 	choices[0] = AddGameObject<IMAGE>("Play", SPRITE_LAYER);
 	choices[1] = AddGameObject<IMAGE>("Tutorial", SPRITE_LAYER);
 	choices[2] = AddGameObject<IMAGE>("Quit", SPRITE_LAYER);
@@ -53,40 +51,17 @@ void TITLE_SCENE::Init()
 
 	//ê⁄ë±èàóù
 	{
-		playerModel->SetParent(player);
-
+		PlayerModel->SetParent(player);
 		player->RemoveComponent<PlayerMovement>();
+		player->RemoveComponent<Rigidbody>();
+		player->RemoveComponent<PlayerControl>();
+		player->RemoveComponent<PlayerHealth>();
 	}
 
 	//ê›íË
 	{
-		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::TITLE_SKYDOME_M);
-		skyDome->AddMaterial<MetallicMaterial>();
-
-		playerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
-
-		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GROUND_T);
-		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
-		Field->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
-		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		//Field->transform->Rotation = D3DXVECTOR3(0.84f, 0.0f, 0.0f);
-		Field->meshField->RecreateField();
-
-		playerModel->SetReflection(true);
-		Field->SetReflection(true);
-		Water->SetReflection(true);
-
-		Water->AddMaterial<WaterMaterial>();
-		Water->GetMaterial()->SetTexture("_Texture", TextureReader::WATER_T);
-		Water->meshField->TexCoord = D3DXVECTOR2(1.0f, 1.0f);
-		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
-		Water->transform->Scale = D3DXVECTOR3(1.0f, 1.0f, 0.1f);
-		Water->transform->Position = D3DXVECTOR3(0.0f, 0.29f, 0.0f);
-		Water->transform->Rotation = D3DXVECTOR3(1.44f, 0.0f, 0.0f);
-		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
-		Water->SetDepthShadow(false);
-		Water->meshField->RecreateField();
+		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::SKYDOME_M);
+		skyDome->AddMaterial<UnlitMaterial>()->SetTexture("_Texture", TextureReader::BOX_T);
 
 		//UI
 		//logo->GetMaterial()->SetTexture("_Texture", TextureReader::TITLE_BG_T);
@@ -97,39 +72,29 @@ void TITLE_SCENE::Init()
 		choices[1]->GetMaterial()->SetTexture("_Texture", TextureReader::TUTORIAL_TEXT_T);
 		choices[2]->GetMaterial()->SetTexture("_Texture", TextureReader::QUIT_TEXT_T);
 
-		ps->particleSystem->burst = false;
-		ps->particleSystem->gravity = false;
-		ps->particleSystem->SetTexture(TextureReader::GLASS_SHARD_T);
-		ps->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
-		ps->particleSystem->SetParticleCount(40);
-
-		ps->particleSystem->randomVelocity = D3DXBOOL3(true, true, false);
-		ps->particleSystem->randomPosition = D3DXBOOL3(true, true, false);
-		ps->particleSystem->positionOffset = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-		ps->particleSystem->velocityOffset = D3DXVECTOR3(1.0f, 1.0f, 0.0f);
-
-		ps->particleSystem->Reinitialize();
 	}
 
 	//âπ
 	{
 		//SoundReader::GetReadSound(SoundReader::TITLE)->Play(true, 0.2f);
+		MainCamera->AddComponent<AudioSource>();
 	}
 
 	startAnimation = false;
+
+	PlayerModel->GetComponent<MeshFilter>()->SetDefaultAnimation("Anger");
+
+	Find("Damager")->Destroy();
+	Find("Gun Left")->Destroy();
+	Find("Gun Right")->Destroy();
+	Find("Spawn Point Left")->Destroy();
+	Find("Spawn Point Right")->Destroy();
+	Find("Damager")->Destroy();
+	Find("Player HP")->Destroy();
 }
 
 void TITLE_SCENE::Update()
 {
-	if (GetPlayer()->GetComponent<Animator>())
-	{
-		if (GetPlayer()->GetComponent<Animator>()->GetCurrentIndex() != 0)
-		{
-			if (Input::GetKeyTrigger('V') || startAnimation == false) { GetPlayer()->GetComponent<Animator>()->PlayAnimation(0, Animation::LOOP); startAnimation = true; }
-		}
-	}
-
-	playerModel->GetComponent<MeshFilter>()->SetAnimationBlend("Idle", true);
 
 	if (Input::GetButtonTrigger(FORWARD_KEYMAP)) { if (choice > 0) { choice--; } else { choice = 2; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);}
 	else if (Input::GetButtonTrigger(BACK_KEYMAP)) { if (choice < 2) { choice++; } else { choice = 0; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f); }
@@ -144,14 +109,12 @@ void TITLE_SCENE::Update()
 
 		choices[choice]->transform->Scale = selectedScale;
 		choices[choice]->SetColor(selectedColor);
-		ps->transform->Position = psPosition[choice];
 	}
 
 	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) 
 	{ 
 		end = true; 
 		SoundReader::GetReadSound(SoundReader::OPTION_SELECT)->Play(false, 0.2f);
-		ps->particleSystem->Play();
 	}
 
 	if (end == true) 

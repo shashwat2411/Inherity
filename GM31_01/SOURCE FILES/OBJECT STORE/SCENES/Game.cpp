@@ -4,6 +4,7 @@
 IMAGE* shadow;
 IMAGE* aimer;
 IMAGE* pause;
+IMAGE* minimap;
 
 bool paused = false;
 bool pauseReturn = false;
@@ -79,6 +80,7 @@ void GAME_SCENE::Init()
 	shadow = AddGameObject<IMAGE>("Shadow Map", SPRITE_LAYER);
 	aimer = AddGameObject<IMAGE>("Aimer", SPRITE_LAYER);
 	pause = AddGameObject<IMAGE>("Pause Menu", SPRITE_LAYER);
+	minimap = AddGameObject<IMAGE>("Mini Map", SPRITE_LAYER);
 
 	//Ú‘±ˆ—
 	{
@@ -159,6 +161,8 @@ void GAME_SCENE::Init()
 		pause->GetComponent<Animator>()->SetUntimed(true);
 		pause->GetComponent<Animator>()->SetCurrentIndex(0);
 
+		minimap->AddMaterial<MiniMapMaterial>();
+
 		player->GetComponent<PlayerMovement>()->aimPoint = aimer->GetComponent<ScreenToWorld>()->GetPoint();
 	}
 
@@ -181,11 +185,30 @@ void GAME_SCENE::LateInit()
 {
 	//Particle Systems
 	{
-		for (int i = 0; i < 30; i++) 
+		for (int i = 0; i < 100; i++) 
 		{
 			std::string name = "effect" + std::to_string(i);
-			bulletDestruction.push_back(AddGameObject<BULLETDESTRUCTION>(name, BILLBOARD_LAYER)); 
+			bulletDestruction.push_back(/*Manager::GetDontDestroyOnLoadScene()->*/AddGameObject<BULLETDESTRUCTION>(name, BILLBOARD_LAYER)); 
 
+		}
+	}
+
+	//Enemy Color
+	{
+		std::vector<ENEMY*> enemies = FindGameObjects<ENEMY>();
+		for (ENEMY* enemy : enemies)
+		{
+			int r, g, b;
+
+			r = rand() % 256;
+			g = rand() % 256;
+			b = rand() % 256;
+			enemy->GetChildren()[0]->SetColor(D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+
+			r = rand() % 256;
+			g = rand() % 256;
+			b = rand() % 60;
+			enemy->GetChildren()[0]->GetMaterial()->SetColor("_Dissolve_Color", D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
 		}
 	}
 }

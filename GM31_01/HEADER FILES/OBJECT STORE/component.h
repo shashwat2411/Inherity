@@ -352,6 +352,9 @@ public:
 	void SetFBX(bool value);
 	bool GetFBX() { return fbx; }
 
+	void SetStop(bool value) { stop = value; }
+	bool GetStop() { return stop; }
+
 	void SetModel(ModelReader::READ_MODEL_FBX index);
 	void SetModel(ModelReader::READ_MODEL_OBJ index);
 
@@ -359,9 +362,6 @@ public:
 
 	AnimationModel* GetModel() { return m_Model; }
 	Model* GetModel(int i) { return m_Model_obj; }
-
-	void Play() { stop = false; }
-	void Stop() { stop = true; }
 
 	template<class Archive>
 	void serialize(Archive & archive)
@@ -443,6 +443,8 @@ protected:
 	D3DXVECTOR3 rot;
 	D3DXVECTOR3 at;
 
+	D3DXVECTOR3 lightDirection;
+
 	D3DXMATRIX  mtxView;
 	D3DXMATRIX  mtxProjection;
 
@@ -462,6 +464,7 @@ public:
 	float GetLen() { return len; }
 	D3DXVECTOR3 GetAt() { return at; }
 	D3DXVECTOR3 GetRot() { return rot; }
+	D3DXVECTOR3 GetLightDirection() { return lightDirection; }
 	D3DXMATRIX GetViewMatrix() { return mtxView; }
 	D3DXMATRIX GetProjectionMatrix() { return mtxProjection; }
 	GAMEOBJECT* GetTarget() { return Target; }
@@ -826,6 +829,7 @@ private:
 public:
 
 	Animator() { name = "Animator"; }
+	~Animator() override {}
 
 	void Start() override;
 	void End() override;

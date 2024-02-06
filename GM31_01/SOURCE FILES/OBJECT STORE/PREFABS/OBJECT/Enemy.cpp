@@ -7,7 +7,7 @@ void ENEMY::Start()
 	Init();
 
 	transform->Scale = D3DXVECTOR3(0.6f, 0.6f, 0.6f);
-	transform->Position = D3DXVECTOR3(-4.0f, 1.0f, 0.0f);
+	transform->Position = D3DXVECTOR3(-109.88f, 0.0f, 32.8f);
 
 	freezeY = true;
 	reflection = true;
@@ -25,6 +25,8 @@ void ENEMY::Start()
 	model->GetModel()->LoadAnimation("Enemy_Damage");
 	model->GetModel()->LoadAnimation("Enemy_Wait");
 	model->GetModel()->LoadAnimation("Enemy_Death");
+	model->GetModel()->LoadAnimation("Enemy_Dance_1");
+	model->GetModel()->LoadAnimation("Enemy_Dance_2");
 
 	model->SetDefaultAnimation("Enemy_Walk");
 
@@ -48,5 +50,8 @@ void ENEMY::Start()
 	knife->GetComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.1f;
 	knife->GetComponent<SphereCollider>()->SetCollisionSize(0.26f);
 
+	knife->AddComponent<KnifeCollision>();
+
 	AddComponent<EnemyHealth>();
+
 }

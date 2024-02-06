@@ -8,6 +8,7 @@ void ArtificialIntelligence::Start()
 
 	index = 0;
 	nextIndex = index + 1;
+	danceIndex = -1;
 
 	distance = 20.0f;
 	timerVector["time"] = 0.0f;
@@ -108,6 +109,10 @@ void ArtificialIntelligence::Update()
 
 	case DEATH:
 		Death();
+		break;
+
+	case VICTORY:
+		Victory();
 		break;
 
 	default:
@@ -371,10 +376,31 @@ void ArtificialIntelligence::Death()
 
 	timerVector["deathTimer"] += Time::deltaTime;
 
-	if (timerVector["deathTimer"] >= 1.81f)
+	if (timerVector["deathTimer"] >= 3.58f)
 	{
-		model->Stop();
+		if (model->GetStop() == false)
+		{
+			model->SetStop(true);
+			model->gameObject->GetMaterial()->SetFloat("_Dissolve", 1.0f);
+		}
+		else
+		{
+			float temp = model->gameObject->GetMaterial()->GetFloat("_Threshold");
+			temp = Mathf::Lerp(temp, 0.0f, 0.04f);
+			model->gameObject->GetMaterial()->SetFloat("_Threshold", temp);
+
+			if (temp <= 0.01f)
+			{
+				gameObject->Destroy();
+			}
+		}
 	}
+}
+
+void ArtificialIntelligence::Victory()
+{
+	if (danceIndex == 0) { model->SetAnimationBlend("Enemy_Dance_1", true); }
+	else { model->SetAnimationBlend("Enemy_Dance_2", true); }
 }
 
 void ArtificialIntelligence::Finder()
@@ -400,4 +426,20 @@ void ArtificialIntelligence::Finder()
 	{
 		seeker = Manager::GetScene()->Find(targetName.c_str());
 	}
+}
+
+void ArtificialIntelligence::Dancing()
+{
+	state = VICTORY;
+
+	if (danceIndex < 0)
+	{
+		danceIndex = rand() % 2;
+	}
+}
+
+void ArtificialIntelligence::SetStateToReturn()
+{
+	target = nullptr;
+	state = RETURN;
 }
