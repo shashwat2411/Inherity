@@ -7,7 +7,10 @@
 void UpdateXinput();
 
 const D3DXVECTOR2 GetLeftJoyStick();
-const D3DXVECTOR2 GetRightJoystick();
+const D3DXVECTOR2 GetRightJoyStick();
 
 bool GetControllerButtonPress(WORD button);
 bool GetControllerButtonTrigger(WORD button);
+
+bool GetControllerLeftTrigger();
+bool GetControllerRightTrigger();

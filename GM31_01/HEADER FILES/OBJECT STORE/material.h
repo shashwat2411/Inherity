@@ -205,6 +205,17 @@ public:
 	void Update() override;
 	void Draw() override;
 };
+class MiniMapMaterial : public Material
+{
+private:
+
+public:
+
+	void Start() override;
+
+	void Update() override;
+	void Draw() override;
+};
 
 //Post Process
 class PostProcessMaterial : public Material

@@ -9,7 +9,7 @@ void FADE::Init()
 	fadeOut = true;
 
 	alpha = 1.0f;
-	speed = 0.05f; //0.05f
+	speed = 0.02f; //0.05f
 
 	Color = D3DXCOLOR(0.0f, 0.0, 0.0f, 1.0f);
 
@@ -18,7 +18,7 @@ void FADE::Init()
 	AddComponent<SpriteRenderer>()->SetSize(D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT));
 
 	AddMaterial<WipeMaterial>();
-
+	GetMaterial()->SetTexture("_Wipe_Texture", TextureReader::WIPE_T);
 }
 
 void FADE::Update()

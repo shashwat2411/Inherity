@@ -4,6 +4,8 @@
 
 void BulletScript::Start()
 {
+	destruction = false;
+
 	gameObject->AddComponent<MeshFilter>()->SetModel(ModelReader::BULLET_M);
 	gameObject->AddComponent<Rigidbody>();
 
@@ -21,14 +23,9 @@ void BulletScript::Start()
 void BulletScript::Update()
 {
 	timerVector["counter"] += Time::deltaTime;
-	if (timerVector["counter"] >= timerVector["max life"])
+	if (timerVector["counter"] >= timerVector["max life"] || gameObject->transform->Position.y < 0.0f)
 	{
-		OnDestruction();
-	}
-
-	if (gameObject->transform->GlobalPosition.y < gameObject->transform->Scale.y / 2.0f)
-	{
-		OnDestruction();
+		OnDestruction(false);
 	}
 
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
@@ -50,17 +47,22 @@ void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
 	return;
 }
 
-void BulletScript::OnDestruction()
+void BulletScript::OnDestruction(bool enemyCollision)
 {
-	GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
-	BULLETDESTRUCTION* effect = game->GetBulletDestroyEffect();
-
-	if (effect)
+	if (destruction == false)
 	{
-		effect->SetActive(true);
-		effect->particleSystem->Play();
-		effect->transform->Position = gameObject->transform->GlobalPosition;
-	}
+		destruction = true;
 
-	gameObject->Destroy(true);
+		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
+		PARTICLESYSTEM* effect = game->GetParticleEffect((enemyCollision ? GAME_SCENE::BULLET_TO_ENEMY : GAME_SCENE::BULLET_TO_WALL));
+
+		if (effect != nullptr && effect->particleSystem != nullptr)
+		{
+			effect->SetActive(true);
+			effect->particleSystem->Play();
+			effect->transform->Position = gameObject->transform->GlobalPosition;
+		}
+
+		gameObject->Destroy(true);
+	}
 }

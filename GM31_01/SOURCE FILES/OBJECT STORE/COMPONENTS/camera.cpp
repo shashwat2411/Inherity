@@ -30,6 +30,7 @@ void Camera::Start()
 	at = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
+	lightDirection = D3DXVECTOR3(0.25f, -1.0f, 0.63f);
 
 	//----------------------------------------------------------------
 	float vx, vz;
@@ -143,6 +144,9 @@ void Camera::EngineDisplay()
 		ImGui::Text("Target : %s", (Target ? Target->GetTag().c_str() : "nullptr"));
 
 		DebugManager::FloatDisplay(&fov, -FLT_MIN, "FOV", false, D3DXVECTOR2(1.0f, 120.0f), 1);
+
+		DebugManager::Float3Display(&lightDirection, -1.0f, "Light", 0.01f, 2);
+
 
 		if (ImGui::TreeNode("Details") && Target)
 		{

@@ -712,8 +712,19 @@ void Renderer::Begin()
 {
 	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
 
-	// バックバッファクリア
 	float clearColor[4] = { 1.0f, 0.0f, 0.5f, 1.0f };
+	// バックバッファクリア
+		// バックバッファクリア
+	CAMERA* camera = Manager::GetScene()->GetCamera();
+	if (camera)
+	{
+		D3DXCOLOR color = camera->GetColor();
+		float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+		clearColor[0] = color.r;
+		clearColor[1] = color.g;
+		clearColor[2] = color.b;
+		clearColor[3] = color.a;
+	}
 	m_DeviceContext->ClearRenderTargetView(m_RenderTargetView, clearColor);
 	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 
@@ -723,8 +734,15 @@ void Renderer::BeginPostProcess()
 {
 	m_DeviceContext->OMSetRenderTargets(1, &m_PostProcessRenderTargetView, m_DepthStencilView);
 
-	float ClearColor[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
-	m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, ClearColor);
+	// バックバッファクリア
+	D3DXCOLOR color = Manager::GetScene()->GetCamera()->GetColor();
+	float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+	clearColor[0] = color.r;
+	clearColor[1] = color.g;
+	clearColor[2] = color.b;
+	clearColor[3] = color.a;
+	//float ClearColor[4] = { 0.0f, 0.0f, 1.0f, 1.0f };
+	m_DeviceContext->ClearRenderTargetView(m_PostProcessRenderTargetView, clearColor);
 	m_DeviceContext->ClearDepthStencilView(m_DepthStencilView, D3D11_CLEAR_DEPTH, 1.0f, 0);
 }
 

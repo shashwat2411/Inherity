@@ -314,6 +314,7 @@ class MeshFilter :public Component
 {
 private:
 	bool fbx;
+	bool stop;
 
 	int modelIndex;
 
@@ -343,13 +344,16 @@ public:
 	void EngineDisplay() override;
 
 	const char* GetCurrentAnimation() { if (m_Model != nullptr) { return animationBlendName.c_str(); } return ""; }
-	bool GetAnimationOver(const char* name);
+	bool GetAnimationOver(std::string name);
 	int GetModelIndex() { return modelIndex; }
 
-	void SetAnimationBlend(const char* name, bool lp = false, float speed = 0.05f);
+	void SetAnimationBlend(std::string name, bool lp = false, float speed = 0.05f);
 
 	void SetFBX(bool value);
 	bool GetFBX() { return fbx; }
+
+	void SetStop(bool value) { stop = value; }
+	bool GetStop() { return stop; }
 
 	void SetModel(ModelReader::READ_MODEL_FBX index);
 	void SetModel(ModelReader::READ_MODEL_OBJ index);
@@ -439,6 +443,8 @@ protected:
 	D3DXVECTOR3 rot;
 	D3DXVECTOR3 at;
 
+	D3DXVECTOR3 lightDirection;
+
 	D3DXMATRIX  mtxView;
 	D3DXMATRIX  mtxProjection;
 
@@ -458,6 +464,7 @@ public:
 	float GetLen() { return len; }
 	D3DXVECTOR3 GetAt() { return at; }
 	D3DXVECTOR3 GetRot() { return rot; }
+	D3DXVECTOR3 GetLightDirection() { return lightDirection; }
 	D3DXMATRIX GetViewMatrix() { return mtxView; }
 	D3DXMATRIX GetProjectionMatrix() { return mtxProjection; }
 	GAMEOBJECT* GetTarget() { return Target; }
@@ -822,6 +829,7 @@ private:
 public:
 
 	Animator() { name = "Animator"; }
+	~Animator() override {}
 
 	void Start() override;
 	void End() override;

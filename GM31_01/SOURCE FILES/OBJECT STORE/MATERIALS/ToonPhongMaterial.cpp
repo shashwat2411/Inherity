@@ -9,7 +9,6 @@ void ToonPhongMaterial::Start()
 
 	SetColor("_Dissolve_Color", D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
-	textures["_Texture"] = nullptr;
 	SetTexture("_Texture", TextureReader::WIPE_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\toonVS.cso");

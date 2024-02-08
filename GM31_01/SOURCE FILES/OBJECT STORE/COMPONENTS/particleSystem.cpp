@@ -20,7 +20,7 @@ void ParticleSystem::Start()
 	//randomDirectionY = true;
 	//randomDirectionZ = true;
 
-	numberOfObjects = MAX_PARTICLES;
+	numberOfObjects = 30;
 	numberOfObjectsToAdd = 0;
 
 	size = D3DXVECTOR3(0.1f, 0.1f, 0.1f);

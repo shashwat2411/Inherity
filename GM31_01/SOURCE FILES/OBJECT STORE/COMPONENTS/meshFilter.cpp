@@ -5,6 +5,7 @@
 void MeshFilter::Start()
 {
 	fbx = false;
+	stop = false;
 
 	modelIndex = 0;
 
@@ -47,8 +48,11 @@ void MeshFilter::Update()
 			int t = (int)time;
 			m_Model->Update(animationName.c_str(), t, animationBlendName.c_str(), (t + 1), blendRate, time);
 
-			frame += Time::fixedTimeScale;
-			time += Time::fixedTimeScale;
+			if (stop == false)
+			{
+				frame += Time::fixedTimeScale;
+				time += Time::fixedTimeScale;
+			}
 		}
 	}
 }
@@ -109,7 +113,7 @@ void MeshFilter::EngineDisplay()
 				ImGui::Text(name.c_str());
 
 
-				DebugManager::FloatDisplay(&time, -FLT_MIN, "Time", true, D3DXVECTOR2(0.01f, 0.0f), 1, true);
+				DebugManager::FloatDisplay(&time, -FLT_MIN, "Time", true, D3DXVECTOR2(0.01f, 0.0f), 1, false);
 				DebugManager::FloatDisplay(&blendRate, -FLT_MIN, "Blend", true, D3DXVECTOR2(0.01f, 0.0f), 2, true);
 				//ImGui::LabelText("##Label", "	Time : %.2f", time);
 				DebugManager::BoolDisplay(&loop, -200.0f, "Loop", 3, true);
@@ -124,7 +128,7 @@ void MeshFilter::EngineDisplay()
 	}
 }
 
-bool MeshFilter::GetAnimationOver(const char* name)
+bool MeshFilter::GetAnimationOver(std::string name)
 {
 	if (m_Model != nullptr)
 	{
@@ -137,7 +141,7 @@ bool MeshFilter::GetAnimationOver(const char* name)
 	return false;
 }
 
-void MeshFilter::SetAnimationBlend(const char* name, bool lp, float speed)
+void MeshFilter::SetAnimationBlend(std::string name, bool lp, float speed)
 {
 	if (m_Model != nullptr)
 	{

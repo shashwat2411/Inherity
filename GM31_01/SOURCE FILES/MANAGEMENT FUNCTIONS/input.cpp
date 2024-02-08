@@ -3,6 +3,7 @@
 #include "debugManager.h"
 
 bool Input::controls = true;
+bool Input::controller = false;
 
 BYTE Input::m_OldKeyState[256];
 BYTE Input::m_KeyState[256];
@@ -46,7 +47,11 @@ void Input::Init()
 	controllerInput[CHANGE_KEYMAP].push_back(XINPUT_GAMEPAD_BACK);
 
 	input[PAUSE_KEYMAP].push_back('P');
-	controllerInput[CHANGE_KEYMAP].push_back(XINPUT_GAMEPAD_START);
+	controllerInput[PAUSE_KEYMAP].push_back(XINPUT_GAMEPAD_START);
+
+	//controllerInput[AIM_KEYMAP].push_back(XINPUT_GAMEPAD_LEFT_THUMB);
+
+	//controllerInput[SHOOT_KEYMAP].push_back(XINPUT_GAMEPAD_RIGHT_THUMB);
 }
 
 void Input::Uninit()
@@ -89,11 +94,29 @@ bool Input::GetButtonPress(KEYMAPPING value)
 			if (v == true) { return v; }
 		}
 
+		if (value == AIM_KEYMAP)
+		{
+			v = IsMouseRightPressed();
+			if (v == true) { return true; }
+
+			v = GetControllerLeftTrigger();
+			if (v == true) { return true; }
+		}
+		else if (value == SHOOT_KEYMAP)
+		{
+			v = IsMouseLeftPressed();
+			if (v == true) { return true; }
+
+			v = GetControllerRightTrigger();
+			if (v == true) { return true; }
+		}
+
 		for (int i = 0; i < controllerInput[value].size(); i++)
 		{
 			v = GetControllerButtonPress(controllerInput[value][i]);
 			if (v == true) { return v; }
 		}
+
 	}
 
 	return v;
@@ -128,6 +151,7 @@ float Input::Horizontal()
 	if (controls == true)
 	{
 		horizontal = GetLeftJoyStick().x;
+		if (fabs(horizontal) < 0.2f) { horizontal = 0.0f; }
 
 		if (GetButtonPress(LEFT_KEYMAP)) { horizontal = -1.0f; }
 		else if (GetButtonPress(RIGHT_KEYMAP)) { horizontal = 1.0f; }
@@ -143,9 +167,40 @@ float Input::Vertical()
 	if (controls == true)
 	{
 		vertical = GetLeftJoyStick().y;
+		if (fabs(vertical) < 0.2f) { vertical = 0.0f; }
 
 		if (GetButtonPress(FORWARD_KEYMAP)) { vertical = 1.0f; }
 		else if (GetButtonPress(BACK_KEYMAP)) { vertical = -1.0f; }
+	}
+
+	return vertical;
+}
+
+float Input::CameraAngleHorizontal()
+{
+	float horizontal = 0.0f;
+
+	if (controls == true)
+	{
+		horizontal = GetRightJoyStick().x;
+
+		//horizontal = GetMousePosX();
+
+	}
+
+	return horizontal;
+}
+
+float Input::CameraAngleVertical()
+{
+	float vertical = 0.0f;
+
+	if (controls == true)
+	{
+		vertical = GetRightJoyStick().y;
+
+		//vertical = GetMousePosY();
+
 	}
 
 	return vertical;

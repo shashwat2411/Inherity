@@ -8,19 +8,22 @@ void ArtificialIntelligence::Start()
 
 	index = 0;
 	nextIndex = index + 1;
+	danceIndex = -1;
 
 	distance = 20.0f;
 	timerVector["time"] = 0.0f;
 	timerVector["speed"] = 0.001f;
-	timerVector["followSpeed"] = 0.05f;
+	timerVector["followSpeed"] = 0.08f;
 	timerVector["maxDistance"] = 10.0f;
 	timerVector["timer"] = 0.0f;
 
 	timerVector["followDistance"] = 3.0f;
-	timerVector["waitMaxTime"] = 1.0f;
+	timerVector["waitMaxTime"] = 0.4f;
 
 	timerVector["attackMaxTime"] = 3.0f;
 	timerVector["attackSpeed"] = 1.0f;
+
+	timerVector["deathTimer"] = 0.0f;
 
 	timerVector["findMaxTime"] = 2.0f;
 	timerVector["rotationSpeed"] = 0.03f;
@@ -104,6 +107,14 @@ void ArtificialIntelligence::Update()
 		Return();
 		break;
 
+	case DEATH:
+		Death();
+		break;
+
+	case VICTORY:
+		Victory();
+		break;
+
 	default:
 		break;
 	}
@@ -134,7 +145,9 @@ const char* enemyStatus[ArtificialIntelligence::ENEMY_STATE_MAX] =
 	"WAIT",
 	"ATTACK",
 	"FIND",
-	"RETURN"
+	"RETURN",
+	"DEATH",
+	"DANCE"
 };
 
 void ArtificialIntelligence::EngineDisplay()
@@ -358,6 +371,39 @@ void ArtificialIntelligence::Find()
 	//}
 }
 
+void ArtificialIntelligence::Death()
+{
+	model->SetAnimationBlend("Enemy_Death", false, 0.4f);
+
+	timerVector["deathTimer"] += Time::deltaTime;
+
+	if (timerVector["deathTimer"] >= 3.58f)
+	{
+		if (model->GetStop() == false)
+		{
+			model->SetStop(true);
+			model->gameObject->GetMaterial()->SetFloat("_Dissolve", 1.0f);
+		}
+		else
+		{
+			float temp = model->gameObject->GetMaterial()->GetFloat("_Threshold");
+			temp = Mathf::Lerp(temp, 0.0f, 0.04f);
+			model->gameObject->GetMaterial()->SetFloat("_Threshold", temp);
+
+			if (temp <= 0.01f)
+			{
+				gameObject->Destroy();
+			}
+		}
+	}
+}
+
+void ArtificialIntelligence::Victory()
+{
+	if (danceIndex == 0) { model->SetAnimationBlend("Enemy_Dance_1", true); }
+	else { model->SetAnimationBlend("Enemy_Dance_2", true); }
+}
+
 void ArtificialIntelligence::Finder()
 {
 	if (seeker != nullptr)
@@ -381,4 +427,20 @@ void ArtificialIntelligence::Finder()
 	{
 		seeker = Manager::GetScene()->Find(targetName.c_str());
 	}
+}
+
+void ArtificialIntelligence::Dancing()
+{
+	state = VICTORY;
+
+	if (danceIndex < 0)
+	{
+		danceIndex = rand() % 2;
+	}
+}
+
+void ArtificialIntelligence::SetStateToReturn()
+{
+	target = nullptr;
+	state = RETURN;
 }

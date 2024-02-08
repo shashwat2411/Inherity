@@ -7,6 +7,9 @@ void BULLETDESTRUCTION::Start()
 
 	depthShadow = false;
 	active = false;
+	save = false;
+
+	particleSystem->size = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	particleSystem->SetParticleCount(25);
 	particleSystem->burst = true;

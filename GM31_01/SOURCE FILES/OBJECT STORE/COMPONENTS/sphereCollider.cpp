@@ -35,7 +35,7 @@ void SphereCollider::Start()
 
 void SphereCollider::End()
 {
-
+	colliderObject->Destroy();
 }
 
 void SphereCollider::Update()

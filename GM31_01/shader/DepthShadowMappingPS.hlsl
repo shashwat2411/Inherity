@@ -62,7 +62,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		else if (light > 0.4f) { light = 0.7f; }
 		else { light = 0.5f; }
 
-		outDiffuse.rgb *= saturate(light *lightFactor);
+		outDiffuse.rgb *= saturate(light * lightFactor);
 
 	}
 

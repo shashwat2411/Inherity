@@ -2,12 +2,9 @@
 #include "manager.h"
 #include "input.h"
 
-MeshFilter* model;
 float angle = 0.0f;
 float dangle = 0.0f;
 bool animationShift = false;
-Camera* camera;
-RevolutionCamera* cameraController;
 
 D3DXVECTOR3 rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -20,9 +17,14 @@ void PlayerMovement::Start()
 	setAnimation = false;
 
 	idleCounter = 0;
+	timerVector["deathTimer"] = 0.0f;
+	timerVector["hitTimer"] = 0.0f;
 	timerVector["rollSpeed"] = 0.4f;
 	timerVector["dissolveSpeedAppear"] = 0.05f;
 	timerVector["dissolveSpeedDissappear"] = 0.1f;
+
+	timerVector["shootCountdown"] = 0.0f;
+	timerVector["shootCooldown"] = 0.0333f;
 
 	rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -41,7 +43,6 @@ void PlayerMovement::End()
 
 void PlayerMovement::Update()
 {
-
 	//Trash
 	/*
 	|----------------------------------TRASH--------------------------------
@@ -115,14 +116,14 @@ void PlayerMovement::Update()
 	|}
 	|-----------------------------------------------------------------------
 	*/
-	model = gameObject->GetChildren()[0]->GetComponent<MeshFilter>();
+
+	gun1->transform->Rotation.z = 47.5f;
+	gun2->transform->Rotation.z = 45.5f;
 
 	//Direction
 	{
 		D3DXVECTOR3 directionZ(0.0f, 0.0f, 0.0f);
 		D3DXVECTOR3 directionX(0.0f, 0.0f, 0.0f);
-
-		camera = Manager::GetScene()->GetCamera()->camera;
 
 		float vertical = Input::Vertical();
 		float horizontal = Input::Horizontal();
@@ -139,9 +140,8 @@ void PlayerMovement::Update()
 		D3DXVec3Normalize(&direction, &direction);
 	}
 
-	cameraController = camera->gameObject->GetComponent<RevolutionCamera>();
 
-	if (ImGui::IsKeyDown((ImGuiKey)656) && aim == false && playerState != ROLL_PS)
+	if ((/*ImGui::IsKeyDown((ImGuiKey)656)*/ /*IsMouseRightPressed()*/  Input::GetButtonPress(AIM_KEYMAP)) && aim == false && (playerState != ROLL_PS && playerState != DEATH_PS))
 	{
 		aim = true;
 		playerState = AIMING_MOVE_PS;
@@ -149,7 +149,7 @@ void PlayerMovement::Update()
 		//cameraController->SetFollowSpeed(D3DXVECTOR3(0.6f, 0.1f, 0.0f));
 		cameraController->SetScreenLimit(D3DXVECTOR3(180.0f, 180.0f, -40.0f));
 	}
-	else if (!ImGui::IsKeyDown((ImGuiKey)656) && aim == true)
+	else if ((/*!ImGui::IsKeyDown((ImGuiKey)656)*/ /*!IsMouseRightPressed()*/  !Input::GetButtonPress(AIM_KEYMAP)) && aim == true)
 	{
 		aim = false;
 		playerState = NORMAL_MOVE_PS;
@@ -158,7 +158,7 @@ void PlayerMovement::Update()
 		cameraController->SetScreenLimit(D3DXVECTOR3(300.0f, 180.0f, -40.0f));
 	}
 
-	if (Input::GetButtonTrigger(ROLL_KEYMAP) && playerState != ROLL_PS)
+	if (Input::GetButtonTrigger(ROLL_KEYMAP) && (playerState != ROLL_PS && playerState != DEATH_PS))
 	{
 		aim = false;
 		playerState = ROLL_PS;
@@ -182,22 +182,32 @@ void PlayerMovement::Update()
 		Roll();
 		break;
 
+	case DEATH_PS:
+		Death();
+		break;
+
+	case HIT_PS:
+		Hit();
+		break;
+
 	default:
 		break;
 	}
 
-	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
+	if (playerState != DEATH_PS && playerState != HIT_PS)
+	{
+		gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
 
-	gameObject->rigidbody->Speed.x *= 0.9f;
-	gameObject->rigidbody->Speed.z *= 0.9f;
+		gameObject->rigidbody->Speed.x *= 0.9f;
+		gameObject->rigidbody->Speed.z *= 0.9f;
 
-	angle = atan2f(rotationDirection.x, rotationDirection.z);
+		angle = atan2f(rotationDirection.x, rotationDirection.z);
 
-	D3DXQUATERNION quat;
-	D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
-	D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
+		D3DXQUATERNION quat;
+		D3DXQuaternionRotationAxis(&quat, &D3DXVECTOR3(0.0f, 1.0f, 0.0f), angle);
+		D3DXQuaternionSlerp(&model->gameObject->transform->Quaternion, &model->gameObject->transform->Quaternion, &quat, 0.2f * Time::fixedTimeScale);
+	}
 
-	if (Input::GetButtonTrigger(CHANGE_KEYMAP)) { Manager::GetScene()->SetEnd(); }
 }
 
 void PlayerMovement::Draw()
@@ -209,7 +219,9 @@ const char* playerStatus[PlayerMovement::PS_MAX] =
 {
 	"NORMAL_MOVE_PS",
 	"AIMING_MOVE_PS",
-	"ROLL_PS"
+	"ROLL_PS",
+	"DEATH_PS",
+	"HIT_PS"
 };
 int playerstat = 0;
 
@@ -225,7 +237,8 @@ void PlayerMovement::EngineDisplay()
 
 		DebugManager::FloatDisplay(&timerVector["rollSpeed"], -FLT_MIN, "Roll Speed", true, D3DXVECTOR2(0.01f, 0.0f), 2);
 		DebugManager::FloatDisplay(&timerVector["dissolveSpeedAppear"], -FLT_MIN, "Dissolve Speed Appear", true, D3DXVECTOR2(0.01f, 0.0f), 3);
-		DebugManager::FloatDisplay(&timerVector["dissolveSpeedDissappear"], -FLT_MIN, "Dissolve Speed Dissappear", true, D3DXVECTOR2(0.01f, 0.0f), 3);
+		DebugManager::FloatDisplay(&timerVector["dissolveSpeedDissappear"], -FLT_MIN, "Dissolve Speed Dissappear", true, D3DXVECTOR2(0.01f, 0.0f), 4);
+		DebugManager::FloatDisplay(&timerVector["shootCooldown"], -FLT_MIN, "Shoot Cooldown", true, D3DXVECTOR2(0.01f, 0.0f), 5);
 
 		ImGui::TreePop();
 		ImGui::Spacing();
@@ -264,25 +277,27 @@ void PlayerMovement::NormalMove()
 		move = false;
 	}
 
-	//if		(Input::GetButtonPress(FORWARD_KEYMAP))	{ /*directionZ = gameObject->transform->GetForwardDirection();	*/	directionZ =  camera->GetForward();	move = true; /*rotationDirection.y = 0.0f;	*/	}
-	//else if (Input::GetButtonPress(BACK_KEYMAP))	{ /*directionZ = -gameObject->transform->GetForwardDirection();	*/	directionZ = -camera->GetForward();	move = true; /*rotationDirection.y = 180.0f;*/	}
-	//if		(Input::GetButtonPress(LEFT_KEYMAP))	{ /*directionX = -gameObject->transform->GetRightDirection();	*/	directionX = -camera->GetRight();	move = true; /*rotationDirection.y = 270.0f;*/	}
-	//else if (Input::GetButtonPress(RIGHT_KEYMAP))	{ /*directionX = gameObject->transform->GetRightDirection();	*/	directionX =  camera->GetRight();	move = true; /*rotationDirection.y = 90.0f;	*/	}
+	{
+		//if		(Input::GetButtonPress(FORWARD_KEYMAP))	{ /*directionZ = gameObject->transform->GetForwardDirection();	*/	directionZ =  camera->GetForward();	move = true; /*rotationDirection.y = 0.0f;	*/	}
+		//else if (Input::GetButtonPress(BACK_KEYMAP))	{ /*directionZ = -gameObject->transform->GetForwardDirection();	*/	directionZ = -camera->GetForward();	move = true; /*rotationDirection.y = 180.0f;*/	}
+		//if		(Input::GetButtonPress(LEFT_KEYMAP))	{ /*directionX = -gameObject->transform->GetRightDirection();	*/	directionX = -camera->GetRight();	move = true; /*rotationDirection.y = 270.0f;*/	}
+		//else if (Input::GetButtonPress(RIGHT_KEYMAP))	{ /*directionX = gameObject->transform->GetRightDirection();	*/	directionX =  camera->GetRight();	move = true; /*rotationDirection.y = 90.0f;	*/	}
 
-	//if		(Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP))	{ move = true; /*rotationDirection.y = 315.0f;*/	}
-	//else if (Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP))	{ move = true; /*rotationDirection.y = 45.0f; */	}
-	//if		(Input::GetButtonPress(BACK_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP))		{ move = true; /*rotationDirection.y = 225.0f;*/	}
-	//else if (Input::GetButtonPress(BACK_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP))		{ move = true; /*rotationDirection.y = 135.0f;*/	}
+		//if		(Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP))	{ move = true; /*rotationDirection.y = 315.0f;*/	}
+		//else if (Input::GetButtonPress(FORWARD_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP))	{ move = true; /*rotationDirection.y = 45.0f; */	}
+		//if		(Input::GetButtonPress(BACK_KEYMAP) && Input::GetButtonPress(LEFT_KEYMAP))		{ move = true; /*rotationDirection.y = 225.0f;*/	}
+		//else if (Input::GetButtonPress(BACK_KEYMAP) && Input::GetButtonPress(RIGHT_KEYMAP))		{ move = true; /*rotationDirection.y = 135.0f;*/	}
 
-	//if (!Input::GetButtonPress(FORWARD_KEYMAP) && !Input::GetButtonPress(LEFT_KEYMAP) && !Input::GetButtonPress(BACK_KEYMAP) && !Input::GetButtonPress(RIGHT_KEYMAP)) { move = false; }
+		//if (!Input::GetButtonPress(FORWARD_KEYMAP) && !Input::GetButtonPress(LEFT_KEYMAP) && !Input::GetButtonPress(BACK_KEYMAP) && !Input::GetButtonPress(RIGHT_KEYMAP)) { move = false; }
 
-	//directionZ.y = 0.0f;
-	//directionX.y = 0.0f;
-	//D3DXVec3Normalize(&directionZ, &directionZ);
-	//D3DXVec3Normalize(&directionX, &directionX);
+		//directionZ.y = 0.0f;
+		//directionX.y = 0.0f;
+		//D3DXVec3Normalize(&directionZ, &directionZ);
+		//D3DXVec3Normalize(&directionX, &directionX);
 
-	//D3DXVECTOR3 direction = directionX + directionZ;
-	//D3DXVec3Normalize(&direction, &direction);
+		//D3DXVECTOR3 direction = directionX + directionZ;
+		//D3DXVec3Normalize(&direction, &direction);
+	}
 
 	D3DXVECTOR3 finalSpeed;
 	finalSpeed.x = direction.x * SPEED_VALUE * gameObject->rigidbody->Acceleration;
@@ -326,8 +341,6 @@ void PlayerMovement::NormalMove()
 	else {
 		model->SetAnimationBlend("Idle", true); 
 	}
-
-	//if (Input::GetButtonTrigger(JUMP_KEYMAP)) { playerState = JUMP_PS; model->SetAnimationBlend("Jump"); }
 
 }
 
@@ -425,16 +438,24 @@ void PlayerMovement::AimingMove()
 	}
 	else { model->SetAnimationBlend("Idle", true); }
 
-	if (ImGui::IsKeyPressed((ImGuiKey)655))
+	timerVector["shootCountdown"] += Time::deltaTime;
+
+	if (/*ImGui::IsKeyPressed((ImGuiKey)655)*/Input::GetButtonPress(SHOOT_KEYMAP) && timerVector["shootCountdown"] >= timerVector["shootCooldown"])
 	{
+		timerVector["shootCountdown"] = 0.0f;
+
 		GAMEOBJECT* spawner;
 		if (gunSelection == true)
 		{
-			spawner = gun1->GetChildren()[0]; gunSelection = false;
+			gunSelection = false;
+			spawner = gun1->GetChildren()[0]; 
+			gun1->transform->Rotation.z = 51.5f;
 		}
 		else
 		{
-			spawner = gun2->GetChildren()[0]; gunSelection = true;
+			gunSelection = true;
+			spawner = gun2->GetChildren()[0]; 
+			gun2->transform->Rotation.z = 49.5f;
 		}
 
 		face = *aimPoint - spawner->transform->GlobalPosition;
@@ -455,5 +476,34 @@ void PlayerMovement::Roll()
 	if (model->GetAnimationOver("Roll") == true)
 	{
 		playerState = NORMAL_MOVE_PS;
+	}
+}
+
+void PlayerMovement::Death()
+{
+	model->SetAnimationBlend("Death", false, 0.4f);
+
+	timerVector["deathTimer"] += Time::deltaTime;
+
+	if (timerVector["deathTimer"] >= 3.58f)
+	{
+		if (model->GetStop() == false)
+		{
+			model->SetStop(true);
+		}
+	}
+}
+
+void PlayerMovement::Hit()
+{
+	model->SetAnimationBlend("Hit", false, 0.4f);
+
+	timerVector["hitTimer"] += Time::deltaTime;
+
+	if (timerVector["hitTimer"] >= 0.35f)
+	{
+		playerState = NORMAL_MOVE_PS;
+		timerVector["hitTimer"] = 0.0f;
+		model->SetAnimationBlend("Idle", true, 0.4f);
 	}
 }

@@ -29,7 +29,7 @@ float Time::timeScale = 1.0f;
 float Time::fixedTimeScale = 1.0f;
 float Time::deltaTime = 1.0f / FRAME_RATE;
 
-void LightInitialize(LIGHT* light, D3DXVECTOR3 position);
+void LightInitialize(LIGHT* light, GAMEOBJECT* object);
 
 void Manager::Init()
 {
@@ -130,7 +130,7 @@ void Manager::Draw()
 
 			if (GetScene()->GetPlayer() != nullptr)
 			{
-				LightInitialize(&light, GetScene()->GetPlayer()->transform->Position);
+				LightInitialize(&light, GetScene()->GetPlayer());
 			}
 
 			//ライトカメラの行列をセット
@@ -243,23 +243,30 @@ void Manager::Update()
 
 }
 
-void LightInitialize(LIGHT* light, D3DXVECTOR3 position)
+void LightInitialize(LIGHT* light, GAMEOBJECT* object)
 {
-	//Spot Light
-	light->Direction = D3DXVECTOR4(1.0f, -1.0f, 0.0f, 0.0f);
-	D3DXVec4Normalize(&light->Direction, &light->Direction);
-	light->Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
-	light->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	if (object != nullptr)
+	{
+		//Spot Light
+		//if (object->GetChildren()[0] != nullptr)
+		{
+			D3DXVECTOR3 temp = Manager::GetScene()->GetCamera()->camera->GetLightDirection();
+			light->Direction = D3DXVECTOR4(temp.x, temp.y, temp.z, 0.0f);
+		}
 
-	//ライトカメラのビュー行列を作成
-	D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 30.0f, 0.0f) + position;
-	D3DXVECTOR3 lightTarget = position;
-	D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
-	D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
+		D3DXVec4Normalize(&light->Direction, &light->Direction);
+		light->Ambient = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+		light->Diffuse = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
 
-	//ライトカメラのプロジェクション行列を作成
-	D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 105.0f);
+		//ライトカメラのビュー行列を作成
+		D3DXVECTOR3 lightPos = D3DXVECTOR3(-10.0f, 30.0f, 0.0f) + object->transform->GlobalPosition;
+		D3DXVECTOR3 lightTarget = object->transform->GlobalPosition;
+		D3DXVECTOR3 lightUp = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
+		D3DXMatrixLookAtLH(&light->viewMatrix, &lightPos, &lightTarget, &lightUp);
 
+		//ライトカメラのプロジェクション行列を作成
+		D3DXMatrixPerspectiveFovLH(&light->projectionMatrix, 1.0f, (float)(SCREEN_WIDTH) / (float)(SCREEN_WIDTH), 5.0f, 105.0f);
+	}
 }
 
 void Manager::Save(std::string name)
@@ -279,7 +286,10 @@ void Manager::Save(std::string name)
 	{
 		for (GAMEOBJECT* object : Scene->GetGameObjectList((LAYER)i))
 		{
-			archive(cereal::make_nvp(object->GetTag(), *object));
+			if (object->GetSave() == true)
+			{
+				archive(cereal::make_nvp(object->GetTag(), *object));
+			}
 		}
 	}
 }
@@ -297,14 +307,14 @@ void Manager::Open(std::string name)
 	archive(adder);
 	for(AddObjectSaveFile add : adder)
 	{
-		if (add.name == "CUBE")						{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)")); } }
-		if (add.name == "CYLINDER")					{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)")); } }
-		if (add.name == "IMAGE")					{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER); } }
-		if (add.name == "BILLBOARD")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER); } }
-		if (add.name == "PARTICLESYSTEM")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)"), BILLBOARD_LAYER); } }
-		if (add.name == "EMPTYOBJECT")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)")); } }
-		if (add.name == "ENEMY")					{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)")); } }
-		if (add.name == "ENMAPCOLLISIONOBJECTEMY")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), COLLIDER_LAYER); } }
+		if (add.name == "CUBE")					{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CUBE>(ObjectIndex("Cube(Clone)")); } }
+		if (add.name == "CYLINDER")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<CYLINDER>(ObjectIndex("Cylinder(Clone)")); } }
+		if (add.name == "IMAGE")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<IMAGE>(ObjectIndex("Sprite(Clone)"), SPRITE_LAYER); } }
+		if (add.name == "BILLBOARD")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<BILLBOARD>(ObjectIndex("Billboard(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "PARTICLESYSTEM")		{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<PARTICLESYSTEM>(ObjectIndex("ParticleSystem(Clone)"), BILLBOARD_LAYER); } }
+		if (add.name == "EMPTYOBJECT")			{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("EmptyObject(Clone)")); } }
+		if (add.name == "ENEMY")				{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<ENEMY>(ObjectIndex("Enemy(Clone)")); } }
+		if (add.name == "MAPCOLLISIONOBJECT")	{ for (int i = 0; i < add.number; i++) { GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), MAP_LAYER); } }
 	}
 	GetScene()->objectAdder = adder;
 

@@ -58,6 +58,7 @@ enum LAYER
 	GAMEOBJECT_LAYER,
 	LATEOBJECT_LAYER,
 	COLLIDER_LAYER,
+	MAP_LAYER,
 	GIZMO_LAYER,
 	BILLBOARD_LAYER,
 	SHADOW_LAYER,
@@ -160,6 +161,17 @@ public:
 			buff->UnInitialize();
 			GameObjects[layer].remove(buff);
 			delete buff;
+		}
+	}
+
+	void RemoveGameObject(std::string name, LAYER layer = GAMEOBJECT_LAYER)
+	{
+		GAMEOBJECT* obj = Find(name);
+		if (obj != nullptr)
+		{
+			obj->UnInitialize();
+			GameObjects[layer].remove(obj);
+			delete obj;
 		}
 	}
 

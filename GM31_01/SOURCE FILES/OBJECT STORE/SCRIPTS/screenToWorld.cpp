@@ -1,10 +1,17 @@
 #include "script.h"
 #include "manager.h"
 
+//#define CONTROLLER
+
 void ScreenToWorld::Start()
 {
+	speed = 8.0f;
+	aimSpeed = 4.0f;
+
 	point = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("3D Point", GIZMO_LAYER);
 	point->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
+
+	screenPosition = D3DXVECTOR2(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f);
 }
 
 void ScreenToWorld::End()
@@ -14,6 +21,28 @@ void ScreenToWorld::End()
 
 void ScreenToWorld::Update()
 {
+	if (Input::GetControllerConnection() == true)
+	{
+		float finalSpeed = 0.0f;
+
+		if (Manager::GetScene()->GetPlayer()->GetComponent<PlayerMovement>()->GetState() == PlayerMovement::AIMING_MOVE_PS) { finalSpeed = aimSpeed; }
+		else { finalSpeed = speed; }
+
+		screenPosition += D3DXVECTOR2(Input::CameraAngleHorizontal(), -Input::CameraAngleVertical()) * finalSpeed * Time::fixedTimeScale;
+
+	}
+	else
+	{
+		screenPosition = D3DXVECTOR2(GetMousePosX(), GetMousePosY());
+	}
+
+	if (screenPosition.x >= SCREEN_WIDTH)	{ screenPosition.x = SCREEN_WIDTH; }
+	else if (screenPosition.x <= 0.0f)		{ screenPosition.x = 0.0f; }
+	if (screenPosition.y >= SCREEN_HEIGHT)	{ screenPosition.x = SCREEN_HEIGHT; }
+	else if (screenPosition.y <= 0.0f)		{ screenPosition.x = 0.0f; }
+
+	gameObject->transform->Position = D3DXVECTOR3(screenPosition.x, screenPosition.y, 0.0f);
+
 	CalcScreenToXZ(
 		&worldPosition,
 		gameObject->transform->Position.x,
@@ -36,6 +65,8 @@ void ScreenToWorld::EngineDisplay()
 {
 	if (ImGui::TreeNode("Screen To World"))
 	{
+		DebugManager::FloatDisplay(&speed, -FLT_MIN, "Speed", true, D3DXVECTOR2(0.01f, 0.0f), 0);
+		DebugManager::FloatDisplay(&aimSpeed, -FLT_MIN, "Aim Speed", true, D3DXVECTOR2(0.01f, 0.0f), 1);
 
 		ImGui::TreePop();
 		ImGui::Spacing();

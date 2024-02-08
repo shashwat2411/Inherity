@@ -9,8 +9,8 @@ bool pressedDebug[2] = { false };
 bool DebugManager::play = true;
 bool DebugManager::paused = false;
 bool DebugManager::gizmo = false;
-bool DebugManager::show_demo_window = true;
-bool show_plot_demo_window = true;
+bool DebugManager::show_demo_window = false;
+bool show_plot_demo_window = false;
 
 bool starter = false;
 
@@ -25,6 +25,7 @@ const char* str[MAX_LAYER] =
 	"GAMEOBJECT_LAYER",
 	"LATEOBJECT_LAYER",
 	"COLLIDER_LAYER",
+	"MAP_LAYER",
 	"GIZMO_LAYER",
 	"BILLBOARD_LAYER",
 	"SHADOW_LAYER",
@@ -486,9 +487,9 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		if (ImGui::ImageButton(TextureReader::GetReadTexture(TextureReader::COLLISION_OBJECT_T), size))
 		{
-			Manager::GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), COLLIDER_LAYER);
+			Manager::GetScene()->AddGameObject<MAPCOLLISIONOBJECT>(ObjectIndex("CollisionObject(Clone)"), MAP_LAYER);
 			Manager::GetScene()->objectAdder.push_back(AddObjectSaveFile("MAPCOLLISIONOBJECT", 1));
-			layer = COLLIDER_LAYER;
+			layer = MAP_LAYER;
 			vector = scene->GetGameObjectListVector((LAYER)layer);
 			index = (int)vector.size() - 1;
 		}
@@ -527,6 +528,8 @@ bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int 
 
 	return *value;
 
+#else
+	return false;
 #endif
 }
 
@@ -555,6 +558,8 @@ float DebugManager::FloatDisplay(float* value, float offset, const char* text, b
 
 	return *value;
 
+#else
+	return 0.0f;
 #endif
 }
 
@@ -582,5 +587,7 @@ D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const 
 
 	return *value;
 
+#else
+	return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 #endif
 }

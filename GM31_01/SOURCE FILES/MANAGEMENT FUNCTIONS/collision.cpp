@@ -113,6 +113,14 @@ void COLLISION::Update()
 				{
 					if (anotherObject != object)
 					{
+						//if (object->Parent->Parent != nullptr && anotherObject->Parent->Parent != nullptr) 
+						//{
+						//	if (object->Parent->Parent != anotherObject->Parent->Parent) 
+						//	{ 
+						//		continue; 
+						//	}
+						//}
+
 						SphereCollider* anotherCollider = anotherObject->Parent->GetComponent<SphereCollider>();
 
 						if (anotherCollider != nullptr && anotherCollider->gameObject != collider->gameObject)
