@@ -173,12 +173,19 @@ void GAME_SCENE::LateInit()
 
 			r = rand() % 256;
 			g = rand() % 256;
-			b = rand() % 60;
+			b = rand() % 256;
 			enemy->GetChildren()[0]->GetMaterial()->SetColor("_Dissolve_Color", D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+
+			int a = rand() % 6;
+			float scale = 0.5f + float(a) / 10.0f;
+			enemy->transform->Scale = D3DXVECTOR3(scale, scale, scale);
+
+			EnemyHealth* health = enemy->GetComponent<EnemyHealth>();
+			health->SetOffset(D3DXVECTOR3(health->GetOffset().x, 2.85f / 0.6f * scale, health->GetOffset().z));
+			health->SetHealth(1000.0f / 0.6f * scale);
 		}
 	}
 
-	//player->GetComponent<PlayerMovement>()->SetEnabled(false);
 }
 
 void GAME_SCENE::Update()

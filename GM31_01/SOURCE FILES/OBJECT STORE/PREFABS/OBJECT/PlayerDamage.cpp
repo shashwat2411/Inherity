@@ -9,7 +9,7 @@ void PLAYERDAMAGE::Start()
 	active = false;
 	save = false;
 
-	particleSystem->size = D3DXVECTOR3(3.0f, 3.0f, 3.0f);
+	particleSystem->size = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
 	particleSystem->SetParticleCount(25);
 	particleSystem->burst = true;
@@ -18,7 +18,8 @@ void PLAYERDAMAGE::Start()
 
 	particleSystem->life = 2.0f;
 
-	particleSystem->SetTexture(TextureReader::EMPTY_T);
+	particleSystem->SetTexture(TextureReader::EFFECT_T);
+	particleSystem->GetParticle()->SetColor(D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
 
 	particleSystem->gravity = true;
 	particleSystem->randomVelocity = D3DXBOOL3(true, true, true);

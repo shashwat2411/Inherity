@@ -18,7 +18,7 @@ void BULLETDESTRUCTION::Start()
 
 	particleSystem->life = 2.0f;
 
-	particleSystem->SetTexture(TextureReader::HOME2_T);
+	particleSystem->SetTexture(TextureReader::EFFECT_T);
 
 	particleSystem->gravity = true;
 	particleSystem->randomVelocity = D3DXBOOL3(true, true, true);

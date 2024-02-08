@@ -141,7 +141,7 @@ void PlayerMovement::Update()
 	}
 
 
-	if ((/*ImGui::IsKeyDown((ImGuiKey)656)*/ /*IsMouseRightPressed()*/  Input::GetButtonPress(AIM_KEYMAP)) && aim == false && (playerState != ROLL_PS && playerState != DEATH_PS))
+	if ((/*ImGui::IsKeyDown((ImGuiKey)656)*/ /*IsMouseRightPressed()*/  Input::GetButtonPress(AIM_KEYMAP)) && aim == false && (playerState != ROLL_PS && playerState != DEATH_PS && playerState != HIT_PS))
 	{
 		aim = true;
 		playerState = AIMING_MOVE_PS;
@@ -158,7 +158,7 @@ void PlayerMovement::Update()
 		cameraController->SetScreenLimit(D3DXVECTOR3(300.0f, 180.0f, -40.0f));
 	}
 
-	if (Input::GetButtonTrigger(ROLL_KEYMAP) && (playerState != ROLL_PS && playerState != DEATH_PS))
+	if (Input::GetButtonTrigger(ROLL_KEYMAP) && (playerState != ROLL_PS && playerState != DEATH_PS && playerState != HIT_PS))
 	{
 		aim = false;
 		playerState = ROLL_PS;
@@ -500,10 +500,10 @@ void PlayerMovement::Hit()
 
 	timerVector["hitTimer"] += Time::deltaTime;
 
-	if (timerVector["hitTimer"] >= 0.35f)
+	if (timerVector["hitTimer"] >= 0.5f)
 	{
 		playerState = NORMAL_MOVE_PS;
 		timerVector["hitTimer"] = 0.0f;
-		model->SetAnimationBlend("Idle", true, 0.4f);
+		model->SetAnimationBlend("Idle", true, 0.25f);
 	}
 }

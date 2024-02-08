@@ -9,6 +9,7 @@ void MiniMapMaterial::Start()
 	SetFloat("_Clip", 0.3f);
 	SetFloat("_Radius", 0.25f);
 	SetFloat("_Outline", 0.02f);
+	SetFloat("_Dot_Radius", 0.0075f);
 
 	SetTexture("_Texture", TextureReader::MINIMAP_T);
 
@@ -35,7 +36,7 @@ void MiniMapMaterial::Draw()
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
 	param.color = D3DXCOLOR(-coordinates.x, coordinates.y, coordinates.z, 0.0f);
-	param.color2 = D3DXCOLOR(floats["_Clip"], floats["_Radius"], floats["_Outline"], 0.0f);
+	param.color2 = D3DXCOLOR(floats["_Clip"], floats["_Radius"], floats["_Outline"], floats["_Dot_Radius"]);
 
 	Renderer::SetParameter(param);
 }

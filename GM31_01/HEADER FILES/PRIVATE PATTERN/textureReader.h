@@ -65,6 +65,7 @@ public:
 		TOMATO_S_T,
 		REVENGE_T,
 		BLOOD_T,
+		EFFECT_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -130,6 +131,7 @@ public:
 		LoadTexture(&Textures[TOMATO_S_T], "asset\\texture\\tomato's.png");
 		LoadTexture(&Textures[REVENGE_T], "asset\\texture\\revenge.png");
 		LoadTexture(&Textures[BLOOD_T], "asset\\texture\\blood.png");
+		LoadTexture(&Textures[EFFECT_T], "asset\\texture\\effect.png");
 
 
 		//NAMES
@@ -184,6 +186,7 @@ public:
 		textureNames[TOMATO_S_T]			= "TOMATO'S";
 		textureNames[REVENGE_T]				= "REVENGE";
 		textureNames[BLOOD_T]				= "BLOOD";
+		textureNames[EFFECT_T]				= "EFFECT";
 	}
 
 	static void UnReadTexture()

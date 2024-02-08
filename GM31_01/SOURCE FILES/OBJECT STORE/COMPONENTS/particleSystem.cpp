@@ -97,7 +97,7 @@ void ParticleSystem::Update()
 	{
 		for (PARTICLE* p : particles)
 		{
-			p->transform->Scale = size;
+			//p->transform->Scale = size;
 
 			Run(p);
 		}
@@ -135,7 +135,7 @@ void ParticleSystem::Draw()
 	{
 		for (PARTICLE* p : particles)
 		{
-			p->transform->Scale = size;
+			//p->transform->Scale = size;
 
 			if (DebugManager::play == false) { Run(p); }
 
@@ -428,6 +428,7 @@ void ParticleSystem::Run(PARTICLE* p)
 
 	p->transform->Position += v * Time::fixedTimeScale;
 	p->transform->Rotation += p->rotationVelocity * Time::fixedTimeScale;
+	p->transform->Scale = ((p->life - p->counter) / p->life) * size;
 
 	//Life
 	p->counter += Time::deltaTime;

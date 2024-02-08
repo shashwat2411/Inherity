@@ -18,7 +18,8 @@ void ENEMYDAMAGE::Start()
 
 	particleSystem->life = 2.0f;
 
-	particleSystem->SetTexture(TextureReader::COLLISION_OBJECT_T);
+	particleSystem->SetTexture(TextureReader::EFFECT_T);
+	particleSystem->GetParticle()->SetColor(D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
 
 	particleSystem->gravity = true;
 	particleSystem->randomVelocity = D3DXBOOL3(true, true, true);
