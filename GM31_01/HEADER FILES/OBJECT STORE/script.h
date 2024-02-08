@@ -4,6 +4,8 @@
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
 #define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// ÉXÉvÉäÉìÉOëçêî
 
+class RevolutionCamera;
+
 class PlayerMovement : public Script
 {
 public:
@@ -12,6 +14,8 @@ public:
 		NORMAL_MOVE_PS,
 		AIMING_MOVE_PS,
 		ROLL_PS,
+		DEATH_PS,
+		HIT_PS,
 
 		PS_MAX
 	};
@@ -30,6 +34,10 @@ public:
 	GAMEOBJECT* gun1;
 	GAMEOBJECT* gun2;
 
+	MeshFilter* model;
+	Camera* camera;
+	RevolutionCamera* cameraController;
+
 private:
 	bool setAnimation;
 
@@ -44,9 +52,16 @@ public:
 
 	void EngineDisplay() override;
 
+	void SetState(PLAYER_STATE value) { playerState = value; }
+
+	PlayerMovement::PLAYER_STATE GetState() { return playerState; }
+
 	void NormalMove();
 	void AimingMove();
 	void Roll();
+	void Death();
+	void Hit();
+
 };
 class Ground : public Script
 {
@@ -88,7 +103,7 @@ public:
 
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
-	void OnDestruction();
+	void OnDestruction(bool enemyCollision);
 
 };
 class HitPoints : public Script
@@ -221,6 +236,7 @@ public:
 		FIND,
 		RETURN,
 		DEATH,
+		VICTORY,
 
 		ENEMY_STATE_MAX
 	};
@@ -231,6 +247,7 @@ private:
 
 	int index;
 	int nextIndex;
+	int danceIndex;
 
 	float distance;
 
@@ -259,6 +276,8 @@ public:
 
 	void SetState(ENEMY_STATE value) { state = value; }
 
+	ArtificialIntelligence::ENEMY_STATE GetState() { return state; }
+
 	void Roam();
 	void Follow();
 	void Return();
@@ -266,12 +285,19 @@ public:
 	void Attack();
 	void Find();
 	void Death();
+	void Victory();
 
 	void Finder();
+	void Dancing();
+
+	void SetStateToReturn();
 };
 class ScreenToWorld : public Script
 {
 private:
+	float speed;
+	float aimSpeed;
+	D3DXVECTOR2 screenPosition;
 	D3DXVECTOR3 worldPosition;
 	GAMEOBJECT* point;
 
@@ -310,6 +336,8 @@ public:
 class MapCollision : public Script
 {
 private:
+	bool ignore;
+	float ignoreSize;
 
 public:
 
@@ -326,7 +354,8 @@ public:
 	void serialize(Archive & archive)
 	{
 		archive(
-			cereal::virtual_base_class<Component>(this)
+			cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(ignore)
 		);
 	}
 };
@@ -399,8 +428,67 @@ public:
 
 	void EngineDisplay() override;
 
+	void SetOffset(D3DXVECTOR3 value) { offset = value; }
+	void SetHealth(float value) { hp = value; redHp = value; maxHp = value; }
+
+	D3DXVECTOR3 GetOffset() { return offset; }
+	BILLBOARD* GetHealthObject() { return health; }
+
 	void Damage(float damage);
 	void Heal(float heal);
+};
+class KnifeCollision : public Script
+{
+private:
+
+public:
+
+	void Start() override;
+	void Update() override;
+
+	void EngineDisplay() override;
+
+	void OnCollisionEnter(GAMEOBJECT* obj) override;
+
+};
+class MiniMapVariable : public Script
+{
+private:
+	float clip;
+	float radius;
+	float outline;
+	float dotRadius;
+
+public:
+
+	void Start() override 
+	{
+		clip = 0.3f;
+		radius = 0.25f;
+		outline = 0.02f;
+		dotRadius = 0.0075f;
+	}
+	void Update() override 
+	{
+		gameObject->GetMaterial()->SetFloat("_Clip", clip);
+		gameObject->GetMaterial()->SetFloat("_Radius", radius);
+		gameObject->GetMaterial()->SetFloat("_Outline", outline);
+		gameObject->GetMaterial()->SetFloat("_Dot_Radius", dotRadius);
+	}
+
+	void EngineDisplay() override
+	{
+		if (ImGui::TreeNode("Mini Map Variable"))
+		{
+			DebugManager::FloatDisplay(&clip, -FLT_MIN, "Clip", true, D3DXVECTOR2(0.01f, 0.0f), 0);
+			DebugManager::FloatDisplay(&radius, -FLT_MIN, "Radius", true, D3DXVECTOR2(0.01f, 0.0f), 1);
+			DebugManager::FloatDisplay(&outline, -FLT_MIN, "Outline", true, D3DXVECTOR2(0.01f, 0.0f), 2);
+			DebugManager::FloatDisplay(&dotRadius, -FLT_MIN, "Dot Outline", true, D3DXVECTOR2(0.001f, 0.0f), 3);
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+	}
 };
 
 //Camera Scripts
@@ -468,6 +556,9 @@ private:
 	D3DXVECTOR3 followSpeed = D3DXVECTOR3(0.012f, 0.08f, 0.0f);
 	D3DXVECTOR3 targetOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 backUpDistance = D3DXVECTOR3(0.0f, 4.0f, 8.0f);
+
+public:
+	IMAGE* aimer;
 
 public:
 

@@ -35,6 +35,9 @@ public:
 
 		Scene = new T();
 		Scene->BeforeInit();
+
+		//std::thread th(&Scene::Init, Scene);
+		//th.detach();
 		Scene->Init();
 
 		Open(Scene->name);
@@ -50,6 +53,8 @@ public:
 		Scene->Init();
 
 		Open(Scene->name);
+
+		Scene->LateInit();
 	}
 
 };

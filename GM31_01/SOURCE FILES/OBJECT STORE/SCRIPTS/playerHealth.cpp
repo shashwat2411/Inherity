@@ -1,5 +1,6 @@
 #include "script.h"
 #include "manager.h"
+#include "customScenes.h"
 
 void PlayerHealth::Start()
 {
@@ -31,7 +32,7 @@ void PlayerHealth::Update()
 {
 	if (invincible == true)
 	{
-		if (timerVector["_Invincibility_Counter"] < COLLIDE_COUNTDOWN) { timerVector["_Invincibility_Counter"] += Time::deltaTime; }
+		if (timerVector["_Invincibility_Counter"] < (30.0f / FRAME_RATE)) { timerVector["_Invincibility_Counter"] += Time::deltaTime; }
 		else { timerVector["_Invincibility_Counter"] = 0.0f; invincible = false; }
 	}
 }
@@ -82,8 +83,34 @@ bool PlayerHealth::Damage(float damage)
 {
 	if (invincible == false)
 	{
-		if ((hp - damage) > 0.0f) { hp -= damage; }
-		else { hp = 0.0f; }
+		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
+		PARTICLESYSTEM* effect = game->GetParticleEffect(GAME_SCENE::ENEMY_TO_PLAYER);
+
+		if (effect != nullptr && effect->particleSystem != nullptr)
+		{
+			effect->SetActive(true);
+			effect->particleSystem->Play();
+			effect->transform->Position = gameObject->transform->GlobalPosition;
+		}
+
+		Manager::GetScene()->GetCamera()->camera->CameraShake(D3DXVECTOR3(1.0f, 0.0f, 0.0f), 1.0f);
+
+		if ((hp - damage) > 0.0f) 
+		{ 
+			hp -= damage;
+			gameObject->GetComponent<PlayerMovement>()->SetState(PlayerMovement::HIT_PS);
+		}
+		else
+		{
+			hp = 0.0f;
+			gameObject->GetComponent<PlayerMovement>()->SetState(PlayerMovement::DEATH_PS);
+
+			std::vector<ENEMY*> enemies = Manager::GetScene()->FindGameObjects<ENEMY>();
+			for (ENEMY* enemy : enemies)
+			{
+				enemy->GetComponent<ArtificialIntelligence>()->Dancing();
+			}
+		}
 
 		invincible = true;
 

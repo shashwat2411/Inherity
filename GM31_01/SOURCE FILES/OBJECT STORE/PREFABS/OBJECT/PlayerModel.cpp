@@ -21,6 +21,9 @@ void PLAYERMODEL::Start()
 	model->GetModel()->LoadAnimation("Dance");
 	model->GetModel()->LoadAnimation("Jump");
 	model->GetModel()->LoadAnimation("Roll");
+	model->GetModel()->LoadAnimation("Death");
+	model->GetModel()->LoadAnimation("Anger");
+	model->GetModel()->LoadAnimation("Hit");
 
 	model->GetModel()->LoadAnimation("Forward_Jog");
 	model->GetModel()->LoadAnimation("Backward_Jog");
@@ -100,7 +103,7 @@ void PLAYERMODEL::Start()
 	spawnPoint->transform->Position = D3DXVECTOR3(2.2f, -0.35f, 0.0f);
 
 
-	Color = D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f);
+	Color = D3DXCOLOR(0.0f, 1.0f, 0.0f, 1.0f);
 }
 
 void PLAYERMODEL::Update()

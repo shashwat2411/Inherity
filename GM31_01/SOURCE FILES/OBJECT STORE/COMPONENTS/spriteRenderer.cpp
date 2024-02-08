@@ -101,7 +101,7 @@ void SpriteRenderer::Draw()
 	Renderer::SetWorldViewProjection2D();
 
 
-	D3DXVECTOR2 offset = D3DXVECTOR2((1.0f / (float)elementsX), (1.0f / (float)elementsY));
+	D3DXVECTOR2 offset = D3DXVECTOR2((TexCoord.x / (float)elementsX), (TexCoord.y / (float)elementsY));
 	float x = (count % elementsX) * offset.x;
 	float y = (count / elementsX) * offset.y;
 

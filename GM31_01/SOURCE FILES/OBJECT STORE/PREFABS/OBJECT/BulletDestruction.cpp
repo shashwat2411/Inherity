@@ -9,6 +9,8 @@ void BULLETDESTRUCTION::Start()
 	active = false;
 	save = false;
 
+	particleSystem->size = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+
 	particleSystem->SetParticleCount(25);
 	particleSystem->burst = true;
 	particleSystem->loop = false;
@@ -16,7 +18,7 @@ void BULLETDESTRUCTION::Start()
 
 	particleSystem->life = 2.0f;
 
-	particleSystem->SetTexture(TextureReader::HOME2_T);
+	particleSystem->SetTexture(TextureReader::EFFECT_T);
 
 	particleSystem->gravity = true;
 	particleSystem->randomVelocity = D3DXBOOL3(true, true, true);

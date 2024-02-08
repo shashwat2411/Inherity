@@ -70,6 +70,21 @@ public:
 	void Start() override;
 	void Update() override;
 };
+class ENEMYDAMAGE : public PARTICLESYSTEM
+{
+public:
+
+	void Start() override;
+	void Update() override;
+};
+class PLAYERDAMAGE : public PARTICLESYSTEM
+{
+public:
+
+	void Start() override;
+	void Update() override;
+};
+
 
 class EXPLOSION : public BILLBOARD
 {

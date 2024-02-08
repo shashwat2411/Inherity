@@ -4,6 +4,7 @@
 IMAGE* shadow;
 IMAGE* aimer;
 IMAGE* pause;
+IMAGE* minimap;
 
 bool paused = false;
 bool pauseReturn = false;
@@ -16,21 +17,12 @@ void GAME_SCENE::Init()
 	GAMEOBJECT* PlayerModel;
 	GAMEOBJECT* map;
 	ENEMY* enemy;
-	PLANE* Field;
-	PLANE* Water;
-	NUMBER* Score;
-	AudioSource* audio;
-	EMPTYOBJECT* torus;
 
 	//GAMEOBJECT
-	skyDome = AddGameObject<SKYDOME>("SkyDome");
 	gameManager = AddGameObject<EMPTYOBJECT>("GameManager");
 	player = AddGameObject<PLAYER>("Player");
 	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
 	enemy = AddGameObject<ENEMY>("Enemy");
-	torus = AddGameObject<EMPTYOBJECT>("Torus");
-	Field = AddGameObject<PLANE>("Field");
-	Water = AddGameObject<PLANE>("Water");
 	map = AddGameObject<EMPTYOBJECT>("Map");
 
 
@@ -75,89 +67,45 @@ void GAME_SCENE::Init()
 
 
 	//UI
-	Score = AddGameObject<NUMBER>("Score", SPRITE_LAYER);
-	shadow = AddGameObject<IMAGE>("Shadow Map", SPRITE_LAYER);
 	aimer = AddGameObject<IMAGE>("Aimer", SPRITE_LAYER);
 	pause = AddGameObject<IMAGE>("Pause Menu", SPRITE_LAYER);
+	minimap = AddGameObject<IMAGE>("Mini Map", SPRITE_LAYER);
 
 	//Ú‘±ˆ—
 	{
+		MainCamera->AddComponent<RevolutionCamera>();
+		MainCamera->camera->SetTarget(player);
+
 		PlayerModel->SetParent(player);
 		player->GetComponent<PlayerMovement>()->gun1 = Manager::GetScene()->Find("Gun Left", LATEOBJECT_LAYER); 
 		player->GetComponent<PlayerMovement>()->gun2 = Manager::GetScene()->Find("Gun Right", LATEOBJECT_LAYER); 
+		player->GetComponent<PlayerMovement>()->model = PlayerModel->GetComponent<MeshFilter>();
+		player->GetComponent<PlayerMovement>()->camera = MainCamera->camera;
+		player->GetComponent<PlayerMovement>()->cameraController = MainCamera->GetComponent<RevolutionCamera>();
 
 		reflectionProjector->transform->Position = D3DXVECTOR3(0.0f, 5.0f, 0.0f);
-
-		MainCamera->AddComponent<RevolutionCamera>();
-		MainCamera->camera->SetTarget(player);
 	}
 
 	//Ý’è
 	{
 		gameManager->AddComponent<GameManager>();
 
-		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::TITLE_SKYDOME_M);
-		skyDome->transform->Scale = D3DXVECTOR3(300.0f, 300.0f, 300.0f);
-
-		//PlayerModel->GetMaterial()->SetTexture("_Normal_Map", TextureReader::FIELD_NM_T);
-
-		Field->GetMaterial()->SetTexture("_Texture", TextureReader::GRASS_T);
-		//Field->meshField->SetTiles(40);
-		Field->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
-		Field->meshField->Size = D3DXVECTOR2(50.0f, 50.0f);
-		Field->transform->Position = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
-		Field->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f));
-		Field->meshField->RecreateField();
-		Field->SetActive(false);
-
-		PlayerModel->SetReflection(true);
-		enemy->SetReflection(true);
-		enemy->GetChildren()[0]->SetReflection(true);
-		Field->SetReflection(true);
-		Water->SetReflection(true);
-		map->SetReflection(true);
-
-		GetCamera()->SetDepthShadow(false);
-		skyDome->SetDepthShadow(false);
-		player->SetDepthShadow(false);
-		Field->SetDepthShadow(false);
-		Water->SetDepthShadow(false);
-		map->SetDepthShadow(false);
-
-
-		torus->AddComponent<MeshFilter>();
-		torus->AddMaterial<MetallicMaterial>();
-
-		//Water->AddMaterial<WaterMaterial>();
-		Water->GetMaterial()->SetTexture("_Texture", TextureReader::WATER_T);
-		Water->meshField->TexCoord = D3DXVECTOR2(10.0f, 10.0f);
-		Water->meshField->Size = D3DXVECTOR2(5.0f, 5.0f);
-		Water->transform->Scale = D3DXVECTOR3(1.0f, 1.0f, 0.1f);
-		Water->transform->Position = D3DXVECTOR3(0.0f, 0.29f, 0.0f);
-		Water->transform->Rotation = D3DXVECTOR3(1.44f, 0.0f, 0.0f);
-		Water->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.7f));
-		Water->SetDepthShadow(false);
-		Water->meshField->RecreateField();
-		Water->SetActive(false);
-
 		map->AddComponent<MeshFilter>()->SetModel(ModelReader::MAP_M);
 		map->AddMaterial<FieldDefaultMaterial>();
 		map->transform->culling = false;
 
 		//UI
-		Score->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, 30.0f, 0.0f);
-		Score->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
-		Score->SetDigits(3);
-
-		shadow->transform->Scale = D3DXVECTOR3(1.13f, 1.13f, 1.13f);
-
 		aimer->AddComponent<ScreenToWorld>();
 		aimer->GetMaterial()->SetTexture("_Texture", TextureReader::AIM_T);
+		MainCamera->GetComponent<RevolutionCamera>()->aimer = aimer;
 
 		pause->AddComponent<Animator>()->AddAnimation<PauseMenu>();
 		pause->GetComponent<Animator>()->AddAnimation<PauseMenuReturn>();
 		pause->GetComponent<Animator>()->SetUntimed(true);
 		pause->GetComponent<Animator>()->SetCurrentIndex(0);
+
+		minimap->AddMaterial<MiniMapMaterial>();
+		minimap->AddComponent<MiniMapVariable>();
 
 		player->GetComponent<PlayerMovement>()->aimPoint = aimer->GetComponent<ScreenToWorld>()->GetPoint();
 	}
@@ -181,13 +129,63 @@ void GAME_SCENE::LateInit()
 {
 	//Particle Systems
 	{
-		for (int i = 0; i < 30; i++) 
+		for (int layer = 0; layer < PARTICLE_EFFECT_MAX; layer++)
 		{
-			std::string name = "effect" + std::to_string(i);
-			bulletDestruction.push_back(AddGameObject<BULLETDESTRUCTION>(name, BILLBOARD_LAYER)); 
+			particleEffect[layer].clear();
 
+			for (int i = 0; i < 50; i++)
+			{
+				std::string name = "effect_" + std::to_string((int)layer) + "_" + std::to_string(i);
+
+				switch (layer)
+				{
+				case BULLET_TO_WALL:
+					particleEffect[layer].push_back(/*Manager::GetDontDestroyOnLoadScene()->*/AddGameObject<BULLETDESTRUCTION>(name, BILLBOARD_LAYER));
+				break;
+
+				case BULLET_TO_ENEMY:
+					particleEffect[layer].push_back(/*Manager::GetDontDestroyOnLoadScene()->*/AddGameObject<ENEMYDAMAGE>(name, BILLBOARD_LAYER));
+				break;
+
+				case ENEMY_TO_PLAYER:
+					particleEffect[layer].push_back(/*Manager::GetDontDestroyOnLoadScene()->*/AddGameObject<PLAYERDAMAGE>(name, BILLBOARD_LAYER));
+				break;
+
+				default:
+					break;
+
+				}
+			}
 		}
 	}
+
+	//Enemy Color
+	{
+		std::vector<ENEMY*> enemies = FindGameObjects<ENEMY>();
+		for (ENEMY* enemy : enemies)
+		{
+			int r, g, b;
+
+			r = rand() % 256;
+			g = rand() % 256;
+			b = rand() % 256;
+			enemy->GetChildren()[0]->SetColor(D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+
+			r = rand() % 256;
+			g = rand() % 256;
+			b = rand() % 256;
+			enemy->GetChildren()[0]->GetMaterial()->SetColor("_Dissolve_Color", D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+
+			int a = rand() % 6;
+			float scale = 0.5f + float(a) / 10.0f;
+			enemy->transform->Scale = D3DXVECTOR3(scale, scale, scale);
+
+			EnemyHealth* health = enemy->GetComponent<EnemyHealth>();
+			health->SetOffset(D3DXVECTOR3(health->GetOffset().x, 2.85f / 0.6f * scale, health->GetOffset().z));
+			health->SetHealth(1000.0f / 0.6f * scale);
+		}
+	}
+
 }
 
 void GAME_SCENE::Update()
@@ -195,8 +193,8 @@ void GAME_SCENE::Update()
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
 	if (end == false)
 	{
-		aimer->transform->Position = D3DXVECTOR3(ImGui::GetMousePos().x, ImGui::GetMousePos().y, 0.0f);
-		shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
+		//aimer->transform->Position = D3DXVECTOR3(GetMousePosX(), GetMousePosY(), 0.0f);
+		//shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
 	}
 
 	Animator* pauser = pause->GetComponent<Animator>();
@@ -223,6 +221,11 @@ void GAME_SCENE::Update()
 			paused = false;
 			Time::timeScale = 1.0f;
 		}
+	}
+
+	if (Input::GetButtonTrigger(CHANGE_KEYMAP))
+	{
+		SetEnd();
 	}
 
 }

@@ -9,8 +9,8 @@ bool pressedDebug[2] = { false };
 bool DebugManager::play = true;
 bool DebugManager::paused = false;
 bool DebugManager::gizmo = false;
-bool DebugManager::show_demo_window = true;
-bool show_plot_demo_window = true;
+bool DebugManager::show_demo_window = false;
+bool show_plot_demo_window = false;
 
 bool starter = false;
 
@@ -528,6 +528,8 @@ bool DebugManager::BoolDisplay(bool* value, float offset, const char* text, int 
 
 	return *value;
 
+#else
+	return false;
 #endif
 }
 
@@ -556,6 +558,8 @@ float DebugManager::FloatDisplay(float* value, float offset, const char* text, b
 
 	return *value;
 
+#else
+	return 0.0f;
 #endif
 }
 
@@ -583,5 +587,7 @@ D3DXVECTOR3 DebugManager::Float3Display(D3DXVECTOR3* value, float offset, const 
 
 	return *value;
 
+#else
+	return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 #endif
 }

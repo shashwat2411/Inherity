@@ -13,6 +13,8 @@ enum KEYMAPPING
 	HEAVY_ATTACK_KEYMAP,
 	CHANGE_KEYMAP,
 	PAUSE_KEYMAP,
+	AIM_KEYMAP,
+	SHOOT_KEYMAP,
 
 	KEYMAPPING_MAX
 };
@@ -23,6 +25,7 @@ public:
 
 private:
 	static bool controls;
+	static bool controller;
 
 	static BYTE m_OldKeyState[256];
 	static BYTE m_KeyState[256];
@@ -44,5 +47,11 @@ public:
 	static float Horizontal();
 	static float Vertical();
 
+	static float CameraAngleHorizontal();
+	static float CameraAngleVertical();
+
 	static void SetControls(bool value) { controls = value; }
+	static void SetControllerConnection(bool value) { controller = value; }
+
+	static bool GetControllerConnection() { return controller; }
 };

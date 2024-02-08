@@ -123,6 +123,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\LuminanceMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MergeMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MetallicMaterial.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MiniMapMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\PostProcessMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\SpriteMaterial.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\ToonMaterial.cpp" />
@@ -133,8 +134,10 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Bullet.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\BulletDestruction.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Enemy.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\EnemyDamage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\MapCollisionObject.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Player.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\PlayerDamage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\PlayerModel.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Rock.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Explosion.cpp" />
@@ -154,6 +157,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\ground.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\gunDissolve.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\hitpoints.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\knifeCollision.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\mapCollision.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\openWorldCamera.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
@@ -387,6 +391,14 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="shader\miniMapPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">shader\%(Filename).cso</ObjectFileOutput>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ObjectFileOutput Condition="'$(Configuration)|$(Platform)'=='Release|x64'">shader\%(Filename).cso</ObjectFileOutput>
     </FxCompile>
     <FxCompile Include="shader\normalMappingPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Pixel</ShaderType>
