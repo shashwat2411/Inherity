@@ -4,6 +4,8 @@
 #define COLLIDE_COUNTDOWN (5.0f / FRAME_RATE)
 #define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// ƒXƒvƒŠƒ“ƒO‘”
 
+class RevolutionCamera;
+
 class PlayerMovement : public Script
 {
 public:
@@ -13,6 +15,7 @@ public:
 		AIMING_MOVE_PS,
 		ROLL_PS,
 		DEATH_PS,
+		HIT_PS,
 
 		PS_MAX
 	};
@@ -30,6 +33,10 @@ public:
 
 	GAMEOBJECT* gun1;
 	GAMEOBJECT* gun2;
+
+	MeshFilter* model;
+	Camera* camera;
+	RevolutionCamera* cameraController;
 
 private:
 	bool setAnimation;
@@ -53,6 +60,7 @@ public:
 	void AimingMove();
 	void Roll();
 	void Death();
+	void Hit();
 
 };
 class Ground : public Script
@@ -95,7 +103,7 @@ public:
 
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
-	void OnDestruction();
+	void OnDestruction(bool enemyCollision);
 
 };
 class HitPoints : public Script
@@ -287,6 +295,9 @@ public:
 class ScreenToWorld : public Script
 {
 private:
+	float speed;
+	float aimSpeed;
+	D3DXVECTOR2 screenPosition;
 	D3DXVECTOR3 worldPosition;
 	GAMEOBJECT* point;
 
@@ -434,6 +445,41 @@ public:
 	void OnCollisionEnter(GAMEOBJECT* obj) override;
 
 };
+class MiniMapVariable : public Script
+{
+private:
+	float clip;
+	float radius;
+	float outline;
+
+public:
+
+	void Start() override 
+	{
+		clip = 0.3f;
+		radius = 0.25f;
+		outline = 0.02f;
+	}
+	void Update() override 
+	{
+		gameObject->GetMaterial()->SetFloat("_Clip", clip);
+		gameObject->GetMaterial()->SetFloat("_Radius", radius);
+		gameObject->GetMaterial()->SetFloat("_Outline", outline);
+	}
+
+	void EngineDisplay() override
+	{
+		if (ImGui::TreeNode("Mini Map Variable"))
+		{
+			DebugManager::FloatDisplay(&clip, -FLT_MIN, "Clip", true, D3DXVECTOR2(0.01f, 0.0f), 0);
+			DebugManager::FloatDisplay(&radius, -FLT_MIN, "Radius", true, D3DXVECTOR2(0.01f, 0.0f), 1);
+			DebugManager::FloatDisplay(&outline, -FLT_MIN, "Outline", true, D3DXVECTOR2(0.01f, 0.0f), 2);
+
+			ImGui::TreePop();
+			ImGui::Spacing();
+		}
+	}
+};
 
 //Camera Scripts
 class CameraScript : public Script
@@ -500,6 +546,9 @@ private:
 	D3DXVECTOR3 followSpeed = D3DXVECTOR3(0.012f, 0.08f, 0.0f);
 	D3DXVECTOR3 targetOffset = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 	D3DXVECTOR3 backUpDistance = D3DXVECTOR3(0.0f, 4.0f, 8.0f);
+
+public:
+	IMAGE* aimer;
 
 public:
 

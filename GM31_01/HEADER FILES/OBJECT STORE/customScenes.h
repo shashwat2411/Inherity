@@ -13,12 +13,23 @@ class TITLE_SCENE : public SCENE
 public:
 
 	void Init() override;
+	void LateInit() override;
 	void Update() override;
 };
 class GAME_SCENE : public SCENE
 {
 public:
-	std::vector<BULLETDESTRUCTION*> bulletDestruction;
+	enum PARTICLE_EFFECT
+	{
+		BULLET_TO_WALL,
+		BULLET_TO_ENEMY,
+		ENEMY_TO_PLAYER,
+
+		PARTICLE_EFFECT_MAX
+	};
+
+public:
+	std::array<std::vector<PARTICLESYSTEM*>, PARTICLE_EFFECT_MAX> particleEffect;
 
 public:
 
@@ -26,13 +37,13 @@ public:
 	void LateInit() override;
 	void Update() override;
 
-	BULLETDESTRUCTION* GetBulletDestroyEffect()
+	PARTICLESYSTEM* GetParticleEffect(GAME_SCENE::PARTICLE_EFFECT layer)
 	{
-		for (BULLETDESTRUCTION* bulletDestroy : bulletDestruction)
+		for (PARTICLESYSTEM* effect : particleEffect[layer])
 		{
-			if (bulletDestroy->GetActive() == false)
+			if (effect->GetActive() == false)
 			{
-				return bulletDestroy;
+				return effect;
 			}
 		}
 		return nullptr;

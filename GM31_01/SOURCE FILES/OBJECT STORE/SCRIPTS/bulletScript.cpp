@@ -25,7 +25,7 @@ void BulletScript::Update()
 	timerVector["counter"] += Time::deltaTime;
 	if (timerVector["counter"] >= timerVector["max life"] || gameObject->transform->Position.y < 0.0f)
 	{
-		OnDestruction();
+		OnDestruction(false);
 	}
 
 	gameObject->transform->Position += gameObject->rigidbody->Speed * Time::fixedTimeScale;
@@ -47,14 +47,14 @@ void BulletScript::OnCollisionEnter(GAMEOBJECT* obj)
 	return;
 }
 
-void BulletScript::OnDestruction()
+void BulletScript::OnDestruction(bool enemyCollision)
 {
 	if (destruction == false)
 	{
 		destruction = true;
 
 		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
-		BULLETDESTRUCTION* effect = game->GetBulletDestroyEffect();
+		PARTICLESYSTEM* effect = game->GetParticleEffect((enemyCollision ? GAME_SCENE::BULLET_TO_ENEMY : GAME_SCENE::BULLET_TO_WALL));
 
 		if (effect != nullptr && effect->particleSystem != nullptr)
 		{

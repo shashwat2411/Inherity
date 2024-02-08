@@ -344,10 +344,10 @@ public:
 	void EngineDisplay() override;
 
 	const char* GetCurrentAnimation() { if (m_Model != nullptr) { return animationBlendName.c_str(); } return ""; }
-	bool GetAnimationOver(const char* name);
+	bool GetAnimationOver(std::string name);
 	int GetModelIndex() { return modelIndex; }
 
-	void SetAnimationBlend(const char* name, bool lp = false, float speed = 0.05f);
+	void SetAnimationBlend(std::string name, bool lp = false, float speed = 0.05f);
 
 	void SetFBX(bool value);
 	bool GetFBX() { return fbx; }

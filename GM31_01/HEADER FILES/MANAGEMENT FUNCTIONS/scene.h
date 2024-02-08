@@ -164,6 +164,17 @@ public:
 		}
 	}
 
+	void RemoveGameObject(std::string name, LAYER layer = GAMEOBJECT_LAYER)
+	{
+		GAMEOBJECT* obj = Find(name);
+		if (obj != nullptr)
+		{
+			obj->UnInitialize();
+			GameObjects[layer].remove(obj);
+			delete obj;
+		}
+	}
+
 	//FIND
 	template<typename T>
 	T* FindGameObject()

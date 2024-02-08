@@ -13,12 +13,12 @@ void ArtificialIntelligence::Start()
 	distance = 20.0f;
 	timerVector["time"] = 0.0f;
 	timerVector["speed"] = 0.001f;
-	timerVector["followSpeed"] = 0.05f;
+	timerVector["followSpeed"] = 0.08f;
 	timerVector["maxDistance"] = 10.0f;
 	timerVector["timer"] = 0.0f;
 
 	timerVector["followDistance"] = 3.0f;
-	timerVector["waitMaxTime"] = 1.0f;
+	timerVector["waitMaxTime"] = 0.4f;
 
 	timerVector["attackMaxTime"] = 3.0f;
 	timerVector["attackSpeed"] = 1.0f;
@@ -146,7 +146,8 @@ const char* enemyStatus[ArtificialIntelligence::ENEMY_STATE_MAX] =
 	"ATTACK",
 	"FIND",
 	"RETURN",
-	"DEATH"
+	"DEATH",
+	"DANCE"
 };
 
 void ArtificialIntelligence::EngineDisplay()

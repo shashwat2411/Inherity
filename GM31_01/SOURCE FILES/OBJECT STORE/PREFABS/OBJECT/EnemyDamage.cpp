@@ -1,7 +1,7 @@
 #include "prefab.h"
 #include "manager.h"
 
-void BULLETDESTRUCTION::Start()
+void ENEMYDAMAGE::Start()
 {
 	Init();
 
@@ -18,7 +18,7 @@ void BULLETDESTRUCTION::Start()
 
 	particleSystem->life = 2.0f;
 
-	particleSystem->SetTexture(TextureReader::HOME2_T);
+	particleSystem->SetTexture(TextureReader::COLLISION_OBJECT_T);
 
 	particleSystem->gravity = true;
 	particleSystem->randomVelocity = D3DXBOOL3(true, true, true);
@@ -31,7 +31,7 @@ void BULLETDESTRUCTION::Start()
 
 }
 
-void BULLETDESTRUCTION::Update()
+void ENEMYDAMAGE::Update()
 {
 	if (particleSystem->GetPlay() == false)
 	{

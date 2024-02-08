@@ -97,6 +97,7 @@ public:
 		Animations["Roll"] = aiImportFile("asset\\model\\Tomato\\Standing Dive Forward.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Death"] = aiImportFile("asset\\model\\Tomato\\Death.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Anger"] = aiImportFile("asset\\model\\Tomato\\Anger.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Hit"] = aiImportFile("asset\\model\\Tomato\\hit.fbx", aiProcess_ConvertToLeftHanded);
 
 		//Aiming
 		Animations["Forward_Jog"] = aiImportFile("asset\\model\\Tomato\\Aiming\\Forward Jog.fbx", aiProcess_ConvertToLeftHanded);
@@ -115,6 +116,7 @@ public:
 		assert(Animations["Roll"]);
 		assert(Animations["Death"]);
 		assert(Animations["Anger"]);
+		assert(Animations["Hit"]);
 
 		assert(Animations["Forward_Jog"]);
 		assert(Animations["Backward_Jog"]);

@@ -509,6 +509,12 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MiniMapMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\EnemyDamage.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\PlayerDamage.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\PREFABS\OBJECT</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="shader\common.hlsl">

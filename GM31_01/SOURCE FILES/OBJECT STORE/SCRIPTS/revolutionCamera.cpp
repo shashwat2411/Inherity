@@ -1,5 +1,6 @@
 #include "script.h"
 #include "../saveFunctions.h"
+#include "manager.h"
 
 float rotation = 0.0f;
 D3DXVECTOR3 direction;
@@ -12,8 +13,8 @@ void RevolutionCamera::Update()
 	//gameObject->transform->Position = Target->transform->Position + D3DXVECTOR3(sinf(rotation) * 5.0f, 4.0f, cosf(rotation) * 5.0f);
 	//at = Target->transform->Position;
 
-	targetOffset.x = ImGui::GetMousePos().x - SCREEN_WIDTH / 2;
-	targetOffset.y = -(ImGui::GetMousePos().y - SCREEN_HEIGHT / 2);
+	targetOffset.x = /*ImGui::GetMousePos().x*/ /*GetMousePosX()*/ /*Input::CameraAngleHorizontal()*/aimer->transform->Position.x - SCREEN_WIDTH / 2;
+	targetOffset.y = -(/*ImGui::GetMousePos().y*/ /*GetMousePosY()*/ /*Input::CameraAngleVertical()*/aimer->transform->Position.y - SCREEN_HEIGHT / 2);
 	targetOffset.z = 0.0f;
 
 	if (fabs(targetOffset.x) > screenLimit.x) { targetOffset.x = targetOffset.x / fabs(targetOffset.x) * screenLimit.x; }

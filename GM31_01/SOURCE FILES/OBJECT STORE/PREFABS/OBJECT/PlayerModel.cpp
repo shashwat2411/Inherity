@@ -23,6 +23,7 @@ void PLAYERMODEL::Start()
 	model->GetModel()->LoadAnimation("Roll");
 	model->GetModel()->LoadAnimation("Death");
 	model->GetModel()->LoadAnimation("Anger");
+	model->GetModel()->LoadAnimation("Hit");
 
 	model->GetModel()->LoadAnimation("Forward_Jog");
 	model->GetModel()->LoadAnimation("Backward_Jog");

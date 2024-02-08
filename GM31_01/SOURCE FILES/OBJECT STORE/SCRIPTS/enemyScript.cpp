@@ -41,7 +41,7 @@ void EnemyScript::Update()
 					BulletScript* script = bullet->GetComponent<BulletScript>();
 					if (script)
 					{
-						script->OnDestruction();
+						script->OnDestruction(true);
 					}
 
 					gameObject->GetComponent<EnemyHealth>()->Damage(50.0f);

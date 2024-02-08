@@ -7,6 +7,8 @@ int		g_CountFPS;							// FPSカウンタ
 int		g_CountFixedFPS;					// FixedFPSカウンタ
 char	g_DebugStr[2048] = "";		// デバッグ文字表示用
 
+long g_MouseX = 0;
+long g_MouseY = 0;
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
@@ -47,6 +49,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	}
 
 	Manager::Init();
+	InitializeMouse(hInstance, g_Window);
 
 	ShowWindow(g_Window, nCmdShow);
 	UpdateWindow(g_Window);
@@ -101,7 +104,9 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			if ((dwCurrentTime - dwExecFixedLastTime) >= (1000 / FRAME_RATE))
 			{
 				wsprintf(g_DebugStr, "ENGINE| FPS : %d", g_CountFixedFPS);
+				wsprintf(&g_DebugStr[strlen(g_DebugStr)], " MX:%d MY:%d", GetMousePosX(), GetMousePosY());
 
+				UpdateMouse();
 				Manager::FixedUpdate();
 				Manager::Draw();
 
@@ -126,6 +131,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	UnregisterClass(CLASS_NAME, wcex.hInstance);
 
+	UninitMouse();
 	Manager::Uninit();
 
 	return (int)msg.wParam;
@@ -155,6 +161,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		}
 		break;
 
+	case WM_MOUSEMOVE:
+		g_MouseX = LOWORD(lParam);
+		g_MouseY = HIWORD(lParam);
+		break;
+
 	default:
 		break;
 	}
@@ -165,4 +176,154 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 char* GetDebugStr(void)
 {
 	return g_DebugStr;
+}
+
+static LPDIRECTINPUTDEVICE8 pMouse = NULL; // mouse
+
+static DIMOUSESTATE2   mouseState;		// マウスのダイレクトな状態
+static DIMOUSESTATE2   mouseTrigger;	// 押された瞬間だけON
+
+HRESULT InitializeMouse(HINSTANCE hInst, HWND hWindow)
+{
+	HRESULT hr;
+	LPDIRECTINPUT8			g_pDInput = NULL;					// IDirectInput8インターフェースへのポインタ
+
+	if (!g_pDInput)
+	{
+		// DirectInputオブジェクトの作成
+		hr = DirectInput8Create(hInst, DIRECTINPUT_VERSION,
+			IID_IDirectInput8, (void**)&g_pDInput, NULL);
+	}
+
+	HRESULT result;
+	// デバイス作成
+	result = g_pDInput->CreateDevice(GUID_SysMouse, &pMouse, NULL);
+	if (FAILED(result) || pMouse == NULL)
+	{
+		MessageBox(hWindow, "No mouse", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+	// データフォーマット設定
+	result = pMouse->SetDataFormat(&c_dfDIMouse2);
+	if (FAILED(result))
+	{
+		MessageBox(hWindow, "Can't setup mouse", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+	// 他のアプリと協調モードに設定
+	result = pMouse->SetCooperativeLevel(hWindow, (DISCL_FOREGROUND | DISCL_NONEXCLUSIVE));
+	if (FAILED(result))
+	{
+		MessageBox(hWindow, "Mouse mode error", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+
+	// デバイスの設定
+	DIPROPDWORD prop;
+
+	prop.diph.dwSize = sizeof(prop);
+	prop.diph.dwHeaderSize = sizeof(prop.diph);
+	prop.diph.dwObj = 0;
+	prop.diph.dwHow = DIPH_DEVICE;
+	prop.dwData = DIPROPAXISMODE_REL;		// マウスの移動値　相対値
+
+	result = pMouse->SetProperty(DIPROP_AXISMODE, &prop.diph);
+	if (FAILED(result))
+	{
+		MessageBox(hWindow, "Mouse property error", "Warning", MB_OK | MB_ICONWARNING);
+		return result;
+	}
+
+	// アクセス権を得る
+	pMouse->Acquire();
+	return result;
+}
+
+void UninitMouse()
+{
+	if (pMouse)
+	{
+		pMouse->Unacquire();
+		pMouse->Release();
+		pMouse = NULL;
+	}
+
+}
+
+HRESULT UpdateMouse()
+{
+	HRESULT result;
+	// 前回の値保存
+	DIMOUSESTATE2 lastMouseState = mouseState;
+	// データ取得
+	result = pMouse->GetDeviceState(sizeof(mouseState), &mouseState);
+	if (SUCCEEDED(result))
+	{
+		mouseTrigger.lX = mouseState.lX;
+		mouseTrigger.lY = mouseState.lY;
+		mouseTrigger.lZ = mouseState.lZ;
+		// マウスのボタン状態
+		for (int i = 0; i < 8; i++)
+		{
+			mouseTrigger.rgbButtons[i] = ((lastMouseState.rgbButtons[i] ^
+				mouseState.rgbButtons[i]) & mouseState.rgbButtons[i]);
+		}
+	}
+	else	// 取得失敗
+	{
+		// アクセス権を得てみる
+		result = pMouse->Acquire();
+	}
+	return result;
+
+}
+
+BOOL IsMouseLeftPressed(void)
+{
+	return (BOOL)(mouseState.rgbButtons[0] & 0x80);	// 押されたときに立つビットを検査
+}
+BOOL IsMouseLeftTriggered(void)
+{
+	return (BOOL)(mouseTrigger.rgbButtons[0] & 0x80);
+}
+BOOL IsMouseRightPressed(void)
+{
+	return (BOOL)(mouseState.rgbButtons[1] & 0x80);
+}
+BOOL IsMouseRightTriggered(void)
+{
+	return (BOOL)(mouseTrigger.rgbButtons[1] & 0x80);
+}
+BOOL IsMouseCenterPressed(void)
+{
+	return (BOOL)(mouseState.rgbButtons[2] & 0x80);
+}
+BOOL IsMouseCenterTriggered(void)
+{
+	return (BOOL)(mouseTrigger.rgbButtons[2] & 0x80);
+}
+
+//------------------
+long GetMouseX(void)
+{
+	return mouseState.lX;
+}
+long GetMouseY(void)
+{
+	return mouseState.lY;
+}
+long GetMouseZ(void)
+{
+	return mouseState.lZ;
+}
+
+long GetMousePosX(void)
+{
+	return g_MouseX;
+}
+
+
+long GetMousePosY(void)
+{
+	return g_MouseY;
 }

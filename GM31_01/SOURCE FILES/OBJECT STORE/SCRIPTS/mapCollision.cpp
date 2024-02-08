@@ -50,7 +50,7 @@ void MapCollision::Update()
 				BulletScript* script = object->GetComponent<BulletScript>();
 				if (script)
 				{
-					script->OnDestruction();
+					script->OnDestruction(false);
 					continue; 
 				}
 

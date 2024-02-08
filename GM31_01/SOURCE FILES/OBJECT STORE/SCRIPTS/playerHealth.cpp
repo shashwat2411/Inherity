@@ -1,5 +1,6 @@
 #include "script.h"
 #include "manager.h"
+#include "customScenes.h"
 
 void PlayerHealth::Start()
 {
@@ -82,7 +83,23 @@ bool PlayerHealth::Damage(float damage)
 {
 	if (invincible == false)
 	{
-		if ((hp - damage) > 0.0f) { hp -= damage; }
+		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
+		PARTICLESYSTEM* effect = game->GetParticleEffect(GAME_SCENE::ENEMY_TO_PLAYER);
+
+		if (effect != nullptr && effect->particleSystem != nullptr)
+		{
+			effect->SetActive(true);
+			effect->particleSystem->Play();
+			effect->transform->Position = gameObject->transform->GlobalPosition;
+		}
+
+		Manager::GetScene()->GetCamera()->camera->CameraShake(D3DXVECTOR3(1.0f, 0.0f, 0.0f), 1.0f);
+
+		if ((hp - damage) > 0.0f) 
+		{ 
+			hp -= damage;
+			gameObject->GetComponent<PlayerMovement>()->SetState(PlayerMovement::HIT_PS);
+		}
 		else
 		{
 			hp = 0.0f;

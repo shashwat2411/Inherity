@@ -134,8 +134,10 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Bullet.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\BulletDestruction.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Enemy.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\EnemyDamage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\MapCollisionObject.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Player.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\PlayerDamage.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\PlayerModel.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\OBJECT\Rock.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\PREFABS\UI\Explosion.cpp" />

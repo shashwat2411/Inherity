@@ -128,7 +128,7 @@ void MeshFilter::EngineDisplay()
 	}
 }
 
-bool MeshFilter::GetAnimationOver(const char* name)
+bool MeshFilter::GetAnimationOver(std::string name)
 {
 	if (m_Model != nullptr)
 	{
@@ -141,7 +141,7 @@ bool MeshFilter::GetAnimationOver(const char* name)
 	return false;
 }
 
-void MeshFilter::SetAnimationBlend(const char* name, bool lp, float speed)
+void MeshFilter::SetAnimationBlend(std::string name, bool lp, float speed)
 {
 	if (m_Model != nullptr)
 	{

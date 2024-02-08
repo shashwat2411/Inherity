@@ -7,7 +7,6 @@ int choice = 0;
 float pressTimer = 0.0f;
 
 IMAGE* choices[3];
-IMAGE* title;
 GAMEOBJECT* PlayerModel;
 
 D3DXVECTOR3 selectedScale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
@@ -34,15 +33,20 @@ void TITLE_SCENE::Init()
 	name = "title";
 
 	//ïœêî
-
+	BILLBOARD* pear;
+	IMAGE* tomato;
+	IMAGE* revenge;
 
 	//GAMEOBJECT
 	skyDome = AddGameObject<SKYDOME>("SkyDome");
 	player = AddGameObject<PLAYER>("Player");
 	PlayerModel = AddGameObject<PLAYERMODEL>("Player Model");
 
+	pear = AddGameObject<BILLBOARD>("Pear", BILLBOARD_LAYER);
+
 	//UI
-	title = AddGameObject<IMAGE>("Title", SPRITE_LAYER);
+	tomato = AddGameObject<IMAGE>("Tomato's", SPRITE_LAYER);
+	revenge = AddGameObject<IMAGE>("Revenge", SPRITE_LAYER);
 	choices[0] = AddGameObject<IMAGE>("Play", SPRITE_LAYER);
 	choices[1] = AddGameObject<IMAGE>("Tutorial", SPRITE_LAYER);
 	choices[2] = AddGameObject<IMAGE>("Quit", SPRITE_LAYER);
@@ -62,6 +66,10 @@ void TITLE_SCENE::Init()
 	{
 		skyDome->GetComponent<MeshFilter>()->SetModel(ModelReader::SKYDOME_M);
 		skyDome->AddMaterial<UnlitMaterial>()->SetTexture("_Texture", TextureReader::BOX_T);
+
+		pear->billboard->SetSize(D3DXVECTOR2(0.838f, 1.0f));
+		pear->GetMaterial()->SetTexture("_Texture", TextureReader::PEAR_DEATH_T);
+		pear->billboard->flip = false;
 
 		//UI
 		//logo->GetMaterial()->SetTexture("_Texture", TextureReader::TITLE_BG_T);
@@ -84,13 +92,19 @@ void TITLE_SCENE::Init()
 
 	PlayerModel->GetComponent<MeshFilter>()->SetDefaultAnimation("Anger");
 
-	Find("Damager")->Destroy();
-	Find("Gun Left")->Destroy();
-	Find("Gun Right")->Destroy();
-	Find("Spawn Point Left")->Destroy();
-	Find("Spawn Point Right")->Destroy();
-	Find("Damager")->Destroy();
-	Find("Player HP")->Destroy();
+	RemoveGameObject("Damager");
+	RemoveGameObject("Gun Left", LATEOBJECT_LAYER);
+	RemoveGameObject("Gun Right", LATEOBJECT_LAYER);
+	RemoveGameObject("Spawn Point Left", LATEOBJECT_LAYER);
+	RemoveGameObject("Spawn Point Right", LATEOBJECT_LAYER);
+	RemoveGameObject("Damager", COLLIDER_LAYER);
+	RemoveGameObject("Player HP", SPRITE_LAYER);
+
+}
+
+void TITLE_SCENE::LateInit()
+{
+	//GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade"));
 }
 
 void TITLE_SCENE::Update()

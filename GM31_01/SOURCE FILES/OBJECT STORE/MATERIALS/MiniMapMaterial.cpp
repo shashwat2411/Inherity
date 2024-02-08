@@ -6,6 +6,10 @@ GAMEOBJECT* map;
 
 void MiniMapMaterial::Start()
 {
+	SetFloat("_Clip", 0.3f);
+	SetFloat("_Radius", 0.25f);
+	SetFloat("_Outline", 0.02f);
+
 	SetTexture("_Texture", TextureReader::MINIMAP_T);
 
 	Renderer::CreateVertexShader(gameObject->GetVertexShaderPointer(), gameObject->GetVertexLayoutPointer(), "shader\\unlitTextureVS.cso");
@@ -24,13 +28,14 @@ void MiniMapMaterial::Draw()
 {
 	if (textures["_Texture"] != nullptr) { Renderer::GetDeviceContext()->PSSetShaderResources(0, 1, &textures["_Texture"]); }
 
-	D3DXVECTOR3 coordinates;
-	D3DXVec3TransformCoord(&coordinates, &player->transform->Position, &map->GetWorldMatrix());
-	D3DXVec3Normalize(&coordinates, &coordinates);
+	D3DXVECTOR3 coordinates = player->transform->Position / 200.0f;
+	//D3DXVec3TransformCoord(&coordinates, &player->transform->Position, &map->GetWorldMatrix());
+	//D3DXVec3Normalize(&coordinates, &coordinates);
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
-	param.color = D3DXCOLOR(coordinates.x, coordinates.y, coordinates.z, 0.0f);
+	param.color = D3DXCOLOR(-coordinates.x, coordinates.y, coordinates.z, 0.0f);
+	param.color2 = D3DXCOLOR(floats["_Clip"], floats["_Radius"], floats["_Outline"], 0.0f);
 
 	Renderer::SetParameter(param);
 }

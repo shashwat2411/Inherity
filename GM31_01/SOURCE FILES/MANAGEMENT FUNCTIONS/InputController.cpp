@@ -1,4 +1,5 @@
 #include "InputController.h"
+#include "input.h"
 
 
 _XINPUT_STATE state;
@@ -25,8 +26,17 @@ void UpdateXinput()
 {
 	oldState = state;
 
-	XInputGetState(0, &state);
-
+	DWORD dwResult = XInputGetState(0, &state);
+	
+	if (dwResult == ERROR_SUCCESS)
+	{
+		Input::SetControllerConnection(true);
+	}
+	else
+	{
+		Input::SetControllerConnection(false);
+	}
+	
 	if ((state.Gamepad.sThumbLX <  XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
 		state.Gamepad.sThumbLX > -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) &&
 		(state.Gamepad.sThumbLY <  XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE &&
@@ -51,7 +61,7 @@ const D3DXVECTOR2 GetLeftJoyStick()
 	return D3DXVECTOR2((float)state.Gamepad.sThumbLX / 32768.0f, (float)state.Gamepad.sThumbLY / 32768.0f);
 }
 
-const D3DXVECTOR2	GetRightJoystick()
+const D3DXVECTOR2 GetRightJoyStick()
 {
 	return D3DXVECTOR2((float)state.Gamepad.sThumbRX / 32768.0f, (float)state.Gamepad.sThumbRY / 32768.0f);
 }
@@ -71,5 +81,25 @@ bool GetControllerButtonTrigger(WORD button)
 	{
 		return true;
 	}
+	return false;
+}
+
+bool GetControllerLeftTrigger()
+{
+	if (state.Gamepad.bLeftTrigger > 0.2f)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+bool GetControllerRightTrigger()
+{
+	if (state.Gamepad.bRightTrigger > 0.2f)
+	{
+		return true;
+	}
+
 	return false;
 }

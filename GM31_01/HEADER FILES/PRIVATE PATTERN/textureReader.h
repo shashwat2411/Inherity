@@ -61,6 +61,10 @@ public:
 		AIM_T,
 		GUN_WIPE_T,
 		MINIMAP_T,
+		PEAR_DEATH_T,
+		TOMATO_S_T,
+		REVENGE_T,
+		BLOOD_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -122,6 +126,10 @@ public:
 		LoadTexture(&Textures[AIM_T], "asset\\texture\\aim.png");
 		LoadTexture(&Textures[GUN_WIPE_T], "asset\\texture\\Material_Textures\\wipe2.png");
 		LoadTexture(&Textures[MINIMAP_T], "asset\\texture\\minimap.png");
+		LoadTexture(&Textures[PEAR_DEATH_T], "asset\\texture\\pearDeath.png");
+		LoadTexture(&Textures[TOMATO_S_T], "asset\\texture\\tomato's.png");
+		LoadTexture(&Textures[REVENGE_T], "asset\\texture\\revenge.png");
+		LoadTexture(&Textures[BLOOD_T], "asset\\texture\\blood.png");
 
 
 		//NAMES
@@ -172,6 +180,10 @@ public:
 		textureNames[AIM_T]					= "AIM";
 		textureNames[GUN_WIPE_T]			= "GUN WIPE";
 		textureNames[MINIMAP_T]				= "MINIMAP";
+		textureNames[PEAR_DEATH_T]			= "PEAR DEATH";
+		textureNames[TOMATO_S_T]			= "TOMATO'S";
+		textureNames[REVENGE_T]				= "REVENGE";
+		textureNames[BLOOD_T]				= "BLOOD";
 	}
 
 	static void UnReadTexture()

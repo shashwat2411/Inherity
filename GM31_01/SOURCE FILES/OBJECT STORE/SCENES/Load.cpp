@@ -82,6 +82,7 @@ void LOAD_SCENE::Update()
 		texture->Release();
 		backTexture->Release();
 
-		Manager::SetScene<TITLE_SCENE>();
+		Manager::SetScene<GAME_SCENE>();
+
 	}
 }
