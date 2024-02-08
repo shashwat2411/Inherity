@@ -11,6 +11,7 @@ void EnemyScript::Start()
 	gameObject->AddComponent<Rigidbody>()->useGravity = true;
 	gameObject->AddComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.5f;
 	gameObject->GetComponent<SphereCollider>()->SetCollisionSize(0.41f);
+
 }
 
 void EnemyScript::End()
@@ -44,7 +45,7 @@ void EnemyScript::Update()
 						script->OnDestruction(true);
 					}
 
-					gameObject->GetComponent<EnemyHealth>()->Damage(50.0f);
+					gameObject->GetComponent<EnemyHealth>()->Damage(1.0f);
 				}
 			}
 		}

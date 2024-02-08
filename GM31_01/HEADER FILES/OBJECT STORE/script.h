@@ -428,6 +428,12 @@ public:
 
 	void EngineDisplay() override;
 
+	void SetOffset(D3DXVECTOR3 value) { offset = value; }
+	void SetHealth(float value) { hp = value; redHp = value; maxHp = value; }
+
+	D3DXVECTOR3 GetOffset() { return offset; }
+	BILLBOARD* GetHealthObject() { return health; }
+
 	void Damage(float damage);
 	void Heal(float heal);
 };
@@ -451,6 +457,7 @@ private:
 	float clip;
 	float radius;
 	float outline;
+	float dotRadius;
 
 public:
 
@@ -459,12 +466,14 @@ public:
 		clip = 0.3f;
 		radius = 0.25f;
 		outline = 0.02f;
+		dotRadius = 0.0075f;
 	}
 	void Update() override 
 	{
 		gameObject->GetMaterial()->SetFloat("_Clip", clip);
 		gameObject->GetMaterial()->SetFloat("_Radius", radius);
 		gameObject->GetMaterial()->SetFloat("_Outline", outline);
+		gameObject->GetMaterial()->SetFloat("_Dot_Radius", dotRadius);
 	}
 
 	void EngineDisplay() override
@@ -474,6 +483,7 @@ public:
 			DebugManager::FloatDisplay(&clip, -FLT_MIN, "Clip", true, D3DXVECTOR2(0.01f, 0.0f), 0);
 			DebugManager::FloatDisplay(&radius, -FLT_MIN, "Radius", true, D3DXVECTOR2(0.01f, 0.0f), 1);
 			DebugManager::FloatDisplay(&outline, -FLT_MIN, "Outline", true, D3DXVECTOR2(0.01f, 0.0f), 2);
+			DebugManager::FloatDisplay(&dotRadius, -FLT_MIN, "Dot Outline", true, D3DXVECTOR2(0.001f, 0.0f), 3);
 
 			ImGui::TreePop();
 			ImGui::Spacing();

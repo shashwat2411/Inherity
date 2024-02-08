@@ -12,6 +12,7 @@ void BulletScript::Start()
 	gameObject->AddMaterial<ToonMaterial>();
 
 	gameObject->rigidbody->useGravity = false;
+	gameObject->SetDepthShadow(false);
 
 	gameObject->transform->Scale = D3DXVECTOR3(0.4f, 0.4, 0.4f);
 

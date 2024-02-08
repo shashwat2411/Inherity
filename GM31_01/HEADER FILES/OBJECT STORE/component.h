@@ -628,6 +628,7 @@ public:
 
 	bool GetPlay() { return play; }
 	int GetNumberOfObjects() { return numberOfObjects; }
+	BILLBOARD* GetParticle() { return part; }
 
 	void SetPlay(bool value) { play = value; }
 	void SetTexture(TextureReader::READ_TEXTURE text);
