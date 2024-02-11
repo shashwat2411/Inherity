@@ -470,6 +470,7 @@ public:
 	GAMEOBJECT* GetTarget() { return Target; }
 
 	void SetAt(D3DXVECTOR3 value) { at = value; }
+	void SetLightDirection(D3DXVECTOR3 value) { lightDirection = value; }
 	void SetViewMatrix(D3DXMATRIX value) { mtxView = value; }
 	void SetProjectionMatrix(D3DXMATRIX value) { mtxProjection = value; }
 	void SetTarget(GAMEOBJECT* value);

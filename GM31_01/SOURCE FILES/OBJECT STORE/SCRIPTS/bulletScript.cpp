@@ -17,7 +17,7 @@ void BulletScript::Start()
 	gameObject->transform->Scale = D3DXVECTOR3(0.4f, 0.4, 0.4f);
 
 	timerVector["counter"] = 0.0f;
-	timerVector["max life"] = 4.0f;
+	timerVector["max life"] = 3.0f;
 }
 
 

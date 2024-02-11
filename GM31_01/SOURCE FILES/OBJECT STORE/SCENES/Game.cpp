@@ -112,7 +112,6 @@ void GAME_SCENE::Init()
 
 	//‰¹
 	{
-		//player->AddComponent<AudioListener>();
 
 		/*audio = enemy->AddComponent<AudioSource>();
 		audio->SetClip(SoundReader::GAME);
@@ -123,10 +122,73 @@ void GAME_SCENE::Init()
 
 	paused = false;
 	pauseReturn = false;
+
+	MainCamera->camera->SetLightDirection(D3DXVECTOR3(0.9f, -1.0f, -0.05f));
+
+	player->AddComponent<AudioListener>(); //Listener
+	player->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); // Roll Sound
+
+	player->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Death Sound
+	player->GetChildren()[0]->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Hit Sound
+
+	player->GetComponent<PlayerMovement>()->gun1->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Appear Sound
+	player->GetComponent<PlayerMovement>()->gun2->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Disappeat Sound
+
+	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
+	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
 }
 
 void GAME_SCENE::LateInit()
 {
+	//Sound Components
+
+	//Player
+	/*
+	player->AddComponent<AudioListener>(); //Listener
+	player->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); // Roll Sound
+
+	player->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Death Sound
+	player->GetChildren()[0]->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Hit Sound
+
+	player->GetComponent<PlayerMovement>()->gun1->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Appear Sound
+	player->GetComponent<PlayerMovement>()->gun2->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Disappeat Sound
+
+	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
+	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
+	*/
+
+	//Enemy
+	//std::vector<ENEMY*> enemies = FindGameObjects<ENEMY>();
+	//for (ENEMY* enemy : enemies)
+	{
+		//enemy->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD);
+		//enemy->GetComponent<AudioSource>()->SetThreeDimension(true);
+
+		//Enemy Roam/Return Sound
+		//Enemy Follow Sound
+		//Enemy Attack Sound
+		//Enemy Death Sound
+		//Enemy Dance Sound
+	}
+
+	//Bullet
+	//std::vector<BULLET*> bullets = FindGameObjects<BULLET>();
+	//for (BULLET* bullet : bullets)
+	{
+		//Map hit
+		//Enemy hit
+	}
+
+	//BGM
+	//MainCamera->AddComponent<AudioSource>()->SetClip(SoundReader::GAME); // Game BGM
+	// Title BGM
+	// Death BGM
+	// Pause On
+	// Pause Off
+	// Button Click
+	// Button Change
+	// Fade
+
 	//Particle Systems
 	{
 		for (int layer = 0; layer < PARTICLE_EFFECT_MAX; layer++)

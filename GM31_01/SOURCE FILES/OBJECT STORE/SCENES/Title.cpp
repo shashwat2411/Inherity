@@ -100,6 +100,8 @@ void TITLE_SCENE::Init()
 	RemoveGameObject("Damager", COLLIDER_LAYER);
 	RemoveGameObject("Player HP", SPRITE_LAYER);
 
+
+	MainCamera->camera->SetLightDirection(D3DXVECTOR3(-0.9f, 1.71f, 2.63f));
 }
 
 void TITLE_SCENE::LateInit()

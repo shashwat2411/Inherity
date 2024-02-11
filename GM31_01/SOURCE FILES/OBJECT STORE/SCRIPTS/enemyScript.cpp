@@ -45,7 +45,8 @@ void EnemyScript::Update()
 						script->OnDestruction(true);
 					}
 
-					gameObject->GetComponent<EnemyHealth>()->Damage(1.0f);
+					EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
+					if (health) { health->Damage(1.0f); }
 				}
 			}
 		}
