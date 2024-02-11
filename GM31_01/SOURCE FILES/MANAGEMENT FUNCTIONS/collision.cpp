@@ -104,7 +104,6 @@ void COLLISION::Update()
 	for (auto object : game->GetGameObjectList(COLLIDER_LAYER))
 	{
 		//Sphere Collider
-		//if(game->GetGameObjectList(COLLIDER_LAYER).size() >= 2)
 		{
 			SphereCollider* collider = object->Parent->GetComponent<SphereCollider>();
 			if (collider != nullptr)
@@ -113,15 +112,19 @@ void COLLISION::Update()
 				{
 					if (anotherObject != object)
 					{
-						//if (object->Parent->Parent != nullptr && anotherObject->Parent->Parent != nullptr) 
-						//{
-						//	if (object->Parent->Parent != anotherObject->Parent->Parent) 
-						//	{ 
-						//		continue; 
-						//	}
-						//}
-
 						SphereCollider* anotherCollider = anotherObject->Parent->GetComponent<SphereCollider>();
+
+						bool sameLayer = false;
+						for (COLLISION_LAYER layer : collider->GetCollisionLayer())
+						{
+							if (layer == anotherCollider->GetSelfLayer())
+							{
+								sameLayer = true;
+								break;
+							}
+						}
+
+						if (sameLayer == false) { continue; }
 
 						if (anotherCollider != nullptr && anotherCollider->gameObject != collider->gameObject)
 						{

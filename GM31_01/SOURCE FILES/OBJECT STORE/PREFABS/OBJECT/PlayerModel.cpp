@@ -75,6 +75,11 @@ void PLAYERMODEL::Start()
 	collider->SetCollisionSize(1.44f);
 	collider->scaleOffset = 100.0f;
 
+	collider->ClearCollisionLayer();
+	collider->SetSelfLayer(COLLISION_LAYER::PLAYER_CL);
+	collider->AddCollisionLayer(COLLISION_LAYER::ENEMY_CL);
+	collider->AddCollisionLayer(COLLISION_LAYER::KNIFE_CL);
+
 	//BoxCollider* bcollider = AddComponent<BoxCollider>();
 	//bcollider->SetBone(model, "mixamorig:LeftHand");
 	//bcollider->SetIsTrigger(false);

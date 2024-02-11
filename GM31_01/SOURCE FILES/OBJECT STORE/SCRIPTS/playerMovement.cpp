@@ -463,8 +463,11 @@ void PlayerMovement::AimingMove()
 		rotationDirection = face;
 
 		BULLET* bullet = Manager::GetScene()->AddGameObject<BULLET>("Bullet(Clone)", GAMEOBJECT_LAYER);
-		bullet->transform->Position = spawner->transform->GlobalPosition;
-		bullet->rigidbody->Speed = face * bullet->speed;
+		if (bullet != nullptr)
+		{
+			bullet->transform->Position = spawner->transform->GlobalPosition;
+			bullet->rigidbody->Speed = face * bullet->speed;
+		}
 	}
 }
 

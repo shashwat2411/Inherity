@@ -26,7 +26,7 @@ std::array<const char*, SoundReader::READ_SOUND_MAX> SoundReader::soundNames;
 std::array<const char*, TextureReader::READ_TEXTURE_MAX> TextureReader::textureNames;
 
 float Time::timeScale = 1.0f;
-float Time::fixedTimeScale = 1.0f;
+float Time::fixedTimeScale = 60.0f / FRAME_RATE;
 float Time::deltaTime = 1.0f / FRAME_RATE;
 
 void LightInitialize(LIGHT* light, GAMEOBJECT* object);

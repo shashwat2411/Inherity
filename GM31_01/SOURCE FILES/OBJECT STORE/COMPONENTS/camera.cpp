@@ -30,7 +30,7 @@ void Camera::Start()
 	at = D3DXVECTOR3(0.0f, 1.0f, 0.0f);
 	rot = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
-	lightDirection = D3DXVECTOR3(0.25f, -1.0f, 0.63f);
+	lightDirection = D3DXVECTOR3(0.9f, -1.0f, -0.05f);
 
 	//----------------------------------------------------------------
 	float vx, vz;

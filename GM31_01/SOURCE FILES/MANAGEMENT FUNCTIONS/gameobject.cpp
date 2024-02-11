@@ -163,31 +163,31 @@ void GAMEOBJECT::Draw()
 			//}
 			//else if (Parent == nullptr) { transform->GlobalPosition = transform->Position; }
 
-			if (GetComponent<Afterimage>() != nullptr)
-			{
-				for (int i = RingCounter, n = 0; i < RingCounter + GetComponent<Afterimage>()->imageNum; i++, n++)
-				{
-					int index = RingCounter - (n * 16);
-					if (index < 0) { index += MAX_AFTERIMAGES; }
+			//if (GetComponent<Afterimage>() != nullptr)
+			//{
+			//	for (int i = RingCounter, n = 0; i < RingCounter + GetComponent<Afterimage>()->imageNum; i++, n++)
+			//	{
+			//		int index = RingCounter - (n * 16);
+			//		if (index < 0) { index += MAX_AFTERIMAGES; }
 
-					Renderer::SetWorldMatrix(&WorldMatrix[index]);
-					if (GetComponent<MeshFilter>() != nullptr)
-					{
-						GetComponent<MeshFilter>()->Draw();
-					}
-					//for (auto child : Children)
-					//{
-					//	if (child->GetComponent<MeshFilter>() != nullptr)
-					//	{
-					//		if (child->GetComponent<MeshFilter>()->GetCollider() == false)
-					//		{
-					//			//child->GetComponent<MeshFilter>()->Draw();
-					//		}
-					//	}
-					//}
-				}
-			}
-			else
+			//		Renderer::SetWorldMatrix(&WorldMatrix[index]);
+			//		if (GetComponent<MeshFilter>() != nullptr)
+			//		{
+			//			GetComponent<MeshFilter>()->Draw();
+			//		}
+			//		//for (auto child : Children)
+			//		//{
+			//		//	if (child->GetComponent<MeshFilter>() != nullptr)
+			//		//	{
+			//		//		if (child->GetComponent<MeshFilter>()->GetCollider() == false)
+			//		//		{
+			//		//			//child->GetComponent<MeshFilter>()->Draw();
+			//		//		}
+			//		//	}
+			//		//}
+			//	}
+			//}
+			//else
 			{
 				Renderer::SetWorldMatrix(&WorldMatrix[0]);
 			}

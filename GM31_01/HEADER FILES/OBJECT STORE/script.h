@@ -463,14 +463,12 @@ public:
 
 	void Start() override 
 	{
-		clip = 0.3f;
-		radius = 0.25f;
-		outline = 0.02f;
-		dotRadius = 0.0075f;
+		radius = 0.45f;
+		outline = 0.04f;
+		dotRadius = 0.021f;
 	}
 	void Update() override 
 	{
-		gameObject->GetMaterial()->SetFloat("_Clip", clip);
 		gameObject->GetMaterial()->SetFloat("_Radius", radius);
 		gameObject->GetMaterial()->SetFloat("_Outline", outline);
 		gameObject->GetMaterial()->SetFloat("_Dot_Radius", dotRadius);
@@ -480,7 +478,6 @@ public:
 	{
 		if (ImGui::TreeNode("Mini Map Variable"))
 		{
-			DebugManager::FloatDisplay(&clip, -FLT_MIN, "Clip", true, D3DXVECTOR2(0.01f, 0.0f), 0);
 			DebugManager::FloatDisplay(&radius, -FLT_MIN, "Radius", true, D3DXVECTOR2(0.01f, 0.0f), 1);
 			DebugManager::FloatDisplay(&outline, -FLT_MIN, "Outline", true, D3DXVECTOR2(0.01f, 0.0f), 2);
 			DebugManager::FloatDisplay(&dotRadius, -FLT_MIN, "Dot Outline", true, D3DXVECTOR2(0.001f, 0.0f), 3);
@@ -489,6 +486,20 @@ public:
 			ImGui::Spacing();
 		}
 	}
+};
+class PauseMenuScript : public Script
+{
+private:
+	D3DXVECTOR3 selectedSize;
+	D3DXVECTOR3 originalSize;
+
+public:
+
+	void Start() override;
+	void Draw() override;
+
+	void EngineDisplay() override;
+
 };
 
 //Camera Scripts
