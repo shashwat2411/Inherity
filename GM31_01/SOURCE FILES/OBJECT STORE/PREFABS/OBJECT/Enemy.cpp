@@ -46,9 +46,14 @@ void ENEMY::Start()
 	knife->transform->Scale = D3DXVECTOR3(100.0f, 100.0f, 100.0f);
 
 	knife->AddMaterial<ToonPhongMaterial>()->SetFloat("_Threshold", 1.0f);
-	knife->AddComponent<SphereCollider>()->scaleOffset = 1.0f;
-	knife->GetComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.1f;
-	knife->GetComponent<SphereCollider>()->SetCollisionSize(0.26f);
+
+	SphereCollider* knifeCollider = knife->AddComponent<SphereCollider>();
+	knifeCollider->scaleOffset = 1.0f;
+	knifeCollider->GetColliderObject()->transform->Position.y = 1.8f;
+	knifeCollider->SetCollisionSize(0.26f);
+	knifeCollider->ClearCollisionLayer();
+	knifeCollider->SetSelfLayer(COLLISION_LAYER::KNIFE_CL);
+	knifeCollider->AddCollisionLayer(COLLISION_LAYER::PLAYER_CL);
 
 	knife->AddComponent<KnifeCollision>();
 

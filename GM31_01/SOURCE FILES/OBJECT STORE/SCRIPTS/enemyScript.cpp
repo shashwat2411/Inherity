@@ -9,8 +9,15 @@ void EnemyScript::Start()
 	gameObject->transform->drawRadius = 5.0f;
 
 	gameObject->AddComponent<Rigidbody>()->useGravity = true;
-	gameObject->AddComponent<SphereCollider>()->GetColliderObject()->transform->Position.y = 1.5f;
-	gameObject->GetComponent<SphereCollider>()->SetCollisionSize(0.41f);
+
+	SphereCollider* collider = gameObject->AddComponent<SphereCollider>();
+	collider->GetColliderObject()->transform->Position.y = 1.5f;
+	collider->SetCollisionSize(0.41f);
+
+	collider->ClearCollisionLayer();
+	collider->SetSelfLayer(COLLISION_LAYER::ENEMY_CL);
+	collider->AddCollisionLayer(COLLISION_LAYER::PLAYER_CL);
+	collider->AddCollisionLayer(COLLISION_LAYER::ENEMY_CL);
 
 }
 

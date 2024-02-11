@@ -15,6 +15,9 @@ void SphereCollider::Start()
 	scaleOffset = 1.0f;
 
 	//----------------------------------------------------------------
+	ClearCollisionLayer();
+	AddCollisionLayer(COLLISION_LAYER::PLAYER_CL);
+
 	colliderObject = Manager::GetScene()->AddGameObject<SPHERECOLLIDER>("", COLLIDER_LAYER);
 	colliderObject->Parent = gameObject;
 
@@ -87,4 +90,16 @@ void SphereCollider::SetBone(MeshFilter* model, const char* bone)
 	{
 		colliderObject->transform->boneMatrix = model->GetModel()->GetBoneMatrix(bone);
 	}
+}
+
+void SphereCollider::AddCollisionLayer(COLLISION_LAYER value)
+{
+	for (COLLISION_LAYER cl : collisionLayer)
+	{
+		if (cl == value)
+		{
+			return;
+		}
+	}
+	collisionLayer.push_back(value);
 }

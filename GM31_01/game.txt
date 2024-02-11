@@ -83,10 +83,6 @@
         {
             "class": "MAPCOLLISIONOBJECT",
             "number": 1
-        },
-        {
-            "class": "IMAGE",
-            "number": 1
         }
     ],
     "GetScene()->componentAdder": [],
@@ -755,7 +751,7 @@
             },
             "Position": {
                 "x": 0.0,
-                "y": 1.8,
+                "y": 1.7999999523162842,
                 "z": 0.0
             },
             "Rotation": {
@@ -2348,59 +2344,6 @@
         },
         "Material": {
             "textureIndex": 41
-        }
-    },
-    "Sprite(Clone)": {
-        "active": true,
-        "shadow": false,
-        "Color": {
-            "r": 1.0,
-            "g": 1.0,
-            "b": 1.0,
-            "a": 1.0
-        },
-        "Parent": "nullptr",
-        "Transform": {
-            "Component": {
-                "enabled": true
-            },
-            "Position": {
-                "x": 686.9003295898438,
-                "y": 428.0,
-                "z": -0.00784585066139698
-            },
-            "Rotation": {
-                "x": 0.0,
-                "y": 0.0,
-                "z": 0.0
-            },
-            "Scale": {
-                "x": 1.0,
-                "y": 1.0,
-                "z": 1.0
-            }
-        },
-        "SpriteRenderer": {
-            "Component": {
-                "enabled": true
-            },
-            "Size": {
-                "x": 100.0,
-                "y": 100.0
-            },
-            "TexCoord": {
-                "x": 1.0,
-                "y": 1.0
-            },
-            "Color": {
-                "r": 1.0,
-                "g": 1.0,
-                "b": 1.0,
-                "a": 1.0
-            }
-        },
-        "Material": {
-            "textureIndex": 0
         }
     }
 }

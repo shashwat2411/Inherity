@@ -30,6 +30,15 @@ class BILLBOARD;
 
 #define TILES 40
 
+enum COLLISION_LAYER
+{
+	PLAYER_CL,
+	ENEMY_CL,
+	KNIFE_CL,
+
+	COLLISION_LAYER_MAX
+};
+
 //Animation Based Classes
 class Data
 {
@@ -383,6 +392,9 @@ private:
 
 	GAMEOBJECT* colliderObject;
 
+	COLLISION_LAYER selfLayer;
+	std::vector<COLLISION_LAYER> collisionLayer;
+
 public:
 	float scaleOffset;
 	float collisionCounter;
@@ -405,11 +417,17 @@ public:
 	bool GetCollision() { return collision; }
 	float GetCollisionSize() { return CollisionSize; }
 	GAMEOBJECT* GetColliderObject() { return colliderObject; }
+	COLLISION_LAYER GetSelfLayer() { return selfLayer; }
+	std::vector<COLLISION_LAYER> GetCollisionLayer() { return collisionLayer; }
 
 	void SetIsTrigger(bool value) { isTrigger = value; }
 	void SetIsKinematic(bool value) { isKinematic = value; }
 	void SetCollision(bool value) { collision = value; }
 	void SetCollisionSize(float s) { CollisionSize = s; }
+	void SetSelfLayer(COLLISION_LAYER value) { selfLayer = value; }
+
+	void AddCollisionLayer(COLLISION_LAYER value);
+	void ClearCollisionLayer() { collisionLayer.clear(); }
 
 	template<class Archive>
 	void serialize(Archive & archive)

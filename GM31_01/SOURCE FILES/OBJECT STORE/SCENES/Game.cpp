@@ -248,16 +248,12 @@ void GAME_SCENE::LateInit()
 		}
 	}
 
+	pause->AddComponent<PauseMenuScript>();
 }
 
 void GAME_SCENE::Update()
 {
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
-	if (end == false)
-	{
-		//aimer->transform->Position = D3DXVECTOR3(GetMousePosX(), GetMousePosY(), 0.0f);
-		//shadow->GetMaterial()->SetTexture("_Texture", *Renderer::GetDepthShadowTexture());
-	}
 
 	Animator* pauser = pause->GetComponent<Animator>();
 	if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)

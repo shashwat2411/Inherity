@@ -41,7 +41,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		RegisterClassEx(&wcex);
 
 
-		RECT rc = { 0, 0, (LONG)SCREEN_WIDTH * 2.0f, (LONG)SCREEN_HEIGHT * 2.0f };
+		RECT rc = { 0, 0, (LONG)SCREEN_WIDTH * 1.0f, (LONG)SCREEN_HEIGHT * 1.0f };
 		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
 		g_Window = CreateWindowEx(0, CLASS_NAME, WINDOW_NAME, WS_OVERLAPPEDWINDOW/* | WS_MAXIMIZE*/, CW_USEDEFAULT, CW_USEDEFAULT,
