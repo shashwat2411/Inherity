@@ -6,7 +6,7 @@ void AudioSource::Start()
 {
 	loop = false;
 	parentActive = false;
-	playOnAwake = true;
+	playOnAwake = false;
 	threeDimension = false;
 
 	soundIndex = 0;

@@ -6,10 +6,9 @@ GAMEOBJECT* map;
 
 void MiniMapMaterial::Start()
 {
-	SetFloat("_Clip", 0.3f);
-	SetFloat("_Radius", 0.25f);
-	SetFloat("_Outline", 0.02f);
-	SetFloat("_Dot_Radius", 0.0075f);
+	SetFloat("_Radius", 0.45f);
+	SetFloat("_Outline", 0.04f);
+	SetFloat("_Dot_Radius", 0.021f);
 
 	SetTexture("_Texture", TextureReader::MINIMAP_T);
 
@@ -35,8 +34,9 @@ void MiniMapMaterial::Draw()
 
 	PARAMETER param;
 	ZeroMemory(&param, sizeof(param));
-	param.color = D3DXCOLOR(-coordinates.x, coordinates.y, coordinates.z, 0.0f);
-	param.color2 = D3DXCOLOR(floats["_Clip"], floats["_Radius"], floats["_Outline"], floats["_Dot_Radius"]);
+	param.color = D3DXCOLOR(coordinates.x, 0.0f, -coordinates.z, 0.0f);
+	param.color2 = D3DXCOLOR(0.0f, floats["_Radius"], floats["_Outline"], floats["_Dot_Radius"]);
+	param.color3 = Manager::GetScene()->GetCamera()->GetColor();
 
 	Renderer::SetParameter(param);
 }

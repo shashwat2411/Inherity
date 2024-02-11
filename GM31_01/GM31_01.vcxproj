@@ -160,6 +160,7 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\knifeCollision.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\mapCollision.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\openWorldCamera.cpp" />
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\pauseMenuScript.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerControl.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerHealth.cpp" />
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\playerMovement.cpp" />

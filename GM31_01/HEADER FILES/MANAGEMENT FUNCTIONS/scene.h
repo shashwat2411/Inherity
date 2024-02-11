@@ -132,6 +132,7 @@ public:
 	void SetEnd() { end = true; }
 	void SetGameObjectName(GAMEOBJECT* itself, LAYER layer) { gameObjectNames[layer][itself->GetID()] = itself->GetTag(); }
 
+	bool GetEnd() { return end; }
 
 	//ADD
 	template <typename T>

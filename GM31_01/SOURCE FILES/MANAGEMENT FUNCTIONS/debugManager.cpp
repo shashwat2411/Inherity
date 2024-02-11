@@ -63,12 +63,13 @@ void DebugManager::Init()
 	gizmo = true;
 
 	Time::timeScale = 1.0f;
-	Time::fixedTimeScale = 1.0f;
+	Time::fixedTimeScale = 60.0f / FRAME_RATE;
 	Time::deltaTime = 1.0f / FRAME_RATE;
 #else
 	play = true;
 	paused = false;
 	gizmo = false;
+	pressedDebug[0] = true;
 
 	Time::timeScale = 1.0f;
 	Time::fixedTimeScale = 1.0f;
