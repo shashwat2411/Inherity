@@ -106,6 +106,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 				wsprintf(g_DebugStr, "ENGINE| FPS : %d", g_CountFixedFPS);
 				wsprintf(&g_DebugStr[strlen(g_DebugStr)], " MX:%d MY:%d", GetMousePosX(), GetMousePosY());
 
+
+
 				UpdateMouse();
 				Manager::FixedUpdate();
 				Manager::Draw();
@@ -326,4 +328,9 @@ long GetMousePosX(void)
 long GetMousePosY(void)
 {
 	return g_MouseY;
+}
+
+int GetFrameRate()
+{
+	return g_CountFixedFPS;
 }

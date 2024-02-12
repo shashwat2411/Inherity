@@ -33,29 +33,40 @@ void EnemyScript::Update()
 
 	if (death == false)
 	{
-		std::vector<BULLET*> bullets = Manager::GetScene()->FindGameObjects<BULLET>();
-		SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
-
-		for (GAMEOBJECT* bullet : bullets)
+		D3DXVECTOR3 displacement = gameObject->transform->Position - Manager::GetScene()->GetPlayer()->transform->Position;
+		float distance = D3DXVec3Length(&displacement);
+		if (distance < 20.0f)
 		{
-			if (collider->GetColliderObject())
+			gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(true);
+
+			std::vector<BULLET*> bullets = Manager::GetScene()->FindGameObjects<BULLET>();
+			SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
+
+			for (GAMEOBJECT* bullet : bullets)
 			{
-				D3DXVECTOR3 distance;
-				distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
-				float length = D3DXVec3Length(&distance);
-
-				if (length < collider->GetCollisionSize() + bullet->transform->Scale.x)
+				if (collider->GetColliderObject())
 				{
-					BulletScript* script = bullet->GetComponent<BulletScript>();
-					if (script)
-					{
-						script->OnDestruction(true);
-					}
+					D3DXVECTOR3 distance;
+					distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
+					float length = D3DXVec3Length(&distance);
 
-					EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
-					if (health) { health->Damage(1.0f); }
+					if (length < collider->GetCollisionSize() + bullet->transform->Scale.x)
+					{
+						BulletScript* script = bullet->GetComponent<BulletScript>();
+						if (script)
+						{
+							script->OnDestruction(true);
+						}
+
+						EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
+						if (health) { health->Damage(1.0f); }
+					}
 				}
 			}
+		}
+		else
+		{
+			gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(false);
 		}
 	}
 }

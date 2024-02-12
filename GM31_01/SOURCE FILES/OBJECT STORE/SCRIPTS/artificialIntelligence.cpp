@@ -48,7 +48,7 @@ void ArtificialIntelligence::Start()
 	{
 		std::string str = "Point " + std::to_string(i + 1);
 		EMPTYOBJECT* point = scene->AddGameObject<EMPTYOBJECT>(str.c_str(), GIZMO_LAYER);
-		point->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+		point->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
 
 #ifdef DEBUG
 		point->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);

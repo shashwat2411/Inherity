@@ -68,3 +68,4 @@ long GetMouseZ(void);               // マウスホイールが動いた相対値
 
 long GetMousePosX(void);
 long GetMousePosY(void);
+int GetFrameRate();

@@ -324,6 +324,7 @@ class MeshFilter :public Component
 private:
 	bool fbx;
 	bool stop;
+	bool draw;
 
 	int modelIndex;
 
@@ -363,6 +364,9 @@ public:
 
 	void SetStop(bool value) { stop = value; }
 	bool GetStop() { return stop; }
+
+	void SetDraw(bool value) { draw = true; }
+	bool GetDraw() { return draw; }
 
 	void SetModel(ModelReader::READ_MODEL_FBX index);
 	void SetModel(ModelReader::READ_MODEL_OBJ index);

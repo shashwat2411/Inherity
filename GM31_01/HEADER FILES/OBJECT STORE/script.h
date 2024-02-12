@@ -266,6 +266,8 @@ private:
 
 public:
 
+	ArtificialIntelligence() { name = "ArtificialIntelligence"; }
+
 	void Start() override;
 	void End() override;
 	void Update() override;
@@ -291,6 +293,17 @@ public:
 	void Dancing();
 
 	void SetStateToReturn();
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(
+			cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(lock),
+			CEREAL_NVP(flip),
+			CEREAL_NVP(distance)
+		);
+	}
 };
 class ScreenToWorld : public Script
 {
