@@ -12,7 +12,7 @@ void ENEMY::Start()
 	freezeY = true;
 	reflection = true;
 
-	EMPTYOBJECT* child = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Enemy Model");
+	EMPTYOBJECT* child = Manager::GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("Enemy Model"));
 	child->SetParent(this);
 	child->AddComponent<MeshFilter>()->SetModel(ModelReader::HUMAN_M);
 	child->transform->Scale = D3DXVECTOR3(0.01f, 0.01f, 0.01f);
@@ -36,8 +36,8 @@ void ENEMY::Start()
 	AddComponent<ArtificialIntelligence>();
 
 
-	EMPTYOBJECT* knife = Manager::GetScene()->AddGameObject<EMPTYOBJECT>("Knife");
-	knife->SetParent(model->gameObject);
+	EMPTYOBJECT* knife = Manager::GetScene()->AddGameObject<EMPTYOBJECT>(ObjectIndex("Knife"));
+	knife->SetParent(child);
 	knife->AddComponent<MeshFilter>()->SetModel(ModelReader::KNIFE_M);
 
 	knife->transform->boneMatrix = model->GetModel()->GetBoneMatrix("mixamorig:RightHand");

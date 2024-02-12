@@ -6,6 +6,7 @@ void MeshFilter::Start()
 {
 	fbx = false;
 	stop = false;
+	draw = true;
 
 	modelIndex = 0;
 
@@ -61,18 +62,21 @@ void MeshFilter::Draw()
 {
 	if (Manager::GetScene()->GetCamera()->camera->CheckView(gameObject->transform) == true)
 	{
-		if (fbx == true)
+		if (draw == true)
 		{
-			if (m_Model != nullptr)
+			if (fbx == true)
 			{
-				m_Model->Draw();
+				if (m_Model != nullptr)
+				{
+					m_Model->Draw();
+				}
 			}
-		}
-		else
-		{
-			if (m_Model_obj != nullptr)
+			else
 			{
-				m_Model_obj->Draw();
+				if (m_Model_obj != nullptr)
+				{
+					m_Model_obj->Draw();
+				}
 			}
 		}
 	}

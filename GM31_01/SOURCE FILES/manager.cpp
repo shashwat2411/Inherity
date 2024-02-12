@@ -349,7 +349,10 @@ void Manager::Open(std::string name)
 	{
 		for (GAMEOBJECT* object : Scene->GetGameObjectList((LAYER)i))
 		{
-			archive(*object);
+			if (object->GetSave() == true)
+			{
+				archive(*object);
+			}
 		}
 	}
 

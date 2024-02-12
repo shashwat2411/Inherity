@@ -20,13 +20,13 @@ void GameManager::Update()
 {
 	if (Input::GetKeyPress(VK_LSHIFT))
 	{
-		Time::deltaTime = (1.0f / FRAME_RATE) * slowMotionSpeed;
-		Time::fixedTimeScale = (60.0f / FRAME_RATE) * slowMotionSpeed;
+		Time::deltaTime = (1.0f / GetFrameRate()) * slowMotionSpeed;
+		Time::fixedTimeScale = (60.0f / GetFrameRate()) * slowMotionSpeed;
 	}
 	else
 	{
-		Time::deltaTime = (1.0f / FRAME_RATE);
-		Time::fixedTimeScale = (60.0f / FRAME_RATE);
+		Time::deltaTime = (1.0f / GetFrameRate());
+		Time::fixedTimeScale = (60.0f / GetFrameRate());
 	}
 }
 
