@@ -365,7 +365,7 @@ public:
 	void SetStop(bool value) { stop = value; }
 	bool GetStop() { return stop; }
 
-	void SetDraw(bool value) { draw = true; }
+	void SetDraw(bool value) { draw = value; }
 	bool GetDraw() { return draw; }
 
 	void SetModel(ModelReader::READ_MODEL_FBX index);

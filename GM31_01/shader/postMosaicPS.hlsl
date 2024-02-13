@@ -9,7 +9,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	float2 uv = In.TexCoord;
 	float2 screen = float2(960, 540);
 
-	float pixel = 0.1f;
+	float pixel = 3.0f;
 
 	uv *= screen;	//UV値をスクリーン座標へ変換する
 	uv /= pixel;	//矩形のサイズで割る
@@ -20,4 +20,9 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 	outDiffuse = g_Texture.Sample(g_SamplerState, uv);
 	outDiffuse *= In.Diffuse;
 	outDiffuse.a = 1.0f;
+
+
+	//outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
+	//outDiffuse *= In.Diffuse;
+	//outDiffuse.a = 1.0f;
 }

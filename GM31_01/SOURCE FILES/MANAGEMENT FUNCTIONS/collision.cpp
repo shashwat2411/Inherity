@@ -114,6 +114,8 @@ void COLLISION::Update()
 					{
 						SphereCollider* anotherCollider = anotherObject->Parent->GetComponent<SphereCollider>();
 
+						if (collider == nullptr || anotherCollider == nullptr) { continue; }
+
 						bool sameLayer = false;
 						for (COLLISION_LAYER layer : collider->GetCollisionLayer())
 						{

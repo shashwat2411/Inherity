@@ -18,16 +18,16 @@ void GameManager::End()
 
 void GameManager::Update()
 {
-	if (Input::GetKeyPress(VK_LSHIFT))
-	{
-		Time::deltaTime = (1.0f / GetFrameRate()) * slowMotionSpeed;
-		Time::fixedTimeScale = (60.0f / GetFrameRate()) * slowMotionSpeed;
-	}
-	else
-	{
-		Time::deltaTime = (1.0f / GetFrameRate());
-		Time::fixedTimeScale = (60.0f / GetFrameRate());
-	}
+	//if (Input::GetKeyPress(VK_LSHIFT))
+	//{
+	//	Time::deltaTime = (1.0f / GetFrameRate()) * slowMotionSpeed;
+	//	Time::fixedTimeScale = (FRAME_RATE / GetFrameRate()) * slowMotionSpeed;
+	//}
+	//else
+	//{
+	//	Time::deltaTime = (1.0f / GetFrameRate());
+	//	Time::fixedTimeScale = (FRAME_RATE / GetFrameRate());
+	//}
 }
 
 void GameManager::Draw() 

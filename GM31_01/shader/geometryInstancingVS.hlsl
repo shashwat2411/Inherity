@@ -86,7 +86,7 @@ void main(in VS_IN In, out PS_IN Out)
 	{
 		matrix transform, scale, rotation, position;
 
-		scale = MatrixScaling(float4(Scale[In.InstanceID], 1.0f));
+		scale = MatrixScaling(float4(Scale[In.InstanceID]/*.p*/, 1.0f));
 		rotation = MatrixRotationYawPitchRoll(float4(Rotation[In.InstanceID], 1.0f));
 		position = MatrixTranslation(float4(Position[In.InstanceID], 1.0f));
 

@@ -81,6 +81,17 @@ void Manager::Uninit()
 
 void Manager::FixedUpdate()
 {
+	if (Input::GetKeyPress(VK_LSHIFT))
+	{
+		Time::deltaTime = (1.0f / GetFrameRate()) * 0.1f;
+		Time::fixedTimeScale = (FRAME_RATE / GetFrameRate()) * 0.1f;
+	}
+	else
+	{
+		Time::deltaTime = (1.0f / GetFrameRate());
+		Time::fixedTimeScale = (FRAME_RATE / GetFrameRate());
+	}
+
 	if (LOAD_SCENE::GetLogo() == false)
 	{
 		Input::Update();
