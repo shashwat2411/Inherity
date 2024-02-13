@@ -35,7 +35,7 @@ void EnemyScript::Update()
 	{
 		D3DXVECTOR3 displacement = gameObject->transform->Position - Manager::GetScene()->GetPlayer()->transform->Position;
 		float distance = D3DXVec3Length(&displacement);
-		if (distance < 20.0f)
+		if (distance < 80.0f)
 		{
 			gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(true);
 
@@ -59,15 +59,14 @@ void EnemyScript::Update()
 						}
 
 						EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
-						if (health) { health->Damage(1.0f); }
+						if (health) { health->Damage(20.0f); }
 					}
 				}
 			}
 		}
-		else
-		{
-			gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(false);
-		}
+
+		if (distance > 140.0f) { gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(false); }
+		else{ gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(true); }
 	}
 }
 

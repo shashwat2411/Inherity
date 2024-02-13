@@ -105,7 +105,6 @@ void GAME_SCENE::Init()
 		pause->GetComponent<Animator>()->SetCurrentIndex(0);
 
 		minimap->AddMaterial<MiniMapMaterial>();
-		minimap->AddComponent<MiniMapVariable>();
 
 		player->GetComponent<PlayerMovement>()->aimPoint = aimer->GetComponent<ScreenToWorld>()->GetPoint();
 	}
@@ -249,6 +248,8 @@ void GAME_SCENE::LateInit()
 	}
 
 	pause->AddComponent<PauseMenuScript>();
+
+	GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade"));
 }
 
 void GAME_SCENE::Update()

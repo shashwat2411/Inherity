@@ -467,33 +467,25 @@ public:
 class MiniMapVariable : public Script
 {
 private:
-	float clip;
-	float radius;
-	float outline;
-	float dotRadius;
+	float value;
 
 public:
 
 	void Start() override 
 	{
-		radius = 0.45f;
-		outline = 0.04f;
-		dotRadius = 0.021f;
+		value = 0.0f;
 	}
-	void Update() override 
+	void Draw() override 
 	{
-		gameObject->GetMaterial()->SetFloat("_Radius", radius);
-		gameObject->GetMaterial()->SetFloat("_Outline", outline);
-		gameObject->GetMaterial()->SetFloat("_Dot_Radius", dotRadius);
+		FADE* fade = (FADE*)gameObject;
+		fade->SetAlpha(value);
 	}
 
 	void EngineDisplay() override
 	{
 		if (ImGui::TreeNode("Mini Map Variable"))
 		{
-			DebugManager::FloatDisplay(&radius, -FLT_MIN, "Radius", true, D3DXVECTOR2(0.01f, 0.0f), 1);
-			DebugManager::FloatDisplay(&outline, -FLT_MIN, "Outline", true, D3DXVECTOR2(0.01f, 0.0f), 2);
-			DebugManager::FloatDisplay(&dotRadius, -FLT_MIN, "Dot Outline", true, D3DXVECTOR2(0.001f, 0.0f), 3);
+			DebugManager::FloatDisplay(&value, -FLT_MIN, "Alpha", true, D3DXVECTOR2(0.01f, 0.0f), 1);
 
 			ImGui::TreePop();
 			ImGui::Spacing();

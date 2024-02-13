@@ -18,7 +18,9 @@ void FADE::Init()
 	AddComponent<SpriteRenderer>()->SetSize(D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT));
 
 	AddMaterial<WipeMaterial>();
-	GetMaterial()->SetTexture("_Wipe_Texture", TextureReader::WIPE_T);
+	GetMaterial()->SetTexture("_Wipe_Texture", TextureReader::BLOOD_T);
+
+	AddComponent<MiniMapVariable>();
 }
 
 void FADE::Update()
