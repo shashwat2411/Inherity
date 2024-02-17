@@ -174,6 +174,7 @@ public:
 	D3DXVECTOR3 Scale;
 
 	D3DXVECTOR3 GlobalPosition;
+	D3DXVECTOR3 GlobalScale;
 
 	D3DXQUATERNION Quaternion;
 

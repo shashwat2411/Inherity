@@ -35,7 +35,7 @@ void EnemyHealth::Update()
 
 void EnemyHealth::Draw()
 {
-	health->transform->Position = gameObject->transform->GlobalPosition + offset;
+	health->transform->Position = gameObject->GetChildren()[0]->transform->GlobalPosition + offset;
 
 	redHp = Mathf::Lerp(redHp, hp, timerVector["Red HP Speed"] * Time::fixedTimeScale);
 

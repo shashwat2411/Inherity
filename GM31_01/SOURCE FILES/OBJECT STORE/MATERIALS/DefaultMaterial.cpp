@@ -2,7 +2,7 @@
 
 void DefaultMaterial::Start()
 {
-	gameObject->SetDepthShadow(true);
+	//gameObject->SetDepthShadow(true);
 
 	SetTexture("_Texture", nullptr);
 	SetTexture("_Normal_Map", nullptr);

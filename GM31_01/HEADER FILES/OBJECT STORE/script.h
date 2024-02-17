@@ -260,6 +260,7 @@ private:
 	MeshFilter* model;
 	GAMEOBJECT* target;
 	GAMEOBJECT* seeker;
+	GAMEOBJECT* attackDistance;
 
 	std::string targetName;
 	std::vector<GAMEOBJECT*> points;
@@ -301,7 +302,8 @@ public:
 			cereal::virtual_base_class<Component>(this),
 			CEREAL_NVP(lock),
 			CEREAL_NVP(flip),
-			CEREAL_NVP(distance)
+			CEREAL_NVP(distance),
+			cereal::make_nvp("followDistance", timerVector["followDistance"])
 		);
 	}
 };

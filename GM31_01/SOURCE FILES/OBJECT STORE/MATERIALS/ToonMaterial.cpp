@@ -18,6 +18,10 @@ void ToonMaterial::Start()
 void ToonMaterial::Update()
 {
 	//floats["_Offset"] += 0.01f;
+	if (gameObject->GetColor().a > 0.001f)
+	{
+		gameObject->SetColor(D3DXCOLOR(gameObject->GetColor().r, gameObject->GetColor().g, gameObject->GetColor().b, Mathf::Lerp(gameObject->GetColor().a, 0.0f, 0.5f)));
+	}
 }
 
 void ToonMaterial::Draw()

@@ -14,7 +14,7 @@ void ArtificialIntelligence::Start()
 	timerVector["time"] = 0.0f;
 	timerVector["speed"] = 0.001f;
 	timerVector["followSpeed"] = 0.08f;
-	timerVector["maxDistance"] = 10.0f;
+	timerVector["maxDistance"] = 20.0f;
 	timerVector["timer"] = 0.0f;
 
 	timerVector["followDistance"] = 3.0f;
@@ -49,10 +49,10 @@ void ArtificialIntelligence::Start()
 		std::string str = "Point " + std::to_string(i + 1);
 		EMPTYOBJECT* point = scene->AddGameObject<EMPTYOBJECT>(str.c_str(), GIZMO_LAYER);
 		point->transform->Scale = D3DXVECTOR3(2.0f, 2.0f, 2.0f);
-
+		
 #ifdef DEBUG
 		point->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
-		point->shadow = false;
+		point->SetDepthShadow(false);
 #endif
 		points.push_back(point);
 	}
@@ -65,6 +65,15 @@ void ArtificialIntelligence::Start()
 	seeker = Manager::GetScene()->Find(targetName.c_str());
 
 	model = gameObject->GetChildren()[0]->GetComponent<MeshFilter>();
+
+
+#ifdef DEBUG
+	//attackDistance = scene->AddGameObject<EMPTYOBJECT>("Attack Distance", GIZMO_LAYER);
+	//attackDistance->SetSave(false);
+	//attackDistance->AddComponent<MeshFilter>()->SetModel(ModelReader::SPHERE_COLLIDER_M);
+	//attackDistance->SetColor(D3DXCOLOR(0.0f, 0.0f, 1.0f, 1.0f));
+	//attackDistance->SetDepthShadow(false);
+#endif
 }
 
 void ArtificialIntelligence::End()
@@ -123,6 +132,9 @@ void ArtificialIntelligence::Update()
 
 void ArtificialIntelligence::Draw()
 {
+	//attackDistance->transform->Position = gameObject->transform->Position;
+	//attackDistance->transform->Scale = D3DXVECTOR3(timerVector["followDistance"], timerVector["followDistance"], timerVector["followDistance"]);
+
 	if (DebugManager::play == false || DebugManager::paused == true)
 	{
 		startPosition = gameObject->transform->Position;
@@ -412,16 +424,20 @@ void ArtificialIntelligence::Finder()
 		v = gameObject->transform->GetForwardDirection();
 		u = gameObject->transform->GlobalPosition - seeker->transform->GlobalPosition;
 
+		SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
+
 		if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"]) 
 		{ 
 			target = seeker; 
 			state = FOLLOW; 
 		}
-		else if (gameObject->GetComponent<SphereCollider>()->GetCollision() == false) 
-		{ 
-			target = nullptr; 
+		else if (collider)
+		{
+			if (gameObject->GetComponent<SphereCollider>()->GetCollision() == false)
+			{
+				target = nullptr;
+			}
 		}
-
 	}
 	else
 	{
