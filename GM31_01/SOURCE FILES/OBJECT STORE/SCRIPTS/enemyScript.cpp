@@ -42,9 +42,9 @@ void EnemyScript::Update()
 			std::vector<BULLET*> bullets = Manager::GetScene()->FindGameObjects<BULLET>();
 			SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
 
-			for (GAMEOBJECT* bullet : bullets)
+			if (collider->GetColliderObject())
 			{
-				if (collider->GetColliderObject())
+				for (GAMEOBJECT* bullet : bullets)
 				{
 					D3DXVECTOR3 distance;
 					distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
@@ -59,7 +59,14 @@ void EnemyScript::Update()
 						}
 
 						EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
-						if (health) { health->Damage(20.0f); }
+						if (health) 
+						{ 
+							health->Damage(5.0f);
+
+							GAMEOBJECT* child = gameObject->GetChildren()[0];
+							//child->GetComponent<MeshFilter>()->SetAnimationBlend("Enemy_Damage", false);
+							child->SetColor(D3DXCOLOR(child->GetColor().r, child->GetColor().g, child->GetColor().b, child->GetColor().a + 0.75f));
+						}
 					}
 				}
 			}

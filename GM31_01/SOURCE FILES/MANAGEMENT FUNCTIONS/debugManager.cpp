@@ -322,12 +322,14 @@ void DebugManager::DebugDraw(SCENE * scene)
 				{
 					Time::timeScale = 1.0f;
 					play = true;
+					ShowCursor(false);
 				}
 				else
 				{
 					Time::timeScale = 0.0f;
 					play = false;
 					Manager::ResetScene();
+					ShowCursor(true);
 				}
 			}
 
@@ -357,11 +359,13 @@ void DebugManager::DebugDraw(SCENE * scene)
 				{
 					if (play == true) { Time::timeScale = 1.0f; }
 					paused = false;
+					ShowCursor(false);
 				}
 				else
 				{
 					if (play == true) { Time::timeScale = 0.0f; }
 					paused = true;
+					ShowCursor(true);
 				}
 			}
 
@@ -497,6 +501,15 @@ void DebugManager::DebugDraw(SCENE * scene)
 
 		ImGui::End();
 	}
+
+	//ImGui::Begin("Renderer");
+
+	//static float value[180];
+	//for (int i = 0; i < 179; i++) { value[i] = value[i + 1]; }
+	//value[179] = ImGui::GetIO().DeltaTime * 1000.0f;
+	//ImGui::PlotLines("", value, sizeof(value) / sizeof(float), 0, NULL, 0.0f, 100.0f, ImVec2(0, 50));
+
+	//ImGui::End();
 #endif
 }
 

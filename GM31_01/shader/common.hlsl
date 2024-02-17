@@ -1,9 +1,9 @@
 
 struct Matrix
 {
-	float3 p;
-	float3 r;
-	float3 s;
+	float3 Position;
+	float3 Rotation;
+	float3 Scale;
 };
 
 StructuredBuffer<float3> Scale : register(t5);

@@ -26,7 +26,6 @@ void GAME_SCENE::Init()
 	map = AddGameObject<EMPTYOBJECT>("Map");
 
 
-	srand(0);	//Seed Value for the random numbers
 	//Field Objects
 	/*
 	for (int i = 0; i < 20; i++)
@@ -230,26 +229,44 @@ void GAME_SCENE::LateInit()
 			r = rand() % 256;
 			g = rand() % 256;
 			b = rand() % 256;
-			enemy->GetChildren()[0]->SetColor(D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+			enemy->GetChildren()[0]->SetColor(D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 0.0f));
 
 			r = rand() % 256;
 			g = rand() % 256;
 			b = rand() % 256;
 			enemy->GetChildren()[0]->GetMaterial()->SetColor("_Dissolve_Color", D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+		}
 
-			int a = rand() % 6;
-			float scale = 0.5f + float(a) / 10.0f;
+		srand(0);	//Seed Value for the random numbers
+
+		for (ENEMY* enemy : enemies)
+		{
+			int a = rand() % 10;
+			float scale = 1.3f + float(a) / 10.0f;
 			enemy->transform->Scale = D3DXVECTOR3(scale, scale, scale);
+
+			SphereCollider* collider = enemy->GetComponent<SphereCollider>();
+			if (collider) 
+			{ 
+				collider->scaleOffset = 1.0f / enemy->transform->Scale.x;
+			}
+
+			collider = enemy->GetChildren()[0]->GetChildren()[0]->GetComponent<SphereCollider>();
+			if (collider)
+			{
+				collider->scaleOffset = 1.0f / (enemy->transform->Scale.x * enemy->GetChildren()[0]->transform->Scale.x * enemy->GetChildren()[0]->GetChildren()[0]->transform->Scale.x);
+			}
 
 			EnemyHealth* health = enemy->GetComponent<EnemyHealth>();
 			health->SetOffset(D3DXVECTOR3(health->GetOffset().x, 2.85f / 0.6f * scale, health->GetOffset().z));
 			health->SetHealth(1000.0f / 0.6f * scale);
+			health->GetHealthObject()->transform->Scale = D3DXVECTOR3(scale * 0.2f, scale * 0.5f / 3.0f, 0.1f);
 		}
 	}
 
 	pause->AddComponent<PauseMenuScript>();
 
-	GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade"));
+	//GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade"));
 }
 
 void GAME_SCENE::Update()

@@ -43,7 +43,7 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 		else if (light > 0.4f) { light = 0.7f; }
 		else { light = 0.5f; }
 
-		outDiffuse.rgb *= saturate(light);
+		outDiffuse.rgb *= saturate(light) + float3(3.0f, 3.0f, 3.0f) * color3.a;
 
 		float3 eyev = In.WorldPosition.xyz - CameraPosition.xyz;
 		eyev = normalize(eyev);
