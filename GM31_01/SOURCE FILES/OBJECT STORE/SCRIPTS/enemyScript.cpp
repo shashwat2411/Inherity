@@ -64,8 +64,10 @@ void EnemyScript::Update()
 							health->Damage(5.0f);
 
 							GAMEOBJECT* child = gameObject->GetChildren()[0];
-							//child->GetComponent<MeshFilter>()->SetAnimationBlend("Enemy_Damage", false);
+							//child->GetComponent<MeshFilter>()->SetAnimationBlend("Enemy_Damage", false, 0.001f);
 							child->SetColor(D3DXCOLOR(child->GetColor().r, child->GetColor().g, child->GetColor().b, child->GetColor().a + 0.75f));
+
+							gameObject->GetComponent<ArtificialIntelligence>()->SetStateToFollow();
 						}
 					}
 				}

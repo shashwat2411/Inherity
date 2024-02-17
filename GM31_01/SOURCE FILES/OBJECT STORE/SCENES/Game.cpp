@@ -193,7 +193,7 @@ void GAME_SCENE::LateInit()
 		{
 			particleEffect[layer].clear();
 
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < (layer != ENEMY_TO_PLAYER ? 50 : 10); i++)
 			{
 				std::string name = "effect_" + std::to_string((int)layer) + "_" + std::to_string(i);
 

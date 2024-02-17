@@ -5,6 +5,7 @@ void ArtificialIntelligence::Start()
 {
 	flip = false;
 	lock = true;
+	shot = false;
 
 	index = 0;
 	nextIndex = index + 1;
@@ -418,30 +419,33 @@ void ArtificialIntelligence::Victory()
 
 void ArtificialIntelligence::Finder()
 {
-	if (seeker != nullptr)
+	if (shot == false)
 	{
-		D3DXVECTOR3 v, u;
-		v = gameObject->transform->GetForwardDirection();
-		u = gameObject->transform->GlobalPosition - seeker->transform->GlobalPosition;
-
-		SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
-
-		if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"]) 
-		{ 
-			target = seeker; 
-			state = FOLLOW; 
-		}
-		else if (collider)
+		if (seeker != nullptr)
 		{
-			if (gameObject->GetComponent<SphereCollider>()->GetCollision() == false)
+			D3DXVECTOR3 v, u;
+			v = gameObject->transform->GetForwardDirection();
+			u = gameObject->transform->GlobalPosition - seeker->transform->GlobalPosition;
+
+			SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
+
+			if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"])
 			{
-				target = nullptr;
+				target = seeker;
+				state = FOLLOW;
+			}
+			else if (collider)
+			{
+				if (gameObject->GetComponent<SphereCollider>()->GetCollision() == false)
+				{
+					target = nullptr;
+				}
 			}
 		}
-	}
-	else
-	{
-		seeker = Manager::GetScene()->Find(targetName.c_str());
+		else
+		{
+			seeker = Manager::GetScene()->Find(targetName.c_str());
+		}
 	}
 }
 
@@ -459,4 +463,14 @@ void ArtificialIntelligence::SetStateToReturn()
 {
 	target = nullptr;
 	state = RETURN;
+}
+
+void ArtificialIntelligence::SetStateToFollow()
+{
+	if (seeker != nullptr && (state == ROAM || state == RETURN || state == FIND))
+	{
+		target = seeker;
+		state = FOLLOW;
+		shot = true;
+	}
 }

@@ -244,6 +244,7 @@ public:
 private:
 	bool flip;
 	bool lock;
+	bool shot;
 
 	int index;
 	int nextIndex;
@@ -294,6 +295,7 @@ public:
 	void Dancing();
 
 	void SetStateToReturn();
+	void SetStateToFollow();
 
 	template<class Archive>
 	void serialize(Archive & archive)
@@ -479,8 +481,11 @@ public:
 	}
 	void Draw() override 
 	{
-		FADE* fade = (FADE*)gameObject;
-		fade->SetAlpha(value);
+		if (DebugManager::play == false || DebugManager::paused == true)
+		{
+			FADE* fade = (FADE*)gameObject;
+			fade->SetAlpha(value);
+		}
 	}
 
 	void EngineDisplay() override

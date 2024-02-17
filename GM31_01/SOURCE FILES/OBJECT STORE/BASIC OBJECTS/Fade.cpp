@@ -11,14 +11,14 @@ void FADE::Init()
 	alpha = 1.0f;
 	speed = 0.02f; //0.05f
 
-	Color = D3DXCOLOR(0.0f, 0.0, 0.0f, 1.0f);
+	Color = D3DXCOLOR(1.0f, 1.0, 1.0f, 1.0f);
 
 	SetTag("Fade");
 	
 	AddComponent<SpriteRenderer>()->SetSize(D3DXVECTOR2(SCREEN_WIDTH, SCREEN_HEIGHT));
 
 	AddMaterial<WipeMaterial>();
-	//GetMaterial()->SetTexture("_Wipe_Texture", TextureReader::BLOOD_T);
+	GetMaterial()->SetTexture("_Texture", TextureReader::BLOOD_T);
 
 	AddComponent<MiniMapVariable>();
 }
