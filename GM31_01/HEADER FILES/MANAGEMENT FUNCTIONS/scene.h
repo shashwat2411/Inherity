@@ -166,7 +166,7 @@ public:
 
 	void RemoveGameObject(std::string name, LAYER layer = GAMEOBJECT_LAYER)
 	{
-		GAMEOBJECT* obj = Find(name);
+		GAMEOBJECT* obj = Find(name, layer);
 		if (obj != nullptr)
 		{
 			obj->UnInitialize();

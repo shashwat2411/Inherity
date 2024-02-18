@@ -103,8 +103,8 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			//if ((dwCurrentTime - dwExecFixedLastTime) >= (ab) && Time::timeScale > 0.0f)
 			if ((dwCurrentTime - dwExecFixedLastTime) >= (1000 / FRAME_RATE))
 			{
-				wsprintf(g_DebugStr, "ENGINE| FPS : %d", g_CountFixedFPS);
-				wsprintf(&g_DebugStr[strlen(g_DebugStr)], " MX:%d MY:%d", GetMousePosX(), GetMousePosY());
+				wsprintf(g_DebugStr, "TOMATO'S MELANCHOLY 2 | FPS : %d", g_CountFixedFPS);
+				//wsprintf(&g_DebugStr[strlen(g_DebugStr)], " MX:%d MY:%d", GetMousePosX(), GetMousePosY());
 
 
 

@@ -27,9 +27,9 @@ void PauseMenuScript::Start()
 
 void PauseMenuScript::Draw()
 {
-	options[0]->transform->Position.x = gameObject->transform->Position.x - distance;
+	options[0]->transform->Position.x = gameObject->transform->Position.x - (distance * gameObject->transform->Scale.x);
 	options[1]->transform->Position.x = gameObject->transform->Position.x;
-	options[2]->transform->Position.x = gameObject->transform->Position.x + distance;
+	options[2]->transform->Position.x = gameObject->transform->Position.x + (distance * gameObject->transform->Scale.x);
 
 	for (int i = 0; i < 3; i++)
 	{

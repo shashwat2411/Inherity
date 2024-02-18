@@ -97,6 +97,8 @@ void EnemyScript::Death()
 {
 	if (death == false)
 	{
+		//SoundReader::GetReadSound(SoundReader::ENEMY_DEATH)->Play(false, 0.2f);
+
 		death = true;
 		gameObject->GetComponent<ArtificialIntelligence>()->SetState(ArtificialIntelligence::DEATH);
 

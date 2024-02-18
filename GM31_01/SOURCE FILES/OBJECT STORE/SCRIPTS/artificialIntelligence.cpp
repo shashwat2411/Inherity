@@ -79,7 +79,7 @@ void ArtificialIntelligence::Start()
 
 void ArtificialIntelligence::End()
 {
-
+	
 }
 
 void ArtificialIntelligence::Update()
@@ -302,7 +302,7 @@ void ArtificialIntelligence::Wait()
 		timerVector["timer"] = 0.0f;
 		state = ATTACK;
 		model->SetAnimationBlend("Enemy_Attack_1");
-
+		SoundReader::GetReadSound(SoundReader::SWING)->Play(false, 0.3f);
 		//D3DXVECTOR3 direction = target->transform->GlobalPosition - gameObject->transform->GlobalPosition;
 		//D3DXVec3Normalize(&direction, &direction);
 		//direction *= timerVector["attackSpeed"];

@@ -12,8 +12,6 @@ bool pauseReturn = false;
 
 void GAME_SCENE::Init()
 {
-	PostProcessManager::RemovePoster<DrunkMaterial>();
-	PostProcessManager::AddPoster<PostProcessMaterial>();
 
 	name = "game";
 
@@ -120,6 +118,11 @@ void GAME_SCENE::Init()
 		audio->SetThreeDimension(true);
 		audio->SetPlayOnAwake(false);*/
 		//audio->Play(true, 0.2f);
+		AudioSource* as = MainCamera->AddComponent<AudioSource>();
+		as->SetClip(SoundReader::BATTLE);
+		as->SetPlayOnAwake(true);
+		as->SetLoop(true);
+		as->SetVolume(0.15f);
 	}
 
 	paused = false;
@@ -142,6 +145,8 @@ void GAME_SCENE::Init()
 
 void GAME_SCENE::LateInit()
 {
+	//PostProcessManager::RemovePoster<DrunkMaterial>();
+	PostProcessManager::AddPoster<PostProcessMaterial>();
 	//Sound Components
 
 	//Player
@@ -279,29 +284,39 @@ void GAME_SCENE::Update()
 {
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { pause->GetComponent<PauseMenuScript>()->ChangeScene(); } }
 
-	Animator* pauser = pause->GetComponent<Animator>();
-	if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
+	if (pause != nullptr)
 	{
-		if (paused == false)
+		Animator* pauser = pause->GetComponent<Animator>();
+		if (pauser != nullptr)
 		{
-			Time::timeScale = 0.0f;
-			pauser->PlayAnimation(0, Animation::PLAYBACK);
-			paused = true;
-		}
-		else
-		{
-			pauser->PlayAnimation(1, Animation::PLAYBACK);
-			pauseReturn = true;
-		}
-	}
+			if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
+			{
+				if (paused == false)
+				{
+					Time::timeScale = 0.0f;
+					pauser->PlayAnimation(0, Animation::PLAYBACK);
+					paused = true;
+					SoundReader::GetReadSound(SoundReader::PAUSE_IN)->Play(false, 0.4f);
+					MainCamera->GetComponent<AudioSource>()->SetVolume(0.05f);
+				}
+				else
+				{
+					pauser->PlayAnimation(1, Animation::PLAYBACK);
+					pauseReturn = true;
+					SoundReader::GetReadSound(SoundReader::PAUSE_OUT)->Play(false, 0.4f);
+				}
+			}
 
-	if (pauseReturn == true)
-	{
-		if (pauser->GetAnimationState(1) == Animation::END)
-		{
-			pauseReturn = false;
-			paused = false;
-			Time::timeScale = 1.0f;
+			if (pauseReturn == true)
+			{
+				if (pauser->GetAnimationState(1) == Animation::END)
+				{
+					pauseReturn = false;
+					paused = false;
+					Time::timeScale = 1.0f;
+					MainCamera->GetComponent<AudioSource>()->SetVolume(0.15f);
+				}
+			}
 		}
 	}
 
@@ -311,4 +326,5 @@ void GAME_SCENE::Resume()
 {
 	pause->GetComponent<Animator>()->PlayAnimation(1, Animation::PLAYBACK);
 	pauseReturn = true;
+	SoundReader::GetReadSound(SoundReader::PAUSE_OUT)->Play(false, 0.4f);
 }

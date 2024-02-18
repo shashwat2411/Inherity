@@ -3,9 +3,6 @@
 
 void RESULT_SCENE::Init()
 {
-	PostProcessManager::RemovePoster<PostProcessMaterial>();
-	PostProcessManager::AddPoster<DrunkMaterial>();
-
 	name = "result";
 
 	//GAMEOBJECT

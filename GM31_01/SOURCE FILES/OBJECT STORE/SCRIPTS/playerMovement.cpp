@@ -474,6 +474,7 @@ void PlayerMovement::AimingMove()
 		{
 			bullet->transform->Position = spawner->transform->GlobalPosition;
 			bullet->rigidbody->Speed = face * bullet->speed;
+			SoundReader::GetReadSound(SoundReader::SHOOT)->Play(false, 0.01f);
 		}
 	}
 }

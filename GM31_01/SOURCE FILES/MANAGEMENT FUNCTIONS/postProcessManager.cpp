@@ -5,7 +5,8 @@ std::vector<POSTPROCESS*> PostProcessManager::posters{};
 
 void PostProcessManager::Init()
 {
-	AddPoster<DrunkMaterial>();
+	posters.emplace_back();
+	AddPoster<PostProcessMaterial>();
 	//AddPoster<LuminanceMaterial>();
 	//AddPoster<BloomMaterial>();
 	//AddPoster<MergeMaterial>();

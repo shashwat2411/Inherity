@@ -30,16 +30,20 @@ void ScreenToWorld::Update()
 
 		screenPosition += D3DXVECTOR2(Input::CameraAngleHorizontal(), -Input::CameraAngleVertical()) * finalSpeed * Time::fixedTimeScale;
 
+		if (screenPosition.x >= SCREEN_WIDTH - 1) { screenPosition.x = SCREEN_WIDTH - 1; }
+		else if (screenPosition.x <= 0.0f) { screenPosition.x = 0.0f; }
+		if (screenPosition.y >= SCREEN_HEIGHT - 1) { screenPosition.y = SCREEN_HEIGHT - 1; }
+		else if (screenPosition.y <= 0.0f) { screenPosition.y = 0.0f; }
 	}
 	else
 	{
-		screenPosition = D3DXVECTOR2(GetMousePosX(), GetMousePosY());
-	}
+		screenPosition = D3DXVECTOR2(float(GetMousePosX()), float(GetMousePosY()));
 
-	if (screenPosition.x >= SCREEN_WIDTH)	{ screenPosition.x = SCREEN_WIDTH; }
-	else if (screenPosition.x <= 0.0f)		{ screenPosition.x = 0.0f; }
-	if (screenPosition.y >= SCREEN_HEIGHT)	{ screenPosition.x = SCREEN_HEIGHT; }
-	else if (screenPosition.y <= 0.0f)		{ screenPosition.x = 0.0f; }
+		if (screenPosition.x >= SCREEN_WIDTH - 1) { screenPosition.x = SCREEN_WIDTH - 1; }
+		if (screenPosition.x <= 1.0f) { screenPosition.x = 1.0f; }
+		if (screenPosition.y >= SCREEN_HEIGHT - 1) { screenPosition.y = SCREEN_HEIGHT - 1; }
+		if (screenPosition.y <= 1.0f) { screenPosition.y = 1.0f; }
+	}
 
 	gameObject->transform->Position = D3DXVECTOR3(screenPosition.x, screenPosition.y, 0.0f);
 
