@@ -278,6 +278,7 @@ void Renderer::Init()
 
 	m_DeviceContext->PSSetSamplers(0, 1, &m_samplerState_W);
 	m_DeviceContext->PSSetSamplers(1, 1, &m_samplerState_C);
+	m_DeviceContext->PSSetSamplers(2, 1, &m_samplerState_M);
 	//こいつを3つ分用意して、描画のところに切り替えてる
 
 	// 定数バッファ生成

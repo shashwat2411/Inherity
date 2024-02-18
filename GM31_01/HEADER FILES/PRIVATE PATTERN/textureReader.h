@@ -66,6 +66,7 @@ public:
 		REVENGE_T,
 		BLOOD_T,
 		EFFECT_T,
+		ANGER_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -132,6 +133,7 @@ public:
 		LoadTexture(&Textures[REVENGE_T], "asset\\texture\\revenge.png");
 		LoadTexture(&Textures[BLOOD_T], "asset\\texture\\blood.png");
 		LoadTexture(&Textures[EFFECT_T], "asset\\texture\\effect.png");
+		LoadTexture(&Textures[ANGER_T], "asset\\texture\\anger.png");
 
 
 		//NAMES
@@ -187,6 +189,7 @@ public:
 		textureNames[REVENGE_T]				= "REVENGE";
 		textureNames[BLOOD_T]				= "BLOOD";
 		textureNames[EFFECT_T]				= "EFFECT";
+		textureNames[ANGER_T]				= "ANGER";
 	}
 
 	static void UnReadTexture()

@@ -15,6 +15,7 @@ void PlayerMovement::Start()
 	diagonal = false;
 	gunSelection = false;
 	setAnimation = false;
+	invincibility = false;
 
 	idleCounter = 0;
 	timerVector["deathTimer"] = 0.0f;
@@ -25,6 +26,8 @@ void PlayerMovement::Start()
 
 	timerVector["shootCountdown"] = 0.0f;
 	timerVector["shootCooldown"] = 0.0333f;
+
+	timerVector["invincibilityCounter"] = 0.0f;
 
 	rotationDirection = D3DXVECTOR3(0.0f, 0.0f, 0.0f);
 
@@ -140,32 +143,36 @@ void PlayerMovement::Update()
 		D3DXVec3Normalize(&direction, &direction);
 	}
 
-
-	if ((/*ImGui::IsKeyDown((ImGuiKey)656)*/ /*IsMouseRightPressed()*/  Input::GetButtonPress(AIM_KEYMAP)) && aim == false && (playerState != ROLL_PS && playerState != DEATH_PS && playerState != HIT_PS))
+	if (playerState != ROLL_PS && playerState != DEATH_PS && playerState != HIT_PS)
 	{
-		aim = true;
-		playerState = AIMING_MOVE_PS;
-		cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 2.8f, 3.9f));
-		//cameraController->SetFollowSpeed(D3DXVECTOR3(0.6f, 0.1f, 0.0f));
-		cameraController->SetScreenLimit(D3DXVECTOR3(180.0f, 180.0f, -40.0f));
-	}
-	else if ((/*!ImGui::IsKeyDown((ImGuiKey)656)*/ /*!IsMouseRightPressed()*/  !Input::GetButtonPress(AIM_KEYMAP)) && aim == true)
-	{
-		aim = false;
-		playerState = NORMAL_MOVE_PS;
-		cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 4.0f, 8.0f));
-		//cameraController->SetFollowSpeed(D3DXVECTOR3(0.012f, 0.08f, 0.0f));
-		cameraController->SetScreenLimit(D3DXVECTOR3(300.0f, 180.0f, -40.0f));
-	}
+		if ((/*ImGui::IsKeyDown((ImGuiKey)656)*/ /*IsMouseRightPressed()*/  Input::GetButtonPress(AIM_KEYMAP)) && aim == false)
+		{
+			aim = true;
+			playerState = AIMING_MOVE_PS;
+			cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 2.8f, 3.9f));
+			//cameraController->SetFollowSpeed(D3DXVECTOR3(0.6f, 0.1f, 0.0f));
+			cameraController->SetScreenLimit(D3DXVECTOR3(180.0f, 180.0f, -40.0f));
+		}
+		else if ((/*!ImGui::IsKeyDown((ImGuiKey)656)*/ /*!IsMouseRightPressed()*/  !Input::GetButtonPress(AIM_KEYMAP)) && aim == true)
+		{
+			aim = false;
+			playerState = NORMAL_MOVE_PS;
+			cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 4.0f, 8.0f));
+			//cameraController->SetFollowSpeed(D3DXVECTOR3(0.012f, 0.08f, 0.0f));
+			cameraController->SetScreenLimit(D3DXVECTOR3(300.0f, 180.0f, -40.0f));
+		}
 
-	if (Input::GetButtonTrigger(ROLL_KEYMAP) && (playerState != ROLL_PS && playerState != DEATH_PS && playerState != HIT_PS))
-	{
-		aim = false;
-		playerState = ROLL_PS;
-		model->SetAnimationBlend("Roll");
+		if (Input::GetButtonTrigger(ROLL_KEYMAP))
+		{
+			aim = false;
+			playerState = ROLL_PS;
+			model->SetAnimationBlend("Roll");
 
-		gameObject->rigidbody->Speed = direction * timerVector["rollSpeed"];
-		rotationDirection = direction;
+			gameObject->rigidbody->Speed = direction * timerVector["rollSpeed"];
+			rotationDirection = direction;
+
+			timerVector["invincibilityCounter"] = 0.0f;
+		}
 	}
 
 	switch (playerState)
@@ -410,7 +417,7 @@ void PlayerMovement::AimingMove()
 		//D3DXVECTOR3 right = gameObject->transform->GetRightDirection();
 		float forwardProduct = D3DXVec3Dot(&direction, &forward);
 		float rightProduct = D3DXVec3Dot(&direction, &right);
-
+			
 		if (forwardProduct >= 0.92f) { model->SetAnimationBlend("Forward_Jog", true); }
 		//else if (forwardProduct < 0.92f && forwardProduct >= 0.38f) { model->SetAnimationBlend("Forward_Right_Jog", true); }
 		//else if (forwardProduct < 0.38f && forwardProduct >= -0.38f) { model->SetAnimationBlend("Right_Jog", true); }
@@ -473,6 +480,16 @@ void PlayerMovement::AimingMove()
 
 void PlayerMovement::Roll()
 {
+	timerVector["invincibilityCounter"] += Time::deltaTime;
+	if (timerVector["invincibilityCounter"] <= Time::deltaTime * 10.0f)
+	{
+		invincibility = true;
+	}
+	else
+	{
+		invincibility = false;
+	}
+
 	float lerper = Mathf::Lerp(cameraController->GetFollowSpeed().x, 0.012f, 0.5f);
 	cameraController->SetFollowSpeed(D3DXVECTOR3(lerper, cameraController->GetFollowSpeed().y, cameraController->GetFollowSpeed().z));
 

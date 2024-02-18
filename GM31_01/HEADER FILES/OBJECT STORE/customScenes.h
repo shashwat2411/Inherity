@@ -48,6 +48,8 @@ public:
 		}
 		return nullptr;
 	}
+
+	void Resume();
 };
 class RESULT_SCENE : public SCENE
 {

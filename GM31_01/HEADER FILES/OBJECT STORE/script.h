@@ -23,6 +23,7 @@ public:
 	bool diagonal;
 	bool aim;
 	bool gunSelection;
+	bool invincibility;
 
 	int idleCounter;
 
@@ -54,6 +55,7 @@ public:
 
 	void SetState(PLAYER_STATE value) { playerState = value; }
 
+	bool GetInvincibility() { return invincibility; }
 	PlayerMovement::PLAYER_STATE GetState() { return playerState; }
 
 	void NormalMove();
@@ -78,6 +80,8 @@ class EnemyScript : public Script
 private:
 	bool death;
 
+	float attack;
+
 public:
 
 	void Start() override;
@@ -86,6 +90,9 @@ public:
 	void Draw() override;
 
 	void EngineDisplay() override;
+
+	void SetAttack(float value) { attack = value; }
+	float GetAttack() { return attack; }
 
 	void Death();
 };
@@ -244,6 +251,7 @@ public:
 private:
 	bool flip;
 	bool lock;
+	bool shot;
 
 	int index;
 	int nextIndex;
@@ -294,6 +302,7 @@ public:
 	void Dancing();
 
 	void SetStateToReturn();
+	void SetStateToFollow();
 
 	template<class Archive>
 	void serialize(Archive & archive)
@@ -479,8 +488,12 @@ public:
 	}
 	void Draw() override 
 	{
-		FADE* fade = (FADE*)gameObject;
-		fade->SetAlpha(value);
+		if (DebugManager::play == false || DebugManager::paused == true)
+		{
+			FADE* fade = (FADE*)gameObject;
+			fade->SetAlpha(value);
+			fade->GetMaterial()->SetFloat("_Threshold", value);
+		}
 	}
 
 	void EngineDisplay() override
@@ -497,8 +510,11 @@ public:
 class PauseMenuScript : public Script
 {
 private:
-	D3DXVECTOR3 selectedSize;
-	D3DXVECTOR3 originalSize;
+	float selectedSize;
+	float originalSize;
+	float distance;
+
+	IMAGE* options[3];
 
 public:
 
@@ -507,6 +523,7 @@ public:
 
 	void EngineDisplay() override;
 
+	void ChangeScene();
 };
 
 //Camera Scripts
