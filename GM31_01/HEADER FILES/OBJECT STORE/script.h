@@ -23,6 +23,7 @@ public:
 	bool diagonal;
 	bool aim;
 	bool gunSelection;
+	bool invincibility;
 
 	int idleCounter;
 
@@ -54,6 +55,7 @@ public:
 
 	void SetState(PLAYER_STATE value) { playerState = value; }
 
+	bool GetInvincibility() { return invincibility; }
 	PlayerMovement::PLAYER_STATE GetState() { return playerState; }
 
 	void NormalMove();
@@ -78,6 +80,8 @@ class EnemyScript : public Script
 private:
 	bool death;
 
+	float attack;
+
 public:
 
 	void Start() override;
@@ -86,6 +90,9 @@ public:
 	void Draw() override;
 
 	void EngineDisplay() override;
+
+	void SetAttack(float value) { attack = value; }
+	float GetAttack() { return attack; }
 
 	void Death();
 };
@@ -244,6 +251,7 @@ public:
 private:
 	bool flip;
 	bool lock;
+	bool shot;
 
 	int index;
 	int nextIndex;
@@ -260,11 +268,14 @@ private:
 	MeshFilter* model;
 	GAMEOBJECT* target;
 	GAMEOBJECT* seeker;
+	GAMEOBJECT* attackDistance;
 
 	std::string targetName;
 	std::vector<GAMEOBJECT*> points;
 
 public:
+
+	ArtificialIntelligence() { name = "ArtificialIntelligence"; }
 
 	void Start() override;
 	void End() override;
@@ -291,6 +302,19 @@ public:
 	void Dancing();
 
 	void SetStateToReturn();
+	void SetStateToFollow();
+
+	template<class Archive>
+	void serialize(Archive & archive)
+	{
+		archive(
+			cereal::virtual_base_class<Component>(this),
+			CEREAL_NVP(lock),
+			CEREAL_NVP(flip),
+			CEREAL_NVP(distance),
+			cereal::make_nvp("followDistance", timerVector["followDistance"])
+		);
+	}
 };
 class ScreenToWorld : public Script
 {
@@ -454,33 +478,29 @@ public:
 class MiniMapVariable : public Script
 {
 private:
-	float clip;
-	float radius;
-	float outline;
-	float dotRadius;
+	float value;
 
 public:
 
 	void Start() override 
 	{
-		radius = 0.45f;
-		outline = 0.04f;
-		dotRadius = 0.021f;
+		value = 0.0f;
 	}
-	void Update() override 
+	void Draw() override 
 	{
-		gameObject->GetMaterial()->SetFloat("_Radius", radius);
-		gameObject->GetMaterial()->SetFloat("_Outline", outline);
-		gameObject->GetMaterial()->SetFloat("_Dot_Radius", dotRadius);
+		if (DebugManager::play == false || DebugManager::paused == true)
+		{
+			FADE* fade = (FADE*)gameObject;
+			fade->SetAlpha(value);
+			fade->GetMaterial()->SetFloat("_Threshold", value);
+		}
 	}
 
 	void EngineDisplay() override
 	{
 		if (ImGui::TreeNode("Mini Map Variable"))
 		{
-			DebugManager::FloatDisplay(&radius, -FLT_MIN, "Radius", true, D3DXVECTOR2(0.01f, 0.0f), 1);
-			DebugManager::FloatDisplay(&outline, -FLT_MIN, "Outline", true, D3DXVECTOR2(0.01f, 0.0f), 2);
-			DebugManager::FloatDisplay(&dotRadius, -FLT_MIN, "Dot Outline", true, D3DXVECTOR2(0.001f, 0.0f), 3);
+			DebugManager::FloatDisplay(&value, -FLT_MIN, "Alpha", true, D3DXVECTOR2(0.01f, 0.0f), 1);
 
 			ImGui::TreePop();
 			ImGui::Spacing();
@@ -490,8 +510,11 @@ public:
 class PauseMenuScript : public Script
 {
 private:
-	D3DXVECTOR3 selectedSize;
-	D3DXVECTOR3 originalSize;
+	float selectedSize;
+	float originalSize;
+	float distance;
+
+	IMAGE* options[3];
 
 public:
 
@@ -500,6 +523,7 @@ public:
 
 	void EngineDisplay() override;
 
+	void ChangeScene();
 };
 
 //Camera Scripts

@@ -33,30 +33,49 @@ void EnemyScript::Update()
 
 	if (death == false)
 	{
-		std::vector<BULLET*> bullets = Manager::GetScene()->FindGameObjects<BULLET>();
-		SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
-
-		for (GAMEOBJECT* bullet : bullets)
+		D3DXVECTOR3 displacement = gameObject->transform->Position - Manager::GetScene()->GetPlayer()->transform->Position;
+		float distance = D3DXVec3Length(&displacement);
+		if (distance < 80.0f)
 		{
+			gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(true);
+
+			std::vector<BULLET*> bullets = Manager::GetScene()->FindGameObjects<BULLET>();
+			SphereCollider* collider = gameObject->GetComponent<SphereCollider>();
+
 			if (collider->GetColliderObject())
 			{
-				D3DXVECTOR3 distance;
-				distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
-				float length = D3DXVec3Length(&distance);
-
-				if (length < collider->GetCollisionSize() + bullet->transform->Scale.x)
+				for (GAMEOBJECT* bullet : bullets)
 				{
-					BulletScript* script = bullet->GetComponent<BulletScript>();
-					if (script)
-					{
-						script->OnDestruction(true);
-					}
+					D3DXVECTOR3 distance;
+					distance = bullet->transform->Position - collider->GetColliderObject()->transform->GlobalPosition;
+					float length = D3DXVec3Length(&distance);
 
-					EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
-					if (health) { health->Damage(1.0f); }
+					if (length < collider->GetCollisionSize() + bullet->transform->Scale.x)
+					{
+						BulletScript* script = bullet->GetComponent<BulletScript>();
+						if (script)
+						{
+							script->OnDestruction(true);
+						}
+
+						EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
+						if (health) 
+						{ 
+							health->Damage(8.0f);
+
+							GAMEOBJECT* child = gameObject->GetChildren()[0];
+							//child->GetComponent<MeshFilter>()->SetAnimationBlend("Enemy_Damage", false, 0.001f);
+							child->SetColor(D3DXCOLOR(child->GetColor().r, child->GetColor().g, child->GetColor().b, child->GetColor().a + 0.75f));
+
+							gameObject->GetComponent<ArtificialIntelligence>()->SetStateToFollow();
+						}
+					}
 				}
 			}
 		}
+
+		if (distance > 140.0f) { gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(false); }
+		else{ gameObject->GetChildren()[0]->GetComponent<MeshFilter>()->SetDraw(true); }
 	}
 }
 

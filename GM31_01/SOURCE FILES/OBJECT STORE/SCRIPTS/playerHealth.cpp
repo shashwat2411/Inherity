@@ -85,6 +85,12 @@ bool PlayerHealth::Damage(float damage)
 	{
 		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
 		PARTICLESYSTEM* effect = game->GetParticleEffect(GAME_SCENE::ENEMY_TO_PLAYER);
+		PlayerMovement* playerMove = gameObject->GetComponent<PlayerMovement>();
+
+		if (playerMove->GetInvincibility() == true) 
+		{
+			return false; 
+		}
 
 		if (effect != nullptr && effect->particleSystem != nullptr)
 		{
@@ -98,12 +104,13 @@ bool PlayerHealth::Damage(float damage)
 		if ((hp - damage) > 0.0f) 
 		{ 
 			hp -= damage;
-			gameObject->GetComponent<PlayerMovement>()->SetState(PlayerMovement::HIT_PS);
+			playerMove->SetState(PlayerMovement::HIT_PS);
+			invincible = true;
 		}
 		else
 		{
 			hp = 0.0f;
-			gameObject->GetComponent<PlayerMovement>()->SetState(PlayerMovement::DEATH_PS);
+			playerMove->SetState(PlayerMovement::DEATH_PS);
 
 			std::vector<ENEMY*> enemies = Manager::GetScene()->FindGameObjects<ENEMY>();
 			for (ENEMY* enemy : enemies)
@@ -111,8 +118,6 @@ bool PlayerHealth::Damage(float damage)
 				enemy->GetComponent<ArtificialIntelligence>()->Dancing();
 			}
 		}
-
-		invincible = true;
 
 		return true;
 	}

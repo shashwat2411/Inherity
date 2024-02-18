@@ -1,5 +1,6 @@
 #include "customScenes.h"
 #include "animations.h"
+#include "postProcessManager.h"
 
 IMAGE* shadow;
 IMAGE* aimer;
@@ -11,6 +12,9 @@ bool pauseReturn = false;
 
 void GAME_SCENE::Init()
 {
+	PostProcessManager::RemovePoster<DrunkMaterial>();
+	PostProcessManager::AddPoster<PostProcessMaterial>();
+
 	name = "game";
 
 	//ïœêî
@@ -26,7 +30,6 @@ void GAME_SCENE::Init()
 	map = AddGameObject<EMPTYOBJECT>("Map");
 
 
-	srand(0);	//Seed Value for the random numbers
 	//Field Objects
 	/*
 	for (int i = 0; i < 20; i++)
@@ -105,7 +108,6 @@ void GAME_SCENE::Init()
 		pause->GetComponent<Animator>()->SetCurrentIndex(0);
 
 		minimap->AddMaterial<MiniMapMaterial>();
-		minimap->AddComponent<MiniMapVariable>();
 
 		player->GetComponent<PlayerMovement>()->aimPoint = aimer->GetComponent<ScreenToWorld>()->GetPoint();
 	}
@@ -195,7 +197,7 @@ void GAME_SCENE::LateInit()
 		{
 			particleEffect[layer].clear();
 
-			for (int i = 0; i < 50; i++)
+			for (int i = 0; i < (layer != ENEMY_TO_PLAYER ? 50 : 10); i++)
 			{
 				std::string name = "effect_" + std::to_string((int)layer) + "_" + std::to_string(i);
 
@@ -231,29 +233,51 @@ void GAME_SCENE::LateInit()
 			r = rand() % 256;
 			g = rand() % 256;
 			b = rand() % 256;
-			enemy->GetChildren()[0]->SetColor(D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+			enemy->GetChildren()[0]->SetColor(D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 0.0f));
 
 			r = rand() % 256;
 			g = rand() % 256;
 			b = rand() % 256;
 			enemy->GetChildren()[0]->GetMaterial()->SetColor("_Dissolve_Color", D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
+		}
 
-			int a = rand() % 6;
-			float scale = 0.5f + float(a) / 10.0f;
+		srand(0);	//Seed Value for the random numbers
+
+		for (ENEMY* enemy : enemies)
+		{
+			int a = rand() % 10;
+			float scale = 1.3f + float(a) / 10.0f;
 			enemy->transform->Scale = D3DXVECTOR3(scale, scale, scale);
+
+			SphereCollider* collider = enemy->GetComponent<SphereCollider>();
+			if (collider) 
+			{ 
+				collider->scaleOffset = 1.0f / enemy->transform->Scale.x;
+			}
+
+			collider = enemy->GetChildren()[0]->GetChildren()[0]->GetComponent<SphereCollider>();
+			if (collider)
+			{
+				collider->scaleOffset = 1.0f / (enemy->transform->Scale.x * enemy->GetChildren()[0]->transform->Scale.x * enemy->GetChildren()[0]->GetChildren()[0]->transform->Scale.x);
+			}
 
 			EnemyHealth* health = enemy->GetComponent<EnemyHealth>();
 			health->SetOffset(D3DXVECTOR3(health->GetOffset().x, 2.85f / 0.6f * scale, health->GetOffset().z));
 			health->SetHealth(1000.0f / 0.6f * scale);
+			health->GetHealthObject()->transform->Scale = D3DXVECTOR3(scale * 0.2f, scale * 0.5f / 3.0f, 0.1f);
+
+			enemy->GetComponent<EnemyScript>()->SetAttack(50.0f / 0.6f * scale);
 		}
 	}
 
 	pause->AddComponent<PauseMenuScript>();
+
+	//if (GameObjects[FADE_LAYER].empty()) { GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade")); }
 }
 
 void GAME_SCENE::Update()
 {
-	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
+	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { pause->GetComponent<PauseMenuScript>()->ChangeScene(); } }
 
 	Animator* pauser = pause->GetComponent<Animator>();
 	if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
@@ -281,9 +305,10 @@ void GAME_SCENE::Update()
 		}
 	}
 
-	if (Input::GetButtonTrigger(CHANGE_KEYMAP))
-	{
-		SetEnd();
-	}
+}
 
+void GAME_SCENE::Resume()
+{
+	pause->GetComponent<Animator>()->PlayAnimation(1, Animation::PLAYBACK);
+	pauseReturn = true;
 }

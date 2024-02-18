@@ -254,3 +254,12 @@ public:
 	void Update() override {}
 	void Draw() override;
 };
+class DrunkMaterial : public Material
+{
+public:
+
+	void Start() override;
+
+	void Update() override;
+	void Draw() override;
+};

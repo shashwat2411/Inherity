@@ -144,15 +144,22 @@ void GAMEOBJECT::Draw()
 					D3DXMatrixMultiply(&temp, &convert, &Parent->GetWorldMatrix());
 
 					D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->Position, &temp); //Global Position
+					D3DXVec3TransformCoord(&transform->GlobalScale, &transform->Scale, &temp); //Global Scale
 					D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &temp); //World = World * Parent->World
 				}
 				else
 				{
 					D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->Position, &Parent->GetWorldMatrix()); //Global Position
+					D3DXVec3TransformCoord(&transform->GlobalScale, &transform->Scale, &Parent->GetWorldMatrix()); //Global Scale
+
 					D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &Parent->GetWorldMatrix()); //World = World * Parent->World
 				}
 			}
-			else { transform->GlobalPosition = transform->Position; }
+			else 
+			{ 
+				transform->GlobalPosition = transform->Position; 
+				transform->GlobalScale = transform->Scale; 
+			}
 
 			//if (parentMatrixEnable == true)
 			//{
@@ -352,19 +359,20 @@ void GAMEOBJECT::serialize(Archive & archive)
 	
 	for (auto com : components)
 	{
-		if		(Transform* caster		= dynamic_cast<Transform*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if	(Rigidbody* caster		= dynamic_cast<Rigidbody*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if	(SpriteRenderer* caster	= dynamic_cast<SpriteRenderer*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if	(Billboard* caster		= dynamic_cast<Billboard*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (Camera* caster			= dynamic_cast<Camera*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (Number* caster			= dynamic_cast<Number*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (SphereCollider* caster = dynamic_cast<SphereCollider*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (BoxCollider* caster	= dynamic_cast<BoxCollider*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (ParticleSystem* caster = dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (AudioSource* caster	= dynamic_cast<AudioSource*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (MeshFilter* caster		= dynamic_cast<MeshFilter*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (ParticleSystem* caster	= dynamic_cast<ParticleSystem*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
-		else if (MapCollision* caster	= dynamic_cast<MapCollision*>(com))		{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		if		(Transform* caster				= dynamic_cast<Transform*>(com))				{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(Rigidbody* caster				= dynamic_cast<Rigidbody*>(com))				{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(SpriteRenderer* caster			= dynamic_cast<SpriteRenderer*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if	(Billboard* caster				= dynamic_cast<Billboard*>(com))				{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (Camera* caster					= dynamic_cast<Camera*>(com))					{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (Number* caster					= dynamic_cast<Number*>(com))					{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (SphereCollider* caster			= dynamic_cast<SphereCollider*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (BoxCollider* caster			= dynamic_cast<BoxCollider*>(com))				{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (ParticleSystem* caster			= dynamic_cast<ParticleSystem*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (AudioSource* caster			= dynamic_cast<AudioSource*>(com))				{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (MeshFilter* caster				= dynamic_cast<MeshFilter*>(com))				{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (ParticleSystem* caster			= dynamic_cast<ParticleSystem*>(com))			{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (MapCollision* caster			= dynamic_cast<MapCollision*>(com))				{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
+		else if (ArtificialIntelligence* caster	= dynamic_cast<ArtificialIntelligence*>(com))	{ archive(cereal::make_nvp(caster->name.c_str(), *caster)); }
 	}
 
 	if (mat != nullptr) { archive(cereal::make_nvp("Material", *mat)); }

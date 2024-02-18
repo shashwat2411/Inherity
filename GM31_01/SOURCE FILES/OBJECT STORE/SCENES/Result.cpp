@@ -1,7 +1,11 @@
 #include "customScenes.h"
+#include "postProcessManager.h"
 
 void RESULT_SCENE::Init()
 {
+	PostProcessManager::RemovePoster<PostProcessMaterial>();
+	PostProcessManager::AddPoster<DrunkMaterial>();
+
 	name = "result";
 
 	//GAMEOBJECT
@@ -23,7 +27,7 @@ void RESULT_SCENE::Init()
 
 	//‰¹
 	{
-		SoundReader::GetReadSound(SoundReader::GAME)->Play(true, 0.2f);
+		SoundReader::GetReadSound(SoundReader::BATTLE)->Play(true, 0.2f);
 	}
 }
 

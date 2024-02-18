@@ -91,6 +91,9 @@
     <Filter Include="☯️SHADER\🎡VERTEX SHADER\Post Process">
       <UniqueIdentifier>{5de36c4a-d196-4a46-a591-6210c7f59378}</UniqueIdentifier>
     </Filter>
+    <Filter Include="1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS\Post Process">
+      <UniqueIdentifier>{a66247e3-b012-46ef-988f-173d3a8b1200}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="HEADER FILES\MANAGEMENT FUNCTIONS\gameobject.h">
@@ -413,9 +416,6 @@
     <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\GaugeMaterial.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\PostProcessMaterial.cpp">
-      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
-    </ClCompile>
     <ClCompile Include="SOURCE FILES\MANAGEMENT FUNCTIONS\InputController.cpp">
       <Filter>1🖥️SOURCE FILES\🎓MANAGEMENT FUNCTIONS</Filter>
     </ClCompile>
@@ -439,15 +439,6 @@
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCENES\Load.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCENES</Filter>
-    </ClCompile>
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\LuminanceMaterial.cpp">
-      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
-    </ClCompile>
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\BloomMaterial.cpp">
-      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
-    </ClCompile>
-    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MergeMaterial.cpp">
-      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS</Filter>
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\COMPONENTS\postProcess.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\COMPONENTS</Filter>
@@ -517,6 +508,21 @@
     </ClCompile>
     <ClCompile Include="SOURCE FILES\OBJECT STORE\SCRIPTS\pauseMenuScript.cpp">
       <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\SCRIPTS</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\BloomMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS\Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\DrunkMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS\Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\LuminanceMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS\Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\MergeMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS\Post Process</Filter>
+    </ClCompile>
+    <ClCompile Include="SOURCE FILES\OBJECT STORE\MATERIALS\PostProcessMaterial.cpp">
+      <Filter>1🖥️SOURCE FILES\🍏OBJECT STORE\MATERIALS\Post Process</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -626,6 +632,12 @@
       <Filter>☯️SHADER\🎨PIXEL SHADER</Filter>
     </FxCompile>
     <FxCompile Include="shader\postNoisePS.hlsl">
+      <Filter>☯️SHADER\🎨PIXEL SHADER\Post Process</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\drunkVS.hlsl">
+      <Filter>☯️SHADER\🎡VERTEX SHADER\Post Process</Filter>
+    </FxCompile>
+    <FxCompile Include="shader\drunkPS.hlsl">
       <Filter>☯️SHADER\🎨PIXEL SHADER\Post Process</Filter>
     </FxCompile>
   </ItemGroup>

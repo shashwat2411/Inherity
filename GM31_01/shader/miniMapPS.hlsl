@@ -22,7 +22,6 @@ void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 
 	if (moveon == true)
 	{
-		//float2 texCoord = float2(In.TexCoord.x + color.x - center.x, In.TexCoord.y - color.z - center.y);
 		float2 texCoord = In.TexCoord.xy - color.xz - center.xy;
 		texCoord = texCoord * 0.5f + 0.5f;
 

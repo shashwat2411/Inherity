@@ -32,7 +32,7 @@
 #pragma warning(pop)
 
 #define DEBUG
-#define FRAME_RATE 50.0f
+#define FRAME_RATE 60.0f
 
 #pragma comment (lib, "winmm.lib")
 #pragma comment (lib, "d3d11.lib")
@@ -68,3 +68,4 @@ long GetMouseZ(void);               // マウスホイールが動いた相対値
 
 long GetMousePosX(void);
 long GetMousePosY(void);
+int GetFrameRate();

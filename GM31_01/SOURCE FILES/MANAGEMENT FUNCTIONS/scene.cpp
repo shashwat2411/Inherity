@@ -35,6 +35,31 @@ void SCENE::Uninit()
 		}
 
 		GameObjects[i].clear();
+		//if (i != FADE_LAYER)
+		//{
+		//	for (auto var : GameObjects[i])
+		//	{
+		//		var->UnInitialize();
+		//		delete var;
+		//	}
+		//	GameObjects[i].clear();
+		//}
+		//else
+		//{
+		//	if (player == nullptr)
+		//	{
+		//		for (auto var : GameObjects[i])
+		//		{
+		//			var->UnInitialize();
+		//			delete var;
+		//		}
+		//		GameObjects[i].clear();
+		//	}
+		//	else
+		//	{
+
+		//	}
+		//}
 	}
 	SoundReader::StopAllSound();
 }

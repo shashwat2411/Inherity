@@ -174,6 +174,7 @@ public:
 	D3DXVECTOR3 Scale;
 
 	D3DXVECTOR3 GlobalPosition;
+	D3DXVECTOR3 GlobalScale;
 
 	D3DXQUATERNION Quaternion;
 
@@ -324,6 +325,7 @@ class MeshFilter :public Component
 private:
 	bool fbx;
 	bool stop;
+	bool draw;
 
 	int modelIndex;
 
@@ -363,6 +365,9 @@ public:
 
 	void SetStop(bool value) { stop = value; }
 	bool GetStop() { return stop; }
+
+	void SetDraw(bool value) { draw = value; }
+	bool GetDraw() { return draw; }
 
 	void SetModel(ModelReader::READ_MODEL_FBX index);
 	void SetModel(ModelReader::READ_MODEL_OBJ index);

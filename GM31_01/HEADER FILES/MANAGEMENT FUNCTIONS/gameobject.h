@@ -135,6 +135,7 @@ public:
 	void SetReflection(bool value)		{ reflection = value; }
 	void SetGeometry(bool value)		{ geometry = value; }
 	void SetQuaternion(bool value)		{ quaternion = value; }
+	void SetSave(bool value)			{ save = value; }
 
 	void SetID(int value)			{ id = value; }
 	void SetRingCounter(int value)	{ RingCounter = value; }

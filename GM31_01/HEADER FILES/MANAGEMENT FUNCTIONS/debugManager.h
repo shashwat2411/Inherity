@@ -16,6 +16,7 @@ public:
 	static bool paused;
 	static bool gizmo;
 	static bool show_demo_window;
+	static bool debugger;
 
 	static int index;
 	static int layer;

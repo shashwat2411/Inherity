@@ -9,7 +9,7 @@ void ENEMYDAMAGE::Start()
 	active = false;
 	save = false;
 
-	particleSystem->size = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
+	particleSystem->size = D3DXVECTOR3(0.4f, 0.4f, 0.4f);
 
 	particleSystem->SetParticleCount(25);
 	particleSystem->burst = true;

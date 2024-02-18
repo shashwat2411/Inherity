@@ -33,7 +33,6 @@ public:
 		archive(cereal::make_nvp("class", name), CEREAL_NVP(number));
 	}
 };
-
 class AddComponentSaveFile
 {
 public:
