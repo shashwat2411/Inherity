@@ -291,6 +291,7 @@ class FADE : public GAMEOBJECT
 private:
 	bool fadeIn;
 	bool fadeOut;
+	bool soundPlay;
 
 	float alpha;
 	float speed;

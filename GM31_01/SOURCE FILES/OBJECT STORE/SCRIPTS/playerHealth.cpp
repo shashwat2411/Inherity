@@ -106,6 +106,8 @@ bool PlayerHealth::Damage(float damage)
 			hp -= damage;
 			playerMove->SetState(PlayerMovement::HIT_PS);
 			invincible = true;
+
+			SoundReader::GetReadSound(SoundReader::KNIFE_DAMAGE)->Play(false, 0.3f);
 		}
 		else
 		{
@@ -117,6 +119,11 @@ bool PlayerHealth::Damage(float damage)
 			{
 				enemy->GetComponent<ArtificialIntelligence>()->Dancing();
 			}
+
+			Manager::GetScene()->GetCamera()->GetComponent<AudioSource>()->SetVolume(0.07f);
+			SoundReader::GetReadSound(SoundReader::GAMEOVER)->Play(false, 0.3f);
+			SoundReader::GetReadSound(SoundReader::PLAYER_DEATH)->Play(false, 0.3f);
+			SoundReader::GetReadSound(SoundReader::ENEMY_DANCE)->Play(true, 0.1f);
 		}
 
 		return true;

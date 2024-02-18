@@ -74,9 +74,9 @@ public:
 		sprintf_s(str, sizeof(str), "Timer : %.2f", *var);
 
 #ifdef DEBUG
-		ImGui::Begin("Time"/*, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize*/);
-		ImGui::Text(str);
-		ImGui::End();
+		//ImGui::Begin("Time"/*, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize*/);
+		//ImGui::Text(str);
+		//ImGui::End();
 #endif
 
 		if (*var > time) { return true; }

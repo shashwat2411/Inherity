@@ -7,33 +7,33 @@ int pauseMenuSelection = 0;
 void PauseMenuScript::Start()
 {
 	options[0] = Manager::GetScene()->AddGameObject<IMAGE>("Resume", SPRITE_LAYER);
-	options[0]->GetMaterial()->SetTexture("_Texture", TextureReader::HOME2_T);
+	options[0]->GetMaterial()->SetTexture("_Texture", TextureReader::RESUME_BUTTON_T);
 	options[0]->transform->Position.x = -30.0f;
 
 	options[1] = Manager::GetScene()->AddGameObject<IMAGE>("Restart", SPRITE_LAYER);
-	options[1]->GetMaterial()->SetTexture("_Texture", TextureReader::HOME2_T);
+	options[1]->GetMaterial()->SetTexture("_Texture", TextureReader::RELOAD_BUTTON_T);
 	options[1]->transform->Position.x = 0.0f;
 
 	options[2] = Manager::GetScene()->AddGameObject<IMAGE>("Home", SPRITE_LAYER);
-	options[2]->GetMaterial()->SetTexture("_Texture", TextureReader::HOME2_T);
+	options[2]->GetMaterial()->SetTexture("_Texture", TextureReader::HOME_BUTTON_T);
 	options[2]->transform->Position.x = 30.0f;
 
 	originalSize = 0.4f;
 	selectedSize = 0.5f;
-	distance = 100.0f;
+	distance = D3DXVECTOR3(100.0f, 45.0f, 0.0f);
 
 }
 
 
 void PauseMenuScript::Draw()
 {
-	options[0]->transform->Position.x = gameObject->transform->Position.x - distance;
+	options[0]->transform->Position.x = gameObject->transform->Position.x - (distance.x * gameObject->transform->Scale.x);
 	options[1]->transform->Position.x = gameObject->transform->Position.x;
-	options[2]->transform->Position.x = gameObject->transform->Position.x + distance;
+	options[2]->transform->Position.x = gameObject->transform->Position.x + (distance.x * gameObject->transform->Scale.x);
 
 	for (int i = 0; i < 3; i++)
 	{
-		options[i]->transform->Position.y = gameObject->transform->Position.y;
+		options[i]->transform->Position.y = gameObject->transform->Position.y + (distance.y * gameObject->transform->Scale.y);
 		options[i]->transform->Scale = originalSize * gameObject->transform->Scale;
 	}
 
@@ -83,7 +83,8 @@ void PauseMenuScript::EngineDisplay()
 
 		DebugManager::FloatDisplay(&originalSize, -FLT_MIN, "Original Size", true, D3DXVECTOR2(0.01f, 0.0f), 1);
 		DebugManager::FloatDisplay(&selectedSize, -FLT_MIN, "Selected Size", true, D3DXVECTOR2(0.01f, 0.0f), 2);
-		DebugManager::FloatDisplay(&distance, -FLT_MIN, "Distance", true, D3DXVECTOR2(0.01f, 0.0f), 3);
+
+		DebugManager::Float3Display(&distance, -1.0f, "Offset ", 0.05f, 3);
 
 		ImGui::TreePop();
 		ImGui::Spacing();

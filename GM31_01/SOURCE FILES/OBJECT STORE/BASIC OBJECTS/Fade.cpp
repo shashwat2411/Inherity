@@ -7,9 +7,10 @@ void FADE::Init()
 	depth = false;
 	fadeIn = true;
 	fadeOut = false;
+	soundPlay = false;
 
 	alpha = 1.0f;
-	speed = 0.02f; //0.05f
+	speed = 0.04f; //0.05f
 
 	Color = D3DXCOLOR(1.0f, 1.0, 1.0f, 1.0f);
 
@@ -30,8 +31,9 @@ void FADE::Update()
 {
 	if (fadeIn == true)
 	{
-		if (alpha > 0.01f) { alpha = Mathf::Lerp(alpha, 0.0f, 0.03f); }
-		else { alpha = 0.0f; fadeIn = false; }
+		if (soundPlay == false) { soundPlay = true; SoundReader::GetReadSound(SoundReader::BLOOD_IN)->Play(false, 0.15f); }
+		if (alpha > 0.01f) { alpha = Mathf::Lerp(alpha, 0.0f, speed); }
+		else { alpha = 0.0f; fadeIn = false; soundPlay = false; }
 
 	}
 
@@ -41,9 +43,10 @@ void FADE::Update()
 bool FADE::FadeOut()
 {
 	fadeOut = true;
+	if (soundPlay == false) { soundPlay = true; SoundReader::GetReadSound(SoundReader::BLOOD_OUT)->Play(false, 0.2f); }
 
-	if (alpha > -0.99f) { alpha = Mathf::Lerp(alpha, -1.0f, 0.03f); }
-	else { alpha = -1.0f; fadeOut = false; }
+	if (alpha > -0.99f) { alpha = Mathf::Lerp(alpha, -1.0f, speed); }
+	else { alpha = -1.0f; fadeOut = false; soundPlay = false; }
 
 	return fadeOut;
 }

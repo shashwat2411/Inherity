@@ -512,7 +512,8 @@ class PauseMenuScript : public Script
 private:
 	float selectedSize;
 	float originalSize;
-	float distance;
+
+	D3DXVECTOR3 distance;
 
 	IMAGE* options[3];
 
