@@ -5,7 +5,7 @@ std::vector<POSTPROCESS*> PostProcessManager::posters{};
 
 void PostProcessManager::Init()
 {
-	AddPoster<PostProcessMaterial>();
+	AddPoster<DrunkMaterial>();
 	//AddPoster<LuminanceMaterial>();
 	//AddPoster<BloomMaterial>();
 	//AddPoster<MergeMaterial>();
@@ -53,5 +53,5 @@ void PostProcessManager::Draw()
 
 	Renderer::Begin();
 	Renderer::SetDefaultViewPort();
-	GetPoster<PostProcessMaterial>()->Draw();
+	posters[0]->Draw();
 }

@@ -13,10 +13,12 @@ public:
 		GUARD,
 		OPTION_SELECT,
 		OPTION_CHANGE,
+		KNIFE_DAMAGE,
+		GAMEOVER,
 
 		//BGM
 		TITLE,
-		GAME,
+		BATTLE,
 
 		READ_SOUND_MAX
 	};
@@ -38,18 +40,22 @@ public:
 		Audios[GUARD].Load					("asset\\sound\\wan.wav");
 		Audios[OPTION_SELECT].Load			("asset\\sound\\optionSelect.wav");
 		Audios[OPTION_CHANGE].Load			("asset\\sound\\optionChange.wav");
+		Audios[KNIFE_DAMAGE].Load			("asset\\sound\\Tomatos_Melancholy_2\\Knife.wav");
+		Audios[GAMEOVER].Load				("asset\\sound\\Tomatos_Melancholy_2\\GameOver.wav");
 
 		//BGM
-		Audios[TITLE].Load					("asset\\sound\\titleBGM.wav");
-		Audios[GAME].Load					("asset\\sound\\bgm.wav");
+		Audios[TITLE].Load					("asset\\sound\\Tomatos_Melancholy_2\\MainMenu.wav");
+		Audios[BATTLE].Load					("asset\\sound\\Tomatos_Melancholy_2\\Battle.wav");
 
 		//NAMING
 		soundNames[GUARD]			= "GUARD";
 		soundNames[OPTION_SELECT]	= "OPTION SELECT";
 		soundNames[OPTION_CHANGE]	= "OPTION CHANGE";
+		soundNames[KNIFE_DAMAGE]	= "KNIFE DAMAGE";
+		soundNames[GAMEOVER]		= "GAME OVER";
 
 		soundNames[TITLE]			= "TITLE";
-		soundNames[GAME]			= "GAME";
+		soundNames[BATTLE]			= "BATTLE";
 
 		//for (int i = 0; i < SoundReader::READ_SOUND_MAX; i++)
 		//{

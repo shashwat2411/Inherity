@@ -3,24 +3,13 @@
 
 Texture2D g_Texture : register(t0);
 Texture2D g_WipeTexture : register(t1);
-SamplerState g_SamplerState : register(s0);
+SamplerState g_MirrorSamplerState : register(s2);
 
 
 void main(in PS_IN In, out float4 outDiffuse : SV_Target)
 {
-	//float2 coord = float2(In.TexCoord.x, max(In.TexCoord.y, 0.5f));
+	float offset = dissolveThreshold;
 
-	outDiffuse = g_Texture.Sample(g_SamplerState, In.TexCoord);
+	outDiffuse = g_Texture.Sample(g_MirrorSamplerState, In.TexCoord - float2(0.0f, -offset - 0.34f));
 	outDiffuse *= In.Diffuse;
-	//outDiffuse.a = 1.0f;
-
-	//r ÇÃêFÇæÇØÇãÅÇﬂÇÈ
-	float dissolveValue = g_WipeTexture.Sample(g_SamplerState, In.TexCoord);
-	float threshold = dissolveThreshold * (1.0f + dissolveRange) - dissolveRange;
-	float rate = saturate((dissolveValue - threshold) / dissolveRange);
-
-	outDiffuse.a = rate;
-
-
-
 }

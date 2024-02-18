@@ -38,4 +38,17 @@ public:
 		return nullptr;
 	}
 
+	template<typename T>
+	static void RemovePoster()
+	{
+		POSTPROCESS* buff = GetPoster<T>();
+		if (buff != nullptr)
+		{
+			auto it = std::find(posters.begin(), posters.end(), buff);
+
+			buff->UnInitialize();
+			if (it != posters.end()) { posters.erase(it); }
+			delete buff;
+		}
+	}
 };

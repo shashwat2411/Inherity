@@ -301,6 +301,9 @@ public:
 	void Update() override;
 
 	bool GetFadeIn() { return fadeIn; }
+	bool GetFadeOut() { return fadeOut; }
+	float GetAlpha() { return alpha; }
+	float GetSpeed() { return speed; }
 
 	void SetFadeIn(bool value = true) { fadeIn = value; }
 	void SetFadeOut(bool value) { fadeOut = value; }

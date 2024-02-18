@@ -61,7 +61,7 @@ void EnemyScript::Update()
 						EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
 						if (health) 
 						{ 
-							health->Damage(5.0f);
+							health->Damage(8.0f);
 
 							GAMEOBJECT* child = gameObject->GetChildren()[0];
 							//child->GetComponent<MeshFilter>()->SetAnimationBlend("Enemy_Damage", false, 0.001f);

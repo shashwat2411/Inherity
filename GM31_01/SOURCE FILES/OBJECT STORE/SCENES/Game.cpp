@@ -1,5 +1,6 @@
 #include "customScenes.h"
 #include "animations.h"
+#include "postProcessManager.h"
 
 IMAGE* shadow;
 IMAGE* aimer;
@@ -11,6 +12,9 @@ bool pauseReturn = false;
 
 void GAME_SCENE::Init()
 {
+	PostProcessManager::RemovePoster<DrunkMaterial>();
+	PostProcessManager::AddPoster<PostProcessMaterial>();
+
 	name = "game";
 
 	//•Ï”
@@ -261,17 +265,19 @@ void GAME_SCENE::LateInit()
 			health->SetOffset(D3DXVECTOR3(health->GetOffset().x, 2.85f / 0.6f * scale, health->GetOffset().z));
 			health->SetHealth(1000.0f / 0.6f * scale);
 			health->GetHealthObject()->transform->Scale = D3DXVECTOR3(scale * 0.2f, scale * 0.5f / 3.0f, 0.1f);
+
+			enemy->GetComponent<EnemyScript>()->SetAttack(50.0f / 0.6f * scale);
 		}
 	}
 
 	pause->AddComponent<PauseMenuScript>();
 
-	//GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade"));
+	//if (GameObjects[FADE_LAYER].empty()) { GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade")); }
 }
 
 void GAME_SCENE::Update()
 {
-	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { Manager::SetScene<RESULT_SCENE>(); } }
+	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { pause->GetComponent<PauseMenuScript>()->ChangeScene(); } }
 
 	Animator* pauser = pause->GetComponent<Animator>();
 	if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
@@ -299,9 +305,10 @@ void GAME_SCENE::Update()
 		}
 	}
 
-	if (Input::GetButtonTrigger(CHANGE_KEYMAP))
-	{
-		SetEnd();
-	}
+}
 
+void GAME_SCENE::Resume()
+{
+	pause->GetComponent<Animator>()->PlayAnimation(1, Animation::PLAYBACK);
+	pauseReturn = true;
 }
