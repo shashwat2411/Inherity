@@ -713,14 +713,15 @@ void Renderer::Begin()
 {
 	m_DeviceContext->OMSetRenderTargets(1, &m_RenderTargetView, m_DepthStencilView);
 
-	float clearColor[4] = { 1.0f, 0.0f, 0.5f, 1.0f };
+	//float clearColor[4] = { 1.0f, 0.0f, 0.5f, 1.0f };
+	float clearColor[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	// バックバッファクリア
 		// バックバッファクリア
 	CAMERA* camera = Manager::GetScene()->GetCamera();
 	if (camera)
 	{
 		D3DXCOLOR color = camera->GetColor();
-		float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
+		//float clearColor[4] = { 1.0f, 0.0f, 0.0f, 1.0f };
 		clearColor[0] = color.r;
 		clearColor[1] = color.g;
 		clearColor[2] = color.b;

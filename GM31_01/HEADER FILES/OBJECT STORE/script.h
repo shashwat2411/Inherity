@@ -404,6 +404,7 @@ class PlayerHealth : public Script
 {
 private:
 	bool invincible;
+	bool death;
 
 	float hp;
 	float redHp;
@@ -412,6 +413,8 @@ private:
 	float thicknessY;
 
 	BAR* health;
+	IMAGE* icon;
+	IMAGE* sliced;
 
 public:
 
@@ -423,6 +426,8 @@ public:
 	void Draw() override;
 
 	void EngineDisplay() override;
+
+	bool GetDeath() { return death; }
 
 	bool Damage(float damage);
 	void Heal(float heal);

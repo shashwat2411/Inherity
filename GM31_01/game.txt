@@ -4798,7 +4798,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "ParticleSystem(Clone)": {
@@ -4917,7 +4917,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "Enemy HP": {
@@ -4954,7 +4954,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "Enemy HP": {
@@ -4991,7 +4991,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "Enemy HP": {
@@ -5028,7 +5028,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "Enemy HP": {
@@ -5065,7 +5065,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "Enemy HP": {
@@ -5102,7 +5102,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "Enemy HP": {
@@ -5139,7 +5139,7 @@
             "enabled": true
         },
         "Material": {
-            "textureIndex": 3
+            "textureIndex": 55
         }
     },
     "Player HP": {
@@ -5157,8 +5157,8 @@
                 "enabled": true
             },
             "Position": {
-                "x": 20.0,
-                "y": 488.0,
+                "x": 58.0,
+                "y": 498.0,
                 "z": -0.39998477697372439
             },
             "Rotation": {
@@ -5168,7 +5168,7 @@
             },
             "Scale": {
                 "x": 0.14000000059604646,
-                "y": 0.12600000202655793,
+                "y": 0.12999999523162843,
                 "z": 0.14000000059604646
             }
         },
@@ -5178,7 +5178,7 @@
             },
             "Size": {
                 "x": 130.0,
-                "y": 130.0
+                "y": 191.10000610351563
             },
             "TexCoord": {
                 "x": 1.0,
@@ -5193,6 +5193,112 @@
         },
         "Material": {
             "textureIndex": 3
+        }
+    },
+    "Player Icon": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 1.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 44.0,
+                "y": 499.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.02500000037252903,
+                "y": 0.02500000037252903,
+                "z": 0.10000000149011612
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 1488.0,
+                "y": 1402.0
+            },
+            "TexCoord": {
+                "x": 1.0,
+                "y": 1.0
+            },
+            "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 54
+        }
+    },
+    "Sliced": {
+        "active": true,
+        "shadow": false,
+        "Color": {
+            "r": 1.0,
+            "g": 1.0,
+            "b": 1.0,
+            "a": 0.0
+        },
+        "Parent": "nullptr",
+        "Transform": {
+            "Component": {
+                "enabled": true
+            },
+            "Position": {
+                "x": 464.0,
+                "y": 128.0,
+                "z": 0.0
+            },
+            "Rotation": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+            },
+            "Scale": {
+                "x": 0.30000001192092898,
+                "y": 0.30000001192092898,
+                "z": 1.0
+            }
+        },
+        "SpriteRenderer": {
+            "Component": {
+                "enabled": true
+            },
+            "Size": {
+                "x": 851.0,
+                "y": 342.0
+            },
+            "TexCoord": {
+                "x": 1.0,
+                "y": 1.0
+            },
+            "Color": {
+                "r": 1.0,
+                "g": 1.0,
+                "b": 1.0,
+                "a": 1.0
+            }
+        },
+        "Material": {
+            "textureIndex": 53
         }
     },
     "Aimer": {
@@ -5371,7 +5477,7 @@
             "Position": {
                 "x": 480.0,
                 "y": 272.25,
-                "z": 0.09999999403953552
+                "z": 0.0
             },
             "Rotation": {
                 "x": 0.0,
@@ -5477,7 +5583,7 @@
             "Position": {
                 "x": 480.0,
                 "y": 272.25,
-                "z": 0.09999999403953552
+                "z": 0.0
             },
             "Rotation": {
                 "x": 0.0,

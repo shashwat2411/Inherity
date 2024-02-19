@@ -103,6 +103,8 @@ void TITLE_SCENE::Init()
 	RemoveGameObject("Spawn Point Right", LATEOBJECT_LAYER);
 	RemoveGameObject("Damager", COLLIDER_LAYER);
 	RemoveGameObject("Player HP", SPRITE_LAYER);
+	RemoveGameObject("Player Icon", SPRITE_LAYER);
+	RemoveGameObject("Sliced", SPRITE_LAYER);
 
 	GAMEOBJECT* enemies[3];
 	for (int i = 0; i < 3; i++)

@@ -525,6 +525,6 @@ void PlayerMovement::Hit()
 	{
 		playerState = NORMAL_MOVE_PS;
 		timerVector["hitTimer"] = 0.0f;
-		model->SetAnimationBlend("Idle", true, 0.25f);
+		model->SetAnimationBlend("Idle", true, 0.15f);
 	}
 }

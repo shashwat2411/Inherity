@@ -72,6 +72,9 @@ public:
 		RESUME_BUTTON_T,
 		RELOAD_BUTTON_T,
 		HOME_BUTTON_T,
+		SLICED_T,
+		PLAYER_ICON_T,
+		HEALTH_BAR_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -144,6 +147,9 @@ public:
 		LoadTexture(&Textures[RESUME_BUTTON_T], "asset\\texture\\resumeButton.png");
 		LoadTexture(&Textures[RELOAD_BUTTON_T], "asset\\texture\\reloadButton.png");
 		LoadTexture(&Textures[HOME_BUTTON_T], "asset\\texture\\homeButton.png");
+		LoadTexture(&Textures[SLICED_T], "asset\\texture\\Sliced.png");
+		LoadTexture(&Textures[PLAYER_ICON_T], "asset\\texture\\playerIcon.png");
+		LoadTexture(&Textures[HEALTH_BAR_T], "asset\\texture\\healthBar.png");
 
 
 		//NAMES
@@ -205,6 +211,9 @@ public:
 		textureNames[RESUME_BUTTON_T]		= "RESUME BUTTON";
 		textureNames[RELOAD_BUTTON_T]		= "RELOAD BUTTON";
 		textureNames[HOME_BUTTON_T]			= "HOME BUTTON";
+		textureNames[SLICED_T]				= "SLICED";
+		textureNames[PLAYER_ICON_T]			= "PLAYER ICON";
+		textureNames[HEALTH_BAR_T]			= "HEALTH BAR";
 	}
 
 	static void UnReadTexture()

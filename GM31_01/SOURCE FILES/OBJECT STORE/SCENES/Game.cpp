@@ -296,14 +296,14 @@ void GAME_SCENE::Update()
 					Time::timeScale = 0.0f;
 					pauser->PlayAnimation(0, Animation::PLAYBACK);
 					paused = true;
-					SoundReader::GetReadSound(SoundReader::PAUSE_IN)->Play(false, 0.4f);
+					SoundReader::GetReadSound(SoundReader::PAUSE_IN)->Play(false, 0.2f);
 					MainCamera->GetComponent<AudioSource>()->SetVolume(0.05f);
 				}
 				else
 				{
 					pauser->PlayAnimation(1, Animation::PLAYBACK);
 					pauseReturn = true;
-					SoundReader::GetReadSound(SoundReader::PAUSE_OUT)->Play(false, 0.4f);
+					SoundReader::GetReadSound(SoundReader::PAUSE_OUT)->Play(false, 0.2f);
 				}
 			}
 

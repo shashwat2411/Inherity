@@ -19,6 +19,7 @@ void EnemyHealth::Start()
 	health->AddMaterial<GaugeMaterial>();
 	health->billboard->SetSize(D3DXVECTOR2(5.0f, 1.0f));
 	health->SetBillboard(true);
+	health->GetMaterial()->SetTexture("_Texture", TextureReader::HEALTH_BAR_T);
 
 	health->GetMaterial()->SetColor("_Base_Color", D3DXCOLOR(1.0f, 0.81f, 0.58f, 1.0f));
 }

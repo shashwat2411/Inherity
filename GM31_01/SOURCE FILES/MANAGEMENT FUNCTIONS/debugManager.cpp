@@ -60,7 +60,7 @@ void DebugManager::Init()
 
 	io.Fonts->AddFontDefault();
 
-	starter = false;
+	starter = true;
 	play = false;
 	paused = false;
 	gizmo = true;
@@ -80,6 +80,15 @@ void DebugManager::Init()
 #endif
 
 	if (debugger == false)
+	{
+		starter = true;
+		play = true;
+		paused = false;
+		gizmo = false;
+		pressedDebug[0] = true;
+	}
+
+	if (starter == true)
 	{
 		starter = true;
 		play = true;

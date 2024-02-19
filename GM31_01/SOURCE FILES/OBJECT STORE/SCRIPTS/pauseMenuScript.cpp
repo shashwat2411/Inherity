@@ -93,6 +93,13 @@ void PauseMenuScript::EngineDisplay()
 
 void PauseMenuScript::ChangeScene()
 {
-	if (pauseMenuSelection == 1) { Manager::ResetScene(); }
-	else if(pauseMenuSelection == 2){ Manager::SetScene<TITLE_SCENE>(); }
+	if (Manager::GetScene()->GetPlayer()->GetComponent<PlayerHealth>()->GetDeath() == false)
+	{
+		if (pauseMenuSelection == 1) { Manager::ResetScene(); }
+		else if (pauseMenuSelection == 2) { Manager::SetScene<TITLE_SCENE>(); }
+	}
+	else
+	{
+		Manager::SetScene<TITLE_SCENE>();
+	}
 }

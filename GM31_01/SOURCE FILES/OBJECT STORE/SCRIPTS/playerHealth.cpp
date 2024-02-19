@@ -5,6 +5,7 @@
 void PlayerHealth::Start()
 {
 	invincible = false;
+	death = false;
 
 	hp = 1000.0f;
 	redHp = 1000.0f;
@@ -21,6 +22,13 @@ void PlayerHealth::Start()
 	health->sprite->barOffsetLeft = 27.75f;
 
 	health->AddMaterial<GaugeMaterial>();
+
+	icon = Manager::GetScene()->AddGameObject<IMAGE>("Player Icon", SPRITE_LAYER);
+	icon->GetMaterial()->SetTexture("_Texture", TextureReader::PLAYER_ICON_T);
+
+	sliced = Manager::GetScene()->AddGameObject<IMAGE>("Sliced", SPRITE_LAYER);
+	sliced->GetMaterial()->SetTexture("_Texture", TextureReader::SLICED_T);
+	sliced->SetColor(D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f));
 }
 
 void PlayerHealth::End()
@@ -34,6 +42,27 @@ void PlayerHealth::Update()
 	{
 		if (timerVector["_Invincibility_Counter"] < (30.0f / FRAME_RATE)) { timerVector["_Invincibility_Counter"] += Time::deltaTime; }
 		else { timerVector["_Invincibility_Counter"] = 0.0f; invincible = false; }
+	}
+
+	if (death == true)
+	{
+		CAMERA* camera = Manager::GetScene()->GetCamera();
+		camera->SetColor(Vector4::Lerp(camera->GetColor(), D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f), 0.04f));
+		sliced->SetColor(Vector4::Lerp(sliced->GetColor(), D3DXCOLOR(1.0f, 1.0f, 1.0f, 1.0f), 0.02f));
+
+		AudioSource* audio = camera->GetComponent<AudioSource>();
+		audio->SetVolume(Mathf::Lerp(audio->GetVolume(), 0.0f, 0.1f));
+
+		if (audio->GetVolume() <= 0.001f)
+		{
+			if (Input::GetButtonTrigger(CHANGE_KEYMAP))
+			{
+				Time::timeScale = 1.0f;
+
+				GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
+				game->SetEnd();
+			}
+		}
 	}
 }
 
@@ -120,10 +149,11 @@ bool PlayerHealth::Damage(float damage)
 				enemy->GetComponent<ArtificialIntelligence>()->Dancing();
 			}
 
-			Manager::GetScene()->GetCamera()->GetComponent<AudioSource>()->SetVolume(0.07f);
+			death = true;
+
 			SoundReader::GetReadSound(SoundReader::GAMEOVER)->Play(false, 0.3f);
 			SoundReader::GetReadSound(SoundReader::PLAYER_DEATH)->Play(false, 0.3f);
-			SoundReader::GetReadSound(SoundReader::ENEMY_DANCE)->Play(true, 0.1f);
+			SoundReader::GetReadSound(SoundReader::ENEMY_DANCE)->Play(true, 0.06f);
 		}
 
 		return true;

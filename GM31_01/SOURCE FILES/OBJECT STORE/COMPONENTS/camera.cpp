@@ -1,6 +1,7 @@
 #include "component.h"
 #include "manager.h"
 #include "input.h"
+#include "customScenes.h"
 
 EMPTYOBJECT* point;
 bool faced = true;
@@ -70,33 +71,35 @@ void Camera::Update()
 
 void Camera::Draw()
 {
-	if (DebugManager::play == false || DebugManager::paused == true || faced == false)
+	if (LOAD_SCENE::GetLogo() == false)
 	{
-		point->Update();
-		point->Draw();
+		if (DebugManager::play == false || DebugManager::paused == true || faced == false)
+		{
+			point->Update();
+			point->Draw();
 
-		at = point->transform->GlobalPosition;
-		faced = true;
+			at = point->transform->GlobalPosition;
+			faced = true;
+		}
+
+		//Camera Shake
+		{
+			shakeOffset = sinf(shakeTime * FRAME_RATE * frequency) * shakeAmplitude;
+			shakeTime += Time::deltaTime;
+			shakeAmplitude *= 0.8f;
+
+			gameObject->transform->Position += shakeOffset;
+			at += shakeOffset;
+
+			//if (shakeAmplitude < 0.01f) { shake = false; }
+			//shakeCounter += Time::deltaTime;
+			//time += Time::deltaTime;
+			//if (shakeCounter >= 3.0f / FRAME_RATE) { power *= -1; shakeCounter = 0.0f; }
+			//at.x += shakeValue * power * Time::fixedTimeScale;
+
+			//if (time >= limit) { shake = false; cameraShakeBoolGlobal = false; }
+		}
 	}
-
-	//Camera Shake
-	{
-		shakeOffset = sinf(shakeTime * FRAME_RATE * frequency) * shakeAmplitude;
-		shakeTime += Time::deltaTime;
-		shakeAmplitude *= 0.8f;
-
-		gameObject->transform->Position += shakeOffset;
-		at += shakeOffset;
-
-		//if (shakeAmplitude < 0.01f) { shake = false; }
-		//shakeCounter += Time::deltaTime;
-		//time += Time::deltaTime;
-		//if (shakeCounter >= 3.0f / FRAME_RATE) { power *= -1; shakeCounter = 0.0f; }
-		//at.x += shakeValue * power * Time::fixedTimeScale;
-
-		//if (time >= limit) { shake = false; cameraShakeBoolGlobal = false; }
-	}
-
 
 	//FOV Matrix
 	{
