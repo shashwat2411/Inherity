@@ -10,7 +10,7 @@ bool DebugManager::play = true;
 bool DebugManager::paused = false;
 bool DebugManager::gizmo = false;
 bool DebugManager::show_demo_window = false;
-bool DebugManager::debugger = true;
+bool DebugManager::debugger = false;
 
 bool show_plot_demo_window = false;
 bool starter = false;

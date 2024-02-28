@@ -63,7 +63,7 @@ public:
 		Audios[PLAYER_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\PlayerDeath.wav");
 		Audios[SHOOT].Load					("asset\\sound\\Tomatos_Melancholy_2\\shoot.wav");
 		Audios[SWING].Load					("asset\\sound\\Tomatos_Melancholy_2\\swing3.wav");
-		Audios[ENEMY_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\EnemyDeath1.wav");
+		Audios[ENEMY_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\EnemyDeath.wav");
 		Audios[GUN_OUT].Load				("asset\\sound\\Tomatos_Melancholy_2\\gun out.wav");
 		Audios[GUN_AWAY].Load				("asset\\sound\\Tomatos_Melancholy_2\\gun away.wav");
 		Audios[FOOTSTEP].Load				("asset\\sound\\Tomatos_Melancholy_2\\footstep.wav");

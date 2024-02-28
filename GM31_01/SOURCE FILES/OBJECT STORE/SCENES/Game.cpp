@@ -130,17 +130,17 @@ void GAME_SCENE::Init()
 
 	MainCamera->camera->SetLightDirection(D3DXVECTOR3(0.9f, -1.0f, -0.05f));
 
-	player->AddComponent<AudioListener>(); //Listener
-	player->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); // Roll Sound
+	player->AddComponent<AudioListener>()->SetEnabled(false); //Listener
+	player->AddComponent<AudioSource>()->SetEnabled(false); // Roll Sound
 
-	player->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Death Sound
-	player->GetChildren()[0]->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Hit Sound
+	player->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Death Sound
+	player->GetChildren()[0]->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Hit Sound
 
-	player->GetComponent<PlayerMovement>()->gun1->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Appear Sound
-	player->GetComponent<PlayerMovement>()->gun2->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Disappeat Sound
+	player->GetComponent<PlayerMovement>()->gun1->AddComponent<AudioSource>()->SetEnabled(false); //Gun Appear Sound
+	player->GetComponent<PlayerMovement>()->gun2->AddComponent<AudioSource>()->SetEnabled(false); //Gun Disappeat Sound
 
-	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
-	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
+	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Shoot Sound
+	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Shoot Sound
 }
 
 void GAME_SCENE::LateInit()
@@ -232,17 +232,18 @@ void GAME_SCENE::LateInit()
 	pause->AddComponent<PauseMenuScript>();
 
 	//if (GameObjects[FADE_LAYER].empty()) { GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade")); }
-	player->RemoveComponent<AudioListener>(); //Listener
-	player->RemoveComponent<AudioSource>(); // Roll Sound
+	//player->RemoveComponent<AudioListener>(); //Listener
+	//player->RemoveComponent<AudioSource>(); // Roll Sound
 
-	player->GetChildren()[0]->RemoveComponent<AudioSource>(); //Death Sound
-	player->GetChildren()[0]->GetChildren()[0]->RemoveComponent<AudioSource>(); //Hit Sound
+	//player->GetChildren()[0]->RemoveComponent<AudioSource>(); //Death Sound
+	//player->GetChildren()[0]->GetChildren()[0]->RemoveComponent<AudioSource>(); //Hit Sound
 
-	player->GetComponent<PlayerMovement>()->gun1->RemoveComponent<AudioSource>(); //Gun Appear Sound
-	player->GetComponent<PlayerMovement>()->gun2->RemoveComponent<AudioSource>(); //Gun Disappeat Sound
+	//player->GetComponent<PlayerMovement>()->gun1->RemoveComponent<AudioSource>(); //Gun Appear Sound
+	//player->GetComponent<PlayerMovement>()->gun2->RemoveComponent<AudioSource>(); //Gun Disappeat Sound
 
-	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->RemoveComponent<AudioSource>(); //Shoot Sound
-	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->RemoveComponent<AudioSource>(); //Shoot Sound
+	//player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->RemoveComponent<AudioSource>(); //Shoot Sound
+	//player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->RemoveComponent<AudioSource>(); //Shoot Sound
+
 }
 
 void GAME_SCENE::Update()
