@@ -90,7 +90,7 @@ void Renderer::Init()
 	swapChainDesc.SampleDesc.Quality = 0;
 	swapChainDesc.Windowed = TRUE;
 
-	hr = D3D11CreateDeviceAndSwapChain(NULL,
+	hr = D3D11CreateDeviceAndSwapChain(NULL,//Adapter ‚ÌIDEPoint‚ğæ“¾‚µ‚Ä
 		D3D_DRIVER_TYPE_HARDWARE,
 		NULL,
 		0,

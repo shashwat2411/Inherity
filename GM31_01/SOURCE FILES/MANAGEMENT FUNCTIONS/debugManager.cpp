@@ -68,33 +68,20 @@ void DebugManager::Init()
 	Time::timeScale = 1.0f;
 	Time::fixedTimeScale = 60.0f / FRAME_RATE;
 	Time::deltaTime = 1.0f / FRAME_RATE;
-#else
-	play = true;
-	paused = false;
-	gizmo = false;
-	pressedDebug[0] = true;
 
-	Time::timeScale = 1.0f;
-	Time::fixedTimeScale = 60.0f / FRAME_RATE;
-	Time::deltaTime = 1.0f / FRAME_RATE;
+#else
+	debugger = false;
+	starter = true;
 #endif
 
-	if (debugger == false)
+	if (debugger == false || starter == true)
 	{
 		starter = true;
 		play = true;
 		paused = false;
-		gizmo = false;
 		pressedDebug[0] = true;
-	}
-
-	if (starter == true)
-	{
-		starter = true;
-		play = true;
-		paused = false;
-		gizmo = false;
-		pressedDebug[0] = true;
+		showCursor = false;
+		ShowCursor(false);
 	}
 }
 
@@ -118,7 +105,7 @@ void DebugManager::Update()
 	ImGui::NewFrame();
 #endif
 
-	if (Input::GetKeyTrigger(VK_F12))
+	if (Input::GetKeyTrigger(VK_F10))
 	{
 		if (debugger == true) { debugger = false; }
 		else if (debugger == false) { debugger = true; }

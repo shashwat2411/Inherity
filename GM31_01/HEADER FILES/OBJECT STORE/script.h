@@ -5,6 +5,7 @@
 #define SPRING_NUMS	(TILES*(TILES + 1) + TILES*(TILES + 1) + TILES*TILES * 2)	// ÉXÉvÉäÉìÉOëçêî
 
 class RevolutionCamera;
+class ArtificialIntelligence;
 
 class PlayerMovement : public Script
 {
@@ -24,8 +25,11 @@ public:
 	bool aim;
 	bool gunSelection;
 	bool invincibility;
+	bool playSound;
 
 	int idleCounter;
+
+	float attackPower;
 
 	D3DXVECTOR3 rotationDirection;
 	D3DXVECTOR3 direction;
@@ -56,6 +60,7 @@ public:
 	void SetState(PLAYER_STATE value) { playerState = value; }
 
 	bool GetInvincibility() { return invincibility; }
+	float GetAttackPower() { return attackPower; }
 	PlayerMovement::PLAYER_STATE GetState() { return playerState; }
 
 	void NormalMove();
@@ -82,6 +87,9 @@ private:
 
 	float attack;
 
+	PlayerMovement* player;
+	ArtificialIntelligence* ai;
+
 public:
 
 	void Start() override;
@@ -95,6 +103,8 @@ public:
 	float GetAttack() { return attack; }
 
 	void Death();
+
+	void BeforeStart();
 };
 class BulletScript : public Script
 {
@@ -252,6 +262,7 @@ private:
 	bool flip;
 	bool lock;
 	bool shot;
+	bool playSound;
 
 	int index;
 	int nextIndex;
@@ -303,6 +314,7 @@ public:
 
 	void SetStateToReturn();
 	void SetStateToFollow();
+	void TakePosition();
 
 	template<class Archive>
 	void serialize(Archive & archive)
@@ -515,6 +527,8 @@ public:
 class PauseMenuScript : public Script
 {
 private:
+	bool pressed;
+
 	float selectedSize;
 	float originalSize;
 
@@ -530,6 +544,8 @@ public:
 	void EngineDisplay() override;
 
 	void ChangeScene();
+
+	bool Press();
 };
 
 //Camera Scripts

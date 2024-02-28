@@ -18,6 +18,9 @@ void PlayerMovement::Start()
 	invincibility = false;
 
 	idleCounter = 0;
+
+	attackPower = 15.0f;
+
 	timerVector["deathTimer"] = 0.0f;
 	timerVector["hitTimer"] = 0.0f;
 	timerVector["rollSpeed"] = 0.4f;
@@ -42,6 +45,8 @@ void PlayerMovement::Start()
 
 void PlayerMovement::End()
 {
+	camera = nullptr;
+	cameraController = nullptr;
 }
 
 void PlayerMovement::Update()
@@ -147,6 +152,7 @@ void PlayerMovement::Update()
 	{
 		if ((/*ImGui::IsKeyDown((ImGuiKey)656)*/ /*IsMouseRightPressed()*/  Input::GetButtonPress(AIM_KEYMAP)) && aim == false)
 		{
+			SoundReader::GetReadSound(SoundReader::GUN_OUT)->Play(false, 0.2f);
 			aim = true;
 			playerState = AIMING_MOVE_PS;
 			cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 2.8f, 3.9f));
@@ -155,6 +161,7 @@ void PlayerMovement::Update()
 		}
 		else if ((/*!ImGui::IsKeyDown((ImGuiKey)656)*/ /*!IsMouseRightPressed()*/  !Input::GetButtonPress(AIM_KEYMAP)) && aim == true)
 		{
+			SoundReader::GetReadSound(SoundReader::GUN_AWAY)->Play(false, 0.1f);
 			aim = false;
 			playerState = NORMAL_MOVE_PS;
 			cameraController->SetBackUpDistance(D3DXVECTOR3(cameraController->GetBackUpDistance().x, 4.0f, 8.0f));
@@ -246,6 +253,8 @@ void PlayerMovement::EngineDisplay()
 		DebugManager::FloatDisplay(&timerVector["dissolveSpeedAppear"], -FLT_MIN, "Dissolve Speed Appear", true, D3DXVECTOR2(0.01f, 0.0f), 3);
 		DebugManager::FloatDisplay(&timerVector["dissolveSpeedDissappear"], -FLT_MIN, "Dissolve Speed Dissappear", true, D3DXVECTOR2(0.01f, 0.0f), 4);
 		DebugManager::FloatDisplay(&timerVector["shootCooldown"], -FLT_MIN, "Shoot Cooldown", true, D3DXVECTOR2(0.01f, 0.0f), 5);
+
+		DebugManager::FloatDisplay(&attackPower, -FLT_MIN, "Attack Power", false, D3DXVECTOR2(5.0f, 50.0f), 6);
 
 		ImGui::TreePop();
 		ImGui::Spacing();
@@ -474,7 +483,7 @@ void PlayerMovement::AimingMove()
 		{
 			bullet->transform->Position = spawner->transform->GlobalPosition;
 			bullet->rigidbody->Speed = face * bullet->speed;
-			SoundReader::GetReadSound(SoundReader::SHOOT)->Play(false, 0.01f);
+			SoundReader::GetReadSound(SoundReader::SHOOT)->Play(false, 0.04f);
 		}
 	}
 }

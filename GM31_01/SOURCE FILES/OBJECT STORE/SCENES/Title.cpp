@@ -176,18 +176,15 @@ void TITLE_SCENE::Update()
 		SoundReader::GetReadSound(SoundReader::OPTION_SELECT)->Play(false, 0.2f);
 	}
 
-	if (end == true) 
+	if (end == true)
 	{
 		float v = MainCamera->GetComponent<AudioSource>()->GetVolume();
 		v = Mathf::Lerp(v, v / 4, Time::deltaTime * 3.0f);
 		MainCamera->GetComponent<AudioSource>()->SetVolume(v);
-	}
 
-	if (end == true && Fade->GetFadeIn() == false)
-	{
 		if (Press() == true)
 		{
-			if (Fade->FadeOut() == false)
+			if (Fade->FadeOut() == false && Fade->GetFadeIn() == false)
 			{
 				Input::SetControls(true);
 				if (choice == 0) { Manager::SetScene<GAME_SCENE>(); }

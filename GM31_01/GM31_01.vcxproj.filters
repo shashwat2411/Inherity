@@ -117,9 +117,6 @@
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\functions.h">
       <Filter>2💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
     </ClInclude>
-    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h">
-      <Filter>2💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
-    </ClInclude>
     <ClInclude Include="HEADER FILES\PRIVATE PATTERN\soundReader.h">
       <Filter>2💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
     </ClInclude>
@@ -194,6 +191,9 @@
     </ClInclude>
     <ClInclude Include="saveFunctions.h">
       <Filter>2💻HEADER FILES\🎓MANAGEMENT FUNCTIONS</Filter>
+    </ClInclude>
+    <ClInclude Include="HEADER FILES\PRIVATE PATTERN\modelReader.h">
+      <Filter>2💻HEADER FILES\♟️PRIVATE PATTERN</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

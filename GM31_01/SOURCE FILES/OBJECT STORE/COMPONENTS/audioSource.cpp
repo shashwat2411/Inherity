@@ -143,12 +143,11 @@ void AudioSource::PlayOneShot(Audio* audio, float v)
 
 SOUND* AudioSource::PlayClipAtPoint(Audio* clip, D3DXVECTOR3 position, float volume)
 {
-	SOUND* sound = Manager::GetScene()->AddGameObject<SOUND>();
-	AudioSource* audio = sound->source;
-
+	SOUND* sound = Manager::GetScene()->AddGameObject<SOUND>(ObjectIndex("Sound"), GAMEOBJECT_LAYER);
 	sound->transform->Position = position;
-	audio->clip = clip;
-	audio->PlayOneShot(audio->clip, volume);
+	sound->source->clip = clip;
+	sound->source->loop = false;
+	sound->source->Play(clip, volume);
 
 	return sound;
 }

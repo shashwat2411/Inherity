@@ -8,6 +8,15 @@ class Rigidbody;
 class Shadow;
 class Material;
 
+enum D3DXCOLOR_PALETTE
+{
+	RED,
+	GREEN,
+	BLUE,
+	ALPHA,
+
+	D3DXCOLOR_PALETTE_MAX
+};
 
 class GAMEOBJECT
 {
@@ -142,6 +151,7 @@ public:
 	void SetTag(const char* value)	{ tag = value; }
 	void SetTag(std::string value)	{ tag = value; }
 	void SetColor(D3DXCOLOR color)	{ Color = color; }
+	void SetColor(D3DXCOLOR_PALETTE num, float value);
 
 
 

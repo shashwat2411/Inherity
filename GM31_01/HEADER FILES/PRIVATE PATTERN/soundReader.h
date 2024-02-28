@@ -19,6 +19,13 @@ public:
 		SHOOT,
 		SWING,
 		ENEMY_DEATH,
+		GUN_OUT,
+		GUN_AWAY,
+		FOOTSTEP,
+		GROUND_HIT,
+		ENEMY_HIT,
+		ENEMY_ALERT,
+		OPTION_SELECT_2,
 
 		PAUSE_IN,
 		PAUSE_OUT,
@@ -56,7 +63,14 @@ public:
 		Audios[PLAYER_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\PlayerDeath.wav");
 		Audios[SHOOT].Load					("asset\\sound\\Tomatos_Melancholy_2\\shoot.wav");
 		Audios[SWING].Load					("asset\\sound\\Tomatos_Melancholy_2\\swing3.wav");
-		Audios[ENEMY_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\EnemyDeath.wav");
+		Audios[ENEMY_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\EnemyDeath1.wav");
+		Audios[GUN_OUT].Load				("asset\\sound\\Tomatos_Melancholy_2\\gun out.wav");
+		Audios[GUN_AWAY].Load				("asset\\sound\\Tomatos_Melancholy_2\\gun away.wav");
+		Audios[FOOTSTEP].Load				("asset\\sound\\Tomatos_Melancholy_2\\footstep.wav");
+		Audios[GROUND_HIT].Load				("asset\\sound\\Tomatos_Melancholy_2\\GroundHit.wav");
+		Audios[ENEMY_HIT].Load				("asset\\sound\\Tomatos_Melancholy_2\\EnemyHit.wav");
+		Audios[ENEMY_ALERT].Load			("asset\\sound\\Tomatos_Melancholy_2\\alert.wav");
+		Audios[OPTION_SELECT_2].Load		("asset\\sound\\Tomatos_Melancholy_2\\selectSound.wav");
 
 		Audios[PAUSE_IN].Load				("asset\\sound\\Tomatos_Melancholy_2\\pauseIn.wav");
 		Audios[PAUSE_OUT].Load				("asset\\sound\\Tomatos_Melancholy_2\\pauseOut.wav");
@@ -70,25 +84,32 @@ public:
 		Audios[ENEMY_DANCE].Load			("asset\\sound\\Tomatos_Melancholy_2\\enemyDancing.wav");
 
 		//NAMING
-		soundNames[GUARD]			= "GUARD";
-		soundNames[OPTION_SELECT]	= "OPTION SELECT";
-		soundNames[OPTION_CHANGE]	= "OPTION CHANGE";
-		soundNames[KNIFE_DAMAGE]	= "KNIFE DAMAGE";
-		soundNames[GAMEOVER]		= "GAME OVER";
-		soundNames[PLAYER_DEATH]	= "PLAYER DEATH";
-		soundNames[SHOOT]			= "SHOOT";
-		soundNames[SWING]			= "SWING";
-		soundNames[ENEMY_DEATH]		= "ENEMY DEATH";
+		soundNames[GUARD]				= "GUARD";
+		soundNames[OPTION_SELECT]		= "OPTION SELECT";
+		soundNames[OPTION_CHANGE]		= "OPTION CHANGE";
+		soundNames[KNIFE_DAMAGE]		= "KNIFE DAMAGE";
+		soundNames[GAMEOVER]			= "GAME OVER";
+		soundNames[PLAYER_DEATH]		= "PLAYER DEATH";
+		soundNames[SHOOT]				= "SHOOT";
+		soundNames[SWING]				= "SWING";
+		soundNames[ENEMY_DEATH]			= "ENEMY DEATH";
+		soundNames[GUN_OUT]				= "GUN OUT";
+		soundNames[GUN_AWAY]			= "GUN AWAY";
+		soundNames[FOOTSTEP]			= "FOOTSTEP";
+		soundNames[GROUND_HIT]			= "GROUND HIT";
+		soundNames[ENEMY_HIT]			= "ENEMY HIT";
+		soundNames[ENEMY_ALERT]			= "ENEMY ALERT";
+		soundNames[OPTION_SELECT_2]		= "OPTION SELECT 2";
 
-		soundNames[PAUSE_IN]		= "PAUSE IN";
-		soundNames[PAUSE_OUT]		= "PAUSE OUT";
+		soundNames[PAUSE_IN]			= "PAUSE IN";
+		soundNames[PAUSE_OUT]			= "PAUSE OUT";
 
-		soundNames[BLOOD_IN]		= "BLOOD IN";
-		soundNames[BLOOD_OUT]		= "BLOOD OUT";
+		soundNames[BLOOD_IN]			= "BLOOD IN";
+		soundNames[BLOOD_OUT]			= "BLOOD OUT";
 
-		soundNames[TITLE]			= "TITLE";
-		soundNames[BATTLE]			= "BATTLE";
-		soundNames[ENEMY_DANCE]		= "ENEMY DANCE";
+		soundNames[TITLE]				= "TITLE";
+		soundNames[BATTLE]				= "BATTLE";
+		soundNames[ENEMY_DANCE]			= "ENEMY DANCE";
 
 		//for (int i = 0; i < SoundReader::READ_SOUND_MAX; i++)
 		//{

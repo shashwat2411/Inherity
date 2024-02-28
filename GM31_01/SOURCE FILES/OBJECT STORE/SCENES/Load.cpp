@@ -7,6 +7,7 @@ bool LOAD_SCENE::loadOver = false;
 bool LOAD_SCENE::logo = true;
 
 bool switchero = false;
+bool cameraColor = false;
 
 IMAGE* background;
 IMAGE* loader;
@@ -18,6 +19,7 @@ void LOAD_SCENE::BeforeInit()
 	end = false;
 
 	switchero = false;
+	cameraColor = false;
 
 	name = "Load";
 
@@ -43,6 +45,7 @@ void LOAD_SCENE::BeforeInit()
 void LOAD_SCENE::Init()
 {
 	//GAMEOBJECT
+	MainCamera = AddGameObject<CAMERA>("MainCamera", CAMERA_LAYER);
 
 	//UI
 	background = AddGameObject<IMAGE>("Background", SPRITE_LAYER);
@@ -55,6 +58,8 @@ void LOAD_SCENE::Init()
 
 	//Ý’è
 	{
+		MainCamera->SetColor(D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
+
 		background->GetMaterial()->SetTexture("_Texture", backTexture);
 		background->sprite->SetSize(D3DXVECTOR2(16.0f, 9.0f));
 		background->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
@@ -89,6 +94,12 @@ void LOAD_SCENE::Update()
 	else
 	{
 		background->SetColor(Vector4::Lerp(background->GetColor(), D3DXCOLOR(1.0f, 1.0f, 1.0f, 0.0f), 0.1f));
+		if (background->GetColor().a <= 0.01f) { cameraColor = true; }
+	}
+
+	if (cameraColor == true)
+	{
+		MainCamera->SetColor(Vector4::Lerp(MainCamera->GetColor(), D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f), 0.05f));
 	}
 
 	if (loadOver == true)
