@@ -82,7 +82,7 @@ void EnemyHealth::Damage(float damage)
 	{
 		hp = 0.0f;
 		gameObject->GetComponent<EnemyScript>()->Death();
-		SoundReader::GetReadSound(SoundReader::ENEMY_DEATH)->Play(false, 0.4f);
+		SoundReader::GetReadSound(SoundReader::ENEMY_DEATH)->Play(false, 0.9f);
 	}
 }
 

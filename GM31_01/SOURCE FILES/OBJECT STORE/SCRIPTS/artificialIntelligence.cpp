@@ -15,12 +15,12 @@ void ArtificialIntelligence::Start()
 	distance = 20.0f;
 	timerVector["time"] = 0.0f;
 	timerVector["speed"] = 0.001f;
-	timerVector["followSpeed"] = 0.08f;
+	timerVector["followSpeed"] = 0.13f;
 	timerVector["maxDistance"] = 20.0f;
 	timerVector["timer"] = 0.0f;
 
 	timerVector["followDistance"] = 3.0f;
-	timerVector["waitMaxTime"] = 0.4f;
+	timerVector["waitMaxTime"] = 0.3f;
 
 	timerVector["attackMaxTime"] = 3.0f;
 	timerVector["attackSpeed"] = 1.0f;
@@ -451,9 +451,9 @@ void ArtificialIntelligence::Finder()
 
 			if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"])
 			{
+				if (state != FOLLOW) { SoundReader::GetReadSound(SoundReader::ENEMY_ALERT)->Play(false, 0.3f); }
 				target = seeker;
 				state = FOLLOW;
-				SoundReader::GetReadSound(SoundReader::ENEMY_ALERT)->Play(false, 0.4f);
 			}
 			else if (collider)
 			{
@@ -496,7 +496,7 @@ void ArtificialIntelligence::SetStateToFollow()
 		target = seeker;
 		state = FOLLOW;
 		shot = true;
-		SoundReader::GetReadSound(SoundReader::ENEMY_ALERT)->Play(false, 0.4f);
+		SoundReader::GetReadSound(SoundReader::ENEMY_ALERT)->Play(false, 0.3f);
 	}
 }
 

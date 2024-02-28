@@ -130,12 +130,12 @@
                 "enabled": true
             },
             "Position": {
-                "x": -152.2637176513672,
-                "y": 28.76137924194336,
-                "z": 103.3511734008789
+                "x": 11.75,
+                "y": 75.26000213623047,
+                "z": -256.3999938964844
             },
             "Rotation": {
-                "x": 91.0,
+                "x": 21.5,
                 "y": 0.0,
                 "z": 0.0
             },
@@ -240,9 +240,9 @@
                 "enabled": true
             },
             "Position": {
-                "x": -160.76004028320313,
+                "x": 13.239999771118164,
                 "y": 1.0099999904632569,
-                "z": 45.23470687866211
+                "z": -134.77000427246095
             },
             "Rotation": {
                 "x": 0.0,
@@ -265,7 +265,7 @@
         },
         "AudioSource": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "loop": false,
             "playOnAwake": false,
@@ -312,7 +312,7 @@
         },
         "AudioSource": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "loop": false,
             "playOnAwake": false,
@@ -365,7 +365,7 @@
         },
         "AudioSource": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "loop": false,
             "playOnAwake": false,
@@ -1620,7 +1620,7 @@
         },
         "AudioSource": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "loop": false,
             "playOnAwake": false,
@@ -1664,7 +1664,7 @@
         },
         "AudioSource": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "loop": false,
             "playOnAwake": false,
@@ -1711,7 +1711,7 @@
         },
         "AudioSource": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "loop": false,
             "playOnAwake": false,
@@ -1755,7 +1755,7 @@
         },
         "AudioSource": {
             "Component": {
-                "enabled": true
+                "enabled": false
             },
             "loop": false,
             "playOnAwake": false,
