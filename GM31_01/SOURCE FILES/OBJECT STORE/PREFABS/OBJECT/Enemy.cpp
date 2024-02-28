@@ -32,7 +32,7 @@ void ENEMY::Start()
 
 	model->SetDefaultAnimation("Enemy_Walk");
 
-	model->gameObject->AddMaterial<ToonMaterial>();
+	child->AddMaterial<ToonMaterial>();
 
 	AddComponent<EnemyScript>();
 	AddComponent<ArtificialIntelligence>();

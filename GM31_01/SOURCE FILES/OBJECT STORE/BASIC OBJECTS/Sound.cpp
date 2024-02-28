@@ -5,6 +5,9 @@ void SOUND::Init()
 {
 	Initialize();
 
+	source = AddComponent<AudioSource>();
+	source->SetThreeDimension(true);
+
 	//ignorePause = true;
 }
 

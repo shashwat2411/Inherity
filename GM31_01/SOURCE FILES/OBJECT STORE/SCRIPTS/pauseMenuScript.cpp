@@ -6,6 +6,8 @@ int pauseMenuSelection = 0;
 
 void PauseMenuScript::Start()
 {
+	pressed = false;
+
 	options[0] = Manager::GetScene()->AddGameObject<IMAGE>("Resume", SPRITE_LAYER);
 	options[0]->GetMaterial()->SetTexture("_Texture", TextureReader::RESUME_BUTTON_T);
 	options[0]->transform->Position.x = -30.0f;
@@ -21,6 +23,8 @@ void PauseMenuScript::Start()
 	originalSize = 0.4f;
 	selectedSize = 0.5f;
 	distance = D3DXVECTOR3(100.0f, 45.0f, 0.0f);
+
+	timerVector["pressCounter"] = 0.0f;
 
 }
 
@@ -44,32 +48,44 @@ void PauseMenuScript::Draw()
 	{
 		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
 		Animator* animator = gameObject->GetComponent<Animator>();
-		if (animator->GetAnimationState(0) == Animation::END && animator->GetAnimationState(1) != Animation::PLAYBACK)
+		if (animator->GetAnimationState(0) == Animation::END)
 		{
-			if (Input::GetButtonTrigger(LEFT_KEYMAP))
+			if (animator->GetAnimationState(1) != Animation::PLAYBACK)
 			{
-				if (pauseMenuSelection > 0) { pauseMenuSelection--; }
-				else { pauseMenuSelection = 2; }
-				SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);
-			}
-			else if (Input::GetButtonTrigger(RIGHT_KEYMAP))
-			{
-				if (pauseMenuSelection < 2) { pauseMenuSelection++; }
-				else { pauseMenuSelection = 0; }
-				SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);
-			}
+				if (Input::GetButtonTrigger(LEFT_KEYMAP))
+				{
+					if (pauseMenuSelection > 0) { pauseMenuSelection--; }
+					else { pauseMenuSelection = 2; }
+					SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);
+				}
+				else if (Input::GetButtonTrigger(RIGHT_KEYMAP))
+				{
+					if (pauseMenuSelection < 2) { pauseMenuSelection++; }
+					else { pauseMenuSelection = 0; }
+					SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);
+				}
 
-			if (Input::GetButtonTrigger(CHANGE_KEYMAP))
+				if (Input::GetButtonTrigger(CHANGE_KEYMAP))
+				{
+					pressed = true;
+					timerVector["pressCounter"] = 0.0f;
+					SoundReader::GetReadSound(SoundReader::OPTION_SELECT_2)->Play(false, 0.4f);
+				}
+			}
+		}
+
+		if (pressed == true && Press())
+		{
+			if (pauseMenuSelection != 0)
 			{
-				if (pauseMenuSelection != 0) 
-				{
-					Time::timeScale = 1.0f;
-					game->SetEnd(); 
-				}
-				else
-				{
-					game->Resume();
-				}
+				Time::timeScale = 1.0f;
+				game->SetEnd();
+				pressed = false;
+			}
+			else
+			{
+				game->Resume();
+				pressed = false;
 			}
 		}
 	}
@@ -93,6 +109,32 @@ void PauseMenuScript::EngineDisplay()
 
 void PauseMenuScript::ChangeScene()
 {
-	if (pauseMenuSelection == 1) { Manager::ResetScene(); }
-	else if(pauseMenuSelection == 2){ Manager::SetScene<TITLE_SCENE>(); }
+	if (Manager::GetScene()->GetPlayer()->GetComponent<PlayerHealth>()->GetDeath() == false)
+	{
+		if (pauseMenuSelection == 1) { Manager::ResetScene(); }
+		else if (pauseMenuSelection == 2) { Manager::SetScene<TITLE_SCENE>(); }
+	}
+	else
+	{
+		Manager::SetScene<TITLE_SCENE>();
+	}
+}
+
+bool PauseMenuScript::Press()
+{
+	if (Time::WaitForSeconds(0.1f, &timerVector["pressCounter"]) == false)
+	{
+		options[pauseMenuSelection]->transform->Scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
+		Input::SetControls(false);
+
+		return false;
+	}
+	else if (Time::WaitForSeconds(0.5f, &timerVector["pressCounter"]) == false)
+	{
+		options[pauseMenuSelection]->transform->Scale = D3DXVECTOR3(0.5f, 0.5f, 0.5f);
+		Input::SetControls(true);
+		return false;
+	}
+
+	return true;
 }

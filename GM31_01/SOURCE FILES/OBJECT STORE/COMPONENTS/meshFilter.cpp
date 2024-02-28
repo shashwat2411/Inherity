@@ -190,3 +190,11 @@ void MeshFilter::SetModel(ModelReader::READ_MODEL_OBJ index)
 
 	modelIndex = index;
 }
+
+void MeshFilter::SetModel(Model* model)
+{
+	SetFBX(false);
+	m_Model_obj = model;
+
+	modelIndex = -1;
+}

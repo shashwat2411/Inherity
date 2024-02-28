@@ -59,6 +59,21 @@ public:
 	}
 };
 
+class Vector4
+{
+public:
+
+	static D3DXCOLOR Lerp(D3DXCOLOR a, D3DXCOLOR b, float time)
+	{
+		return ((b - a) * time + a);
+	}
+
+	static D3DXVECTOR4 Lerp(D3DXVECTOR4 a, D3DXVECTOR4 b, float time)
+	{
+		return ((b - a) * time + a);
+	}
+};
+
 class Time
 {
 public:

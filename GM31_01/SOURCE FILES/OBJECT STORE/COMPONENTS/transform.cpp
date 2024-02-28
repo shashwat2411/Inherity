@@ -19,7 +19,7 @@ void Transform::Start()
 
 void Transform::End()
 {
-
+	gameObject->transform = nullptr;
 }
 
 void Transform::Update()

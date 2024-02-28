@@ -131,7 +131,10 @@ void GAMEOBJECT::Draw()
 
 				D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, /*&RotationMatrix*/&invView); 
 			}  //World = Scaling * Rotation
-			else { D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, &RotationMatrix); }
+			else 
+			{ 
+				D3DXMatrixMultiply(&WorldMatrix[RingCounter], &ScaleMatrix, &RotationMatrix); 
+			}
 
 			D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &TransformMatrix); //World = World * Translation
 
@@ -160,44 +163,8 @@ void GAMEOBJECT::Draw()
 				transform->GlobalPosition = transform->Position; 
 				transform->GlobalScale = transform->Scale; 
 			}
-
-			//if (parentMatrixEnable == true)
-			//{
-			//	D3DXVECTOR3 globalScale;
-			//	D3DXVec3TransformCoord(&transform->GlobalPosition, &transform->GlobalPosition, &parentMatrix); //Global Position
-			//	D3DXVec3TransformCoord(&globalScale, &transform->Scale, &parentMatrix); //Global Position
-			//	D3DXMatrixMultiply(&WorldMatrix[RingCounter], &WorldMatrix[RingCounter], &parentMatrix); //World = World * Parent->World
-			//}
-			//else if (Parent == nullptr) { transform->GlobalPosition = transform->Position; }
-
-			//if (GetComponent<Afterimage>() != nullptr)
-			//{
-			//	for (int i = RingCounter, n = 0; i < RingCounter + GetComponent<Afterimage>()->imageNum; i++, n++)
-			//	{
-			//		int index = RingCounter - (n * 16);
-			//		if (index < 0) { index += MAX_AFTERIMAGES; }
-
-			//		Renderer::SetWorldMatrix(&WorldMatrix[index]);
-			//		if (GetComponent<MeshFilter>() != nullptr)
-			//		{
-			//			GetComponent<MeshFilter>()->Draw();
-			//		}
-			//		//for (auto child : Children)
-			//		//{
-			//		//	if (child->GetComponent<MeshFilter>() != nullptr)
-			//		//	{
-			//		//		if (child->GetComponent<MeshFilter>()->GetCollider() == false)
-			//		//		{
-			//		//			//child->GetComponent<MeshFilter>()->Draw();
-			//		//		}
-			//		//	}
-			//		//}
-			//	}
-			//}
-			//else
-			{
-				Renderer::SetWorldMatrix(&WorldMatrix[0]);
-			}
+			
+			Renderer::SetWorldMatrix(&WorldMatrix[0]);
 
 		}
 
@@ -233,6 +200,14 @@ GAMEOBJECT* GAMEOBJECT::SetParent(GAMEOBJECT* parent)
 	}
 	
 	return this; 
+}
+
+void GAMEOBJECT::SetColor(D3DXCOLOR_PALETTE num, float value)
+{
+	if		(num == RED) { Color.r = value; }
+	else if (num == GREEN) { Color.g = value; }
+	else if (num == BLUE) { Color.b = value; }
+	else if (num == ALPHA) { Color.a = value; }
 }
 
 void GAMEOBJECT::Destroy(bool value)

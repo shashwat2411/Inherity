@@ -18,7 +18,7 @@ void Rigidbody::Start()
 
 void Rigidbody::End()
 {
-
+	gameObject->rigidbody = nullptr;
 }
 
 void Rigidbody::Update()

@@ -44,7 +44,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		RECT rc = { 0, 0, (LONG)SCREEN_WIDTH * 1.0f, (LONG)SCREEN_HEIGHT * 1.0f };
 		AdjustWindowRect(&rc, WS_OVERLAPPEDWINDOW, FALSE);
 
-		g_Window = CreateWindowEx(0, CLASS_NAME, WINDOW_NAME, WS_OVERLAPPEDWINDOW/* | WS_MAXIMIZE*/, CW_USEDEFAULT, CW_USEDEFAULT,
+		g_Window = CreateWindowEx(0, CLASS_NAME, WINDOW_NAME, WS_OVERLAPPEDWINDOW /*WS_POPUP*/ /* | WS_MAXIMIZE*/, CW_USEDEFAULT, CW_USEDEFAULT,
 			rc.right - rc.left, rc.bottom - rc.top, nullptr, nullptr, hInstance, nullptr);
 	}
 
@@ -103,7 +103,7 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			//if ((dwCurrentTime - dwExecFixedLastTime) >= (ab) && Time::timeScale > 0.0f)
 			if ((dwCurrentTime - dwExecFixedLastTime) >= (1000 / FRAME_RATE))
 			{
-				wsprintf(g_DebugStr, "TOMATO'S MELANCHOLY 2 | FPS : %d", g_CountFixedFPS);
+				wsprintf(g_DebugStr, "TOMATO'S REVENGE | FPS : %d", g_CountFixedFPS);
 				//wsprintf(&g_DebugStr[strlen(g_DebugStr)], " MX:%d MY:%d", GetMousePosX(), GetMousePosY());
 
 

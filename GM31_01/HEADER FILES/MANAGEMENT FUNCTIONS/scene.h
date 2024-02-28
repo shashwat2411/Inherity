@@ -108,7 +108,7 @@ public:
 	virtual void Update() {}
 
 	PLAYER* GetPlayer() { return player; }
-	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
+	CAMERA* GetCamera() { return MainCamera; }
 	EMPTYOBJECT* GetReflector() { return reflectionProjector; }
 	EMPTYOBJECT* GetGameManager() { return gameManager; }
 
