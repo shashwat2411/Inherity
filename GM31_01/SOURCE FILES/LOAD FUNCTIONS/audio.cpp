@@ -105,6 +105,8 @@ void Audio::Play(bool Loop, float volume)
 {
 	//if (IsPlaying() == true) { return; }
 
+	//if (m_SourceVoice == nullptr) { return; }
+
 	m_SourceVoice->Stop();
 	m_SourceVoice->FlushSourceBuffers();
 	// バッファ設定

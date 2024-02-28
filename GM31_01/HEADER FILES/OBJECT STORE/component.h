@@ -372,6 +372,8 @@ public:
 	void SetModel(ModelReader::READ_MODEL_FBX index);
 	void SetModel(ModelReader::READ_MODEL_OBJ index);
 
+	void SetModel(Model* model);
+
 	void SetDefaultAnimation(std::string value) { if (m_Model != nullptr) { animationName = value; animationBlendName = value; } }
 
 	AnimationModel* GetModel() { return m_Model; }

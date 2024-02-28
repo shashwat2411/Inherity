@@ -27,10 +27,12 @@ void ENEMY::Start()
 	model->GetModel()->LoadAnimation("Enemy_Death");
 	model->GetModel()->LoadAnimation("Enemy_Dance_1");
 	model->GetModel()->LoadAnimation("Enemy_Dance_2");
+	model->GetModel()->LoadAnimation("Enemy_Pose_1");
+	model->GetModel()->LoadAnimation("Enemy_Pose_2");
 
 	model->SetDefaultAnimation("Enemy_Walk");
 
-	model->gameObject->AddMaterial<ToonMaterial>();
+	child->AddMaterial<ToonMaterial>();
 
 	AddComponent<EnemyScript>();
 	AddComponent<ArtificialIntelligence>();

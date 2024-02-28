@@ -15,10 +15,28 @@ public:
 		OPTION_CHANGE,
 		KNIFE_DAMAGE,
 		GAMEOVER,
+		PLAYER_DEATH,
+		SHOOT,
+		SWING,
+		ENEMY_DEATH,
+		GUN_OUT,
+		GUN_AWAY,
+		FOOTSTEP,
+		GROUND_HIT,
+		ENEMY_HIT,
+		ENEMY_ALERT,
+		OPTION_SELECT_2,
+
+		PAUSE_IN,
+		PAUSE_OUT,
+
+		BLOOD_IN,
+		BLOOD_OUT,
 
 		//BGM
 		TITLE,
 		BATTLE,
+		ENEMY_DANCE,
 
 		READ_SOUND_MAX
 	};
@@ -42,20 +60,56 @@ public:
 		Audios[OPTION_CHANGE].Load			("asset\\sound\\optionChange.wav");
 		Audios[KNIFE_DAMAGE].Load			("asset\\sound\\Tomatos_Melancholy_2\\Knife.wav");
 		Audios[GAMEOVER].Load				("asset\\sound\\Tomatos_Melancholy_2\\GameOver.wav");
+		Audios[PLAYER_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\PlayerDeath.wav");
+		Audios[SHOOT].Load					("asset\\sound\\Tomatos_Melancholy_2\\shoot.wav");
+		Audios[SWING].Load					("asset\\sound\\Tomatos_Melancholy_2\\swing3.wav");
+		Audios[ENEMY_DEATH].Load			("asset\\sound\\Tomatos_Melancholy_2\\EnemyDeath.wav");
+		Audios[GUN_OUT].Load				("asset\\sound\\Tomatos_Melancholy_2\\gun out.wav");
+		Audios[GUN_AWAY].Load				("asset\\sound\\Tomatos_Melancholy_2\\gun away.wav");
+		Audios[FOOTSTEP].Load				("asset\\sound\\Tomatos_Melancholy_2\\footstep.wav");
+		Audios[GROUND_HIT].Load				("asset\\sound\\Tomatos_Melancholy_2\\GroundHit.wav");
+		Audios[ENEMY_HIT].Load				("asset\\sound\\Tomatos_Melancholy_2\\EnemyHit.wav");
+		Audios[ENEMY_ALERT].Load			("asset\\sound\\Tomatos_Melancholy_2\\alert.wav");
+		Audios[OPTION_SELECT_2].Load		("asset\\sound\\Tomatos_Melancholy_2\\selectSound.wav");
+
+		Audios[PAUSE_IN].Load				("asset\\sound\\Tomatos_Melancholy_2\\pauseIn.wav");
+		Audios[PAUSE_OUT].Load				("asset\\sound\\Tomatos_Melancholy_2\\pauseOut.wav");
+
+		Audios[BLOOD_IN].Load				("asset\\sound\\Tomatos_Melancholy_2\\bloodIn.wav");
+		Audios[BLOOD_OUT].Load				("asset\\sound\\Tomatos_Melancholy_2\\bloodOut.wav");
 
 		//BGM
 		Audios[TITLE].Load					("asset\\sound\\Tomatos_Melancholy_2\\MainMenu.wav");
 		Audios[BATTLE].Load					("asset\\sound\\Tomatos_Melancholy_2\\Battle.wav");
+		Audios[ENEMY_DANCE].Load			("asset\\sound\\Tomatos_Melancholy_2\\enemyDancing.wav");
 
 		//NAMING
-		soundNames[GUARD]			= "GUARD";
-		soundNames[OPTION_SELECT]	= "OPTION SELECT";
-		soundNames[OPTION_CHANGE]	= "OPTION CHANGE";
-		soundNames[KNIFE_DAMAGE]	= "KNIFE DAMAGE";
-		soundNames[GAMEOVER]		= "GAME OVER";
+		soundNames[GUARD]				= "GUARD";
+		soundNames[OPTION_SELECT]		= "OPTION SELECT";
+		soundNames[OPTION_CHANGE]		= "OPTION CHANGE";
+		soundNames[KNIFE_DAMAGE]		= "KNIFE DAMAGE";
+		soundNames[GAMEOVER]			= "GAME OVER";
+		soundNames[PLAYER_DEATH]		= "PLAYER DEATH";
+		soundNames[SHOOT]				= "SHOOT";
+		soundNames[SWING]				= "SWING";
+		soundNames[ENEMY_DEATH]			= "ENEMY DEATH";
+		soundNames[GUN_OUT]				= "GUN OUT";
+		soundNames[GUN_AWAY]			= "GUN AWAY";
+		soundNames[FOOTSTEP]			= "FOOTSTEP";
+		soundNames[GROUND_HIT]			= "GROUND HIT";
+		soundNames[ENEMY_HIT]			= "ENEMY HIT";
+		soundNames[ENEMY_ALERT]			= "ENEMY ALERT";
+		soundNames[OPTION_SELECT_2]		= "OPTION SELECT 2";
 
-		soundNames[TITLE]			= "TITLE";
-		soundNames[BATTLE]			= "BATTLE";
+		soundNames[PAUSE_IN]			= "PAUSE IN";
+		soundNames[PAUSE_OUT]			= "PAUSE OUT";
+
+		soundNames[BLOOD_IN]			= "BLOOD IN";
+		soundNames[BLOOD_OUT]			= "BLOOD OUT";
+
+		soundNames[TITLE]				= "TITLE";
+		soundNames[BATTLE]				= "BATTLE";
+		soundNames[ENEMY_DANCE]			= "ENEMY DANCE";
 
 		//for (int i = 0; i < SoundReader::READ_SOUND_MAX; i++)
 		//{

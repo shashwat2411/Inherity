@@ -23,7 +23,8 @@ void EnemyScript::Start()
 
 void EnemyScript::End()
 {
-
+	ai = nullptr;
+	player = nullptr;
 }
 
 void EnemyScript::Update()
@@ -61,13 +62,13 @@ void EnemyScript::Update()
 						EnemyHealth* health = gameObject->GetComponent<EnemyHealth>();
 						if (health) 
 						{ 
-							health->Damage(8.0f);
+							health->Damage(player->GetAttackPower());
 
 							GAMEOBJECT* child = gameObject->GetChildren()[0];
 							//child->GetComponent<MeshFilter>()->SetAnimationBlend("Enemy_Damage", false, 0.001f);
-							child->SetColor(D3DXCOLOR(child->GetColor().r, child->GetColor().g, child->GetColor().b, child->GetColor().a + 0.75f));
+							child->SetColor(D3DXCOLOR_PALETTE::ALPHA, child->GetColor().a + 0.75f);
 
-							gameObject->GetComponent<ArtificialIntelligence>()->SetStateToFollow();
+							ai->SetStateToFollow();
 						}
 					}
 				}
@@ -97,6 +98,8 @@ void EnemyScript::Death()
 {
 	if (death == false)
 	{
+		//SoundReader::GetReadSound(SoundReader::ENEMY_DEATH)->Play(false, 0.2f);
+
 		death = true;
 		gameObject->GetComponent<ArtificialIntelligence>()->SetState(ArtificialIntelligence::DEATH);
 
@@ -104,4 +107,10 @@ void EnemyScript::Death()
 		gameObject->RemoveComponent<SphereCollider>();
 		gameObject->GetChildren()[0]->GetChildren()[0]->Destroy();
 	}
+}
+
+void EnemyScript::BeforeStart()
+{
+	player = Manager::GetScene()->GetPlayer()->GetComponent<PlayerMovement>();
+	ai = gameObject->GetComponent<ArtificialIntelligence>();
 }

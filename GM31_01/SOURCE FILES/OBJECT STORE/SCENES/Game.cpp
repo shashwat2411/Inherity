@@ -12,8 +12,6 @@ bool pauseReturn = false;
 
 void GAME_SCENE::Init()
 {
-	PostProcessManager::RemovePoster<DrunkMaterial>();
-	PostProcessManager::AddPoster<PostProcessMaterial>();
 
 	name = "game";
 
@@ -120,6 +118,11 @@ void GAME_SCENE::Init()
 		audio->SetThreeDimension(true);
 		audio->SetPlayOnAwake(false);*/
 		//audio->Play(true, 0.2f);
+		AudioSource* as = MainCamera->AddComponent<AudioSource>();
+		as->SetClip(SoundReader::BATTLE);
+		as->SetPlayOnAwake(true);
+		as->SetLoop(true);
+		as->SetVolume(0.10f);
 	}
 
 	paused = false;
@@ -127,69 +130,22 @@ void GAME_SCENE::Init()
 
 	MainCamera->camera->SetLightDirection(D3DXVECTOR3(0.9f, -1.0f, -0.05f));
 
-	player->AddComponent<AudioListener>(); //Listener
-	player->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); // Roll Sound
+	player->AddComponent<AudioListener>()->SetEnabled(false); //Listener
+	player->AddComponent<AudioSource>()->SetEnabled(false); // Roll Sound
 
-	player->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Death Sound
-	player->GetChildren()[0]->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Hit Sound
+	player->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Death Sound
+	player->GetChildren()[0]->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Hit Sound
 
-	player->GetComponent<PlayerMovement>()->gun1->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Appear Sound
-	player->GetComponent<PlayerMovement>()->gun2->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Disappeat Sound
+	player->GetComponent<PlayerMovement>()->gun1->AddComponent<AudioSource>()->SetEnabled(false); //Gun Appear Sound
+	player->GetComponent<PlayerMovement>()->gun2->AddComponent<AudioSource>()->SetEnabled(false); //Gun Disappeat Sound
 
-	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
-	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
+	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Shoot Sound
+	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->AddComponent<AudioSource>()->SetEnabled(false); //Shoot Sound
 }
 
 void GAME_SCENE::LateInit()
 {
-	//Sound Components
-
-	//Player
-	/*
-	player->AddComponent<AudioListener>(); //Listener
-	player->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); // Roll Sound
-
-	player->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Death Sound
-	player->GetChildren()[0]->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Hit Sound
-
-	player->GetComponent<PlayerMovement>()->gun1->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Appear Sound
-	player->GetComponent<PlayerMovement>()->gun2->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Gun Disappeat Sound
-
-	player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
-	player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD); //Shoot Sound
-	*/
-
-	//Enemy
-	//std::vector<ENEMY*> enemies = FindGameObjects<ENEMY>();
-	//for (ENEMY* enemy : enemies)
-	{
-		//enemy->AddComponent<AudioSource>()->SetClip(SoundReader::GUARD);
-		//enemy->GetComponent<AudioSource>()->SetThreeDimension(true);
-
-		//Enemy Roam/Return Sound
-		//Enemy Follow Sound
-		//Enemy Attack Sound
-		//Enemy Death Sound
-		//Enemy Dance Sound
-	}
-
-	//Bullet
-	//std::vector<BULLET*> bullets = FindGameObjects<BULLET>();
-	//for (BULLET* bullet : bullets)
-	{
-		//Map hit
-		//Enemy hit
-	}
-
-	//BGM
-	//MainCamera->AddComponent<AudioSource>()->SetClip(SoundReader::GAME); // Game BGM
-	// Title BGM
-	// Death BGM
-	// Pause On
-	// Pause Off
-	// Button Click
-	// Button Change
-	// Fade
+	PostProcessManager::AddPoster<PostProcessMaterial>();
 
 	//Particle Systems
 	{
@@ -236,8 +192,8 @@ void GAME_SCENE::LateInit()
 			enemy->GetChildren()[0]->SetColor(D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 0.0f));
 
 			r = rand() % 256;
-			g = rand() % 256;
-			b = rand() % 256;
+			g = rand() % 120;
+			b = rand() % 160;
 			enemy->GetChildren()[0]->GetMaterial()->SetColor("_Dissolve_Color", D3DXCOLOR(float(r) / 255.0f, float(g) / 255.0f, float(b) / 255.0f, 1.0f));
 		}
 
@@ -267,41 +223,66 @@ void GAME_SCENE::LateInit()
 			health->GetHealthObject()->transform->Scale = D3DXVECTOR3(scale * 0.2f, scale * 0.5f / 3.0f, 0.1f);
 
 			enemy->GetComponent<EnemyScript>()->SetAttack(50.0f / 0.6f * scale);
+
+			enemy->GetComponent<ArtificialIntelligence>()->TakePosition();
+			enemy->GetComponent<EnemyScript>()->BeforeStart();
 		}
 	}
 
 	pause->AddComponent<PauseMenuScript>();
 
 	//if (GameObjects[FADE_LAYER].empty()) { GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade")); }
+	//player->RemoveComponent<AudioListener>(); //Listener
+	//player->RemoveComponent<AudioSource>(); // Roll Sound
+
+	//player->GetChildren()[0]->RemoveComponent<AudioSource>(); //Death Sound
+	//player->GetChildren()[0]->GetChildren()[0]->RemoveComponent<AudioSource>(); //Hit Sound
+
+	//player->GetComponent<PlayerMovement>()->gun1->RemoveComponent<AudioSource>(); //Gun Appear Sound
+	//player->GetComponent<PlayerMovement>()->gun2->RemoveComponent<AudioSource>(); //Gun Disappeat Sound
+
+	//player->GetComponent<PlayerMovement>()->gun1->GetChildren()[0]->RemoveComponent<AudioSource>(); //Shoot Sound
+	//player->GetComponent<PlayerMovement>()->gun2->GetChildren()[0]->RemoveComponent<AudioSource>(); //Shoot Sound
+
 }
 
 void GAME_SCENE::Update()
 {
 	if (end == true && Fade->GetFadeIn() == false) { if (Fade->FadeOut() == false) { pause->GetComponent<PauseMenuScript>()->ChangeScene(); } }
 
-	Animator* pauser = pause->GetComponent<Animator>();
-	if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
+	if (pause != nullptr)
 	{
-		if (paused == false)
+		Animator* pauser = pause->GetComponent<Animator>();
+		if (pauser != nullptr)
 		{
-			Time::timeScale = 0.0f;
-			pauser->PlayAnimation(0, Animation::PLAYBACK);
-			paused = true;
-		}
-		else
-		{
-			pauser->PlayAnimation(1, Animation::PLAYBACK);
-			pauseReturn = true;
-		}
-	}
+			if (Input::GetButtonTrigger(PAUSE_KEYMAP) && pauser->GetAnimationState(0) != Animation::PLAYBACK && pauser->GetAnimationState(1) != Animation::PLAYBACK)
+			{
+				if (paused == false)
+				{
+					Time::timeScale = 0.0f;
+					pauser->PlayAnimation(0, Animation::PLAYBACK);
+					paused = true;
+					SoundReader::GetReadSound(SoundReader::PAUSE_IN)->Play(false, 0.2f);
+					MainCamera->GetComponent<AudioSource>()->SetVolume(0.05f);
+				}
+				else
+				{
+					pauser->PlayAnimation(1, Animation::PLAYBACK);
+					pauseReturn = true;
+					SoundReader::GetReadSound(SoundReader::PAUSE_OUT)->Play(false, 0.2f);
+				}
+			}
 
-	if (pauseReturn == true)
-	{
-		if (pauser->GetAnimationState(1) == Animation::END)
-		{
-			pauseReturn = false;
-			paused = false;
-			Time::timeScale = 1.0f;
+			if (pauseReturn == true)
+			{
+				if (pauser->GetAnimationState(1) == Animation::END)
+				{
+					pauseReturn = false;
+					paused = false;
+					Time::timeScale = 1.0f;
+					MainCamera->GetComponent<AudioSource>()->SetVolume(0.10f);
+				}
+			}
 		}
 	}
 
@@ -311,4 +292,5 @@ void GAME_SCENE::Resume()
 {
 	pause->GetComponent<Animator>()->PlayAnimation(1, Animation::PLAYBACK);
 	pauseReturn = true;
+	SoundReader::GetReadSound(SoundReader::PAUSE_OUT)->Play(false, 0.2f);
 }

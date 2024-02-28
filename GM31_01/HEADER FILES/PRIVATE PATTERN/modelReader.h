@@ -138,6 +138,8 @@ public:
 		Animations["Enemy_Death"] = aiImportFile("asset\\model\\Enemy\\Enemy Death.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Enemy_Dance_1"] = aiImportFile("asset\\model\\Enemy\\Snake Hip Hop Dance.fbx", aiProcess_ConvertToLeftHanded);
 		Animations["Enemy_Dance_2"] = aiImportFile("asset\\model\\Enemy\\Swing Dancing.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Pose_1"] = aiImportFile("asset\\model\\Enemy\\Poses\\Male Standing Pose.fbx", aiProcess_ConvertToLeftHanded);
+		Animations["Enemy_Pose_2"] = aiImportFile("asset\\model\\Enemy\\Poses\\Female Dance Pose.fbx", aiProcess_ConvertToLeftHanded);
 
 		assert(Animations["Enemy_Walk"]);
 		assert(Animations["Enemy_Find"]);
@@ -148,6 +150,8 @@ public:
 		assert(Animations["Enemy_Death"]);
 		assert(Animations["Enemy_Dance_1"]);
 		assert(Animations["Enemy_Dance_2"]);
+		assert(Animations["Enemy_Pose_1"]);
+		assert(Animations["Enemy_Pose_2"]);
 
 		//NAMING
 

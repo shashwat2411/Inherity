@@ -6,6 +6,7 @@ void ArtificialIntelligence::Start()
 	flip = false;
 	lock = true;
 	shot = false;
+	playSound = false;
 
 	index = 0;
 	nextIndex = index + 1;
@@ -14,15 +15,18 @@ void ArtificialIntelligence::Start()
 	distance = 20.0f;
 	timerVector["time"] = 0.0f;
 	timerVector["speed"] = 0.001f;
-	timerVector["followSpeed"] = 0.08f;
+	timerVector["followSpeed"] = 0.13f;
 	timerVector["maxDistance"] = 20.0f;
 	timerVector["timer"] = 0.0f;
 
 	timerVector["followDistance"] = 3.0f;
-	timerVector["waitMaxTime"] = 0.4f;
+	timerVector["waitMaxTime"] = 0.3f;
 
 	timerVector["attackMaxTime"] = 3.0f;
 	timerVector["attackSpeed"] = 1.0f;
+
+	timerVector["swingSoundTimer"] = 0.0f;
+	timerVector["swingSoundTimerLimit"] = 0.5f;
 
 	timerVector["deathTimer"] = 0.0f;
 
@@ -79,7 +83,7 @@ void ArtificialIntelligence::Start()
 
 void ArtificialIntelligence::End()
 {
-
+	
 }
 
 void ArtificialIntelligence::Update()
@@ -136,19 +140,19 @@ void ArtificialIntelligence::Draw()
 	//attackDistance->transform->Position = gameObject->transform->Position;
 	//attackDistance->transform->Scale = D3DXVECTOR3(timerVector["followDistance"], timerVector["followDistance"], timerVector["followDistance"]);
 
-	if (DebugManager::play == false || DebugManager::paused == true)
-	{
-		startPosition = gameObject->transform->Position;
+	//if (DebugManager::play == false || DebugManager::paused == true)
+	//{
+	//	startPosition = gameObject->transform->Position;
 
-		points[0]->transform->Position = startPosition;
+	//	points[0]->transform->Position = startPosition;
 
-		if (lock == true)
-		{
-			points[1]->transform->Position = startPosition + gameObject->transform->GetForwardDirection() * distance;
-			points[2]->transform->Position = points[1]->transform->Position - (flip ? -1 : 1) * gameObject->transform->GetRightDirection() * distance;
-			points[3]->transform->Position = startPosition - (flip ? -1 : 1) * gameObject->transform->GetRightDirection() * distance;
-		}
-	}
+	//	if (lock == true)
+	//	{
+	//		points[1]->transform->Position = startPosition + gameObject->transform->GetForwardDirection() * distance;
+	//		points[2]->transform->Position = points[1]->transform->Position - (flip ? -1 : 1) * gameObject->transform->GetRightDirection() * distance;
+	//		points[3]->transform->Position = startPosition - (flip ? -1 : 1) * gameObject->transform->GetRightDirection() * distance;
+	//	}
+	//}
 }
 
 const char* enemyStatus[ArtificialIntelligence::ENEMY_STATE_MAX] =
@@ -206,6 +210,8 @@ void ArtificialIntelligence::EngineDisplay()
 
 		DebugManager::FloatDisplay(&timerVector["timer"], -FLT_MIN, "Timer", true, D3DXVECTOR2(0.01f, 0.0f), 15, true);
 
+		DebugManager::FloatDisplay(&timerVector["swingSoundTimerLimit"], -FLT_MIN, "Swing Sound", true, D3DXVECTOR2(0.01f, 0.0f), 16);
+
 		ImGui::TreePop();
 		ImGui::Spacing();
 	}
@@ -219,6 +225,7 @@ void ArtificialIntelligence::OnCollisionEnter(GAMEOBJECT* obj)
 		{
 			target = obj;
 			state = FOLLOW;
+			SoundReader::GetReadSound(SoundReader::ENEMY_ALERT)->Play(false, 0.4f);
 		}
 	}
 }
@@ -242,7 +249,7 @@ void ArtificialIntelligence::Roam()
 	{
 		timerVector["time"] = 0.0f;
 		index = ((index + 1) < 4 ? (index + 1) : 0);
-		nextIndex = ((nextIndex + 1) < 4 ? (nextIndex + 1) : 0);
+		nextIndex = ((index + 1) < 4 ? (index + 1) : 0);
 	}
 }
 
@@ -302,7 +309,8 @@ void ArtificialIntelligence::Wait()
 		timerVector["timer"] = 0.0f;
 		state = ATTACK;
 		model->SetAnimationBlend("Enemy_Attack_1");
-
+		timerVector["swingSoundTimer"] = 0.0f;
+		playSound = false;
 		//D3DXVECTOR3 direction = target->transform->GlobalPosition - gameObject->transform->GlobalPosition;
 		//D3DXVec3Normalize(&direction, &direction);
 		//direction *= timerVector["attackSpeed"];
@@ -329,6 +337,8 @@ void ArtificialIntelligence::Attack()
 				if (gameObject->transform->DistanceFrom(target) < timerVector["followDistance"])
 				{
 					model->SetAnimationBlend("Enemy_Attack_1");
+					timerVector["swingSoundTimer"] = 0.0f;
+					playSound = false;
 					return;
 				}
 			}
@@ -336,6 +346,15 @@ void ArtificialIntelligence::Attack()
 		}
 
 		state = FOLLOW;
+	}
+	else
+	{
+		timerVector["swingSoundTimer"] += Time::deltaTime;
+		if (timerVector["swingSoundTimer"] >= timerVector["swingSoundTimerLimit"] && playSound == false)
+		{
+			SoundReader::GetReadSound(SoundReader::SWING)->Play(false, 0.3f);
+			playSound = true;
+		}
 	}
 
 	/*
@@ -364,6 +383,7 @@ void ArtificialIntelligence::Find()
 	if (model->GetAnimationOver("Enemy_Find") == true)
 	{
 		state = RETURN;
+		shot = false;
 	}
 
 	//timerVector["rotationTimer"] += timerVector["rotationSpeed"] * Time::fixedTimeScale;
@@ -400,7 +420,7 @@ void ArtificialIntelligence::Death()
 		else
 		{
 			float temp = model->gameObject->GetMaterial()->GetFloat("_Threshold");
-			temp = Mathf::Lerp(temp, 0.0f, 0.04f);
+			temp = Mathf::Lerp(temp, 0.0f, 0.04f * Time::fixedTimeScale);
 			model->gameObject->GetMaterial()->SetFloat("_Threshold", temp);
 
 			if (temp <= 0.01f)
@@ -431,6 +451,7 @@ void ArtificialIntelligence::Finder()
 
 			if (D3DXVec3Dot(&u, &v) < 0.0f && Vector3::Magnitude(u) < timerVector["maxDistance"])
 			{
+				if (state != FOLLOW) { SoundReader::GetReadSound(SoundReader::ENEMY_ALERT)->Play(false, 0.3f); }
 				target = seeker;
 				state = FOLLOW;
 			}
@@ -463,6 +484,9 @@ void ArtificialIntelligence::SetStateToReturn()
 {
 	target = nullptr;
 	state = RETURN;
+	returnPosition = Vector3::Lerp(points[index]->transform->Position, points[nextIndex]->transform->Position, timerVector["time"]);
+	returnPosition.y = gameObject->transform->Position.y;
+	shot = false;
 }
 
 void ArtificialIntelligence::SetStateToFollow()
@@ -472,5 +496,21 @@ void ArtificialIntelligence::SetStateToFollow()
 		target = seeker;
 		state = FOLLOW;
 		shot = true;
+		SoundReader::GetReadSound(SoundReader::ENEMY_ALERT)->Play(false, 0.3f);
+	}
+}
+
+void ArtificialIntelligence::TakePosition()
+{
+	startPosition = gameObject->transform->Position;
+	returnPosition = startPosition;
+
+	points[0]->transform->Position = startPosition;
+
+	if (lock == true)
+	{
+		points[1]->transform->Position = startPosition + gameObject->transform->GetForwardDirection() * distance;
+		points[2]->transform->Position = points[1]->transform->Position - (flip ? -1 : 1) * gameObject->transform->GetRightDirection() * distance;
+		points[3]->transform->Position = startPosition - (flip ? -1 : 1) * gameObject->transform->GetRightDirection() * distance;
 	}
 }

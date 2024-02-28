@@ -16,7 +16,7 @@ public:
 	static POSTPROCESS* AddPoster()
 	{
 		POSTPROCESS* post = new POSTPROCESS();
-		posters.push_back(post);
+		posters[0] = post;
 
 		post->Init();
 		post->AddMaterial<T>();

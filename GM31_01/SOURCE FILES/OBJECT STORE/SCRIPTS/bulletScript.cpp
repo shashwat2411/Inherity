@@ -55,7 +55,12 @@ void BulletScript::OnDestruction(bool enemyCollision)
 		destruction = true;
 
 		GAME_SCENE* game = (GAME_SCENE*)Manager::GetScene();
+
 		PARTICLESYSTEM* effect = game->GetParticleEffect((enemyCollision ? GAME_SCENE::BULLET_TO_ENEMY : GAME_SCENE::BULLET_TO_WALL));
+		SoundReader::READ_SOUND sound = (enemyCollision ? SoundReader::ENEMY_HIT : SoundReader::GROUND_HIT);
+		float volume = (enemyCollision ? 0.07f : 0.1f);
+
+		SoundReader::GetReadSound(sound)->Play(false, volume);
 
 		if (effect != nullptr && effect->particleSystem != nullptr)
 		{

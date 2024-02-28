@@ -44,10 +44,13 @@ void Input::Init()
 	controllerInput[HEAVY_ATTACK_KEYMAP].push_back(XINPUT_GAMEPAD_Y);
 
 	input[CHANGE_KEYMAP].push_back(VK_RETURN);
-	controllerInput[CHANGE_KEYMAP].push_back(XINPUT_GAMEPAD_BACK);
+	controllerInput[CHANGE_KEYMAP].push_back(XINPUT_GAMEPAD_A);
 
 	input[PAUSE_KEYMAP].push_back('P');
 	controllerInput[PAUSE_KEYMAP].push_back(XINPUT_GAMEPAD_START);
+
+	input[SLOW_MOTION_KEYMAP].push_back(VK_LSHIFT);
+	controllerInput[SLOW_MOTION_KEYMAP].push_back(XINPUT_GAMEPAD_START);
 
 	//controllerInput[AIM_KEYMAP].push_back(XINPUT_GAMEPAD_LEFT_THUMB);
 

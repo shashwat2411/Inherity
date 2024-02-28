@@ -7,7 +7,7 @@ void ToonMaterial::Start()
 	SetFloat("_Threshold", 2.0f);
 	SetFloat("_Dissolve_Range", 0.4f);
 
-	SetColor("_Dissolve_Color", D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
+	SetColor("_Dissolve_Color", D3DXCOLOR(0.0f, 0.0f, 0.0f, 1.0f));
 
 	SetTexture("_Texture", TextureReader::DISSOLVE_T);
 
@@ -20,7 +20,8 @@ void ToonMaterial::Update()
 	//floats["_Offset"] += 0.01f;
 	if (gameObject->GetColor().a > 0.001f)
 	{
-		gameObject->SetColor(D3DXCOLOR(gameObject->GetColor().r, gameObject->GetColor().g, gameObject->GetColor().b, Mathf::Lerp(gameObject->GetColor().a, 0.0f, 0.5f)));
+		//gameObject->SetColor(D3DXCOLOR(gameObject->GetColor().r, gameObject->GetColor().g, gameObject->GetColor().b, Mathf::Lerp(gameObject->GetColor().a, 0.0f, 0.5f)));
+		gameObject->SetColor(D3DXCOLOR_PALETTE::ALPHA, Mathf::Lerp(gameObject->GetColor().a, 0.0f, 0.5f * Time::fixedTimeScale));
 	}
 }
 

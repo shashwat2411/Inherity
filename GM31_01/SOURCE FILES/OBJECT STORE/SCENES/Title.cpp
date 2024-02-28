@@ -1,16 +1,18 @@
 #include "customScenes.h"
 #include "input.h"
+#include "postProcessManager.h"
+
 
 bool startAnimation = false;
 
 int choice = 0;
 float pressTimer = 0.0f;
 
-IMAGE* choices[3];
+IMAGE* choices[2];
 GAMEOBJECT* PlayerModel;
 
 D3DXVECTOR3 selectedScale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
-D3DXCOLOR selectedColor = D3DXCOLOR(1.0f, 1.0f, 1.0, 1.0f);
+D3DXCOLOR selectedColor = D3DXCOLOR(1.0f, 0.0f, 0.506f, 1.0f);
 
 //D3DXVECTOR3 psPosition[3] = {
 //	D3DXVECTOR3( 0.3f,   -9.0f, -101.1f),
@@ -28,6 +30,7 @@ bool Press();
 
 void TITLE_SCENE::Init()
 {
+
 	pressTimer = 0.0f;
 
 	name = "title";
@@ -48,8 +51,7 @@ void TITLE_SCENE::Init()
 	tomato = AddGameObject<IMAGE>("Tomato's", SPRITE_LAYER);
 	revenge = AddGameObject<IMAGE>("Revenge", SPRITE_LAYER);
 	choices[0] = AddGameObject<IMAGE>("Play", SPRITE_LAYER);
-	choices[1] = AddGameObject<IMAGE>("Tutorial", SPRITE_LAYER);
-	choices[2] = AddGameObject<IMAGE>("Quit", SPRITE_LAYER);
+	choices[1] = AddGameObject<IMAGE>("Quit", SPRITE_LAYER);
 
 	//GAMEOBJECT* logo = AddGameObject<IMAGE>("Logo", SPRITE_LAYER);
 
@@ -60,6 +62,9 @@ void TITLE_SCENE::Init()
 		player->RemoveComponent<Rigidbody>();
 		player->RemoveComponent<PlayerControl>();
 		player->RemoveComponent<PlayerHealth>();
+
+
+
 	}
 
 	//Ý’è
@@ -77,8 +82,7 @@ void TITLE_SCENE::Init()
 		//logo->transform->Position = D3DXVECTOR3(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 0.0f);
 		
 		choices[0]->GetMaterial()->SetTexture("_Texture", TextureReader::PLAY_TEXT_T);
-		choices[1]->GetMaterial()->SetTexture("_Texture", TextureReader::TUTORIAL_TEXT_T);
-		choices[2]->GetMaterial()->SetTexture("_Texture", TextureReader::QUIT_TEXT_T);
+		choices[1]->GetMaterial()->SetTexture("_Texture", TextureReader::QUIT_TEXT_T);
 
 	}
 
@@ -99,28 +103,67 @@ void TITLE_SCENE::Init()
 	RemoveGameObject("Spawn Point Right", LATEOBJECT_LAYER);
 	RemoveGameObject("Damager", COLLIDER_LAYER);
 	RemoveGameObject("Player HP", SPRITE_LAYER);
+	RemoveGameObject("Player Icon", SPRITE_LAYER);
+	RemoveGameObject("Sliced", SPRITE_LAYER);
 
+	GAMEOBJECT* enemies[3];
+	for (int i = 0; i < 3; i++)
+	{
+		std::string name = "Enemy(Clone)_" + std::to_string(i + 1);
+		enemies[i] = AddGameObject<ENEMY>(name);
+		enemies[i]->GetChildren()[0]->GetComponent<MeshFilter>()->SetDefaultAnimation("Enemy_Pose_1");
+		enemies[i]->transform->Scale = D3DXVECTOR3(1.0f, 1.0f, 1.0f);
 
-	MainCamera->camera->SetLightDirection(D3DXVECTOR3(-0.9f, 1.71f, 2.63f));
+		enemies[i]->RemoveComponent<EnemyHealth>();
+		enemies[i]->RemoveComponent<ArtificialIntelligence>();
+		enemies[i]->RemoveComponent<EnemyScript>();
+		enemies[i]->RemoveComponent<SphereCollider>();
+		enemies[i]->RemoveComponent<Rigidbody>();
+
+		RemoveGameObject("Knife");
+		RemoveGameObject(name, COLLIDER_LAYER);
+		RemoveGameObject("Knife", COLLIDER_LAYER);
+		RemoveGameObject("Point 1", GIZMO_LAYER);
+		RemoveGameObject("Point 2", GIZMO_LAYER);
+		RemoveGameObject("Point 3", GIZMO_LAYER);
+		RemoveGameObject("Point 4", GIZMO_LAYER);
+		RemoveGameObject("Enemy HP", BILLBOARD_LAYER);
+	}
+
+	enemies[0]->transform->Position = D3DXVECTOR3(-4.6f, 3.0f, -4.6f);
+	enemies[1]->transform->Position = D3DXVECTOR3(-2.15f, 4.3f, -3.55f);
+	enemies[2]->transform->Position = D3DXVECTOR3(0.003f, 3.0f, -5.375f);
+
+	enemies[0]->GetChildren()[0]->transform->Rotation = D3DXVECTOR3(-4.0f, 181.0f, 0.0f);
+	enemies[1]->GetChildren()[0]->transform->Rotation = D3DXVECTOR3(-4.0f, 228.0f, 0.0f);
+	enemies[2]->GetChildren()[0]->transform->Rotation = D3DXVECTOR3(-4.0f, 286.5f, 0.0f);
+
+	enemies[0]->GetChildren()[0]->SetColor(D3DXCOLOR(0.661f, 0.015f, 0.313f, 0.0f));
+	enemies[1]->GetChildren()[0]->SetColor(D3DXCOLOR(0.415f, 0.0f, 0.0f, 0.0f));
+	enemies[2]->GetChildren()[0]->SetColor(D3DXCOLOR(0.346f, 0.16f, 0.29f, 0.0f));
+
+	MainCamera->camera->SetLightDirection(D3DXVECTOR3(-1.41f, 3.19f, 1.93f));
 }
 
 void TITLE_SCENE::LateInit()
 {
-	//GameObjects[FADE_LAYER].push_back(Manager::GetDontDestroyOnLoadScene()->Find("Fade"));
+	//PostProcessManager::RemovePoster<PostProcessMaterial>();
+	PostProcessManager::AddPoster<DrunkMaterial>();
+
 }
 
 void TITLE_SCENE::Update()
 {
 
-	if (Input::GetButtonTrigger(FORWARD_KEYMAP)) { if (choice > 0) { choice--; } else { choice = 2; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);}
-	else if (Input::GetButtonTrigger(BACK_KEYMAP)) { if (choice < 2) { choice++; } else { choice = 0; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f); }
+	if (Input::GetButtonTrigger(LEFT_KEYMAP)) { if (choice > 0) { choice--; } else { choice = 1; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f);}
+	else if (Input::GetButtonTrigger(RIGHT_KEYMAP)) { if (choice < 1) { choice++; } else { choice = 0; } SoundReader::GetReadSound(SoundReader::OPTION_CHANGE)->Play(false, 0.4f); }
 	
 	if (end == false)
 	{
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < 2; i++)
 		{
 			choices[i]->transform->Scale = D3DXVECTOR3(0.25f, 0.25f, 0.25f);
-			choices[i]->SetColor(D3DXCOLOR(0.9f, 0.9f, 0.9f, 0.9f));
+			choices[i]->SetColor(D3DXCOLOR(0.75f, 0.75f, 0.75f, 0.75f));
 		}
 
 		choices[choice]->transform->Scale = selectedScale;
@@ -133,22 +176,19 @@ void TITLE_SCENE::Update()
 		SoundReader::GetReadSound(SoundReader::OPTION_SELECT)->Play(false, 0.2f);
 	}
 
-	if (end == true) 
+	if (end == true)
 	{
 		float v = MainCamera->GetComponent<AudioSource>()->GetVolume();
 		v = Mathf::Lerp(v, v / 4, Time::deltaTime * 3.0f);
 		MainCamera->GetComponent<AudioSource>()->SetVolume(v);
-	}
 
-	if (end == true && Fade->GetFadeIn() == false)
-	{
 		if (Press() == true)
 		{
-			if (Fade->FadeOut() == false)
+			if (Fade->FadeOut() == false && Fade->GetFadeIn() == false)
 			{
 				Input::SetControls(true);
-				if (choice == 0 || choice == 1) { Manager::SetScene<GAME_SCENE>(); }
-				else if (choice == 2) { exit(999); }
+				if (choice == 0) { Manager::SetScene<GAME_SCENE>(); }
+				else { exit(999); }
 			}
 		}
 	}
@@ -156,14 +196,18 @@ void TITLE_SCENE::Update()
 
 bool Press()
 {
-	if (Time::WaitForSeconds(1.2f, &pressTimer) == false) 
+	if (Time::WaitForSeconds(0.1f, &pressTimer) == false) 
 	{
-		//choices[choice]->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
+		choices[choice]->transform->Scale = D3DXVECTOR3(0.2f, 0.2f, 0.2f);
 		Input::SetControls(false);
 
 		return false; 
 	}
+	else if (Time::WaitForSeconds(1.2f, &pressTimer) == false)
+	{
+		choices[choice]->transform->Scale = selectedScale;
+		return false;
+	}
 
-	//choices[choice]->transform->Scale = D3DXVECTOR3(0.3f, 0.3f, 0.3f);
 	return true;
 }

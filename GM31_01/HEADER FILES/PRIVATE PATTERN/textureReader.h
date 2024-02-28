@@ -67,6 +67,14 @@ public:
 		BLOOD_T,
 		EFFECT_T,
 		ANGER_T,
+		TM2_T,
+		PAUSE_MENU_T,
+		RESUME_BUTTON_T,
+		RELOAD_BUTTON_T,
+		HOME_BUTTON_T,
+		SLICED_T,
+		PLAYER_ICON_T,
+		HEALTH_BAR_T,
 
 		READ_TEXTURE_MAX
 	};
@@ -134,6 +142,14 @@ public:
 		LoadTexture(&Textures[BLOOD_T], "asset\\texture\\blood.png");
 		LoadTexture(&Textures[EFFECT_T], "asset\\texture\\effect.png");
 		LoadTexture(&Textures[ANGER_T], "asset\\texture\\anger.png");
+		LoadTexture(&Textures[TM2_T], "asset\\texture\\tomato'sMelancholy2.png");
+		LoadTexture(&Textures[PAUSE_MENU_T], "asset\\texture\\pauseMenuBox.png");
+		LoadTexture(&Textures[RESUME_BUTTON_T], "asset\\texture\\resumeButton.png");
+		LoadTexture(&Textures[RELOAD_BUTTON_T], "asset\\texture\\reloadButton.png");
+		LoadTexture(&Textures[HOME_BUTTON_T], "asset\\texture\\homeButton.png");
+		LoadTexture(&Textures[SLICED_T], "asset\\texture\\Sliced.png");
+		LoadTexture(&Textures[PLAYER_ICON_T], "asset\\texture\\playerIcon.png");
+		LoadTexture(&Textures[HEALTH_BAR_T], "asset\\texture\\healthBar.png");
 
 
 		//NAMES
@@ -190,6 +206,14 @@ public:
 		textureNames[BLOOD_T]				= "BLOOD";
 		textureNames[EFFECT_T]				= "EFFECT";
 		textureNames[ANGER_T]				= "ANGER";
+		textureNames[TM2_T]					= "TM2";
+		textureNames[PAUSE_MENU_T]			= "PAUSE MENU";
+		textureNames[RESUME_BUTTON_T]		= "RESUME BUTTON";
+		textureNames[RELOAD_BUTTON_T]		= "RELOAD BUTTON";
+		textureNames[HOME_BUTTON_T]			= "HOME BUTTON";
+		textureNames[SLICED_T]				= "SLICED";
+		textureNames[PLAYER_ICON_T]			= "PLAYER ICON";
+		textureNames[HEALTH_BAR_T]			= "HEALTH BAR";
 	}
 
 	static void UnReadTexture()

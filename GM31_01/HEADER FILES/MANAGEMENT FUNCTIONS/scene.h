@@ -108,7 +108,7 @@ public:
 	virtual void Update() {}
 
 	PLAYER* GetPlayer() { return player; }
-	CAMERA* GetCamera() { return (CAMERA*)MainCamera; }
+	CAMERA* GetCamera() { return MainCamera; }
 	EMPTYOBJECT* GetReflector() { return reflectionProjector; }
 	EMPTYOBJECT* GetGameManager() { return gameManager; }
 
@@ -166,7 +166,7 @@ public:
 
 	void RemoveGameObject(std::string name, LAYER layer = GAMEOBJECT_LAYER)
 	{
-		GAMEOBJECT* obj = Find(name);
+		GAMEOBJECT* obj = Find(name, layer);
 		if (obj != nullptr)
 		{
 			obj->UnInitialize();

@@ -59,6 +59,21 @@ public:
 	}
 };
 
+class Vector4
+{
+public:
+
+	static D3DXCOLOR Lerp(D3DXCOLOR a, D3DXCOLOR b, float time)
+	{
+		return ((b - a) * time + a);
+	}
+
+	static D3DXVECTOR4 Lerp(D3DXVECTOR4 a, D3DXVECTOR4 b, float time)
+	{
+		return ((b - a) * time + a);
+	}
+};
+
 class Time
 {
 public:
@@ -74,9 +89,9 @@ public:
 		sprintf_s(str, sizeof(str), "Timer : %.2f", *var);
 
 #ifdef DEBUG
-		ImGui::Begin("Time"/*, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize*/);
-		ImGui::Text(str);
-		ImGui::End();
+		//ImGui::Begin("Time"/*, nullptr, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize*/);
+		//ImGui::Text(str);
+		//ImGui::End();
 #endif
 
 		if (*var > time) { return true; }

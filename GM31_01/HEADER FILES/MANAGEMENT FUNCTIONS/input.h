@@ -15,6 +15,7 @@ enum KEYMAPPING
 	PAUSE_KEYMAP,
 	AIM_KEYMAP,
 	SHOOT_KEYMAP,
+	SLOW_MOTION_KEYMAP,
 
 	KEYMAPPING_MAX
 };
@@ -53,5 +54,6 @@ public:
 	static void SetControls(bool value) { controls = value; }
 	static void SetControllerConnection(bool value) { controller = value; }
 
+	static bool GetControls() { return controls; }
 	static bool GetControllerConnection() { return controller; }
 };
